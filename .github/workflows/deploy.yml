@@ -31,7 +31,7 @@ jobs:
         run: git config user.email ${{ secrets.GH_AUTHOR_EMAIL }}
 
       - name: Fetch git tree
-        run: git fetch --all
+        run: git fetch origin refs/heads/master:refs/remotes/origin/master
 
       - name: Create release branch
         run: git checkout -b $GH_RELEASE_BRANCH $GH_OUTPUT_BRANCH
