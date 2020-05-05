@@ -25,6 +25,7 @@
 	"scripts": {
 		"start": "webpack-dev-server --hot --inline",
 		"build": "NODE_ENV=production webpack",
+		"build:root": "NODE_ENV=production DIST_ROOT=true webpack",
 		"format": "prettier --write ."
 	},
 	"keywords": [
