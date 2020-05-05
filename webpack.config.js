@@ -3,12 +3,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { preprocess, createEnv, readConfigFile } = require('svelte-ts-preprocess');
 
+const distInRoot = Boolean(process.env.DIST_ROOT);
 const mode = process.env.NODE_ENV || 'development';
 const isDev = mode === 'development';
 
 const template = path.resolve(__dirname, 'src/index.html');
 const entry = path.resolve(__dirname, 'src/index.ts');
-const outDir = path.resolve(__dirname, 'dist');
+const outDir = distInRoot ? __dirname : path.resolve(__dirname, 'dist');
 
 const targets = ['>1%', 'last 2 versions', 'Firefox ESR', 'not ie < 11'];
 
@@ -45,8 +46,8 @@ module.exports = {
 	entry,
 	output: {
 		path: outDir,
-		filename: 'bundle.[hash:8].js',
-		chunkFilename: '[name].[chunkhash:8].js',
+		filename: 'bundle.js',
+		chunkFilename: '[name].js',
 		publicPath: '/'
 	},
 	resolve: {
@@ -129,7 +130,7 @@ module.exports = {
 		}),
 		!isDev &&
 			new MiniCssExtractPlugin({
-				filename: '[name].[hash:8].css'
+				filename: '[name].css'
 			})
 	].filter(Boolean)
 };

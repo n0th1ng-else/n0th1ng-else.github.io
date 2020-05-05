@@ -22,13 +22,16 @@ jobs:
         run: npm ci
 
       - name: Build project
-        run: npm run build
+        run: npm run build:root
 
       - name: Set github username
         run: git config user.name ${{ secrets.GH_AUTHOR_LOGIN }}
 
       - name: Set github email
         run: git config user.email ${{ secrets.GH_AUTHOR_EMAIL }}
+
+      - name: Fetch git tree
+        run: git fetch --all
 
       - name: Create release branch
         run: git checkout -b $GH_RELEASE_BRANCH $GH_OUTPUT_BRANCH
