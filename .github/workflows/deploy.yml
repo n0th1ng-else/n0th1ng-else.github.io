@@ -1,4 +1,4 @@
-name: Deployer
+name: Project Workflow
 
 on:
   push:
@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GH_RELEASE_BRANCH: release-branch
-      GH_OUTPUT_BRANCH: master
+      GH_OUTPUT_BRANCH: origin/master
 
     steps:
       - name: Checkout
@@ -31,7 +31,7 @@ jobs:
         run: git config user.email ${{ secrets.GH_AUTHOR_EMAIL }}
 
       - name: Fetch git tree
-        run: git fetch origin refs/heads/master:refs/remotes/origin/master
+        run: git fetch --all
 
       - name: Create release branch
         run: git checkout -b $GH_RELEASE_BRANCH $GH_OUTPUT_BRANCH
@@ -44,3 +44,11 @@ jobs:
 
       - name: Push changes into branch
         run: git push --force --set-upstream origin $GH_RELEASE_BRANCH
+
+      - name: Create Pull-Request into dist branch
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch: ${{ env.GH_RELEASE_BRANCH }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_reviewer: ${{ secrets.GH_AUTHOR_LOGIN }}
+          pr_assignee: ${{ secrets.GH_AUTHOR_LOGIN }}
