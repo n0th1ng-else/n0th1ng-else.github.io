@@ -5,12 +5,9 @@ on:
     branches: [dev]
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    env:
-      GH_RELEASE_BRANCH: release-branch
-      GH_OUTPUT_BRANCH: origin/master
-
+    name: Build bundles
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -22,7 +19,25 @@ jobs:
         run: npm ci
 
       - name: Build project
-        run: npm run build:root
+        run: npm run build
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: app-bundle
+          path: dist
+
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      GH_RELEASE_BRANCH: release-branch
+    name: Open PR with new version
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
 
       - name: Set github username
         run: git config user.name ${{ secrets.GH_AUTHOR_LOGIN }}
@@ -34,7 +49,15 @@ jobs:
         run: git fetch --all
 
       - name: Create release branch
-        run: git checkout -b $GH_RELEASE_BRANCH $GH_OUTPUT_BRANCH
+        run: git checkout -b $GH_RELEASE_BRANCH
+
+      - name: Download production artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: app-bundle
+
+      - name: Move files into the root dir
+        run: mv ./app-bundle/* . && rm -rf ./app-bundle
 
       - name: Add files into version control
         run: git add .
