@@ -2,13 +2,14 @@ name: Deployer
 
 on:
   push:
-    branches: [master]
+    branches: [dev]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
       GH_RELEASE_BRANCH: release-branch
+      GH_OUTPUT_BRANCH: master
 
     steps:
       - name: Checkout
@@ -30,7 +31,7 @@ jobs:
         run: git config user.email ${{ secrets.GH_AUTHOR_EMAIL }}
 
       - name: Create release branch
-        run: git checkout -b $GH_RELEASE_BRANCH
+        run: git checkout -b $GH_RELEASE_BRANCH $GH_OUTPUT_BRANCH
 
       - name: Add files into version control
         run: git add .
