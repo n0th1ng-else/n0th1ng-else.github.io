@@ -1,1 +1,0 @@
-<div>pub ru</div>
