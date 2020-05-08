@@ -16,7 +16,8 @@ const targets = ['>1%', 'last 2 versions', 'Firefox ESR', 'not ie < 11'];
 const babelLoader = {
 	loader: 'babel-loader',
 	options: {
-		presets: [['@babel/preset-env', { targets }]]
+		presets: [['@babel/preset-env', { targets }]],
+		plugins: [['@babel/plugin-transform-runtime']]
 	}
 };
 
@@ -96,7 +97,9 @@ module.exports = {
 							{
 								loader: 'sass-loader',
 								options: {
-									includePaths: ['./node_modules']
+									sassOptions: {
+										includePaths: ['./node_modules', './src/theme']
+									}
 								}
 							}
 						]

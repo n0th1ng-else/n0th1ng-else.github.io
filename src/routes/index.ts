@@ -3,19 +3,17 @@ export enum RoutePath {
 	Contact = 'contact',
 	Info = 'info',
 	Publication = 'publication',
-	En = 'en',
-	Ru = 'ru',
 	Other = '*'
 }
 
-export function toPath(paths?: RoutePath | RoutePath[]): string {
-	if (!paths) {
+export function toPath(path?: RoutePath): string {
+	if (!path) {
 		return '/';
 	}
 
-	if (paths === RoutePath.Other) {
+	if (path === RoutePath.Other) {
 		return RoutePath.Other;
 	}
-	const path = typeof paths === 'string' ? [paths] : paths;
-	return `/${path.join('/')}`;
+
+	return `/${path}`;
 }
