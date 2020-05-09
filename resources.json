@@ -1,0 +1,18 @@
+{
+	"services": {
+		"medium": "https://medium.com",
+		"github": "https://github.com"
+	},
+	"publications": [
+		{
+			"service": "medium",
+			"url": "make-redux-store-magic-with-some-oop-approach-12c83f709b34?sk=d52ff68083d741724fa42e0e05154763",
+			"lang": "en"
+		},
+		{
+			"service": "medium",
+			"url": "what-i-learned-from-my-contribution-to-angular-494091e94f42?sk=8578d96bca0c0e741dfd113afde62ea9",
+			"lang": "en"
+		}
+	]
+}

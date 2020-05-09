@@ -1,4 +1,5 @@
 import App from './components/App.svelte';
+import './index.scss';
 
 const target = document.querySelector('main');
 

@@ -5,9 +5,37 @@ on:
     branches: [dev]
 
 jobs:
+  meta:
+    runs-on: ubuntu-latest
+    name: Fetch info and publications
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up node using nvm
+        uses: dcodeIO/setup-node-nvm@v4.0.0
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Fetch meta info
+        run: npm run meta
+        env:
+          GH_AUTHOR_LOGIN: ${{ secrets.GH_AUTHOR_LOGIN }}
+          GH_AUTHOR_LINKED_IN: ${{ secrets.GH_AUTHOR_LINKED_IN }}
+          GH_AUTHOR_TELEGRAM: ${{ secrets.GH_AUTHOR_TELEGRAM }}
+          GH_AUTHOR_MEDIUM: ${{ secrets.GH_AUTHOR_MEDIUM }}
+
+      - name: Store meta info
+        uses: actions/upload-artifact@v1
+        with:
+          name: meta
+          path: meta.json
+
   build:
     runs-on: ubuntu-latest
     name: Build bundles
+    needs: meta
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -20,6 +48,11 @@ jobs:
 
       - name: Build project
         run: npm run build
+        env:
+          GH_AUTHOR_LOGIN: ${{ secrets.GH_AUTHOR_LOGIN }}
+          GH_AUTHOR_LINKED_IN: ${{ secrets.GH_AUTHOR_LINKED_IN }}
+          GH_AUTHOR_TELEGRAM: ${{ secrets.GH_AUTHOR_TELEGRAM }}
+          GH_AUTHOR_MEDIUM: ${{ secrets.GH_AUTHOR_MEDIUM }}
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v1
