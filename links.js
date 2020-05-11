@@ -57,10 +57,10 @@ class PublicationInfo {
 	}
 }
 
-function getPublicationInfo(publication) {
+function getPublicationInfo(publication, index) {
 	return getLinkInfo(publication.fullUrl).then(meta => {
 		publication.meta = meta;
-		console.log(publication.meta.title);
+		console.log(`${index + 1}. ${publication.meta.title}`);
 		return publication;
 	});
 }
@@ -71,7 +71,9 @@ function getPublicationsInfo(publications, info = []) {
 	}
 
 	const pub = publications.shift();
-	return getPublicationInfo(pub).then(meta => getPublicationsInfo(publications, [...info, meta]));
+	return getPublicationInfo(pub, publications.length).then(meta =>
+		getPublicationsInfo(publications, [...info, meta])
+	);
 }
 
 const userInfoUrl = getFullLink(resources, 'github');
