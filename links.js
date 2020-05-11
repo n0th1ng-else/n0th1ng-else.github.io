@@ -32,16 +32,19 @@ function getLinkInfo(url) {
 function getLoginByService(service) {
 	const login = procEnv.accounts[service];
 	if (!login) {
-		throw new Error(`Service ${service} is not recognized`);
+		throw new Error(`Login for ${service} not found`);
 	}
 	return login;
 }
 
-function getFullLink(data, service, path = '') {
-	const host = data.services[service];
+function getFullLink(data, service, path = '', lang = '') {
+	const host = data.services[service].host;
+	const pattern = data.services[service].pattern;
 	const login = getLoginByService(service);
-	const parts = path ? [host, login, path] : [host, login];
-	return parts.join('/');
+	if (!pattern) {
+		throw new Error(`Service must have pattern (compiling ${service})`);
+	}
+	return pattern.replace('%h', host).replace('%u', login).replace('%p', path).replace('%l', lang);
 }
 
 class PublicationInfo {
@@ -49,7 +52,7 @@ class PublicationInfo {
 		this.service = info.service;
 		this.url = info.url;
 		this.lang = info.lang;
-		this.fullUrl = getFullLink(data, this.service, this.url);
+		this.fullUrl = getFullLink(data, this.service, this.url, this.lang);
 		this.meta = null;
 	}
 }
@@ -57,6 +60,7 @@ class PublicationInfo {
 function getPublicationInfo(publication) {
 	return getLinkInfo(publication.fullUrl).then(meta => {
 		publication.meta = meta;
+		console.log(publication.meta.title);
 		return publication;
 	});
 }
@@ -78,7 +82,7 @@ const publicationMeta = resources.publications.map(
 Promise.all([getLinkInfo(userInfoUrl), getPublicationsInfo(publicationMeta)])
 	.then(([profile, publications]) => {
 		saveMetaToFile({ profile, publications });
-		console.log('All is sgood');
+		console.log('All is good');
 		process.exit();
 	})
 	.catch(err => {

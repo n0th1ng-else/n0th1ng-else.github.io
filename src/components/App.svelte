@@ -1,3 +1,13 @@
+<style>
+	.padded-block {
+		margin: 10px;
+	}
+
+	.with-space {
+		margin-bottom: 10px;
+	}
+</style>
+
 <script>
 	import { wrap, push } from 'svelte-spa-router';
 	import Router from 'svelte-spa-router';
@@ -61,15 +71,17 @@
 </script>
 
 <div>
-	<div>
-		<BasicInfo profile="{profile}" />
-	</div>
-	<div>
-		<TabBar tabs="{tabs}" bind:active="{activeTab}" let:tab>
-			<Tab tab="tab" minWidth on:click="{selectTab}">
-				<Label>{tab.label}</Label>
-			</Tab>
-		</TabBar>
+	<div class="padded-block">
+		<div class="with-space">
+			<BasicInfo profile="{profile}" />
+		</div>
+		<div>
+			<TabBar tabs="{tabs}" bind:active="{activeTab}" let:tab>
+				<Tab tab="{tab}" minWidth on:click="{selectTab}">
+					<Label>{tab.label}</Label>
+				</Tab>
+			</TabBar>
+		</div>
 	</div>
 	<div>
 		<Router routes="{routes}" on:routeLoaded="{routeLoaded}" />

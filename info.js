@@ -9,7 +9,7 @@ function saveMetaToFile(meta) {
 
 function readMetaFile() {
 	if (!fs.existsSync(file)) {
-		return {};
+		throw new Error('Could not find meta file. Make sure it exists');
 	}
 	const content = fs.readFileSync(file);
 	try {

@@ -12,13 +12,16 @@ const telergam = process.env.GH_AUTHOR_TELEGRAM;
 
 const medium = process.env.GH_AUTHOR_MEDIUM;
 
+const habr = process.env.GH_AUTHOR_HABR;
+
 const env = {
 	distInRoot,
 	accounts: {
 		github,
 		linkedIn,
 		medium,
-		telergam
+		telergam,
+		habr
 	},
 	mode
 };
