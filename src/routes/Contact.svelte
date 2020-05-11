@@ -1,1 +1,3 @@
-<div>Contacts</div>
+<svelte:head>
+	<title>Sergey Nikitin | Contacts</title>
+</svelte:head>

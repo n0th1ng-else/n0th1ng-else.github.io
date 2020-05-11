@@ -1,7 +1,17 @@
 {
 	"services": {
-		"medium": "https://medium.com",
-		"github": "https://github.com"
+		"medium": {
+			"host": "https://medium.com",
+			"pattern": "%h/%u/%p"
+		},
+		"github": {
+			"host": "https://github.com",
+			"pattern": "%h/%u"
+		},
+		"habr": {
+			"host": "https://habr.com",
+			"pattern": "%h/%l/post/%p/"
+		}
 	},
 	"publications": [
 		{
@@ -13,6 +23,11 @@
 			"service": "medium",
 			"url": "what-i-learned-from-my-contribution-to-angular-494091e94f42?sk=8578d96bca0c0e741dfd113afde62ea9",
 			"lang": "en"
+		},
+		{
+			"service": "habr",
+			"url": "491788",
+			"lang": "ru"
 		}
 	]
 }
