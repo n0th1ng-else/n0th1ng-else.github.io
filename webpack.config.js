@@ -2,10 +2,14 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { preprocess, createEnv, readConfigFile } = require('svelte-ts-preprocess');
+const webpack = require('webpack');
+const { procEnv } = require('./env');
+const { readMetaFile } = require('./info');
 
-const distInRoot = Boolean(process.env.DIST_ROOT);
-const mode = process.env.NODE_ENV || 'development';
+const distInRoot = procEnv.distInRoot;
+const mode = procEnv.mode;
 const isDev = mode === 'development';
+const meta = readMetaFile();
 
 const template = path.resolve(__dirname, 'src/index.html');
 const entry = path.resolve(__dirname, 'src/index.ts');
@@ -113,6 +117,12 @@ module.exports = {
 		]
 	},
 	plugins: [
+		new webpack.DefinePlugin({
+			runtime: JSON.stringify({
+				meta,
+				env: procEnv
+			})
+		}),
 		new HtmlWebpackPlugin({
 			template,
 			inject: true,

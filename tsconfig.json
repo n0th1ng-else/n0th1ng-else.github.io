@@ -11,5 +11,6 @@
 		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
 		"moduleResolution": "node"
-	}
+	},
+	"include": ["types.d.ts", "src/**/*"]
 }

@@ -10,6 +10,7 @@
 	import Tab, { Label } from '@smui/tab';
 	import TabBar from '@smui/tab-bar';
 	import BasicInfo from './BasicInfo.svelte';
+	import { labels } from '../labels';
 
 	const routes = {
 		[toPath(RoutePath.Chronic)]: wrap(Chronic, { path: RoutePath.Chronic }),
@@ -23,25 +24,26 @@
 
 	const tabs = [
 		{
-			label: 'Chronic',
+			label: labels.tabs[RoutePath.Chronic],
 			id: RoutePath.Chronic
 		},
 		{
-			label: 'Contact',
+			label: labels.tabs[RoutePath.Contact],
 			id: RoutePath.Contact
 		},
 		{
-			label: 'Info',
+			label: labels.tabs[RoutePath.Info],
 			id: RoutePath.Info
 		},
 		{
-			label: 'Publication',
+			label: labels.tabs[RoutePath.Publication],
 			id: RoutePath.Publication
 		}
 	];
 
 	let activeTab = tabs[0];
 	let tab;
+	const profile = runtime.meta.profile;
 
 	const routeLoaded = event => {
 		const id = event.detail.userData.path;
@@ -60,7 +62,7 @@
 
 <div>
 	<div>
-		<BasicInfo />
+		<BasicInfo profile="{profile}" />
 	</div>
 	<div>
 		<TabBar tabs="{tabs}" bind:active="{activeTab}" let:tab>
