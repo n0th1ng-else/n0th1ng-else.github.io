@@ -2,10 +2,6 @@
 	.user-logo {
 		height: 200px;
 	}
-
-	.flex-container {
-		display: flex;
-	}
 </style>
 
 <script>
@@ -31,12 +27,12 @@
 </script>
 
 <div class="flex-container">
-	<div>
-		<img src="{profile.image}" alt="my photo" class="user-logo" />
+	<div class="padded-block">
+		<img src="{profile.image}" alt="Sergey's face" class="user-logo" />
 	</div>
 	<div>
 		<div>
-			<span class="mdc-typography--headline6">{labels.name}</span>
+			<span class="mdc-typography--headline4">{labels.name}</span>
 		</div>
 		<div>
 			<Set chips="{chips}" let:chip>
