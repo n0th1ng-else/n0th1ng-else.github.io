@@ -1,6 +1,7 @@
 const https = require('https');
 const { saveMetaToFile } = require('./info');
 const { resources, procEnv } = require('./env');
+const Logger = require('./log');
 const metascraper = require('metascraper')([
 	require('metascraper-author')(),
 	require('metascraper-date')(),
@@ -12,6 +13,8 @@ const metascraper = require('metascraper')([
 	require('metascraper-url')()
 ]);
 
+const logger = new Logger('links');
+
 function getLinkHtml(url) {
 	return new Promise((resolve, reject) => {
 		https.get(url, res => {
@@ -21,6 +24,7 @@ function getLinkHtml(url) {
 				body = body + data;
 			});
 			res.on('end', () => resolve(body));
+			res.on('error', err => reject(err));
 		});
 	});
 }
@@ -60,7 +64,7 @@ class PublicationInfo {
 function getPublicationInfo(publication, index) {
 	return getLinkInfo(publication.fullUrl).then(meta => {
 		publication.meta = meta;
-		console.log(`${index + 1}. ${publication.meta.title}`);
+		logger.writeOutput(`${index + 1}. ${publication.meta.title}`);
 		return publication;
 	});
 }
@@ -84,10 +88,10 @@ const publicationMeta = resources.publications.map(
 Promise.all([getLinkInfo(userInfoUrl), getPublicationsInfo(publicationMeta)])
 	.then(([profile, publications]) => {
 		saveMetaToFile({ profile, publications });
-		console.log('All is good');
+		logger.writeOutput('All is good');
 		process.exit();
 	})
 	.catch(err => {
-		console.error('Unable to fetch profile info', err);
+		logger.writeError('Unable to fetch profile info', err);
 		process.exit(1);
 	});

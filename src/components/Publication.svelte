@@ -20,13 +20,19 @@
 
 <script>
 	import { onMount, onDestroy } from 'svelte';
-	import Paper, { Title, Subtitle, Content } from '@smui/paper';
+	import Paper, { Title, Content } from '@smui/paper';
 	import { formatDistance } from 'date-fns';
 
 	export let publication = { meta: {} };
 
 	let pubDate;
 	let updater;
+
+	function setDate() {
+		pubDate =
+				publication.meta.date &&
+				formatDistance(new Date(publication.meta.date), new Date(), { addSuffix: true });
+	}
 
 	onMount(() => {
 		setDate();
@@ -38,12 +44,6 @@
 			clearInterval(updater);
 		}
 	});
-
-	function setDate() {
-		pubDate =
-			publication.meta.date &&
-			formatDistance(new Date(publication.meta.date), new Date(), { addSuffix: true });
-	}
 </script>
 
 <div class="publication-card">

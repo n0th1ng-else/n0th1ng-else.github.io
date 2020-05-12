@@ -22,15 +22,15 @@
 		return res;
 	}, {});
 
+	function getPublications(isSelected) {
+		const lang = isSelected ? 'ru' : 'en';
+		return pubsByLang[lang] || [];
+	}
+
 	let pubsToRender = getPublications(selected);
 
 	function updateList() {
 		pubsToRender = getPublications(selected);
-	}
-
-	function getPublications(isSelected) {
-		const lang = isSelected ? 'ru' : 'en';
-		return pubsByLang[lang] || [];
 	}
 </script>
 

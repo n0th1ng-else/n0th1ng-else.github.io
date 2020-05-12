@@ -5,7 +5,7 @@
 </style>
 
 <script>
-	import Chip, { Set, Icon, Text } from '@smui/chips';
+	import Chip, { Set, Text } from '@smui/chips';
 	import { labels } from '../labels';
 
 	export let profile = {};

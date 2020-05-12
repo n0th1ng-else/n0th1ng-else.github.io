@@ -1,5 +1,8 @@
 const fs = require('fs');
 const path = require('path');
+const Logger = require('./log');
+
+const logger = new Logger('info');
 
 const folder = 'meta';
 const file = 'index.json';
@@ -30,7 +33,7 @@ function readMetaFile() {
 		const meta = JSON.parse(content);
 		return meta;
 	} catch (err) {
-		console.warn('Unable to parse meta file');
+		logger.writeWarning('Unable to parse meta file');
 		return {};
 	}
 }
