@@ -161,6 +161,22 @@ if (isDev) {
 			'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
 		},
 		watchOptions: { aggregateTimeout: 300, poll: 1000 },
-		contentBase: outDir
+		contentBase: outDir,
+		stats: {
+			colors: true,
+			hash: false,
+			version: false,
+			timings: false,
+			assets: true,
+			chunks: false,
+			modules: false,
+			reasons: false,
+			children: false,
+			source: false,
+			errors: true,
+			errorDetails: true,
+			warnings: true,
+			publicPath: false
+		}
 	};
 }

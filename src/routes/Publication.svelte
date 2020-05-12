@@ -23,7 +23,7 @@
 	}, {});
 
 	let pubsToRender = getPublications(selected);
-	console.log(pubsToRender);
+
 	function updateList() {
 		pubsToRender = getPublications(selected);
 	}

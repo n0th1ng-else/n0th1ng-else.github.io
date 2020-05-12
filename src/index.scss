@@ -1,1 +1,24 @@
 @import '~@material/typography/mdc-typography';
+@import '~@material/theme/color-palette';
+
+html {
+	color: $material-color-grey-900;
+
+	a {
+		color: $material-color-grey-900;
+		cursor: pointer;
+		text-decoration: none;
+	}
+
+	.flex-container {
+		display: flex;
+	}
+
+	.greyed {
+		color: $material-color-blue-grey-300;
+	}
+
+	.padded-block {
+		margin: 10px;
+	}
+}

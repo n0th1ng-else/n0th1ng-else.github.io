@@ -1,8 +1,4 @@
 <style>
-	.padded-block {
-		margin: 10px;
-	}
-
 	.with-space {
 		margin-bottom: 10px;
 	}
@@ -70,12 +66,12 @@
 		});
 </script>
 
-<div>
-	<div class="padded-block">
+<div class="app-page">
+	<div>
 		<div class="with-space">
 			<BasicInfo profile="{profile}" />
 		</div>
-		<div>
+		<div class="padded-block">
 			<TabBar tabs="{tabs}" bind:active="{activeTab}" let:tab>
 				<Tab tab="{tab}" minWidth on:click="{selectTab}">
 					<Label>{tab.label}</Label>

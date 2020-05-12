@@ -1,12 +1,8 @@
 <style>
-	.flex-container {
-		display: flex;
-	}
-
 	.flex-with-space {
 		flex: 1 1 auto;
 		justify-content: flex-end;
-		font-size: 1.25rem;
+		font-size: 1rem;
 	}
 
 	.pub-image {
@@ -15,6 +11,10 @@
 
 	.publication-card {
 		margin: 10px;
+	}
+
+	.with-space {
+		margin-left: 10px;
 	}
 </style>
 
@@ -55,7 +55,7 @@
 						<span class="mdc-typography--headline5">{publication.meta.title}</span>
 					</a>
 				</div>
-				<div class="flex-container flex-with-space">
+				<div class="flex-container flex-with-space greyed">
 					<div>{pubDate}</div>
 				</div>
 			</div>
@@ -65,9 +65,9 @@
 				<div>
 					<img class="pub-image" src="{publication.meta.image}" alt="publication logo" />
 				</div>
-				<div>
-					<span class="mdc-typography--body1">{publication.meta.description}</span>
+				<div class="with-space">
 					<a href="{publication.fullUrl}" target="_blank" rel="noreferrer noopener">
+						<span class="mdc-typography--body1">{publication.meta.description}</span>
 						<i class="fas fa-external-link-alt"></i>
 					</a>
 				</div>

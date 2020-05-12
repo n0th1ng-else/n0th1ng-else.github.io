@@ -1,16 +1,22 @@
 // Nothing here. Just use the default theme.
-@import '~@material/theme/color-palette';
 
-html {
-	color: $material-color-grey-900;
+.app-page {
+	@import '~@material/theme/color-palette';
 
-	a {
-		color: $material-color-grey-900;
-		cursor: pointer;
-		text-decoration: none;
-	}
+	//min-height: 100%;
+	//min-width: 100%;
+	//background-color: #000;
+	//color: #fff;
 
-	.flex-container {
-		display: flex;
+	$mdc-theme-primary: $material-color-deep-orange-500;
+	$mdc-theme-secondary: $material-color-deep-orange-500;
+	//$mdc-theme-background: #000;
+	$mdc-theme-surface: $material-color-blue-grey-50;
+	$mdc-theme-error: $material-color-orange-100;
+
+	@import '~@material/theme/variables';
+
+	@each $style in map-keys($mdc-theme-property-values) {
+		--mdc-theme-#{$style}: #{map-get($mdc-theme-property-values, $style)};
 	}
 }
