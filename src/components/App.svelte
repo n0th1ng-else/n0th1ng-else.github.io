@@ -1,4 +1,9 @@
 <style>
+	.app-page {
+		max-width: 1000px;
+		margin: auto;
+	}
+
 	.with-space {
 		margin-bottom: 10px;
 	}

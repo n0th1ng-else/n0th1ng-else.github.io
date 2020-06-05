@@ -9,3 +9,9 @@ export const labels = {
 		[RoutePath.Publication]: 'Publications'
 	}
 };
+
+export function getPageTitle(path: RoutePath): string {
+	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+	// @ts-ignore
+	return `${labels.name} | ${labels.tabs[path]}`;
+}
