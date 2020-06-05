@@ -1,4 +1,9 @@
 <style>
+	.app-page {
+		max-width: 1000px;
+		margin: auto;
+	}
+
 	.with-space {
 		margin-bottom: 10px;
 	}
@@ -12,6 +17,7 @@
 	import Contact from '../routes/Contact.svelte';
 	import Info from '../routes/Info.svelte';
 	import Publication from '../routes/Publication.svelte';
+	import Package from '../routes/Package.svelte';
 	import { RoutePath, toPath } from '../routes';
 	import Tab, { Label } from '@smui/tab';
 	import TabBar from '@smui/tab-bar';
@@ -23,6 +29,7 @@
 		[toPath(RoutePath.Contact)]: wrap(Contact, { path: RoutePath.Contact }),
 		[toPath(RoutePath.Info)]: wrap(Info, { path: RoutePath.Info }),
 		[toPath(RoutePath.Publication)]: wrap(Publication, { path: RoutePath.Publication }),
+		[toPath(RoutePath.Package)]: wrap(Package, { path: RoutePath.Package }),
 
 		[toPath()]: wrap(BlankComponent, () => push(toPath(RoutePath.Info))),
 		[toPath(RoutePath.Other)]: wrap(BlankComponent, () => push(toPath(RoutePath.Info)))
@@ -44,6 +51,10 @@
 		{
 			label: labels.tabs[RoutePath.Publication],
 			id: RoutePath.Publication
+		},
+		{
+			label: labels.tabs[RoutePath.Package],
+			id: RoutePath.Package
 		}
 	];
 

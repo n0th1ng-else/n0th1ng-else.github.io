@@ -6,6 +6,13 @@ export const labels = {
 		[RoutePath.Chronic]: 'Chronic',
 		[RoutePath.Contact]: 'Contact',
 		[RoutePath.Info]: 'Info',
-		[RoutePath.Publication]: 'Publications'
+		[RoutePath.Publication]: 'Publications',
+		[RoutePath.Package]: 'Packages'
 	}
 };
+
+export function getPageTitle(path: RoutePath): string {
+	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+	// @ts-ignore
+	return `${labels.name} | ${labels.tabs[path]}`;
+}

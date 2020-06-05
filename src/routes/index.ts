@@ -3,6 +3,7 @@ export enum RoutePath {
 	Contact = 'contact',
 	Info = 'info',
 	Publication = 'publication',
+	Package = 'package',
 	Other = '*'
 }
 

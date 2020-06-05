@@ -11,6 +11,10 @@
 		"habr": {
 			"host": "https://habr.com",
 			"pattern": "%h/%l/post/%p/"
+		},
+		"npm": {
+			"host": "https://www.npmjs.com",
+			"pattern": "%h/package/%p"
 		}
 	},
 	"publications": [
@@ -25,9 +29,41 @@
 			"lang": "en"
 		},
 		{
+			"service": "medium",
+			"url": "mastering-github-packages-like-a-pro-eb9c2093b5c8",
+			"lang": "en"
+		},
+		{
 			"service": "habr",
 			"url": "491788",
 			"lang": "ru"
+		}
+	],
+	"packages": [
+		{
+			"service": "npm",
+			"url": "webpack-config-dump-plugin",
+			"lang": "en"
+		},
+		{
+			"service": "npm",
+			"url": "express-history-api-fallback-middleware",
+			"lang": "en"
+		},
+		{
+			"service": "npm",
+			"url": "webpack-typescript-config-dump-plugin",
+			"lang": "en"
+		},
+		{
+			"service": "npm",
+			"url": "minimal-store",
+			"lang": "en"
+		},
+		{
+			"service": "npm",
+			"url": "hummock",
+			"lang": "en"
 		}
 	]
 }

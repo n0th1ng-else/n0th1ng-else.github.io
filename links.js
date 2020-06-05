@@ -61,10 +61,10 @@ class PublicationInfo {
 	}
 }
 
-function getPublicationInfo(publication, index) {
+function getPublicationInfo(id, publication, index) {
 	return getLinkInfo(publication.fullUrl).then(meta => {
 		publication.meta = meta;
-		logger.writeOutput(`${index + 1}. ${publication.meta.title}`);
+		logger.writeOutput(`${id} ${index + 1}. ${publication.meta.title}`);
 		return publication;
 	});
 }
@@ -75,8 +75,19 @@ function getPublicationsInfo(publications, info = []) {
 	}
 
 	const pub = publications.shift();
-	return getPublicationInfo(pub, publications.length).then(meta =>
+	return getPublicationInfo('publication', pub, publications.length).then(meta =>
 		getPublicationsInfo(publications, [...info, meta])
+	);
+}
+
+function getPackagesInfo(packages, info = []) {
+	if (!packages.length) {
+		return info;
+	}
+
+	const pack = packages.shift();
+	return getPublicationInfo('package', pack, packages.length).then(meta =>
+		getPackagesInfo(packages, [...info, meta])
 	);
 }
 
@@ -84,10 +95,15 @@ const userInfoUrl = getFullLink(resources, 'github');
 const publicationMeta = resources.publications.map(
 	publication => new PublicationInfo(resources, publication)
 );
+const packagesMeta = resources.packages.map(package => new PublicationInfo(resources, package));
 
-Promise.all([getLinkInfo(userInfoUrl), getPublicationsInfo(publicationMeta)])
-	.then(([profile, publications]) => {
-		saveMetaToFile({ profile, publications });
+Promise.all([
+	getLinkInfo(userInfoUrl),
+	getPublicationsInfo(publicationMeta),
+	getPackagesInfo(packagesMeta)
+])
+	.then(([profile, publications, packages]) => {
+		saveMetaToFile({ profile, publications, packages });
 		logger.writeOutput('All is good');
 		process.exit();
 	})
