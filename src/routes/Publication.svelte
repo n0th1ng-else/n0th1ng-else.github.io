@@ -8,20 +8,15 @@
 <script>
 	import Switch from '@smui/switch';
 	import FormField from '@smui/form-field';
-	import Publication from '../components/Publication.svelte';
+	import LinkItem from '../components/LinkItem.svelte';
+	import { getSortedList } from '../helpers/sort';
 	import { getPageTitle } from '../labels'
 	import { RoutePath } from '.';
 
 	let selected = false;
 
-	const allPublications = getSortedPublications(runtime.meta.publications);
-	const enPubs = getSortedPublications(runtime.meta.publications.filter((pub) => pub.lang === 'en'));
-
-	function getSortedPublications(list) {
-		return list.sort(
-				(iA, iB) => new Date(iB.meta.date).getTime() - new Date(iA.meta.date).getTime()
-		);
-	}
+	const allPublications = getSortedList(runtime.meta.publications);
+	const enPubs = getSortedList(runtime.meta.publications.filter((pub) => pub.lang === 'en'));
 
 	function getPublications(isSelected) {
 		return isSelected ? [...allPublications] : [...enPubs];
@@ -49,7 +44,7 @@
 	</div>
 	<div>
 		{#each pubsToRender as pub (pub.fullUrl)}
-			<Publication publication="{pub}" />
+			<LinkItem publication="{pub}" />
 		{/each}
 	</div>
 </div>

@@ -6,15 +6,17 @@ declare const runtime: {
 			github?: string;
 			linkedIn?: string;
 			telergam?: string;
+			npm?: string;
 		};
 	};
 	meta: {
 		profile: MetaInfo;
-		publications: PublicationInfo[];
+		publications: LinkInfo[];
+		packages: LinkInfo[];
 	};
 };
 
-interface PublicationInfo {
+interface LinkInfo {
 	service: string;
 	url: string;
 	lang: string;

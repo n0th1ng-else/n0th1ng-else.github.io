@@ -14,6 +14,8 @@ const medium = process.env.GH_AUTHOR_MEDIUM;
 
 const habr = process.env.GH_AUTHOR_HABR;
 
+const npm = process.env.GH_AUTHOR_NPM;
+
 const env = {
 	distInRoot,
 	accounts: {
@@ -21,7 +23,8 @@ const env = {
 		linkedIn,
 		medium,
 		telergam,
-		habr
+		habr,
+		npm
 	},
 	mode
 };

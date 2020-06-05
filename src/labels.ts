@@ -6,7 +6,8 @@ export const labels = {
 		[RoutePath.Chronic]: 'Chronic',
 		[RoutePath.Contact]: 'Contact',
 		[RoutePath.Info]: 'Info',
-		[RoutePath.Publication]: 'Publications'
+		[RoutePath.Publication]: 'Publications',
+		[RoutePath.Package]: 'Packages'
 	}
 };
 
