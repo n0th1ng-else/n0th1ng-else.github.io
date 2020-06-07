@@ -1,5 +1,6 @@
 import App from './components/App.svelte';
 import './index.scss';
+import 'evil-icons/assets/evil-icons';
 
 const target = document.querySelector('main');
 
