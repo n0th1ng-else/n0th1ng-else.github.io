@@ -10,13 +10,13 @@
 	import FormField from '@smui/form-field';
 	import LinkItem from '../components/LinkItem.svelte';
 	import { getSortedList } from '../helpers/sort';
-	import { getPageTitle } from '../labels'
+	import { getPageTitle } from '../labels';
 	import { RoutePath } from '.';
 
 	let selected = false;
 
 	const allPublications = getSortedList(runtime.meta.publications);
-	const enPubs = getSortedList(runtime.meta.publications.filter((pub) => pub.lang === 'en'));
+	const enPubs = getSortedList(runtime.meta.publications.filter(pub => pub.lang === 'en'));
 
 	function getPublications(isSelected) {
 		return isSelected ? [...allPublications] : [...enPubs];

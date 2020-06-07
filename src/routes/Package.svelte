@@ -1,6 +1,6 @@
 <script>
 	import LinkItem from '../components/LinkItem.svelte';
-	import { getPageTitle } from '../labels'
+	import { getPageTitle } from '../labels';
 	import { RoutePath } from '.';
 	import { getSortedList } from '../helpers/sort';
 

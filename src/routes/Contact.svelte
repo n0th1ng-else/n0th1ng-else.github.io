@@ -1,5 +1,5 @@
 <script>
-	import { getPageTitle } from '../labels'
+	import { getPageTitle } from '../labels';
 	import { RoutePath } from '.';
 
 	const twitterAccount = runtime.env.accounts.twitter;
@@ -9,5 +9,4 @@
 	<title>{getPageTitle(RoutePath.Contact)}</title>
 </svelte:head>
 
-<div>
-</div>
+<div></div>

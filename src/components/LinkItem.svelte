@@ -30,8 +30,8 @@
 
 	function setDate() {
 		pubDate =
-				publication.meta.date &&
-				formatDistance(new Date(publication.meta.date), new Date(), { addSuffix: true });
+			publication.meta.date &&
+			formatDistance(new Date(publication.meta.date), new Date(), { addSuffix: true });
 	}
 
 	onMount(() => {

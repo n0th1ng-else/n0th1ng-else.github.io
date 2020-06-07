@@ -23,7 +23,7 @@
 
 	function onClick(tag) {
 		if (tag.url) {
-			window.open(tag.url, '_blank')
+			window.open(tag.url, '_blank');
 		}
 	}
 </script>
@@ -46,7 +46,11 @@
 		</div>
 		<div>
 			<div class="mdc-typography--subtitle1">
-				My specialization is everything related to <b>Frontend</b> and <b>NodeJS</b> development
+				My specialization is everything related to
+				<b>Frontend</b>
+				and
+				<b>NodeJS</b>
+				development
 			</div>
 		</div>
 		<div class="with-padding">
@@ -56,7 +60,7 @@
 		</div>
 		<div>
 			<Set chips="{tags}" let:chip>
-				<Chip shouldRemoveOnTrailingIconClick="{false}" on:click={() => onClick(chip)}>
+				<Chip shouldRemoveOnTrailingIconClick="{false}" on:click="{() => onClick(chip)}">
 					{#if chip.icon}
 						<i class="{chip.icon}"></i>
 					{/if}

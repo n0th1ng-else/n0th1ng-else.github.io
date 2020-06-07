@@ -70,7 +70,7 @@
 		"*.{md}": [
 			"npm run format"
 		],
-		"*.{js,jsx,ts,tsx}": [
+		"*.{js,jsx,ts,tsx,svelte}": [
 			"npm run format",
 			"npm run lint"
 		]

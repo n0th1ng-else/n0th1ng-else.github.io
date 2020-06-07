@@ -23,7 +23,7 @@
 		"prettier/@typescript-eslint"
 	],
 	"rules": {
-        "no-mixed-spaces-and-tabs": "off",
+		"no-mixed-spaces-and-tabs": "off",
 		"@typescript-eslint/no-var-requires": "off",
 		"no-console": "error"
 	}

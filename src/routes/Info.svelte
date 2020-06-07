@@ -1,5 +1,5 @@
 <script>
-	import { getPageTitle } from '../labels'
+	import { getPageTitle } from '../labels';
 	import { RoutePath } from '.';
 </script>
 
