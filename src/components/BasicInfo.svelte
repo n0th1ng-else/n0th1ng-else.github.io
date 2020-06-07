@@ -13,19 +13,10 @@
 </style>
 
 <script>
-	import Chip, { Set, Text } from '@smui/chips';
 	import { labels } from '../labels';
-	import { tags } from '../data/tags';
+	import Tags from './Tags.svelte';
 
 	export let profile = {};
-
-	let chip;
-
-	function onClick(tag) {
-		if (tag.url) {
-			window.open(tag.url, '_blank');
-		}
-	}
 </script>
 
 <div class="flex-container">
@@ -59,14 +50,7 @@
 			</div>
 		</div>
 		<div>
-			<Set chips="{tags}" let:chip>
-				<Chip shouldRemoveOnTrailingIconClick="{false}" on:click="{() => onClick(chip)}">
-					{#if chip.icon}
-						<i class="{chip.icon}"></i>
-					{/if}
-					<Text>{chip.title}</Text>
-				</Chip>
-			</Set>
+			<Tags />
 		</div>
 	</div>
 </div>

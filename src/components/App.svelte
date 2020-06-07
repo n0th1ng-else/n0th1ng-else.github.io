@@ -90,7 +90,7 @@
 			</TabBar>
 		</div>
 	</div>
-	<div>
+	<div class="padded-block">
 		<Router routes="{routes}" on:routeLoaded="{routeLoaded}" />
 	</div>
 </div>

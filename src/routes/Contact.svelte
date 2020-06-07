@@ -1,6 +1,7 @@
 <script>
 	import { getPageTitle } from '../labels';
 	import { RoutePath } from '.';
+	import TwitterWidget from '../components/TwitterWidget.svelte';
 
 	const twitterAccount = runtime.env.accounts.twitter;
 </script>
@@ -9,4 +10,8 @@
 	<title>{getPageTitle(RoutePath.Contact)}</title>
 </svelte:head>
 
-<div></div>
+<div>
+	{#if twitterAccount}
+		<TwitterWidget account="{twitterAccount}" />
+	{/if}
+</div>
