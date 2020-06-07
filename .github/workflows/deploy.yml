@@ -27,6 +27,7 @@ jobs:
           GH_AUTHOR_MEDIUM: ${{ secrets.GH_AUTHOR_MEDIUM }}
           GH_AUTHOR_HABR: ${{ secrets.GH_AUTHOR_HABR }}
           GH_AUTHOR_NPM: ${{ secrets.GH_AUTHOR_NPM }}
+          GH_AUTHOR_TWITTER: ${{ secrets.GH_AUTHOR_TWITTER }}
 
       - name: Store meta info
         uses: actions/upload-artifact@v1
@@ -62,6 +63,7 @@ jobs:
           GH_AUTHOR_MEDIUM: ${{ secrets.GH_AUTHOR_MEDIUM }}
           GH_AUTHOR_HABR: ${{ secrets.GH_AUTHOR_HABR }}
           GH_AUTHOR_NPM: ${{ secrets.GH_AUTHOR_NPM }}
+          GH_AUTHOR_TWITTER: ${{ secrets.GH_AUTHOR_TWITTER }}
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v1

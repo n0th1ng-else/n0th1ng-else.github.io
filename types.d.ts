@@ -3,10 +3,13 @@ declare const runtime: {
 		distInRoot: boolean;
 		mode: string;
 		accounts: {
-			github?: string;
-			linkedIn?: string;
-			telergam?: string;
-			npm?: string;
+			habr: string;
+			github: string;
+			linkedIn: string;
+			medium: string;
+			npm: string;
+			telergam: string;
+			twitter: string;
 		};
 	};
 	meta: {
