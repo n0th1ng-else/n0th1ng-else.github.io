@@ -12,5 +12,8 @@
 		"allowSyntheticDefaultImports": true,
 		"moduleResolution": "node"
 	},
-	"include": ["types.d.ts", "src/**/*"]
+	"extends": "@tsconfig/svelte/tsconfig.json",
+
+	"include": ["types.d.ts" ,"src/**/*", "src/node_modules"],
+	"exclude": ["node_modules/*", "__sapper__/*", "public/*"]
 }
