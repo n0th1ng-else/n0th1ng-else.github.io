@@ -1,4 +1,4 @@
-name: Project Workflow
+name: Deploy
 
 on:
   push:
@@ -53,6 +53,9 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: meta
+
+      - name: Validate the project
+        run: npm run validate
 
       - name: Build project
         run: npm run build

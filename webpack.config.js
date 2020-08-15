@@ -1,7 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { preprocess, createEnv, readConfigFile } = require('svelte-ts-preprocess');
+const autoPreprocess = require('svelte-preprocess');
+
 const webpack = require('webpack');
 const { procEnv } = require('./env');
 const { readMetaFile } = require('./info');
@@ -35,17 +36,6 @@ const cssLoader = [
 	}
 ];
 
-const env = createEnv();
-const compilerOptions = readConfigFile(env);
-
-const opts = {
-	env,
-	compilerOptions: {
-		...compilerOptions,
-		allowNonTsExtensions: true
-	}
-};
-
 module.exports = {
 	mode,
 	entry,
@@ -71,7 +61,7 @@ module.exports = {
 								loader: 'svelte-loader',
 								options: {
 									emitCss: true,
-									preprocess: preprocess(opts)
+									preprocess: autoPreprocess()
 								}
 							}
 						]
