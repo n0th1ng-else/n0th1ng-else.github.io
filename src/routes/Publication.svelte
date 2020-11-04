@@ -1,11 +1,11 @@
-<style>
+<style lang="scss">
 	.flex-right {
 		margin: 0 10px;
 		justify-content: flex-end;
 	}
 </style>
 
-<script>
+<script lang="ts">
 	import Switch from '@smui/switch';
 	import FormField from '@smui/form-field';
 	import LinkItem from '../components/LinkItem.svelte';
@@ -18,7 +18,7 @@
 	const allPublications = getSortedList(runtime.meta.publications);
 	const enPubs = getSortedList(runtime.meta.publications.filter(pub => pub.lang === 'en'));
 
-	function getPublications(isSelected) {
+	function getPublications(isSelected: boolean) {
 		return isSelected ? [...allPublications] : [...enPubs];
 	}
 

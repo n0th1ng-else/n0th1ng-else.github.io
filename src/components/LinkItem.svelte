@@ -1,4 +1,4 @@
-<style>
+<style lang="scss">
 	.flex-with-space {
 		flex: 1 1 auto;
 		justify-content: flex-end;
@@ -18,12 +18,28 @@
 	}
 </style>
 
-<script>
+<script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import Paper, { Title, Content } from '@smui/paper';
 	import { formatDistance } from 'date-fns';
+	import type { LinkInfo } from '../../common';
 
-	export let publication = { meta: {} };
+	export let publication: LinkInfo = {
+		service: '',
+		url: '',
+		lang: '',
+		fullUrl: '',
+		meta: {
+			author: null,
+			date: null,
+			description: null,
+			image: null,
+			logo: null,
+			publisher: null,
+			title: null,
+			url: null
+		}
+	};
 
 	let pubDate;
 	let updater;
@@ -33,6 +49,12 @@
 			publication.meta.date &&
 			formatDistance(new Date(publication.meta.date), new Date(), { addSuffix: true });
 	}
+
+	const getImage = (data: LinkInfo): string | undefined => {
+		if (data.meta.image) {
+			return data.meta.image;
+		}
+	};
 
 	onMount(() => {
 		setDate();
@@ -62,9 +84,7 @@
 		</Title>
 		<Content>
 			<div class="flex-container">
-				<div>
-					<img class="pub-image" src="{publication.meta.image}" alt="publication logo" />
-				</div>
+				<div><img class="pub-image" src="{getImage(publication)}" alt="publication logo" /></div>
 				<div class="with-space">
 					<a href="{publication.fullUrl}" target="_blank" rel="noreferrer noopener">
 						<span class="mdc-typography--body1">{publication.meta.description}</span>

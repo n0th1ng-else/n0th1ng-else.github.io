@@ -1,4 +1,4 @@
-<style>
+<style lang="scss">
 	.app-page {
 		max-width: 1000px;
 		margin: auto;
@@ -9,8 +9,9 @@
 	}
 </style>
 
-<script>
-	import { wrap, push } from 'svelte-spa-router';
+<script lang="ts">
+	import { push } from 'svelte-spa-router';
+	import { wrap } from 'svelte-spa-router/wrap';
 	import Router from 'svelte-spa-router';
 	import BlankComponent from '../routes/BlankComponent.svelte';
 	import Chronic from '../routes/Chronic.svelte';
@@ -25,14 +26,34 @@
 	import { labels } from '../labels';
 
 	const routes = {
-		[toPath(RoutePath.Chronic)]: wrap(Chronic, { path: RoutePath.Chronic }),
-		[toPath(RoutePath.Contact)]: wrap(Contact, { path: RoutePath.Contact }),
-		[toPath(RoutePath.Info)]: wrap(Info, { path: RoutePath.Info }),
-		[toPath(RoutePath.Publication)]: wrap(Publication, { path: RoutePath.Publication }),
-		[toPath(RoutePath.Package)]: wrap(Package, { path: RoutePath.Package }),
+		[toPath(RoutePath.Chronic)]: wrap({
+			component: Chronic,
+			userData: { path: RoutePath.Chronic }
+		}),
+		[toPath(RoutePath.Contact)]: wrap({
+			component: Contact,
+			userData: { path: RoutePath.Contact }
+		}),
+		[toPath(RoutePath.Info)]: wrap({ component: Info, userData: { path: RoutePath.Info } }),
+		[toPath(RoutePath.Publication)]: wrap({
+			component: Publication,
+			userData: { path: RoutePath.Publication }
+		}),
+		[toPath(RoutePath.Package)]: wrap({
+			component: Package,
+			userData: { path: RoutePath.Package }
+		}),
 
-		[toPath()]: wrap(BlankComponent, () => push(toPath(RoutePath.Info))),
-		[toPath(RoutePath.Other)]: wrap(BlankComponent, () => push(toPath(RoutePath.Info)))
+		[toPath()]: wrap({
+			component: BlankComponent,
+			userData: { path: RoutePath.Info },
+			conditions: () => push(toPath(RoutePath.Info)).then(() => true)
+		}),
+		[toPath(RoutePath.Other)]: wrap({
+			component: BlankComponent,
+			userData: { path: RoutePath.Info },
+			conditions: () => push(toPath(RoutePath.Info)).then(() => true)
+		})
 	};
 
 	const tabs = [

@@ -37,6 +37,11 @@
 			"service": "habr",
 			"url": "491788",
 			"lang": "ru"
+		},
+		{
+			"service": "medium",
+			"url": "learn-to-develop-the-code-my-way-56e35cc1276e",
+			"lang": "en"
 		}
 	],
 	"packages": [

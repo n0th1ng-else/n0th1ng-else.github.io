@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import LinkItem from '../components/LinkItem.svelte';
 	import { getPageTitle } from '../labels';
 	import { RoutePath } from '.';

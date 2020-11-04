@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { getPageTitle } from '../labels';
 	import { RoutePath } from '.';
 </script>

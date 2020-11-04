@@ -10,7 +10,7 @@ if (!target) {
 
 new App({
 	target,
-	anchor: null,
+	anchor: undefined,
 	props: {},
 	hydrate: false,
 	intro: false

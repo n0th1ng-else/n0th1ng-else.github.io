@@ -72,7 +72,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: app-bundle
-          path: dist
+          path: public
 
   deploy:
     runs-on: ubuntu-latest
