@@ -106,3 +106,6 @@ typings/
 dist/
 app-bundle/
 meta/
+
+public/*
+!public/index.html

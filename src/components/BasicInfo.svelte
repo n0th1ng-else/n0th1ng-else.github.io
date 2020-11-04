@@ -1,4 +1,4 @@
-<style>
+<style lang="scss">
 	.user-logo {
 		height: 200px;
 	}
@@ -12,27 +12,39 @@
 	}
 </style>
 
-<script>
+<script lang="ts">
 	import { labels } from '../labels';
 	import Tags from './Tags.svelte';
+	import type { MetaInfo } from '../../common';
 
-	export let profile = {};
+	export let profile: MetaInfo = {
+		author: null,
+		date: null,
+		description: null,
+		image: null,
+		logo: null,
+		publisher: null,
+		title: null,
+		url: null
+	};
+
+	const getImage = (data: MetaInfo): string | undefined => {
+		if (data.image) {
+			return data.image;
+		}
+	};
 </script>
 
 <div class="flex-container">
 	<div class="padded-block">
-		<img src="{profile.image}" alt="Sergey's face" class="user-logo" />
+		<img src="{getImage(profile)}" alt="Sergey's face" class="user-logo" />
 	</div>
 	<div class="padded-block">
-		<div>
-			<span class="mdc-typography--headline4">{labels.name}</span>
-		</div>
+		<div><span class="mdc-typography--headline4">{labels.name}</span></div>
 		<div>
 			<span class="mdc-typography--subtitle1">
 				I am working at
-				<a class="link" href="https://setronica.com" target="_blank" referrerpolicy="no-referrer">
-					Setronica.com
-				</a>
+				<a class="link" href="https://setronica.com" target="_blank"> Setronica.com </a>
 			</span>
 		</div>
 		<div>

@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
 	import Chip, { Set, Text } from '@smui/chips';
 	import { tags } from '../data/tags';
 
-	let chip;
+	// let chip;
 
 	function onClick(tag) {
 		if (tag.url) {
@@ -13,9 +13,7 @@
 
 <Set chips="{tags}" let:chip>
 	<Chip shouldRemoveOnTrailingIconClick="{false}" on:click="{() => onClick(chip)}">
-		{#if chip.icon}
-			<i class="{chip.icon}"></i>
-		{/if}
+		{#if chip.icon}<i class="{chip.icon}"></i>{/if}
 		<Text>{chip.title}</Text>
 	</Chip>
 </Set>

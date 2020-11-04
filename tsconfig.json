@@ -1,19 +1,11 @@
 {
 	"compilerOptions": {
-		"module": "esnext",
-		"target": "esnext",
-		"sourceMap": true,
 		"removeComments": true,
-		"experimentalDecorators": true,
-		"emitDecoratorMetadata": true,
 		"strict": true,
-		"types": ["@pyoner/svelte-types"],
-		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
-		"moduleResolution": "node"
+		"noImplicitAny": false
 	},
 	"extends": "@tsconfig/svelte/tsconfig.json",
-
-	"include": ["types.d.ts" ,"src/**/*", "src/node_modules"],
+	"include": ["types.d.ts", "src/**/*", "src/**/*.svelte", "src/node_modules"],
 	"exclude": ["node_modules/*", "__sapper__/*", "public/*"]
 }
