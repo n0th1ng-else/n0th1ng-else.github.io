@@ -1,6 +1,7 @@
-@import 'node_modules/@material/typography/mdc-typography';
-@import 'node_modules/@material/theme/color-palette';
-@import 'node_modules/evil-icons/assets/evil-icons.css';
+@import '~@material/typography/mdc-typography';
+@import '~@material/theme/color-palette';
+@import '~evil-icons/assets/evil-icons.css';
+@import './global.scss';
 
 html {
 	color: $material-color-grey-900;
@@ -20,6 +21,6 @@ html {
 	}
 
 	.padded-block {
-		margin: 10px;
+		margin: $unit-half;
 	}
 }

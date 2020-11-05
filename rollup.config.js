@@ -5,15 +5,12 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
-import replace from '@rollup/plugin-replace';
 import postcss from 'rollup-plugin-postcss';
+import inject from '@rollup/plugin-inject';
+import json from '@rollup/plugin-json';
+import { resolve as resolvePath } from 'path';
 
 const production = !process.env.ROLLUP_WATCH;
-
-const { readMetaFile } = require('./info');
-const { procEnv } = require('./env');
-
-const meta = readMetaFile();
 
 function serve() {
 	let server;
@@ -45,6 +42,10 @@ export default {
 		file: 'public/bundle.js'
 	},
 	plugins: [
+		json(),
+		inject({
+			runtime: resolvePath('./runtime.js')
+		}),
 		svelte({
 			// enable run-time checks when not in production
 			dev: !production,
@@ -67,12 +68,6 @@ export default {
 			dedupe: ['svelte']
 		}),
 		commonjs(),
-		replace({
-			runtime: JSON.stringify({
-				meta,
-				env: procEnv
-			})
-		}),
 		typescript({
 			sourceMap: !production,
 			inlineSources: !production

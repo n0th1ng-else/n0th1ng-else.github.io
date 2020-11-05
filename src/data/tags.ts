@@ -1,46 +1,21 @@
-export const tags = [
-	{
-		title: 'Typescript',
-		url: 'https://www.typescriptlang.org'
-	},
-	{
-		title: 'Angular',
-		url: 'https://angular.io'
-	},
-	{
-		title: 'NodeJS',
-		url: 'https://nodejs.org'
-	},
-	{
-		title: 'Svelte',
-		url: 'https://svelte.dev'
-	},
-	{
-		title: 'React',
-		url: 'https://reactjs.org'
-	},
-	{
-		title: 'Redux',
-		url: 'https://redux.js.org'
-	},
-	{
-		title: 'Babel',
-		url: 'https://babeljs.io'
-	},
-	{
-		title: 'Prettier',
-		url: 'https://prettier.io'
-	},
-	{
-		title: 'ESLint',
-		url: 'https://eslint.org'
-	},
-	{
-		title: 'Jest',
-		url: 'https://jestjs.io'
-	},
-	{
-		title: 'Webpack',
-		url: 'https://webpack.js.org'
+export class TagModel {
+	constructor(public readonly title: string, private readonly url: string) {}
+
+	public getUrl(): string {
+		return `https://${this.url}`;
 	}
+}
+
+export const tags: TagModel[] = [
+	new TagModel('Typescript', 'www.typescriptlang.org'),
+	new TagModel('Angular', 'angular.io'),
+	new TagModel('NodeJS', 'nodejs.org'),
+	new TagModel('Svelte', 'svelte.dev'),
+	new TagModel('React', 'reactjs.org'),
+	new TagModel('Redux', 'redux.js.org'),
+	new TagModel('Babel', 'babeljs.io'),
+	new TagModel('Prettier', 'prettier.io'),
+	new TagModel('ESLint', 'eslint.org'),
+	new TagModel('Jest', 'jestjs.io'),
+	new TagModel('Webpack', 'webpack.js.org')
 ];
