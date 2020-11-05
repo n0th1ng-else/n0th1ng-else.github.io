@@ -15,8 +15,8 @@ const metascraper = require('metascraper')([
 
 const logger = new Logger('links');
 
-function getLinkHtml(url) {
-	return new Promise((resolve, reject) => {
+const getLinkHtml = url =>
+	new Promise((resolve, reject) => {
 		https.get(url, res => {
 			res.setEncoding('utf8');
 			let body = '';
@@ -27,29 +27,31 @@ function getLinkHtml(url) {
 			res.on('error', err => reject(err));
 		});
 	});
-}
 
-function getLinkInfo(url) {
-	return getLinkHtml(url).then(html => metascraper({ html, url }));
-}
+const getLinkInfo = url => getLinkHtml(url).then(html => metascraper({ html, url }));
 
-function getLoginByService(service) {
+const getLoginByService = service => {
 	const login = procEnv.accounts[service];
 	if (!login) {
 		throw new Error(`Login for ${service} not found`);
 	}
 	return login;
-}
+};
 
-function getFullLink(data, service, path = '', lang = '') {
+const getFullLink = (data, service, path = '', lang = '') => {
 	const host = data.services[service].host;
 	const pattern = data.services[service].pattern;
 	const login = getLoginByService(service);
 	if (!pattern) {
 		throw new Error(`Service must have pattern (compiling ${service})`);
 	}
-	return pattern.replace('%h', host).replace('%u', login).replace('%p', path).replace('%l', lang);
-}
+	const url = pattern
+		.replace('%h', host)
+		.replace('%u', login)
+		.replace('%p', path)
+		.replace('%l', lang);
+	return `https://${url}`;
+};
 
 class PublicationInfo {
 	constructor(data, info) {
@@ -61,15 +63,16 @@ class PublicationInfo {
 	}
 }
 
-function getPublicationInfo(id, publication, index) {
-	return getLinkInfo(publication.fullUrl).then(meta => {
-		publication.meta = meta;
-		logger.writeOutput(`${id} ${index + 1}. ${publication.meta.title}`);
-		return publication;
-	});
-}
+const getPublicationInfo = (id, publication, index) =>
+	sleepFor().then(() =>
+		getLinkInfo(publication.fullUrl).then(meta => {
+			publication.meta = meta;
+			logger.writeOutput(`${id} ${index + 1}. ${publication.meta.title}`);
+			return publication;
+		})
+	);
 
-function getPublicationsInfo(publications, info = []) {
+const getPublicationsInfo = (publications, info = []) => {
 	if (!publications.length) {
 		return info;
 	}
@@ -78,9 +81,9 @@ function getPublicationsInfo(publications, info = []) {
 	return getPublicationInfo('publication', pub, publications.length).then(meta =>
 		getPublicationsInfo(publications, [...info, meta])
 	);
-}
+};
 
-function getPackagesInfo(packages, info = []) {
+const getPackagesInfo = (packages, info = []) => {
 	if (!packages.length) {
 		return info;
 	}
@@ -89,13 +92,15 @@ function getPackagesInfo(packages, info = []) {
 	return getPublicationInfo('package', pack, packages.length).then(meta =>
 		getPackagesInfo(packages, [...info, meta])
 	);
-}
+};
+
+const sleepFor = (ms = 100) => new Promise(resolve => setTimeout(resolve, ms));
 
 const userInfoUrl = getFullLink(resources, 'github');
 const publicationMeta = resources.publications.map(
 	publication => new PublicationInfo(resources, publication)
 );
-const packagesMeta = resources.packages.map(package => new PublicationInfo(resources, package));
+const packagesMeta = resources.packages.map(pack => new PublicationInfo(resources, pack));
 
 Promise.all([
 	getLinkInfo(userInfoUrl),

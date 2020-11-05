@@ -1,19 +1,19 @@
 {
 	"services": {
 		"medium": {
-			"host": "https://medium.com",
-			"pattern": "%h/%u/%p"
+			"host": "medium.com",
+			"pattern": "%u.%h/%p"
 		},
 		"github": {
-			"host": "https://github.com",
+			"host": "github.com",
 			"pattern": "%h/%u"
 		},
 		"habr": {
-			"host": "https://habr.com",
+			"host": "habr.com",
 			"pattern": "%h/%l/post/%p/"
 		},
 		"npm": {
-			"host": "https://www.npmjs.com",
+			"host": "www.npmjs.com",
 			"pattern": "%h/package/%p"
 		}
 	},
