@@ -94,7 +94,7 @@ const getPackagesInfo = (packages, info = []) => {
 	);
 };
 
-const sleepFor = (ms = 100) => new Promise(resolve => setTimeout(resolve, ms));
+const sleepFor = (ms = 1000) => new Promise(resolve => setTimeout(resolve, ms));
 
 const userInfoUrl = getFullLink(resources, 'github');
 const publicationMeta = resources.publications.map(
@@ -108,7 +108,7 @@ Promise.all([
 	getPackagesInfo(packagesMeta)
 ])
 	.then(([profile, publications, packages]) => {
-		saveMetaToFile({ profile, publications, packages });
+		saveMetaToFile({ profile, publications, packages, env: procEnv });
 		logger.writeOutput('All is good');
 		process.exit();
 	})

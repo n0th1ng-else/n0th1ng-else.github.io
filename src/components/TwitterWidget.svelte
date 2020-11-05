@@ -1,5 +1,6 @@
 <script lang="ts">
 	export let account = '';
+
 	const twitterUrl = `https://twitter.com/${account}?ref_src=twsrc%5Etfw`;
 	const twitterLabel = `Follow @${account}`;
 </script>

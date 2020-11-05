@@ -1,9 +1,11 @@
 <script lang="ts">
-	import { getPageTitle } from '../labels';
-	import { RoutePath } from '.';
 	import TwitterWidget from '../components/TwitterWidget.svelte';
+	import { RoutePath } from '.';
+	import { getPageTitle } from '../labels';
+	import { getAccounts } from '../helpers/global';
 
-	const twitterAccount = runtime.env.accounts.twitter;
+	const accounts = getAccounts();
+	const twitterAccount: string = accounts.twitter;
 </script>
 
 <svelte:head>

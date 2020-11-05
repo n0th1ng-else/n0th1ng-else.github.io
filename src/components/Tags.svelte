@@ -1,14 +1,12 @@
 <script lang="ts">
 	import Chip, { Set, Text } from '@smui/chips';
-	import { tags } from '../data/tags';
+	import { TagModel, tags } from '../data/tags';
 
 	// let chip;
 
-	function onClick(tag) {
-		if (tag.url) {
-			window.open(tag.url, '_blank');
-		}
-	}
+	const onClick = (tag: TagModel): void => {
+		window.open(tag.getUrl(), '_blank');
+	};
 </script>
 
 <Set chips="{tags}" let:chip>

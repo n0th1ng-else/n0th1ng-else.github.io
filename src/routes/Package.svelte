@@ -1,10 +1,12 @@
 <script lang="ts">
+	import type { LinkInfo } from '../../common';
 	import LinkItem from '../components/LinkItem.svelte';
-	import { getPageTitle } from '../labels';
 	import { RoutePath } from '.';
+	import { getPageTitle } from '../labels';
 	import { getSortedList } from '../helpers/sort';
+	import { getPackages } from '../helpers/global';
 
-	const packages = getSortedList(runtime.meta.packages);
+	const packages: LinkInfo[] = getSortedList(getPackages());
 </script>
 
 <svelte:head>

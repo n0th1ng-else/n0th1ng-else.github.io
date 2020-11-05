@@ -1,24 +1,14 @@
-import type { LinkInfo, MetaInfo } from './common';
+import type { LinkInfo, MetaInfo, ProfileAccounts } from './common';
 
 declare global {
 	const runtime: {
 		env: {
 			distInRoot: boolean;
 			mode: string;
-			accounts: {
-				habr: string;
-				github: string;
-				linkedIn: string;
-				medium: string;
-				npm: string;
-				telergam: string;
-				twitter: string;
-			};
+			accounts: ProfileAccounts;
 		};
-		meta: {
-			profile: MetaInfo;
-			publications: LinkInfo[];
-			packages: LinkInfo[];
-		};
+		profile: MetaInfo;
+		publications: LinkInfo[];
+		packages: LinkInfo[];
 	};
 }

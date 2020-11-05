@@ -16,3 +16,13 @@ export interface MetaInfo {
 	title: string | null;
 	url: string | null;
 }
+
+export interface ProfileAccounts {
+	habr: string;
+	github: string;
+	linkedIn: string;
+	medium: string;
+	npm: string;
+	telergam: string;
+	twitter: string;
+}

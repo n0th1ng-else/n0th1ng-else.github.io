@@ -1,32 +1,37 @@
 <style lang="scss">
+	@import '../global';
+
 	.flex-right {
-		margin: 0 10px;
+		margin: 0 $unit-half;
 		justify-content: flex-end;
 	}
 </style>
 
 <script lang="ts">
+	import type { LinkInfo } from '../../common';
 	import Switch from '@smui/switch';
 	import FormField from '@smui/form-field';
 	import LinkItem from '../components/LinkItem.svelte';
+	import { RoutePath } from '.';
 	import { getSortedList } from '../helpers/sort';
 	import { getPageTitle } from '../labels';
-	import { RoutePath } from '.';
+	import { getArticles } from '../helpers/global';
+	import { Language } from '../data/language';
 
 	let selected = false;
 
-	const allPublications = getSortedList(runtime.meta.publications);
-	const enPubs = getSortedList(runtime.meta.publications.filter(pub => pub.lang === 'en'));
+	const publications: LinkInfo[] = getArticles();
+	const allPublications: LinkInfo[] = getSortedList(publications);
+	const enPubs: LinkInfo[] = getSortedList(publications.filter(pub => pub.lang === Language.En));
 
-	function getPublications(isSelected: boolean) {
-		return isSelected ? [...allPublications] : [...enPubs];
-	}
+	const getPublications = (isSelected: boolean): LinkInfo[] =>
+		isSelected ? [...allPublications] : [...enPubs];
 
 	let pubsToRender = getPublications(selected);
 
-	function updateList() {
+	const updateList = () => {
 		pubsToRender = getPublications(selected);
-	}
+	};
 </script>
 
 <svelte:head>

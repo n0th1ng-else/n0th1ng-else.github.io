@@ -1,6 +1,8 @@
 <style lang="scss">
+	@import '../global';
+
 	.user-logo {
-		height: 200px;
+		height: $max-profile-logo-height;
 	}
 
 	.link {
@@ -8,13 +10,13 @@
 	}
 
 	.with-padding {
-		padding-top: 5px;
+		padding-top: $unit-quarter;
 	}
 </style>
 
 <script lang="ts">
-	import { labels } from '../labels';
 	import Tags from './Tags.svelte';
+	import { labels } from '../labels';
 	import type { MetaInfo } from '../../common';
 
 	export let profile: MetaInfo = {

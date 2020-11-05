@@ -1,28 +1,30 @@
 <style lang="scss">
+	@import '../global';
+
 	.flex-with-space {
 		flex: 1 1 auto;
 		justify-content: flex-end;
-		font-size: 1rem;
+		font-size: $unit;
 	}
 
 	.pub-image {
-		width: 100px;
+		width: $max-article-logo-height;
 	}
 
 	.publication-card {
-		margin: 10px 10px 30px 10px;
+		margin: $unit-half $unit-half $unit-double $unit-half;
 	}
 
 	.with-space {
-		margin-left: 10px;
+		margin-left: $unit-half;
 	}
 </style>
 
 <script lang="ts">
-	import { onMount, onDestroy } from 'svelte';
 	import Paper, { Title, Content } from '@smui/paper';
-	import { formatDistance } from 'date-fns';
 	import type { LinkInfo } from '../../common';
+	import { onMount, onDestroy } from 'svelte';
+	import { getRelativeDate } from '../helpers/date';
 
 	export let publication: LinkInfo = {
 		service: '',
@@ -41,14 +43,12 @@
 		}
 	};
 
-	let pubDate;
-	let updater;
+	let pubDate: string | undefined;
+	let updater: number = 0;
 
-	function setDate() {
-		pubDate =
-			publication.meta.date &&
-			formatDistance(new Date(publication.meta.date), new Date(), { addSuffix: true });
-	}
+	const setDate = (): void => {
+		pubDate = getRelativeDate(publication.meta.date);
+	};
 
 	const getImage = (data: LinkInfo): string | undefined => {
 		if (data.meta.image) {
@@ -58,12 +58,12 @@
 
 	onMount(() => {
 		setDate();
-		updater = setInterval(() => setDate(), 1000);
+		updater = window.setInterval(() => setDate(), 1000);
 	});
 
 	onDestroy(() => {
 		if (updater) {
-			clearInterval(updater);
+			window.clearInterval(updater);
 		}
 	});
 </script>

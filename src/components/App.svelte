@@ -1,15 +1,20 @@
 <style lang="scss">
+	@import '../global';
+
 	.app-page {
-		max-width: 1000px;
+		max-width: $max-content-width;
 		margin: auto;
 	}
 
 	.with-space {
-		margin-bottom: 10px;
+		margin-bottom: $unit-half;
 	}
 </style>
 
 <script lang="ts">
+	import Tab, { Label } from '@smui/tab';
+	import TabBar from '@smui/tab-bar';
+	import type { MetaInfo } from '../../common';
 	import { push } from 'svelte-spa-router';
 	import { wrap } from 'svelte-spa-router/wrap';
 	import Router from 'svelte-spa-router';
@@ -19,11 +24,10 @@
 	import Info from '../routes/Info.svelte';
 	import Publication from '../routes/Publication.svelte';
 	import Package from '../routes/Package.svelte';
-	import { RoutePath, toPath } from '../routes';
-	import Tab, { Label } from '@smui/tab';
-	import TabBar from '@smui/tab-bar';
 	import BasicInfo from './BasicInfo.svelte';
-	import { labels } from '../labels';
+	import { RoutePath, toPath } from '../routes';
+	import { getProfile } from '../helpers/global';
+	import { tabs } from '../data/tabs';
 
 	const routes = {
 		[toPath(RoutePath.Chronic)]: wrap({
@@ -56,32 +60,9 @@
 		})
 	};
 
-	const tabs = [
-		{
-			label: labels.tabs[RoutePath.Chronic],
-			id: RoutePath.Chronic
-		},
-		{
-			label: labels.tabs[RoutePath.Contact],
-			id: RoutePath.Contact
-		},
-		{
-			label: labels.tabs[RoutePath.Info],
-			id: RoutePath.Info
-		},
-		{
-			label: labels.tabs[RoutePath.Publication],
-			id: RoutePath.Publication
-		},
-		{
-			label: labels.tabs[RoutePath.Package],
-			id: RoutePath.Package
-		}
-	];
-
 	let activeTab = tabs[0];
 	let tab;
-	const profile = runtime.meta.profile;
+	const profile: MetaInfo = getProfile();
 
 	const routeLoaded = event => {
 		const id = event.detail.userData.path;

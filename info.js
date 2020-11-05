@@ -20,7 +20,7 @@ function saveMetaToFile(meta) {
 		fs.mkdirSync(getFolderPath());
 	}
 
-	const content = JSON.stringify(meta);
+	const content = JSON.stringify(meta, null, 2);
 	fs.writeFileSync(getFullPath(), content);
 }
 
