@@ -63,14 +63,27 @@ class PublicationInfo {
 	}
 }
 
-const getPublicationInfo = (id, publication, index) =>
-	sleepFor().then(() =>
+const getPublicationInfo = (id, publication, index, retry = 0) => {
+	if (retry > 10) {
+		return Promise.reject(new Error(`Unable to fetch metadata for ${publication.fullUrl}`));
+	}
+
+	return sleepFor(retry * 1000).then(() =>
 		getLinkInfo(publication.fullUrl).then(meta => {
 			publication.meta = meta;
 			logger.writeOutput(`${id} ${index + 1}. ${publication.meta.title}`);
+
+			if (!meta.title || !meta.description) {
+				logger.writeWarning(
+					`Unable to fetch metadata for ${publication.fullUrl}. Retrying (${retry} out of 10)`
+				);
+				return getPublicationInfo(id, publication, index, retry + 1);
+			}
+
 			return publication;
 		})
 	);
+};
 
 const getPublicationsInfo = (publications, info = []) => {
 	if (!publications.length) {

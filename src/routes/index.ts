@@ -1,9 +1,9 @@
 export enum RoutePath {
-	Chronic = 'chronic',
-	Contact = 'contact',
-	Info = 'info',
-	Publication = 'publication',
-	Package = 'package',
+	News = 'news',
+	Contacts = 'contacts',
+	Projects = 'projects',
+	Articles = 'articles',
+	Packages = 'packages',
 	Other = '*'
 }
 

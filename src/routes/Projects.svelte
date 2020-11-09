@@ -4,5 +4,5 @@
 </script>
 
 <svelte:head>
-	<title>{getPageTitle(RoutePath.Info)}</title>
+	<title>{getPageTitle(RoutePath.Projects)}</title>
 </svelte:head>

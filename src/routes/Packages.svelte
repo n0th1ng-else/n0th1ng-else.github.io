@@ -10,7 +10,7 @@
 </script>
 
 <svelte:head>
-	<title>{getPageTitle(RoutePath.Package)}</title>
+	<title>{getPageTitle(RoutePath.Packages)}</title>
 </svelte:head>
 
 <div>

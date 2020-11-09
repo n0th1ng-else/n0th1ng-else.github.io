@@ -4,6 +4,10 @@
 @import './global.scss';
 
 html {
+	body {
+		margin: 0;
+	}
+
 	color: $material-color-grey-900;
 
 	a {
@@ -18,9 +22,5 @@ html {
 
 	.greyed {
 		color: $material-color-blue-grey-300;
-	}
-
-	.padded-block {
-		margin: $unit-half;
 	}
 }

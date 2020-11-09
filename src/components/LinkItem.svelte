@@ -17,6 +17,13 @@
 
 	.with-space {
 		margin-left: $unit-half;
+		position: relative;
+	}
+
+	.shifted-icon {
+		position: absolute;
+		font-size: $font-size;
+		margin: $unit-quarter 0 0 $unit-quarter;
 	}
 </style>
 
@@ -88,7 +95,7 @@
 				<div class="with-space">
 					<a href="{publication.fullUrl}" target="_blank" rel="noreferrer noopener">
 						<span class="mdc-typography--body1">{publication.meta.description}</span>
-						<i class="fas fa-external-link-alt"></i>
+						<i class="material-icons shifted-icon">launch</i>
 					</a>
 				</div>
 			</div>

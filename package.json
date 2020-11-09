@@ -17,7 +17,6 @@
 		"eslint": "7.12.1",
 		"eslint-config-prettier": "6.15.0",
 		"eslint-plugin-svelte3": "2.7.3",
-		"evil-icons": "1.10.1",
 		"husky": "4.3.0",
 		"lint-staged": "10.5.1",
 		"metascraper": "5.14.20",

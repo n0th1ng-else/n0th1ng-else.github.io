@@ -3,7 +3,7 @@
 
 	.app-page {
 		max-width: $max-content-width;
-		margin: auto;
+		margin: $unit-double auto;
 	}
 
 	.with-space {
@@ -19,63 +19,63 @@
 	import { wrap } from 'svelte-spa-router/wrap';
 	import Router from 'svelte-spa-router';
 	import BlankComponent from '../routes/BlankComponent.svelte';
-	import Chronic from '../routes/Chronic.svelte';
-	import Contact from '../routes/Contact.svelte';
-	import Info from '../routes/Info.svelte';
-	import Publication from '../routes/Publication.svelte';
-	import Package from '../routes/Package.svelte';
+	import News from '../routes/News.svelte';
+	import Contacts from '../routes/Contacts.svelte';
+	import Projects from '../routes/Projects.svelte';
+	import Articles from '../routes/Articles.svelte';
+	import Packages from '../routes/Packages.svelte';
 	import BasicInfo from './BasicInfo.svelte';
 	import { RoutePath, toPath } from '../routes';
 	import { getProfile } from '../helpers/global';
-	import { tabs } from '../data/tabs';
+	import { tabs, getTabById } from '../data/tabs';
 
 	const routes = {
-		[toPath(RoutePath.Chronic)]: wrap({
-			component: Chronic,
-			userData: { path: RoutePath.Chronic }
+		[toPath(RoutePath.News)]: wrap({
+			component: News,
+			userData: { path: RoutePath.News }
 		}),
-		[toPath(RoutePath.Contact)]: wrap({
-			component: Contact,
-			userData: { path: RoutePath.Contact }
+		[toPath(RoutePath.Contacts)]: wrap({
+			component: Contacts,
+			userData: { path: RoutePath.Contacts }
 		}),
-		[toPath(RoutePath.Info)]: wrap({ component: Info, userData: { path: RoutePath.Info } }),
-		[toPath(RoutePath.Publication)]: wrap({
-			component: Publication,
-			userData: { path: RoutePath.Publication }
+		[toPath(RoutePath.Projects)]: wrap({
+			component: Projects,
+			userData: { path: RoutePath.Projects }
 		}),
-		[toPath(RoutePath.Package)]: wrap({
-			component: Package,
-			userData: { path: RoutePath.Package }
+		[toPath(RoutePath.Articles)]: wrap({
+			component: Articles,
+			userData: { path: RoutePath.Articles }
+		}),
+		[toPath(RoutePath.Packages)]: wrap({
+			component: Packages,
+			userData: { path: RoutePath.Packages }
 		}),
 
 		[toPath()]: wrap({
 			component: BlankComponent,
-			userData: { path: RoutePath.Info },
-			conditions: () => push(toPath(RoutePath.Info)).then(() => true)
+			userData: { path: RoutePath.Articles },
+			conditions: () => push(toPath(RoutePath.Articles)).then(() => true)
 		}),
 		[toPath(RoutePath.Other)]: wrap({
 			component: BlankComponent,
-			userData: { path: RoutePath.Info },
-			conditions: () => push(toPath(RoutePath.Info)).then(() => true)
+			userData: { path: RoutePath.Articles },
+			conditions: () => push(toPath(RoutePath.Articles)).then(() => true)
 		})
 	};
 
-	let activeTab = tabs[0];
+	let activeTab = getTabById();
 	let tab;
 	const profile: MetaInfo = getProfile();
 
 	const routeLoaded = event => {
-		const id = event.detail.userData.path;
-		const routeTab = tabs.find(tab => tab.id === id);
-		if (routeTab) {
-			activeTab = routeTab;
-		}
+		const tabId = event.detail.userData.path;
+		activeTab = getTabById(tabId);
 	};
 
-	const selectTab = () =>
+	const selectTab = (): number =>
 		setTimeout(() => {
-			const id = activeTab.id;
-			push(toPath(id));
+			const tabId = activeTab.id;
+			push(toPath(tabId));
 		});
 </script>
 
@@ -84,7 +84,7 @@
 		<div class="with-space">
 			<BasicInfo profile="{profile}" />
 		</div>
-		<div class="padded-block">
+		<div>
 			<TabBar tabs="{tabs}" bind:active="{activeTab}" let:tab>
 				<Tab tab="{tab}" minWidth on:click="{selectTab}">
 					<Label>{tab.label}</Label>
@@ -92,7 +92,7 @@
 			</TabBar>
 		</div>
 	</div>
-	<div class="padded-block">
+	<div>
 		<Router routes="{routes}" on:routeLoaded="{routeLoaded}" />
 	</div>
 </div>

@@ -10,9 +10,18 @@ export class TabModel {
 }
 
 export const tabs: TabModel[] = [
-	new TabModel(RoutePath.Chronic),
-	new TabModel(RoutePath.Contact),
-	new TabModel(RoutePath.Info),
-	new TabModel(RoutePath.Publication),
-	new TabModel(RoutePath.Package)
+	new TabModel(RoutePath.News),
+	new TabModel(RoutePath.Contacts),
+	new TabModel(RoutePath.Projects),
+	new TabModel(RoutePath.Articles),
+	new TabModel(RoutePath.Packages)
 ];
+
+export const getTabById = (id: RoutePath = RoutePath.News): TabModel => {
+	const tab = tabs.find(t => t.id === id);
+	if (!tab) {
+		throw new Error(`Unknown tab id ${id}`);
+	}
+
+	return tab;
+};
