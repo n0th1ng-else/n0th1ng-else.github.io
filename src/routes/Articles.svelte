@@ -35,7 +35,7 @@
 </script>
 
 <svelte:head>
-	<title>{getPageTitle(RoutePath.Publication)}</title>
+	<title>{getPageTitle(RoutePath.Articles)}</title>
 </svelte:head>
 
 <div>

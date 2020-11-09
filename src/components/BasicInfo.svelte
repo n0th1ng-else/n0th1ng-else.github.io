@@ -18,6 +18,7 @@
 	import Tags from './Tags.svelte';
 	import { labels } from '../labels';
 	import type { MetaInfo } from '../../common';
+	import { tags } from '../data/tags';
 
 	export let profile: MetaInfo = {
 		author: null,
@@ -38,15 +39,13 @@
 </script>
 
 <div class="flex-container">
-	<div class="padded-block">
-		<img src="{getImage(profile)}" alt="Sergey's face" class="user-logo" />
-	</div>
-	<div class="padded-block">
+	<div><img src="{getImage(profile)}" alt="Sergey's face" class="user-logo" /></div>
+	<div>
 		<div><span class="mdc-typography--headline4">{labels.name}</span></div>
 		<div>
 			<span class="mdc-typography--subtitle1">
-				I am working at
-				<a class="link" href="https://setronica.com" target="_blank"> Setronica.com </a>
+				I am currently working at
+				<a class="link" href="https://setronica.com" target="_blank">Setronica.com</a>
 			</span>
 		</div>
 		<div>
@@ -64,7 +63,7 @@
 			</div>
 		</div>
 		<div>
-			<Tags />
+			<Tags items="{tags}" />
 		</div>
 	</div>
 </div>

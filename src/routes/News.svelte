@@ -4,5 +4,5 @@
 </script>
 
 <svelte:head>
-	<title>{getPageTitle(RoutePath.Chronic)}</title>
+	<title>{getPageTitle(RoutePath.News)}</title>
 </svelte:head>

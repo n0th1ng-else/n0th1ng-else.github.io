@@ -1,9 +1,18 @@
 // Standard vars
 
+// block sizes ---
 $unit: 1rem;
 $unit-half: $unit / 2;
 $unit-quarter: $unit / 4;
+$unit-plus: $unit * 1.5;
 $unit-double: $unit * 2;
+
+// font sizes ---
+$font-size: $unit;
+$font-size-big: $unit-plus;
+
+// font weights ---
+$font-weight: 400;
 
 // Custom vars
 
