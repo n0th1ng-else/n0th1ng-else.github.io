@@ -8,6 +8,7 @@ import typescript from '@rollup/plugin-typescript';
 import postcss from 'rollup-plugin-postcss';
 import inject from '@rollup/plugin-inject';
 import json from '@rollup/plugin-json';
+import image from '@rollup/plugin-image';
 import { resolve as resolvePath } from 'path';
 
 const production = !process.env.ROLLUP_WATCH;
@@ -43,6 +44,7 @@ export default {
 	},
 	plugins: [
 		json(),
+		image(),
 		inject({
 			runtime: resolvePath('./runtime.js')
 		}),
