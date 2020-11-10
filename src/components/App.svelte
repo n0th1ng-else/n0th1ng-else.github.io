@@ -2,8 +2,12 @@
 	@import '../global';
 
 	.app-page {
-		max-width: $max-content-width;
+		max-width: $max-content-width-full;
 		margin: $unit-double auto;
+	}
+
+	.app-block {
+		margin: 0 $unit;
 	}
 
 	.with-space {
@@ -82,11 +86,11 @@
 </script>
 
 <div class="app-page">
-	<div>
+	<div class="app-block">
 		<div class="with-space">
 			<BasicInfo profile="{profile}" />
 		</div>
-		<div>
+		<div class="with-space">
 			<TabBar tabs="{tabs}" bind:active="{activeTab}" let:tab>
 				<Tab tab="{tab}" minWidth on:click="{selectTab}">
 					<Label>{tab.label}</Label>
@@ -94,7 +98,7 @@
 			</TabBar>
 		</div>
 	</div>
-	<div>
+	<div class="app-block">
 		<Router routes="{routes}" on:routeLoaded="{routeLoaded}" />
 	</div>
 </div>

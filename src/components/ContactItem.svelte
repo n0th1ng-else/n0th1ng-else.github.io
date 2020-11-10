@@ -13,7 +13,7 @@
 		flex: 1 0 100%;
 	}
 
-	@media (min-width: $max-content-width) {
+	@media (min-width: $max-content-width-full) {
 		.contact-container {
 			flex: 0 0 ($max-content-width / 2);
 		}
