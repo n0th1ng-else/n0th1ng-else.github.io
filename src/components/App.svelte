@@ -28,6 +28,7 @@
 	import { RoutePath, toPath } from '../routes';
 	import { getProfile } from '../helpers/global';
 	import { tabs, getTabById } from '../data/tabs';
+	import { sendPageView } from '../helpers/analytics';
 
 	const routes = {
 		[toPath(RoutePath.News)]: wrap({
@@ -70,6 +71,7 @@
 	const routeLoaded = event => {
 		const tabId = event.detail.userData.path;
 		activeTab = getTabById(tabId);
+		sendPageView();
 	};
 
 	const selectTab = (): number =>
