@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>My home page</title>
+		<title>Sergey Nikitin | Home</title>
 
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<link
@@ -16,6 +16,16 @@
 		<link rel="stylesheet" href="/bundle.css" />
 		<link rel="stylesheet" href="/main.css" />
 		<script defer src="/bundle.js"></script>
+
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-C8R0LWNYTJ"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-C8R0LWNYTJ', {
+				'page_path': location.pathname+location.hash
+			});
+		</script>
 	</head>
 
 	<body>
