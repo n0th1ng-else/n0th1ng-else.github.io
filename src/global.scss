@@ -4,11 +4,13 @@
 $unit: 1rem;
 $unit-half: $unit / 2;
 $unit-quarter: $unit / 4;
+$unit-eighth: $unit / 8;
 $unit-plus: $unit * 1.5;
 $unit-double: $unit * 2;
 
 // font sizes ---
 $font-size: $unit;
+$font-size-plus: $unit + $unit-quarter;
 $font-size-big: $unit-plus;
 
 // font weights ---
@@ -17,5 +19,7 @@ $font-weight: 400;
 // Custom vars
 
 $max-content-width: $unit * 50;
+$max-content-width-full: $max-content-width + $unit-double;
 $max-article-logo-height: $unit * 7;
-$max-profile-logo-height: $unit * 13;
+$max-profile-logo-height-big: $unit * 13;
+$max-profile-logo-height-small: $unit * 4;

@@ -11,4 +11,6 @@ declare global {
 		publications: LinkInfo[];
 		packages: LinkInfo[];
 	};
+
+	const gtag: (type: string, event: string, params: Record<string, string>) => void;
 }

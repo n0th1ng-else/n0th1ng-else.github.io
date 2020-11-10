@@ -15,24 +15,23 @@
 	import { RoutePath } from '.';
 	import { getPageTitle } from '../labels';
 	import { getAccounts } from '../helpers/global';
-	import { ContactType } from '../data/contact';
 	import {
-		getEmail,
-		getTwitterLink,
-		getMediumLink,
-		getGithubLink,
-		getHabrLink,
-		getLinkedInLink
-	} from '../helpers/links';
+		getEmailContact,
+		getGitHubContact,
+		getHabrContact,
+		getLocationContact,
+		getMediumContact,
+		getTwitterContact
+	} from '../helpers/contacts';
 
 	const accounts: ProfileAccounts = getAccounts();
 
-	const email: string = getEmail();
-	const twitter: string = getTwitterLink(accounts.twitter);
-	const medium: string = getMediumLink(accounts.medium);
-	const github: string = getGithubLink(accounts.github);
-	const habr: string = getHabrLink(accounts.habr);
-	const linkedin: string = getLinkedInLink(accounts.linkedIn);
+	const email = getEmailContact();
+	const location = getLocationContact();
+	const twitter = getTwitterContact();
+	const medium = getMediumContact();
+	const github = getGitHubContact();
+	const habr = getHabrContact();
 </script>
 
 <svelte:head>
@@ -45,8 +44,18 @@
 			<h2>Basic Info</h2>
 		</div>
 		<div class="contacts-storage">
-			<ContactItem title="Novosibirsk, Russia" sub="(UTC+7)" type="{ContactType.Location}" />
-			<ContactItem title="Email" link="{email}" type="{ContactType.Email}" />
+			<ContactItem
+				title="{location.title}"
+				sub="{location.sub}"
+				type="{location.type}"
+				icon="{location.icon}"
+			/>
+			<ContactItem
+				title="{email.title}"
+				link="{email.link}"
+				type="{email.type}"
+				icon="{email.icon}"
+			/>
 		</div>
 	</div>
 
@@ -55,11 +64,10 @@
 			<h2>Networks</h2>
 		</div>
 		<div class="contacts-storage">
-			<ContactItem title="GitHub" link="{github}" />
-			<ContactItem title="Medium" link="{medium}" />
-			<ContactItem title="Twitter" link="{twitter}" />
-			<!--		<ContactItem title="LinkedIn" link="{linkedin}" />-->
-			<ContactItem title="Habrahabr" link="{habr}" />
+			<ContactItem title="{github.title}" link="{github.link}" image="{github.image}" />
+			<ContactItem title="{medium.title}" link="{medium.link}" image="{medium.image}" />
+			<ContactItem title="{twitter.title}" link="{twitter.link}" image="{twitter.image}" />
+			<ContactItem title="{habr.title}" link="{habr.link}" image="{habr.image}" />
 		</div>
 	</div>
 </div>

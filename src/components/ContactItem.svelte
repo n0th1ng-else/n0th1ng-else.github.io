@@ -1,6 +1,17 @@
 <style lang="scss">
 	@import '../global';
 
+	.contact-icon {
+		font-size: $font-size-plus;
+		position: relative;
+		top: $unit-eighth;
+	}
+	.contact-image {
+		max-height: $unit;
+		filter: brightness(0%);
+		margin-right: $unit-quarter;
+	}
+
 	.title-size {
 		font-size: $font-size-big;
 	}
@@ -13,7 +24,7 @@
 		flex: 1 0 100%;
 	}
 
-	@media (min-width: $max-content-width) {
+	@media (min-width: $max-content-width-full) {
 		.contact-container {
 			flex: 0 0 ($max-content-width / 2);
 		}
@@ -82,6 +93,8 @@
 	<div class="contact-padded">
 		<Card>
 			<CardContent>
+				{#if icon}<span class="material-icons contact-icon">{icon}</span>{/if}
+				{#if image}<img src="{image}" class="contact-image" alt="{title}" />{/if}
 				<span class="title-size">{title}</span>
 				<sub class="sub-size mdc-typography--overline">{sub}</sub>
 			</CardContent>
