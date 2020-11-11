@@ -4,7 +4,7 @@
 	.flex-with-space {
 		flex: 1 1 auto;
 		justify-content: flex-end;
-		font-size: $unit;
+		font-size: $font-size;
 	}
 
 	.pub-image {
@@ -80,11 +80,16 @@
 		<Title>
 			<div class="flex-container">
 				<div>
-					<a href="{publication.fullUrl}" target="_blank" rel="noreferrer noopener">
-						<span class="mdc-typography--headline5">{publication.meta.title}</span>
-					</a>
+					<div>
+						<a href="{publication.fullUrl}" target="_blank" rel="noreferrer noopener">
+							<span class="mdc-typography--headline5">{publication.meta.title}</span>
+						</a>
+					</div>
+					<div class="greyed hide-desktop-only mdc-typography--caption">
+						<div>{pubDate}</div>
+					</div>
 				</div>
-				<div class="flex-container flex-with-space greyed">
+				<div class="flex-container flex-with-space greyed show-desktop-only">
 					<div>{pubDate}</div>
 				</div>
 			</div>

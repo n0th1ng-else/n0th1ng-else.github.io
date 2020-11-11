@@ -1,6 +1,5 @@
 @import '~@material/typography/mdc-typography';
 @import '~@material/theme/color-palette';
-@import '~evil-icons/assets/evil-icons.css';
 @import './global.scss';
 
 html {
@@ -22,5 +21,25 @@ html {
 
 	.greyed {
 		color: $material-color-blue-grey-300;
+	}
+
+	// Responsive things ----
+
+	.hide-desktop-only {
+		display: flex;
+	}
+
+	.show-desktop-only {
+		display: none;
+	}
+
+	@media (min-width: $max-content-width-full) {
+		.hide-desktop-only {
+			display: none;
+		}
+
+		.show-desktop-only {
+			display: flex;
+		}
 	}
 }
