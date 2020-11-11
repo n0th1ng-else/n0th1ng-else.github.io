@@ -1,20 +1,21 @@
 import { RoutePath } from '../routes';
 import { labels } from '../labels';
+import { MaterialIcon } from './icons';
 
 export class TabModel {
 	public readonly label: string;
 
-	constructor(public readonly id: RoutePath) {
+	constructor(public readonly id: RoutePath, public readonly icon?: MaterialIcon) {
 		this.label = labels.tabs[this.id];
 	}
 }
 
 export const tabs: TabModel[] = [
-	new TabModel(RoutePath.News),
-	new TabModel(RoutePath.Contacts),
-	new TabModel(RoutePath.Projects),
-	new TabModel(RoutePath.Articles),
-	new TabModel(RoutePath.Packages)
+	new TabModel(RoutePath.News, MaterialIcon.Time),
+	new TabModel(RoutePath.Contacts, MaterialIcon.EmailSign),
+	new TabModel(RoutePath.Projects, MaterialIcon.Engineering),
+	new TabModel(RoutePath.Articles, MaterialIcon.List),
+	new TabModel(RoutePath.Packages, MaterialIcon.Build)
 ];
 
 export const getTabById = (id: RoutePath = RoutePath.News): TabModel => {

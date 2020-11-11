@@ -96,7 +96,7 @@
 				{#if icon}<span class="material-icons contact-icon">{icon}</span>{/if}
 				{#if image}<img src="{image}" class="contact-image" alt="{title}" />{/if}
 				<span class="title-size">{title}</span>
-				<sub class="sub-size mdc-typography--overline">{sub}</sub>
+				<sup class="sub-size mdc-typography--overline">{sub}</sup>
 			</CardContent>
 			<CardActions>
 				<ActionButtons>
