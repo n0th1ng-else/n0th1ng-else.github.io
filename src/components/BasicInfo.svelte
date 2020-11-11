@@ -26,24 +26,6 @@
 	.aligned-with-tags {
 		margin-left: $unit-half;
 	}
-
-	.hide-desktop-only {
-		display: block;
-	}
-
-	.show-desktop-only {
-		display: none;
-	}
-
-	@media (min-width: $max-content-width-full) {
-		.hide-desktop-only {
-			display: none;
-		}
-
-		.show-desktop-only {
-			display: block;
-		}
-	}
 </style>
 
 <script lang="ts">
