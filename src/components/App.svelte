@@ -16,7 +16,7 @@
 </style>
 
 <script lang="ts">
-	import Tab, { Label } from '@smui/tab';
+	import Tab, { Icon, Label } from '@smui/tab';
 	import TabBar from '@smui/tab-bar';
 	import type { MetaInfo } from '../../common';
 	import { push } from 'svelte-spa-router';
@@ -93,6 +93,9 @@
 		<div class="with-space">
 			<TabBar tabs="{tabs}" bind:active="{activeTab}" let:tab>
 				<Tab tab="{tab}" minWidth on:click="{selectTab}">
+					{#if tab.icon}
+						<Icon class="material-icons">{tab.icon}</Icon>
+					{/if}
 					<Label>{tab.label}</Label>
 				</Tab>
 			</TabBar>

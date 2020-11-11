@@ -2,8 +2,15 @@
 	@import '../global';
 
 	.flex-right {
-		margin: 0 $unit-half;
 		justify-content: flex-end;
+	}
+
+	.padded-switch {
+		margin: $unit $unit-half;
+	}
+
+	.linked-with-field {
+		cursor: pointer;
 	}
 </style>
 
@@ -40,10 +47,10 @@
 
 <div>
 	<div class="flex-container flex-right">
-		<div>
+		<div class="padded-switch">
 			<FormField align="end">
 				<Switch bind:checked="{selected}" on:change="{updateList}" />
-				<span slot="label">Show publications in Russian</span>
+				<span slot="label" class="linked-with-field">Show publications in Russian</span>
 			</FormField>
 		</div>
 	</div>
