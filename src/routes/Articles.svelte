@@ -25,14 +25,14 @@
 	import { getArticles } from '../helpers/global';
 	import { Language } from '../data/language';
 
-	let selected = false;
+	let selected = true;
 
 	const publications: LinkInfo[] = getArticles();
 	const allPublications: LinkInfo[] = getSortedList(publications);
 	const enPubs: LinkInfo[] = getSortedList(publications.filter(pub => pub.lang === Language.En));
 
-	const getPublications = (isSelected: boolean): LinkInfo[] =>
-		isSelected ? [...allPublications] : [...enPubs];
+	const getPublications = (isEnglishSelected: boolean): LinkInfo[] =>
+		isEnglishSelected ? [...enPubs] : [...allPublications];
 
 	let pubsToRender = getPublications(selected);
 
@@ -50,7 +50,7 @@
 		<div class="padded-switch">
 			<FormField align="end">
 				<Switch bind:checked="{selected}" on:change="{updateList}" />
-				<span slot="label" class="linked-with-field">Show publications in Russian</span>
+				<span slot="label" class="linked-with-field">English articles only</span>
 			</FormField>
 		</div>
 	</div>
