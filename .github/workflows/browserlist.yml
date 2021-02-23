@@ -1,0 +1,56 @@
+name: Update DB
+
+on: pull_request
+
+jobs:
+  browserlist-db:
+    runs-on: ubuntu-latest
+    env:
+      GH_BROWSERLIST_BRANCH: update-browserlist-db
+      GH_DEV_BRANCH: browserlist
+    name: Updates the browserlist db
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ env.GH_DEV_BRANCH }}
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.17.6'
+
+      - name: Restore cached node_modules
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: ▶️ Install Dependencies
+        run: npm ci
+
+      - name: 🚀 Run the update-db command
+        run: npx browserslist@latest --update-db
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        id: auto-commit
+        with:
+          commit_message: 'perf(browserlist): Deliver the Browserslist DB update'
+          branch: update-browserlist-db
+          push_options: '--force'
+          file_pattern: package-lock.json
+
+      - name: 🏗 Create Pull-Request into dist branch
+        if: steps.auto-commit.outputs.changes_detected == 'true'
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch: ${{ env.GH_BROWSERLIST_BRANCH }}
+          destination_branch: ${{ env.GH_DEV_BRANCH }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Log a message if nothing to commit
+        if: steps.auto-commit.outputs.changes_detected == 'true'
+        run: echo 'There is a browserlist update'
+
+      - name: Log a message if nothing to commit
+        if: steps.auto-commit.outputs.changes_detected == 'false'
+        run: echo 'Everything is up to date'
