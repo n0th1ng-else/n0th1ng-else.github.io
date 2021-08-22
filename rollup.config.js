@@ -17,12 +17,19 @@ function serve() {
 	let server;
 
 	function toExit() {
-		if (server) server.kill(0);
+		if (!server) {
+			return;
+		}
+
+		server.kill(0);
 	}
 
 	return {
 		writeBundle() {
-			if (server) return;
+			if (server) {
+				return;
+			}
+
 			server = require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
 				stdio: ['ignore', 'inherit', 'inherit'],
 				shell: true
@@ -49,22 +56,12 @@ export default {
 			runtime: resolvePath('./runtime.js')
 		}),
 		svelte({
-			// enable run-time checks when not in production
-			dev: !production,
-			// we'll extract any component CSS out into
-			// a separate file - better for performance
-			css: css => {
-				css.write('main.css');
+			compilerOptions: {
+				dev: !production
 			},
 			emitCss: true,
 			preprocess: sveltePreprocess()
 		}),
-
-		// If you have external dependencies installed from
-		// npm, you'll most likely need these plugins. In
-		// some cases you'll need additional configuration -
-		// consult the documentation for details:
-		// https://github.com/rollup/plugins/tree/master/packages/commonjs
 		resolve({
 			browser: true,
 			dedupe: ['svelte']
