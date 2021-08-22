@@ -1,4 +1,5 @@
 <style lang="scss">
+	@use 'sass:math';
 	@import '../global';
 
 	.contact-icon {
@@ -26,7 +27,7 @@
 
 	@media (min-width: $max-content-width-full) {
 		.contact-container {
-			flex: 0 0 ($max-content-width / 2);
+			flex: 0 0 math.div($max-content-width, 2);
 		}
 	}
 </style>
@@ -44,12 +45,15 @@
 	import { ContactType } from '../data/contact';
 	import { copyToClipboard } from '../helpers/clipboard';
 	import { getEmailLink, getGMapsLink } from '../helpers/links';
+	import { Logger } from '../helpers/log';
 
-	export let title: string = '';
-	export let sub: string = '';
-	export let icon: string = '';
-	export let image: string = '';
-	export let link: string = '';
+	const log = new Logger('ContactItem');
+
+	export let title = '';
+	export let sub = '';
+	export let icon = '';
+	export let image = '';
+	export let link = '';
 	export let type: ContactType = ContactType.Url;
 
 	let dialog;
@@ -77,7 +81,7 @@
 				dialog.open();
 			})
 			.catch(err => {
-				console.error(err);
+				log.error('Unable to copy to clipboard', err);
 				copyError = err;
 				dialog.open();
 			});

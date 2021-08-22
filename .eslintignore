@@ -3,6 +3,7 @@ node_modules
 
 # don't lint build output
 dist
+public
 
 #don't lint meta
 meta

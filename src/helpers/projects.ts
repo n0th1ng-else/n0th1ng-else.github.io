@@ -2,7 +2,7 @@ import nssLogo from '../assets/images/nss-logo.png';
 import setronicaLogo from '../assets/images/setronica-logo.png';
 
 export class ProjectModel {
-	constructor(public readonly title, public readonly logo: string) {}
+	constructor(public readonly title: string, public readonly logo: string) {}
 }
 
 export const getNSSProject = (): ProjectModel => {

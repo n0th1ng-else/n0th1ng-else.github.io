@@ -59,7 +59,7 @@
 	};
 
 	let pubDate: string | undefined;
-	let updater: number = 0;
+	let updater = 0;
 
 	const setDate = (): void => {
 		pubDate = getRelativeDate(publication.meta.date);
