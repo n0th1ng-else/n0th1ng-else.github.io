@@ -18,21 +18,24 @@ const npm = process.env.GH_AUTHOR_NPM || '';
 
 const twitter = process.env.GH_AUTHOR_TWITTER || '';
 
-const env = {
-	distInRoot,
+const devto = process.env.GH_AUTHOR_DEVTO || '';
+
+const procEnv = {
 	accounts: {
-		habr,
+		devto,
 		github,
+		habr,
 		linkedIn,
 		medium,
 		npm,
 		telergam,
 		twitter
 	},
+	distInRoot,
 	mode
 };
 
 module.exports = {
-	procEnv: env,
+	procEnv,
 	resources
 };

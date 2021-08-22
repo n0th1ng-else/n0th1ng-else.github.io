@@ -110,3 +110,6 @@ meta/
 public/*
 !public/index.html
 !public/favicon.png
+
+.wakatime-project
+.DS_Store

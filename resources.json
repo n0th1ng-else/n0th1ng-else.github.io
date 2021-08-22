@@ -15,6 +15,10 @@
 		"npm": {
 			"host": "www.npmjs.com",
 			"pattern": "%h/package/%p"
+		},
+		"devto": {
+			"host": "dev.to",
+			"pattern": "%h/%u/%p"
 		}
 	},
 	"publications": [
@@ -41,6 +45,16 @@
 		{
 			"service": "medium",
 			"url": "learn-to-develop-the-code-my-way-56e35cc1276e",
+			"lang": "en"
+		},
+		{
+			"service": "habr",
+			"url": "542184",
+			"lang": "ru"
+		},
+		{
+			"service": "devto",
+			"url": "adapting-one-old-ui-components-library-to-work-in-typescript-code-286o",
 			"lang": "en"
 		}
 	],

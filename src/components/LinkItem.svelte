@@ -1,34 +1,42 @@
 <style lang="scss">
 	@import '../global';
 
-	.flex-with-space {
-		flex: 1 1 auto;
-		justify-content: flex-end;
-		font-size: $font-size;
+	.header__container {
+		justify-content: space-between;
+
+		.header__issue-date {
+			flex: 1 0 auto;
+			font-size: $font-size;
+		}
+
+		.header__title {
+			flex: 1 1 100%;
+		}
 	}
 
-	.pub-image {
-		width: $max-article-logo-height;
-	}
-
-	.publication-card {
+	.article__content {
 		margin: $unit-half $unit-half $unit-double $unit-half;
-	}
 
-	.with-space {
-		margin-left: $unit-half;
-		position: relative;
-	}
+		.article__image {
+			width: $max-article-logo-height;
+		}
 
-	.shifted-icon {
-		position: absolute;
-		font-size: $font-size;
-		margin: $unit-quarter 0 0 $unit-quarter;
+		.article__description {
+			margin-left: $unit-half;
+			position: relative;
+		}
+
+		.article__show-more {
+			position: absolute;
+			font-size: $font-size;
+			margin: $unit-quarter 0 0 $unit-quarter;
+		}
 	}
 </style>
 
 <script lang="ts">
 	import Paper, { Title, Content } from '@smui/paper';
+	import Link from './Link.svelte';
 	import type { LinkInfo } from '../../common';
 	import { onMount, onDestroy } from 'svelte';
 	import { getRelativeDate } from '../helpers/date';
@@ -58,9 +66,11 @@
 	};
 
 	const getImage = (data: LinkInfo): string | undefined => {
-		if (data.meta.image) {
-			return data.meta.image;
+		if (!data.meta.image) {
+			return;
 		}
+
+		return data.meta.image;
 	};
 
 	onMount(() => {
@@ -69,39 +79,38 @@
 	});
 
 	onDestroy(() => {
-		if (updater) {
-			window.clearInterval(updater);
+		if (!updater) {
+			return;
 		}
+		window.clearInterval(updater);
 	});
 </script>
 
-<div class="publication-card">
+<div class="article__content">
 	<Paper elevation="3">
 		<Title>
-			<div class="flex-container">
-				<div>
+			<div class="flex-container header__container">
+				<div class="header__title">
 					<div>
-						<a href="{publication.fullUrl}" target="_blank" rel="noreferrer noopener">
+						<Link href="{publication.fullUrl}">
 							<span class="mdc-typography--headline5">{publication.meta.title}</span>
-						</a>
+						</Link>
 					</div>
-					<div class="greyed hide-desktop-only mdc-typography--caption">
-						<div>{pubDate}</div>
-					</div>
+					<div class="greyed hide-desktop-only mdc-typography--caption"><span>{pubDate}</span></div>
 				</div>
-				<div class="flex-container flex-with-space greyed show-desktop-only">
-					<div>{pubDate}</div>
-				</div>
+				<div class="header__issue-date greyed show-desktop-only"><span>{pubDate}</span></div>
 			</div>
 		</Title>
 		<Content>
 			<div class="flex-container">
-				<div><img class="pub-image" src="{getImage(publication)}" alt="publication logo" /></div>
-				<div class="with-space">
-					<a href="{publication.fullUrl}" target="_blank" rel="noreferrer noopener">
+				<div>
+					<img class="article__image" src="{getImage(publication)}" alt="publication logo" />
+				</div>
+				<div class="article__description">
+					<Link href="{publication.fullUrl}">
 						<span class="mdc-typography--body1">{publication.meta.description}</span>
-						<i class="material-icons shifted-icon">launch</i>
-					</a>
+						<i class="article__show-more material-icons">launch</i>
+					</Link>
 				</div>
 			</div>
 		</Content>
