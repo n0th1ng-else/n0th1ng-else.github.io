@@ -28,6 +28,7 @@ jobs:
           GH_AUTHOR_HABR: ${{ secrets.GH_AUTHOR_HABR }}
           GH_AUTHOR_NPM: ${{ secrets.GH_AUTHOR_NPM }}
           GH_AUTHOR_TWITTER: ${{ secrets.GH_AUTHOR_TWITTER }}
+          GH_AUTHOR_DEVTO: ${{ secrets.GH_AUTHOR_DEVTO }}
 
       - name: Store meta info
         uses: actions/upload-artifact@v1
@@ -67,6 +68,7 @@ jobs:
           GH_AUTHOR_HABR: ${{ secrets.GH_AUTHOR_HABR }}
           GH_AUTHOR_NPM: ${{ secrets.GH_AUTHOR_NPM }}
           GH_AUTHOR_TWITTER: ${{ secrets.GH_AUTHOR_TWITTER }}
+          GH_AUTHOR_DEVTO: ${{ secrets.GH_AUTHOR_DEVTO }}
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v1
