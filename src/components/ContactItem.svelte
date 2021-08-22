@@ -4,10 +4,10 @@
 		ActionIcons,
 		Actions as CardActions,
 		Content as CardContent
-	} from '@smui/card';
-	import IconButton from '@smui/icon-button';
-	import Dialog, { Actions as DialogActions, Content as DialogContent, Title } from '@smui/dialog';
-	import Button, { Label } from '@smui/button';
+	} from '@smui/card/styled';
+	import IconButton from '@smui/icon-button/styled';
+	import Dialog, { Actions, Content, Title } from '@smui/dialog/styled';
+	import Button, { Label } from '@smui/button/styled';
 	import { ContactType } from '../data/contact';
 	import { copyToClipboard } from '../helpers/clipboard';
 	import { getEmailLink, getGMapsLink } from '../helpers/links';
@@ -22,7 +22,7 @@
 	export let link = '';
 	export let type: ContactType = ContactType.Url;
 
-	let dialog;
+	let open = false;
 	let copyError: Error | null = null;
 
 	const openLink = (contactType: ContactType, title: string, url: string): void => {
@@ -37,25 +37,25 @@
 	};
 
 	const copyLink = (url: string): void => {
-		if (!url || !dialog) {
+		if (!url) {
 			return;
 		}
 
 		copyToClipboard(url)
 			.then(() => {
 				copyError = null;
-				dialog.open();
+				open = true;
 			})
 			.catch(err => {
 				log.error('Unable to copy to clipboard', err);
 				copyError = err;
-				dialog.open();
+				open = true;
 			});
 	};
 
 	const closeDialog = () => {
 		copyError = null;
-		dialog.close();
+		open = false;
 	};
 </script>
 
@@ -92,9 +92,9 @@
 			</CardActions>
 		</Card>
 
-		<Dialog bind:this="{dialog}" aria-labelledby="dialog-title" aria-describedby="dialog-content">
+		<Dialog bind:open aria-labelledby="dialog-title" aria-describedby="dialog-content">
 			<Title id="dialog-title">Copied to the clipboard</Title>
-			<DialogContent id="dialog-content">
+			<Content id="dialog-content">
 				{#if copyError}
 					Ugh! Unable to copy the link...
 				{:else if type === ContactType.Email}
@@ -106,12 +106,12 @@
 					<b>{link || title}</b>
 					has been copied to the clipboard
 				{:else}The link <b>{link || title}</b> has been copied to the clipboard{/if}
-			</DialogContent>
-			<DialogActions>
+			</Content>
+			<Actions>
 				<Button on:click="{() => closeDialog()}">
 					<Label>OK</Label>
 				</Button>
-			</DialogActions>
+			</Actions>
 		</Dialog>
 	</div>
 </div>

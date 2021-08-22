@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Tab, { Icon, Label } from '@smui/tab';
-	import TabBar from '@smui/tab-bar';
+	import Tab, { Icon, Label } from '@smui/tab/styled';
+	import TabBar from '@smui/tab-bar/styled';
 	import type { MetaInfo } from '../../common';
 	import { push } from 'svelte-spa-router';
 	import { wrap } from 'svelte-spa-router/wrap';

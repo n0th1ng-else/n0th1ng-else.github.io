@@ -1,5 +1,5 @@
-@import '~@material/typography/mdc-typography';
-@import '~@material/theme/color-palette';
+@use '@material/typography/mdc-typography';
+@use '@material/theme/color-palette';
 @import './global.scss';
 
 html {
@@ -7,10 +7,10 @@ html {
 		margin: 0;
 	}
 
-	color: $material-color-grey-900;
+	color: color-palette.$grey-900;
 
 	a {
-		color: $material-color-grey-900;
+		color: color-palette.$grey-900;
 		cursor: pointer;
 		text-decoration: none;
 	}
@@ -20,7 +20,7 @@ html {
 	}
 
 	.greyed {
-		color: $material-color-blue-grey-300;
+		color: color-palette.$blue-grey-300;
 	}
 
 	// Responsive things ----
