@@ -38,8 +38,8 @@ export const getEmailContact = (): ContactModel => {
 };
 
 export const getLocationContact = (): ContactModel => {
-	const contact = new ContactModel('Novosibirsk, Russia', ContactType.Location);
-	contact.sub = '(UTC+7)';
+	const contact = new ContactModel('Amsterdam, NL', ContactType.Location);
+	contact.sub = '(CEST)';
 	contact.icon = MaterialIcon.Location;
 	return contact;
 };
