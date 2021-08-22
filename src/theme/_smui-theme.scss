@@ -1,22 +1,18 @@
 // Nothing here. Just use the default theme.
+@use '@material/theme/color-palette';
 
-.app-page {
-	@import '~@material/theme/color-palette';
+$background: #fff;
 
-	//min-height: 100%;
-	//min-width: 100%;
-	//background-color: #000;
-	//color: #fff;
+@use '@material/theme/index' as theme with (
+  $primary: color-palette.$deep-purple-400,
+  $secondary: color-palette.$deep-orange-500,
+  $surface: color-palette.$blue-grey-50,
+  $background: $background,
+  $error: color-palette.$red-a400,
+);
 
-	$mdc-theme-primary: $material-color-deep-purple-400;
-	$mdc-theme-secondary: $material-color-deep-orange-500;
-	//$mdc-theme-background: #000;
-	$mdc-theme-surface: $material-color-blue-grey-50;
-	$mdc-theme-error: $material-color-orange-100;
-
-	@import '~@material/theme/variables';
-
-	@each $style in map-keys($mdc-theme-property-values) {
-		--mdc-theme-#{$style}: #{map-get($mdc-theme-property-values, $style)};
-	}
+html,
+body {
+	background-color: $background;
+	color: if(theme.contrast-tone($background) == 'dark', #000, #fff);
 }

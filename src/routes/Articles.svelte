@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { LinkInfo } from '../../common';
-	import Switch from '@smui/switch';
-	import FormField from '@smui/form-field';
+	import Switch from '@smui/switch/styled';
+	import FormField from '@smui/form-field/styled';
 	import LinkItem from '../components/LinkItem.svelte';
 	import { RoutePath } from '.';
 	import { getSortedList } from '../helpers/sort';

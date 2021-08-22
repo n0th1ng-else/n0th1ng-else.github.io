@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Paper, { Title, Content } from '@smui/paper';
+	import Paper, { Title, Content } from '@smui/paper/styled';
 	import Link from './Link.svelte';
 	import type { LinkInfo } from '../../common';
 	import { onMount, onDestroy } from 'svelte';

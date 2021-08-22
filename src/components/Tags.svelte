@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { TagModel } from '../data/tags';
-	import Chip, { Set, Text } from '@smui/chips';
+	import Chip, { Set, Text } from '@smui/chips/styled';
 
 	export let items: TagModel[] = [];
 
@@ -12,7 +12,7 @@
 </script>
 
 <Set chips="{items}" let:chip>
-	<Chip shouldRemoveOnTrailingIconClick="{false}" on:click="{() => onClick(chip)}">
+	<Chip chip="{chip}" shouldRemoveOnTrailingIconClick="{false}" on:click="{() => onClick(chip)}">
 		{#if chip.icon}<i class="{chip.icon}"></i>{/if}
 		<Text>{chip.title}</Text>
 	</Chip>
