@@ -1,37 +1,3 @@
-<style lang="scss">
-	@use 'sass:math';
-	@import '../global';
-
-	.contact-icon {
-		font-size: $font-size-plus;
-		position: relative;
-		top: $unit-eighth;
-	}
-	.contact-image {
-		max-height: $unit;
-		filter: brightness(0%);
-		margin-right: $unit-quarter;
-	}
-
-	.title-size {
-		font-size: $font-size-big;
-	}
-
-	.contact-padded {
-		margin: $unit-half;
-	}
-
-	.contact-container {
-		flex: 1 0 100%;
-	}
-
-	@media (min-width: $max-content-width-full) {
-		.contact-container {
-			flex: 0 0 math.div($max-content-width, 2);
-		}
-	}
-</style>
-
 <script lang="ts">
 	import Card, {
 		ActionButtons,
@@ -149,3 +115,37 @@
 		</Dialog>
 	</div>
 </div>
+
+<style lang="scss">
+	@use 'sass:math';
+	@import '../global';
+
+	.contact-icon {
+		font-size: $font-size-plus;
+		position: relative;
+		top: $unit-eighth;
+	}
+	.contact-image {
+		max-height: $unit;
+		filter: brightness(0%);
+		margin-right: $unit-quarter;
+	}
+
+	.title-size {
+		font-size: $font-size-big;
+	}
+
+	.contact-padded {
+		margin: $unit-half;
+	}
+
+	.contact-container {
+		flex: 1 0 100%;
+	}
+
+	@media (min-width: $max-content-width-full) {
+		.contact-container {
+			flex: 0 0 math.div($max-content-width, 2);
+		}
+	}
+</style>

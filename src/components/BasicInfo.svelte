@@ -1,29 +1,3 @@
-<style lang="scss">
-	@import '../global';
-
-	.author-avatar {
-		object-fit: cover;
-		border-radius: 50%;
-
-		&--big {
-			height: $max-profile-logo-height-big;
-		}
-
-		&--small {
-			height: $max-profile-logo-height-small;
-			margin-right: $unit;
-		}
-	}
-
-	.with-padding {
-		margin: $unit-quarter;
-	}
-
-	.aligned-with-tags {
-		margin-left: $unit-half;
-	}
-</style>
-
 <script lang="ts">
 	import Tags from './Tags.svelte';
 	import Link from './Link.svelte';
@@ -93,3 +67,29 @@
 		</div>
 	</div>
 </div>
+
+<style lang="scss">
+	@import '../global';
+
+	.author-avatar {
+		object-fit: cover;
+		border-radius: 50%;
+
+		&--big {
+			height: $max-profile-logo-height-big;
+		}
+
+		&--small {
+			height: $max-profile-logo-height-small;
+			margin-right: $unit;
+		}
+	}
+
+	.with-padding {
+		margin: $unit-quarter;
+	}
+
+	.aligned-with-tags {
+		margin-left: $unit-half;
+	}
+</style>

@@ -1,39 +1,3 @@
-<style lang="scss">
-	@import '../global';
-
-	.header__container {
-		justify-content: space-between;
-
-		.header__issue-date {
-			flex: 1 0 auto;
-			font-size: $font-size;
-		}
-
-		.header__title {
-			flex: 1 1 100%;
-		}
-	}
-
-	.article__content {
-		margin: $unit-half $unit-half $unit-double $unit-half;
-
-		.article__image {
-			width: $max-article-logo-height;
-		}
-
-		.article__description {
-			margin-left: $unit-half;
-			position: relative;
-		}
-
-		.article__show-more {
-			position: absolute;
-			font-size: $font-size;
-			margin: $unit-quarter 0 0 $unit-quarter;
-		}
-	}
-</style>
-
 <script lang="ts">
 	import Paper, { Title, Content } from '@smui/paper';
 	import Link from './Link.svelte';
@@ -116,3 +80,39 @@
 		</Content>
 	</Paper>
 </div>
+
+<style lang="scss">
+	@import '../global';
+
+	.header__container {
+		justify-content: space-between;
+
+		.header__issue-date {
+			flex: 1 0 auto;
+			font-size: $font-size;
+		}
+
+		.header__title {
+			flex: 1 1 100%;
+		}
+	}
+
+	.article__content {
+		margin: $unit-half $unit-half $unit-double $unit-half;
+
+		.article__image {
+			width: $max-article-logo-height;
+		}
+
+		.article__description {
+			margin-left: $unit-half;
+			position: relative;
+		}
+
+		.article__show-more {
+			position: absolute;
+			font-size: $font-size;
+			margin: $unit-quarter 0 0 $unit-quarter;
+		}
+	}
+</style>

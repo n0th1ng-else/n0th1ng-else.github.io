@@ -1,19 +1,3 @@
-<style lang="scss">
-	@import '../global';
-
-	.flex-right {
-		justify-content: flex-end;
-	}
-
-	.padded-switch {
-		margin: $unit $unit-half;
-	}
-
-	.linked-with-field {
-		cursor: pointer;
-	}
-</style>
-
 <script lang="ts">
 	import type { LinkInfo } from '../../common';
 	import Switch from '@smui/switch';
@@ -60,3 +44,19 @@
 		{/each}
 	</div>
 </div>
+
+<style lang="scss">
+	@import '../global';
+
+	.flex-right {
+		justify-content: flex-end;
+	}
+
+	.padded-switch {
+		margin: $unit $unit-half;
+	}
+
+	.linked-with-field {
+		cursor: pointer;
+	}
+</style>

@@ -17,12 +17,7 @@ const getCfg = () => {
 		globals: {
 			runtime: true
 		},
-		extends: [
-			'eslint:recommended',
-			'plugin:@typescript-eslint/eslint-recommended',
-			'plugin:@typescript-eslint/recommended',
-			'prettier/@typescript-eslint'
-		],
+		extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
 		rules: {
 			'no-mixed-spaces-and-tabs': 'off',
 			'@typescript-eslint/no-var-requires': 'off',
