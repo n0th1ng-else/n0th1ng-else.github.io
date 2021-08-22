@@ -5,7 +5,7 @@
 </style>
 
 <script lang="ts">
-	export let decorate: boolean = false;
+	export let decorate = false;
 	export let href: string;
 </script>
 

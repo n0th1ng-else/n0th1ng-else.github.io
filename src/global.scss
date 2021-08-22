@@ -1,10 +1,12 @@
+@use 'sass:math';
+
 // Standard vars
 
 // block sizes ---
 $unit: 1rem;
-$unit-half: $unit / 2;
-$unit-quarter: $unit / 4;
-$unit-eighth: $unit / 8;
+$unit-half: math.div($unit, 2);
+$unit-quarter: math.div($unit, 4);
+$unit-eighth: math.div($unit, 8);
 $unit-plus: $unit * 1.5;
 $unit-double: $unit * 2;
 
