@@ -25,4 +25,5 @@ export interface ProfileAccounts {
 	npm: string;
 	telergam: string;
 	twitter: string;
+	devto: string;
 }

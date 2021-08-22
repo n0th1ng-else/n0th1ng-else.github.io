@@ -1,22 +1,18 @@
 <style lang="scss">
 	@import '../global';
 
-	.user-logo {
+	.author-avatar {
 		object-fit: cover;
 		border-radius: 50%;
 
-		&.user-logo-big {
+		&--big {
 			height: $max-profile-logo-height-big;
 		}
 
-		&.user-logo-small {
+		&--small {
 			height: $max-profile-logo-height-small;
 			margin-right: $unit;
 		}
-	}
-
-	.link {
-		text-decoration-line: underline;
 	}
 
 	.with-padding {
@@ -30,8 +26,9 @@
 
 <script lang="ts">
 	import Tags from './Tags.svelte';
-	import { labels } from '../labels';
+	import Link from './Link.svelte';
 	import type { MetaInfo } from '../../common';
+	import { labels } from '../labels';
 	import { tags } from '../data/tags';
 
 	export let profile: MetaInfo = {
@@ -46,27 +43,33 @@
 	};
 
 	const getImage = (data: MetaInfo): string | undefined => {
-		if (data.image) {
-			return data.image;
+		if (!data.image) {
+			return;
 		}
+
+		return data.image;
 	};
 </script>
 
 <div class="flex-container">
 	<div class="with-padding show-desktop-only">
-		<img src="{getImage(profile)}" alt="Sergey's face" class="user-logo user-logo-big" />
+		<img src="{getImage(profile)}" alt="Sergey's face" class="author-avatar author-avatar--big" />
 	</div>
 	<div class="with-padding">
 		<div class="flex-container aligned-with-tags">
 			<div class="with-padding hide-desktop-only">
-				<img src="{getImage(profile)}" alt="Sergey's face" class="user-logo user-logo-small" />
+				<img
+					src="{getImage(profile)}"
+					alt="Sergey's face"
+					class="author-avatar author-avatar--small"
+				/>
 			</div>
 			<div>
 				<div><span class="mdc-typography--headline4">{labels.name}</span></div>
 				<div>
 					<span class="mdc-typography--subtitle1">
 						I am currently working at
-						<a class="link" href="https://setronica.com" target="_blank">Setronica.com</a>
+						<Link href="https://catawiki.com" decorate>Catawiki.com</Link>
 					</span>
 				</div>
 			</div>

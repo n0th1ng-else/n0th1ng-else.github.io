@@ -1,11 +1,21 @@
 import { ContactType } from '../data/contact';
 import { getAccounts } from './global';
-import { getEmail, getGithubLink, getHabrLink, getMediumLink, getTwitterLink } from './links';
+import {
+	getEmail,
+	getGithubLink,
+	getHabrLink,
+	getMediumLink,
+	getTwitterLink,
+	getDevtoLink,
+	getLinkedInLink
+} from './links';
 import { MaterialIcon } from '../data/icons';
 import twitterLogo from '../assets/images/twitter-logo.svg';
 import githubLogo from '../assets/images/github-logo.png';
 import mediumLogo from '../assets/images/medium-logo.png';
 import habrLogo from '../assets/images/habr-logo.svg';
+import devtoLogo from '../assets/images/devto-logo.svg';
+import linkedinLogo from '../assets/images/linkedin-logo.png';
 
 export class ContactModel {
 	public sub = '';
@@ -63,5 +73,21 @@ export const getHabrContact = (): ContactModel => {
 	const contact = new ContactModel('Habr');
 	contact.link = getHabrLink(accounts.habr);
 	contact.image = habrLogo;
+	return contact;
+};
+
+export const getDevtoContact = (): ContactModel => {
+	const accounts = getAccounts();
+	const contact = new ContactModel('Dev.to');
+	contact.link = getDevtoLink(accounts.devto);
+	contact.image = devtoLogo;
+	return contact;
+};
+
+export const getLinkedInContact = (): ContactModel => {
+	const accounts = getAccounts();
+	const contact = new ContactModel('LinkedIn');
+	contact.link = getLinkedInLink(accounts.linkedIn);
+	contact.image = linkedinLogo;
 	return contact;
 };
