@@ -7,7 +7,7 @@
 	"bracketSpacing": true,
 	"arrowParens": "avoid",
 	"endOfLine": "lf",
-	"svelteSortOrder": "styles-scripts-markup",
+	"svelteSortOrder": "options-scripts-markup-styles",
 	"svelteStrictMode": true,
 	"svelteBracketNewLine": true,
 	"svelteAllowShorthand": false

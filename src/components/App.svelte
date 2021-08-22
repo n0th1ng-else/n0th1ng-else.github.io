@@ -1,20 +1,3 @@
-<style lang="scss">
-	@import '../global';
-
-	.app-page {
-		max-width: $max-content-width-full;
-		margin: $unit-double auto;
-	}
-
-	.app-block {
-		margin: 0 $unit;
-	}
-
-	.with-space {
-		margin-bottom: $unit-half;
-	}
-</style>
-
 <script lang="ts">
 	import Tab, { Icon, Label } from '@smui/tab';
 	import TabBar from '@smui/tab-bar';
@@ -105,3 +88,20 @@
 		<Router routes="{routes}" on:routeLoaded="{routeLoaded}" />
 	</div>
 </div>
+
+<style lang="scss">
+	@import '../global';
+
+	.app-page {
+		max-width: $max-content-width-full;
+		margin: $unit-double auto;
+	}
+
+	.app-block {
+		margin: 0 $unit;
+	}
+
+	.with-space {
+		margin-bottom: $unit-half;
+	}
+</style>

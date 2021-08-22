@@ -1,14 +1,3 @@
-<style lang="scss">
-	@import '../global';
-
-	.contacts-container {
-		max-width: $max-content-width;
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-	}
-</style>
-
 <script lang="ts">
 	import ContactItem from '../components/ContactItem.svelte';
 	import { RoutePath } from '.';
@@ -73,3 +62,14 @@
 		</div>
 	</div>
 </div>
+
+<style lang="scss">
+	@import '../global';
+
+	.contacts-container {
+		max-width: $max-content-width;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
+</style>
