@@ -3,8 +3,8 @@
 	import { getPageTitle } from '../labels';
 </script>
 
-<div>Projects</div>
+<div>Blog</div>
 
 <svelte:head>
-	<title>{getPageTitle(RoutePath.Projects)}</title>
+	<title>{getPageTitle(RoutePath.Blog)}</title>
 </svelte:head>

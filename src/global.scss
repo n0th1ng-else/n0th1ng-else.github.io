@@ -9,6 +9,7 @@ $unit-quarter: math.div($unit, 4);
 $unit-eighth: math.div($unit, 8);
 $unit-plus: $unit * 1.5;
 $unit-double: $unit * 2;
+$unit-triple: $unit * 3;
 
 // font sizes ---
 $font-size: $unit;
@@ -17,6 +18,8 @@ $font-size-big: $unit-plus;
 
 // font weights ---
 $font-weight: 400;
+$font-weight-semi: 600;
+$font-weight-bold: 700;
 
 // Custom vars
 

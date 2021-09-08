@@ -1,45 +1,14 @@
-@use '@material/typography/mdc-typography';
-@use '@material/theme/color-palette';
 @import './global.scss';
 
 html {
 	body {
+		font-family: 'Source Sans Pro', sans-serif;
 		margin: 0;
-	}
 
-	color: color-palette.$grey-900;
-
-	a {
-		color: color-palette.$grey-900;
-		cursor: pointer;
-		text-decoration: none;
-	}
-
-	.flex-container {
-		display: flex;
-	}
-
-	.greyed {
-		color: color-palette.$blue-grey-300;
-	}
-
-	// Responsive things ----
-
-	.hide-desktop-only {
-		display: flex;
-	}
-
-	.show-desktop-only {
-		display: none;
-	}
-
-	@media (min-width: $max-content-width-full) {
-		.hide-desktop-only {
-			display: none;
-		}
-
-		.show-desktop-only {
-			display: flex;
+		ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
 		}
 	}
 }

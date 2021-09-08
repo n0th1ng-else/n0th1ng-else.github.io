@@ -1,13 +1,12 @@
 export enum RoutePath {
-	News = 'news',
-	Contacts = 'contacts',
+	Home = '',
+	Blog = 'blog',
 	Projects = 'projects',
-	Articles = 'articles',
-	Packages = 'packages',
+	About = 'about',
 	Other = '*'
 }
 
-export function toPath(path?: RoutePath): string {
+export const toPath = (path?: RoutePath): string => {
 	if (!path) {
 		return '/';
 	}
@@ -17,4 +16,6 @@ export function toPath(path?: RoutePath): string {
 	}
 
 	return `/${path}`;
-}
+};
+
+export const toArticle = (): string => `/${RoutePath.Blog}/:id`;

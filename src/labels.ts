@@ -1,18 +1,21 @@
 import { RoutePath } from './routes';
 
+export enum PageState {
+	NotFound = 'not-found'
+}
+
 export const labels = {
 	name: 'Sergey Nikitin',
 	tabs: {
-		[RoutePath.News]: 'News',
-		[RoutePath.Contacts]: 'Contacts',
+		[RoutePath.Home]: 'Home',
+		[RoutePath.Blog]: 'Blog',
 		[RoutePath.Projects]: 'Projects',
-		[RoutePath.Articles]: 'Articles',
-		[RoutePath.Packages]: 'Packages'
+		[RoutePath.About]: 'About',
+		[PageState.NotFound]: 'Page Not Found'
 	}
 };
 
-export function getPageTitle(path: RoutePath): string {
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore
-	return `${labels.name} | ${labels.tabs[path]}`;
+export function getPageTitle(path: RoutePath | PageState): string {
+	const title = labels.tabs[path];
+	return title ? `${labels.name} | ${title}` : labels.name;
 }
