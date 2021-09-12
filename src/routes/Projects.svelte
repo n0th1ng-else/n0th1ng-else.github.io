@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { RoutePath } from '.';
-	import { getPageTitle } from '../labels';
+	import { projectsTitle as title } from '../labels';
 </script>
 
 <div>Projects</div>
 
 <svelte:head>
-	<title>{getPageTitle(RoutePath.Projects)}</title>
+	<title>{title}</title>
 </svelte:head>

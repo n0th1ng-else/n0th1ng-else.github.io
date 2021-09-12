@@ -2,8 +2,8 @@
 	import Title from '../ui/Title.svelte';
 	import SubTitle from '../ui/SubTitle.svelte';
 	import Link from '../ui/Link.svelte';
-	import { RoutePath, toArticle } from '.';
-	import { getPageTitle } from '../labels';
+	import { toArticle } from '.';
+	import { blogTitle as title } from '../labels';
 	import { getArticles } from '../helpers/selectors';
 	import { groupByYear, getRelativeDate } from '../helpers/date';
 	import { sortAsNumber } from '../helpers/sort';
@@ -25,7 +25,7 @@
 					{#each getGroup(year) as item}
 						<li>
 							<div class="article">
-								<div class="article-title">
+								<div class="article__title">
 									<Link url="{toArticle(item.id)}">
 										{item.meta.title}
 									</Link>
@@ -43,7 +43,7 @@
 </div>
 
 <svelte:head>
-	<title>{getPageTitle(RoutePath.Blog)}</title>
+	<title>{title}</title>
 </svelte:head>
 
 <style lang="scss">
@@ -53,9 +53,9 @@
 		display: flex;
 		align-items: center;
 		margin-bottom: $unit;
-	}
 
-	.article-title {
-		flex: 1;
+		&__title {
+			flex: 1;
+		}
 	}
 </style>

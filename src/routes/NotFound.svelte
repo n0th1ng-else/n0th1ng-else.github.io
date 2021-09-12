@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { getPageTitle, PageState } from '../labels';
+	import { notFoundTitle as title } from '../labels';
 </script>
 
 <div>Not found</div>
 
 <svelte:head>
-	<title>{getPageTitle(PageState.NotFound)}</title>
+	<title>{title}</title>
 </svelte:head>

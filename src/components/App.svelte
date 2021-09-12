@@ -6,6 +6,7 @@
 	import Footer from './Footer.svelte';
 	import NotFound from '../routes/NotFound.svelte';
 	import Article from '../routes/Article.svelte';
+	import NewArticle from '../routes/NewArticle.svelte';
 	import Home from '../routes/Home.svelte';
 	import Blog from '../routes/Blog.svelte';
 	import Projects from '../routes/Projects.svelte';
@@ -16,6 +17,7 @@
 		blogRoute,
 		projectsRoute,
 		aboutRoute,
+		newArticleRoute,
 		articleRoute,
 		notFoundRoute,
 		otherRoute
@@ -29,6 +31,10 @@
 		}),
 		[blogRoute]: wrap({
 			component: Blog,
+			userData: { path: RoutePath.Blog }
+		}),
+		[newArticleRoute]: wrap({
+			component: NewArticle,
 			userData: { path: RoutePath.Blog }
 		}),
 		[articleRoute]: wrap({
@@ -60,7 +66,7 @@
 	};
 </script>
 
-<Container>
+<Container full>
 	<Header />
 	<Container>
 		<div class="content-wrapper">

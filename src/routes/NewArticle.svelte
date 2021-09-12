@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { aboutTitle as title } from '../labels';
+	import { newArticleTitle as title } from '../labels';
 </script>
 
-<div>About</div>
+<div>New article</div>
 
 <svelte:head>
 	<title>{title}</title>

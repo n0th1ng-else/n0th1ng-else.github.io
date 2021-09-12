@@ -1,22 +1,24 @@
-import { RoutePath } from './routes';
-
-export enum PageState {
-	NotFound = 'not-found'
-}
-
-const labels = {
-	name: 'Sergey Nikitin',
-	brand: 'Nothing Else',
-	tabs: {
-		[RoutePath.Home]: 'Home',
-		[RoutePath.Blog]: 'Blog',
-		[RoutePath.Projects]: 'Projects',
-		[RoutePath.About]: 'About',
-		[PageState.NotFound]: 'Page Not Found'
-	}
+export const getPageTitle = (title?: string): string => {
+	const brand = 'Nothing Else';
+	return title ? `${title} | ${brand}` : brand;
 };
 
-export function getPageTitle(path: RoutePath | PageState | string): string {
-	const title = labels.tabs[path] ?? path;
-	return `${title} | ${labels.brand}`;
-}
+export const homeTitle = getPageTitle('Home');
+
+export const blogTitle = getPageTitle('Blog');
+
+export const projectsTitle = getPageTitle('Projects');
+
+export const aboutTitle = getPageTitle('About');
+
+export const newArticleTitle = getPageTitle('New Article');
+
+export const notFoundTitle = getPageTitle('Page Not Found');
+
+export const getServiceTitle = (service?: string): string => {
+	if (!service) {
+		return '';
+	}
+
+	return service === 'devto' ? 'dev.to' : service;
+};

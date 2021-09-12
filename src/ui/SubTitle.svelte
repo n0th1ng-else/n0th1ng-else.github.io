@@ -1,11 +1,11 @@
 <div>
-	<h2 class="sub"><slot /></h2>
+	<h2 class="ui-sub"><slot /></h2>
 </div>
 
 <style lang="scss">
 	@import '../global';
 
-	.sub {
+	.ui-sub {
 		font-size: $font-size-plus;
 		font-weight: $font-weight;
 		margin: 0;

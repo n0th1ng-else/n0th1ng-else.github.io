@@ -26,10 +26,12 @@
 	on:click="{onClick}"
 	title="{hint}"
 >
-	{#if icon}
-		<img src="{icon}" class="icon" alt="{hint}" />
-	{:else}
+	<span class="ui-button__text">
 		<slot />
+	</span>
+
+	{#if icon}
+		<img src="{icon}" class="ui-button__icon" alt="{hint}" />
 	{/if}
 </button>
 
@@ -38,7 +40,7 @@
 	@import '../global';
 
 	@mixin button-style($primary, $secondary) {
-		@include smooth-change(background-color, color);
+		@include smooth-change(border-color, color);
 
 		border-color: $primary;
 		color: $primary;
@@ -67,11 +69,15 @@
 		&.d {
 			@include button-style($d-primary, $d-accent);
 		}
-	}
 
-	.icon {
-		height: $unit;
-		object-fit: contain;
-		width: $unit;
+		&__text {
+			text-transform: capitalize;
+		}
+
+		&__icon {
+			height: $unit;
+			object-fit: contain;
+			width: $unit;
+		}
 	}
 </style>
