@@ -3,8 +3,6 @@
 	import { link } from 'svelte-spa-router';
 	import { onThemeChange, isDarkTheme, defaultTheme } from '../helpers/theme';
 
-	export let external = false;
-	export let inline = false;
 	export let url = 'javascript:void(0);';
 
 	let isDark = isDarkTheme(defaultTheme);
@@ -14,43 +12,18 @@
 	onDestroy(() => unsubscribeTheme());
 </script>
 
-{#if external}
-	<a
-		class="ui-link"
-		class:inline
-		class:l="{!isDark}"
-		class:d="{isDark}"
-		href="{url}"
-		target="_blank"
-		rel="noreferrer noopener"
-	>
-		<slot />
-	</a>
-{:else}
-	<a
-		class="ui-link"
-		class:inline
-		class:l="{!isDark}"
-		class:d="{isDark}"
-		href="{url}"
-		use:link="{url}"
-	>
-		<slot />
-	</a>
-{/if}
+<a class="ui-link" class:l="{!isDark}" class:d="{isDark}" href="{url}" use:link="{url}">
+	<slot />
+</a>
 
 <style lang="scss">
 	@import './theme';
 	@import '../global';
 
 	@mixin link-style($primary, $secondary) {
-		@include smooth-change-fast(color);
+		@include smooth-change(color);
 
 		color: $primary;
-
-		&:visited {
-			color: darken($primary, 10%);
-		}
 
 		&:hover {
 			color: $secondary;
@@ -66,11 +39,11 @@
 		}
 
 		&.l {
-			@include link-style($l-tertiary, $l-accent);
+			@include link-style($l-primary, $l-accent);
 		}
 
 		&.d {
-			@include link-style($d-tertiary, $d-accent);
+			@include link-style($d-primary, $d-accent);
 		}
 	}
 </style>

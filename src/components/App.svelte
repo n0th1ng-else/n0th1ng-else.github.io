@@ -10,32 +10,45 @@
 	import Blog from '../routes/Blog.svelte';
 	import Projects from '../routes/Projects.svelte';
 	import About from '../routes/About.svelte';
-	import { RoutePath, toPath, toArticle } from '../routes';
+	import {
+		RoutePath,
+		homeRoute,
+		blogRoute,
+		projectsRoute,
+		aboutRoute,
+		articleRoute,
+		notFoundRoute,
+		otherRoute
+	} from '../routes';
 	import { sendPageView } from '../helpers/analytics';
 
 	const routes = {
-		[toPath(RoutePath.Home)]: wrap({
+		[homeRoute]: wrap({
 			component: Home,
 			userData: { path: RoutePath.Home }
 		}),
-		[toPath(RoutePath.Blog)]: wrap({
+		[blogRoute]: wrap({
 			component: Blog,
 			userData: { path: RoutePath.Blog }
 		}),
-		[toArticle()]: wrap({
+		[articleRoute]: wrap({
 			component: Article,
 			userData: { path: RoutePath.Blog }
 		}),
-		[toPath(RoutePath.Projects)]: wrap({
+		[projectsRoute]: wrap({
 			component: Projects,
 			userData: { path: RoutePath.Projects }
 		}),
-		[toPath(RoutePath.About)]: wrap({
+		[aboutRoute]: wrap({
 			component: About,
 			userData: { path: RoutePath.About }
 		}),
+		[notFoundRoute]: wrap({
+			component: NotFound,
+			userData: { path: RoutePath.NotFound }
+		}),
 
-		[toPath(RoutePath.Other)]: wrap({
+		[otherRoute]: wrap({
 			component: NotFound,
 			userData: { path: RoutePath.Other }
 		})

@@ -1,21 +1,17 @@
 // DARK
 
 $d-background: #1f262f;
-
 $d-primary: #ffffff;
-
 $d-secondary: #b3b9c5;
-
+$d-tertiary: #9ccafb;
 $d-accent: #11cc9e;
 
 // LIGHT
 
 $l-background: #ffffff;
-
 $l-primary: #000000;
-
 $l-secondary: #b3b9c5;
-
+$l-tertiary: #fa7176;
 $l-accent: #0000ff;
 
 // RESPONSIVE
@@ -31,6 +27,12 @@ $xl: 1200px;
 @mixin smooth-change($prop...) {
 	transition-property: $prop;
 	transition-duration: 0.2s;
+	transition-timing-function: ease;
+}
+
+@mixin smooth-change-fast($prop...) {
+	transition-property: $prop;
+	transition-duration: 0.1s;
 	transition-timing-function: ease;
 }
 

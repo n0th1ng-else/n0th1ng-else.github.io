@@ -1,4 +1,5 @@
 const https = require('https');
+const crypto = require('crypto');
 const { saveMetaToFile } = require('./info');
 const { resources, procEnv } = require('./env');
 const Logger = require('./log');
@@ -55,6 +56,7 @@ const getFullLink = (data, service, path = '', lang = '') => {
 
 class PublicationInfo {
 	constructor(data, info) {
+		this.id = crypto.randomUUID();
 		this.service = info.service;
 		this.url = info.url;
 		this.lang = info.lang;
@@ -63,7 +65,7 @@ class PublicationInfo {
 	}
 }
 
-const getPublicationInfo = (id, publication, index, retry = 0) => {
+const getPublicationInfo = (id, publication, retry = 0) => {
 	if (retry > 10) {
 		return Promise.reject(new Error(`Unable to fetch metadata for ${publication.fullUrl}`));
 	}
@@ -71,13 +73,13 @@ const getPublicationInfo = (id, publication, index, retry = 0) => {
 	return sleepFor(retry * 1000).then(() =>
 		getLinkInfo(publication.fullUrl).then(meta => {
 			publication.meta = meta;
-			logger.writeOutput(`${id} ${index + 1}. ${publication.meta.title}`);
+			logger.writeOutput(`${id} ${publication.id}. ${publication.meta.title}`);
 
 			if (!meta.title || !meta.description) {
 				logger.writeWarning(
 					`Unable to fetch metadata for ${publication.fullUrl}. Retrying (${retry} out of 10)`
 				);
-				return getPublicationInfo(id, publication, index, retry + 1);
+				return getPublicationInfo(id, publication, retry + 1);
 			}
 
 			return publication;
@@ -91,7 +93,7 @@ const getPublicationsInfo = (publications, info = []) => {
 	}
 
 	const pub = publications.shift();
-	return getPublicationInfo('publication', pub, publications.length).then(meta =>
+	return getPublicationInfo('publication', pub).then(meta =>
 		getPublicationsInfo(publications, [...info, meta])
 	);
 };
@@ -102,7 +104,7 @@ const getPackagesInfo = (packages, info = []) => {
 	}
 
 	const pack = packages.shift();
-	return getPublicationInfo('package', pack, packages.length).then(meta =>
+	return getPublicationInfo('package', pack).then(meta =>
 		getPackagesInfo(packages, [...info, meta])
 	);
 };

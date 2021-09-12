@@ -4,8 +4,9 @@ export enum PageState {
 	NotFound = 'not-found'
 }
 
-export const labels = {
+const labels = {
 	name: 'Sergey Nikitin',
+	brand: 'Nothing Else',
 	tabs: {
 		[RoutePath.Home]: 'Home',
 		[RoutePath.Blog]: 'Blog',
@@ -15,7 +16,7 @@ export const labels = {
 	}
 };
 
-export function getPageTitle(path: RoutePath | PageState): string {
-	const title = labels.tabs[path];
-	return title ? `${labels.name} | ${title}` : labels.name;
+export function getPageTitle(path: RoutePath | PageState | string): string {
+	const title = labels.tabs[path] ?? path;
+	return `${title} | ${labels.brand}`;
 }

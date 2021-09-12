@@ -2,17 +2,10 @@
 	import { onDestroy } from 'svelte';
 	import { onThemeChange, toggleTheme, isDarkTheme, defaultTheme } from '../helpers/theme';
 	import Button from '../ui/Button.svelte';
-	import Link from '../ui/Link.svelte';
+	import HeaderLink from '../ui/HeaderLink.svelte';
 	import icoSun from '../assets/icons/sun.svg';
 	import icoMoon from '../assets/icons/moon.svg';
-	import { RoutePath, toPath } from '../routes';
-
-	const urls = {
-		[RoutePath.Home]: toPath(RoutePath.Home),
-		[RoutePath.Blog]: toPath(RoutePath.Blog),
-		[RoutePath.Projects]: toPath(RoutePath.Projects),
-		[RoutePath.About]: toPath(RoutePath.About)
-	};
+	import { homeRoute, blogRoute, projectsRoute, aboutRoute } from '../routes';
 
 	let theme = defaultTheme;
 	let icon = isDarkTheme(defaultTheme) ? icoSun : icoMoon;
@@ -31,26 +24,26 @@
 	<nav role="navigation" class="header">
 		<div class="navigation-wrapper">
 			<div class="logo-container">
-				<Link url="{urls[RoutePath.Home]}">
+				<HeaderLink url="{homeRoute}">
 					<span class="brand">Nothing Else.</span>
-				</Link>
+				</HeaderLink>
 			</div>
 			<div class="navigation">
 				<ul class="nav-container">
 					<li>
-						<Link url="{urls[RoutePath.Blog]}">
+						<HeaderLink url="{blogRoute}">
 							<span class="nav-item">Blog.</span>
-						</Link>
+						</HeaderLink>
 					</li>
 					<li>
-						<Link url="{urls[RoutePath.Projects]}">
+						<HeaderLink url="{projectsRoute}">
 							<span class="nav-item">Projects.</span>
-						</Link>
+						</HeaderLink>
 					</li>
 					<li>
-						<Link url="{urls[RoutePath.About]}">
+						<HeaderLink url="{aboutRoute}">
 							<span class="nav-item">It's me.</span>
-						</Link>
+						</HeaderLink>
 					</li>
 				</ul>
 			</div>
@@ -72,7 +65,7 @@
 		display: flex;
 		height: $unit-triple;
 		justify-content: center;
-		margin-bottom: $unit;
+		padding-bottom: $unit-triple;
 	}
 
 	.navigation-wrapper {

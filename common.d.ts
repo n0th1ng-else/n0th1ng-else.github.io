@@ -1,4 +1,5 @@
 export interface LinkInfo {
+	id: string;
 	service: string;
 	url: string;
 	lang: string;
