@@ -60,7 +60,7 @@ const getMediumContact = (): ContactModel => {
 	return contact;
 };
 
-const getGitHubContact = (): ContactModel => {
+export const getGitHubContact = (): ContactModel => {
 	const accounts = getAccounts();
 	const contact = new ContactModel('GitHub');
 	contact.link = getGithubLink(accounts.github);

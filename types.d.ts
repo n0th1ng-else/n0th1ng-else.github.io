@@ -6,6 +6,7 @@ declare global {
 			distInRoot: boolean;
 			mode: string;
 			accounts: ProfileAccounts;
+			version: string;
 		};
 		profile: MetaInfo;
 		publications: LinkInfo[];

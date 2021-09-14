@@ -3,6 +3,7 @@ export enum RoutePath {
 	Blog = 'blog',
 	Projects = 'projects',
 	About = 'about',
+	Legal = 'legal',
 	NotFound = 'not-found',
 	Other = '*'
 }
@@ -30,6 +31,8 @@ export const newArticleRoute = `${blogRoute}/new`;
 export const projectsRoute = toPath(RoutePath.Projects);
 
 export const aboutRoute = toPath(RoutePath.About);
+
+export const legalRoute = toPath(RoutePath.Legal);
 
 export const notFoundRoute = toPath(RoutePath.NotFound);
 

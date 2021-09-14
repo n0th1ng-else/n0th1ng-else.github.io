@@ -30,19 +30,35 @@
 			</div>
 			<div class="navigation">
 				<ul class="nav-container">
-					<li>
+					<li class="nav__item--big">
 						<HeaderLink url="{blogRoute}">
-							<span class="nav-item">Blog.</span>
+							<span class="nav__item">Blog.</span>
 						</HeaderLink>
 					</li>
-					<li>
+					<li class="nav__item--big">
 						<HeaderLink url="{projectsRoute}">
-							<span class="nav-item">Projects.</span>
+							<span class="nav__item">Projects.</span>
 						</HeaderLink>
 					</li>
-					<li>
+					<li class="nav__item--big">
 						<HeaderLink url="{aboutRoute}">
-							<span class="nav-item">It's me.</span>
+							<span class="nav__item">It's me.</span>
+						</HeaderLink>
+					</li>
+
+					<li class="nav__item--small">
+						<HeaderLink url="{blogRoute}">
+							<span class="nav__item">Blg.</span>
+						</HeaderLink>
+					</li>
+					<li class="nav__item--small">
+						<HeaderLink url="{projectsRoute}">
+							<span class="nav__item">Prjcts.</span>
+						</HeaderLink>
+					</li>
+					<li class="nav__item--small">
+						<HeaderLink url="{aboutRoute}">
+							<span class="nav__item">Me.</span>
 						</HeaderLink>
 					</li>
 				</ul>
@@ -78,6 +94,16 @@
 		display: flex;
 	}
 
+	.nav__item {
+		&--big {
+			font-size: $font-size-plus;
+			display: none;
+		}
+		&--small {
+			display: block;
+		}
+	}
+
 	.logo-container {
 		flex: 1;
 	}
@@ -91,8 +117,13 @@
 			font-size: $font-size-big;
 		}
 
-		.nav-item {
-			font-size: $font-size-plus;
+		.nav__item {
+			&--big {
+				display: block;
+			}
+			&--small {
+				display: none;
+			}
 		}
 	}
 </style>

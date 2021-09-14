@@ -11,6 +11,8 @@ export const projectsTitle = getPageTitle('Projects');
 
 export const aboutTitle = getPageTitle('About');
 
+export const legalTitle = getPageTitle('Legal Inforamtion');
+
 export const newArticleTitle = getPageTitle('New Article');
 
 export const notFoundTitle = getPageTitle('Page Not Found');

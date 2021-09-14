@@ -11,6 +11,7 @@
 	import Blog from '../routes/Blog.svelte';
 	import Projects from '../routes/Projects.svelte';
 	import About from '../routes/About.svelte';
+	import Legal from '../routes/Legal.svelte';
 	import {
 		RoutePath,
 		homeRoute,
@@ -20,7 +21,8 @@
 		newArticleRoute,
 		articleRoute,
 		notFoundRoute,
-		otherRoute
+		otherRoute,
+		legalRoute
 	} from '../routes';
 	import { sendPageView } from '../helpers/analytics';
 
@@ -49,6 +51,10 @@
 			component: About,
 			userData: { path: RoutePath.About }
 		}),
+		[legalRoute]: wrap({
+			component: Legal,
+			userData: { path: RoutePath.Legal }
+		}),
 		[notFoundRoute]: wrap({
 			component: NotFound,
 			userData: { path: RoutePath.NotFound }
@@ -69,7 +75,7 @@
 <Container full>
 	<Header />
 	<Container>
-		<div class="content-wrapper">
+		<div class="content__wrapper">
 			<div class="content">
 				<Router routes="{routes}" on:routeLoaded="{routeLoaded}" />
 			</div>
@@ -80,7 +86,7 @@
 
 <style lang="scss">
 	@import '../global';
-	.content-wrapper {
+	.content__wrapper {
 		margin: 0 auto;
 		max-width: $max-content-width;
 	}

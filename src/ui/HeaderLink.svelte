@@ -33,15 +33,9 @@
 	.ui-link {
 		margin: $unit-half;
 		text-decoration: none;
-
-		&.inline {
-			margin: 0;
-		}
-
 		&.l {
 			@include link-style($l-primary, $l-accent);
 		}
-
 		&.d {
 			@include link-style($d-primary, $d-accent);
 		}

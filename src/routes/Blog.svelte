@@ -30,7 +30,7 @@
 										{item.meta.title}
 									</Link>
 								</div>
-								<div>
+								<div class="article__date">
 									{getRelativeDate(item.meta.date)}
 								</div>
 							</div>
@@ -47,6 +47,7 @@
 </svelte:head>
 
 <style lang="scss">
+	@import '../ui/theme';
 	@import '../global';
 
 	.article {
@@ -56,6 +57,14 @@
 
 		&__title {
 			flex: 1;
+		}
+
+		&__date {
+			display: none;
+
+			@media (min-width: $md) {
+				display: block;
+			}
 		}
 	}
 </style>

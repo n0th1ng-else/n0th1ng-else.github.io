@@ -7,9 +7,11 @@
 	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
 
 	onDestroy(() => unsubscribeTheme());
+
+	export let small = false;
 </script>
 
-<span class="ui-additional-text" class:l="{!isDark}" class:d="{isDark}">
+<span class="ui-additional-text" class:l="{!isDark}" class:d="{isDark}" class:small>
 	<slot />
 </span>
 
@@ -23,6 +25,9 @@
 	}
 
 	.ui-additional-text {
+		&.small {
+			font-size: $font-size-small;
+		}
 		&.l {
 			@include text-style($l-secondary);
 		}
