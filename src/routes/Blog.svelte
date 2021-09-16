@@ -26,7 +26,7 @@
 						<li>
 							<div class="article">
 								<div class="article__title">
-									<Link url="{toArticle(item.id)}">
+									<Link inline url="{toArticle(item.id)}">
 										{item.meta.title}
 									</Link>
 								</div>

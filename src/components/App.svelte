@@ -12,6 +12,7 @@
 	import Projects from '../routes/Projects.svelte';
 	import About from '../routes/About.svelte';
 	import Legal from '../routes/Legal.svelte';
+	import ScrollTop from './ScrollTop.svelte';
 	import {
 		RoutePath,
 		homeRoute,
@@ -82,6 +83,7 @@
 		</div>
 	</Container>
 	<Footer />
+	<ScrollTop />
 </Container>
 
 <style lang="scss">

@@ -1,7 +1,6 @@
 import { ContactType } from '../data/contact';
 import { getAccounts } from './selectors';
 import {
-	getEmail,
 	getGithubLink,
 	getHabrLink,
 	getMediumLink,
@@ -29,13 +28,6 @@ class ContactModel {
 
 	constructor(public readonly title: string, public readonly type = ContactType.Url) {}
 }
-
-const getEmailContact = (): ContactModel => {
-	const contact = new ContactModel('Email', ContactType.Email);
-	contact.link = getEmail();
-	contact.icon = MaterialIcon.Email;
-	return contact;
-};
 
 const getLocationContact = (): ContactModel => {
 	const contact = new ContactModel('Amsterdam, NL', ContactType.Location);

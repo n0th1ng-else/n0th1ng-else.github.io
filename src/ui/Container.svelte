@@ -17,6 +17,7 @@
 
 <style lang="scss">
 	@import './theme';
+	@import '../global';
 
 	@mixin container-style($color, $background-color) {
 		@include smooth-change(background-color, color);
@@ -26,6 +27,7 @@
 	}
 
 	.ui-container {
+		line-height: $unit-plus;
 		&.full-screen {
 			min-height: 100vh;
 		}

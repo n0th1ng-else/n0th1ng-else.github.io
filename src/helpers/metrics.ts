@@ -8,8 +8,7 @@ export const getFirstContentfulPaint = (fn: (time: string) => void): void => {
 	const fcp = entries.find(e => e.name === 'first-contentful-paint');
 	if (fcp) {
 		const oneSec = 1_000;
-		const moreThanSec = fcp.startTime >= oneSec;
-		fn(moreThanSec ? (fcp.startTime / oneSec).toFixed(2) : fcp.startTime.toFixed());
+		fn((fcp.startTime / oneSec).toFixed(3));
 		return;
 	}
 

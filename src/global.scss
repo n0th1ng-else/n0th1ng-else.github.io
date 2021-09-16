@@ -15,6 +15,7 @@ $unit-triple: $unit * 3;
 $font-size: $unit;
 $font-size-plus: $unit + $unit-quarter;
 $font-size-big: $unit-plus;
+$font-size-bigger: $unit-double;
 $font-size-small: $unit - $unit-quarter;
 
 // font weights ---
@@ -29,3 +30,7 @@ $max-content-width-full: $max-content-width + $unit-double;
 $max-article-logo-height: $unit * 7;
 $max-profile-logo-height-big: $unit * 13;
 $max-profile-logo-height-small: $unit * 4;
+
+$max-photo-size-l: $unit * 16;
+$max-photo-size-m: $unit * 12;
+$max-photo-size-s: $unit * 10;

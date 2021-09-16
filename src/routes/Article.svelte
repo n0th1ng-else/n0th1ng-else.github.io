@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onDestroy, onMount } from 'svelte';
 	import Title from '../ui/Title.svelte';
 	import AdditionalText from '../ui/AdditionalText.svelte';
 	import Button from '../ui/Button.svelte';
@@ -8,6 +9,7 @@
 	import { getPageTitle, getServiceTitle } from '../labels';
 	import { getRelativeDate } from '../helpers/date';
 	import { openUrl } from '../helpers/links';
+	import { showBack, hideBack } from '../helpers/navigation';
 
 	export let params: { id?: string } = {};
 
@@ -28,6 +30,9 @@
 
 	const onClick = () => openUrl(url);
 	const btnText = host ? `Read more on ${host}` : 'Read More';
+
+	onMount(() => showBack());
+	onDestroy(() => hideBack());
 </script>
 
 <div>

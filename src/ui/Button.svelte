@@ -13,6 +13,8 @@
 
 	export let secondary = false;
 
+	export let inline = false;
+
 	export let icon = '';
 
 	export let hint = '';
@@ -22,6 +24,7 @@
 	class:l="{!isDark}"
 	class:d="{isDark}"
 	class:secondary
+	class:inline
 	class="ui-button"
 	on:click="{onClick}"
 	title="{hint}"
@@ -55,11 +58,17 @@
 		background-color: transparent;
 		border: 1px solid;
 		cursor: pointer;
+		display: flex;
 		padding: $unit-half;
 
 		&.secondary {
 			border: 0;
 			padding: 0 $unit-half;
+		}
+		&.inline {
+			border: 0;
+			display: inline;
+			padding: 0;
 		}
 
 		&.l {

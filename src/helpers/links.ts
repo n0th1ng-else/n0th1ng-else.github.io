@@ -1,4 +1,7 @@
-export const getEmail = (): string => 'srg.post@gmail.com';
+export const getEmail = (full = false): string[] => {
+	const parts = ['srg.post', 'gmail.com'];
+	return full ? [parts.join('@')] : parts;
+};
 
 export const getTwitterLink = (account: string): string => `https://twitter.com/${account}`;
 
