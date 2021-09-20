@@ -2,7 +2,7 @@
 	import Title from '../ui/Title.svelte';
 	import SubTitle from '../ui/SubTitle.svelte';
 	import Link from '../ui/Link.svelte';
-	import ProjectItem from '../components/ProjectItem.svelte';
+	import Card from '../ui/Card.svelte';
 	import { projectsTitle as title } from '../labels';
 	import { getGitHubContact } from '../helpers/contacts';
 	import { getWorkProjects, getPetProjects } from '../helpers/projects';
@@ -21,14 +21,18 @@
 	</SubTitle>
 	<div class="projects-container">
 		{#each petProjects as item (item.name)}
-			<ProjectItem item="{item}" />
+			<div class="project-container">
+				<Card item="{item}" />
+			</div>
 		{/each}
 	</div>
 
 	<SubTitle>My career path</SubTitle>
 	<div class="projects-container">
 		{#each workProjects as item (item.name)}
-			<ProjectItem item="{item}" />
+			<div class="project-container">
+				<Card item="{item}" />
+			</div>
 		{/each}
 	</div>
 </div>
@@ -38,7 +42,16 @@
 </svelte:head>
 
 <style lang="scss">
+	@import '../global';
+
 	.projects-container {
 		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-around;
+	}
+
+	.project-container {
+		flex: 0 1 $project-width;
+		margin: $unit-half;
 	}
 </style>

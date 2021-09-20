@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import type { EmptyToVoid } from '../types';
+import { persistData, restoreData, StorageAppKey } from './storage';
 
 export enum Theme {
 	Dark = 'dark',
@@ -18,3 +19,13 @@ export const toggleTheme: ThemeFn = theme =>
 export const onThemeChange = (fn: ThemeFn): EmptyToVoid => store.subscribe(fn);
 
 export const defaultTheme = Theme.Dark;
+
+export const recoverTheme = (): void => {
+	const theme = <Theme>restoreData(StorageAppKey.Theme);
+	if (!theme) {
+		return;
+	}
+	store.set(theme);
+};
+
+export const persistTheme = (theme: Theme): void => persistData(StorageAppKey.Theme, theme);

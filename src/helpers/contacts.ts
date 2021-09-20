@@ -36,7 +36,7 @@ const getLocationContact = (): ContactModel => {
 	return contact;
 };
 
-const getTwitterContact = (): ContactModel => {
+export const getTwitterContact = (): ContactModel => {
 	const accounts = getAccounts();
 	const contact = new ContactModel('Twitter');
 	contact.link = getTwitterLink(accounts.twitter);

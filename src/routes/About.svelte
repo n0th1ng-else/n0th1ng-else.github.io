@@ -5,12 +5,16 @@
 	import List from '../ui/List.svelte';
 	import ListItem from '../ui/ListItem.svelte';
 	import EmailElement from '../components/EmailElement.svelte';
+	import Link from '../ui/Link.svelte';
 	import { aboutTitle as title } from '../labels';
 	import { getProfile } from '../helpers/selectors';
 	import { scrollToBottom } from '../helpers/scroll';
+	import { getGitHubContact, getTwitterContact } from '../helpers/contacts';
 
 	const profile = getProfile();
 	const photo = profile.image;
+	const github = getGitHubContact();
+	const twitter = getTwitterContact();
 </script>
 
 <div>
@@ -37,12 +41,16 @@
 	<p>
 		You can contact me by email at <EmailElement /> to say hi! I always appreciate meeting new people.
 		You can find all the links in the footer of each page
-		<Button inline onClick="{scrollToBottom}" hint="scroll to the bottom">⬇️</Button>. Come send me
-		a wave 👋🏿. These are also two main networks I'm in:
+		<Button inline onClick="{scrollToBottom}" hint="scroll to the bottom">⬇️</Button>. Follow me and
+		send me a wave 👋🏿. These are also two main networks I'm in:
 	</p>
 	<List>
-		<ListItem>GitHub</ListItem>
-		<ListItem>Twitter</ListItem>
+		<ListItem>
+			<Link external inline url="{github.link}">GitHub</Link>
+		</ListItem>
+		<ListItem>
+			<Link external inline url="{twitter.link}">Twitter</Link>
+		</ListItem>
 	</List>
 
 	<SubTitle>Blog</SubTitle>

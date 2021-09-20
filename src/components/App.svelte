@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Router from 'svelte-spa-router';
+	import Router, { push } from 'svelte-spa-router';
 	import { wrap } from 'svelte-spa-router/wrap';
 	import Container from '../ui/Container.svelte';
 	import Header from './Header.svelte';
@@ -21,11 +21,13 @@
 		aboutRoute,
 		newArticleRoute,
 		articleRoute,
-		notFoundRoute,
 		otherRoute,
 		legalRoute
 	} from '../routes';
 	import { sendPageView } from '../helpers/analytics';
+	import { putNewArticleHandlerIntoWindow } from '../helpers/window';
+
+	putNewArticleHandlerIntoWindow(() => push(newArticleRoute));
 
 	const routes = {
 		[homeRoute]: wrap({
@@ -56,14 +58,10 @@
 			component: Legal,
 			userData: { path: RoutePath.Legal }
 		}),
-		[notFoundRoute]: wrap({
-			component: NotFound,
-			userData: { path: RoutePath.NotFound }
-		}),
 
 		[otherRoute]: wrap({
 			component: NotFound,
-			userData: { path: RoutePath.Other }
+			userData: { path: RoutePath.NotFound }
 		})
 	};
 

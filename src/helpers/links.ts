@@ -7,7 +7,10 @@ export const getTwitterLink = (account: string): string => `https://twitter.com/
 
 export const getMediumLink = (account: string): string => `https://${account}.medium.com`;
 
-export const getGithubLink = (account: string): string => `https://github.com/${account}`;
+export const getGithubLink = (account: string, repo?: string): string => {
+	const link = `https://github.com/${account}`;
+	return repo ? `${link}/${repo}` : link;
+};
 
 export const getLinkedInLink = (account: string): string =>
 	`https://www.linkedin.com/in/${account}`;

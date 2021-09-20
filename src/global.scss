@@ -27,6 +27,7 @@ $font-weight-bold: 700;
 
 $max-content-width: $unit * 50;
 $max-content-width-full: $max-content-width + $unit-double;
+$project-width: math.div($max-content-width, 2) - $unit-double;
 $max-article-logo-height: $unit * 7;
 $max-profile-logo-height-big: $unit * 13;
 $max-profile-logo-height-small: $unit * 4;

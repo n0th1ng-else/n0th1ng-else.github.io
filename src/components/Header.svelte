@@ -1,7 +1,14 @@
 <script type="ts">
 	import { onDestroy } from 'svelte';
 	import { push } from 'svelte-spa-router';
-	import { onThemeChange, toggleTheme, isDarkTheme, defaultTheme } from '../helpers/theme';
+	import {
+		onThemeChange,
+		toggleTheme,
+		isDarkTheme,
+		defaultTheme,
+		persistTheme,
+		Theme
+	} from '../helpers/theme';
 	import { onShowBackChange } from '../helpers/navigation';
 	import Button from '../ui/Button.svelte';
 	import HeaderLink from '../ui/HeaderLink.svelte';
@@ -10,24 +17,31 @@
 	import icoMoon from '../assets/icons/moon.svg';
 	import { homeRoute, blogRoute, projectsRoute, aboutRoute } from '../routes';
 
-	let theme = defaultTheme;
-	let showBack = false;
-	let icon = isDarkTheme(defaultTheme) ? icoSun : icoMoon;
+	const toggleThemeIcon = (th: Theme): string => (isDarkTheme(th) ? icoSun : icoMoon);
 
-	const unsubscribeTheme = onThemeChange(th => (theme = th));
+	let theme = defaultTheme;
+	let icon = toggleThemeIcon(theme);
+	let showBack = false;
+
+	const unsubscribeTheme = onThemeChange(th => {
+		theme = th;
+		icon = toggleThemeIcon(theme);
+	});
+	const unsubscribePersistTheme = onThemeChange(th => persistTheme(th));
 	const unsubscribeShowBack = onShowBackChange(sh => (showBack = sh));
 
 	const switchTheme = () => {
 		toggleTheme(theme);
-		icon = isDarkTheme(theme) ? icoSun : icoMoon;
+		icon = toggleThemeIcon(theme);
 	};
+
+	const onBack = () => push(blogRoute);
 
 	onDestroy(() => {
 		unsubscribeTheme();
+		unsubscribePersistTheme();
 		unsubscribeShowBack();
 	});
-
-	const onBack = () => push(blogRoute);
 </script>
 
 <header class="header-wrapper">
