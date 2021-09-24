@@ -1,13 +1,14 @@
 export enum RoutePath {
-	News = 'news',
-	Contacts = 'contacts',
+	Home = '',
+	Blog = 'blog',
 	Projects = 'projects',
-	Articles = 'articles',
-	Packages = 'packages',
+	About = 'about',
+	Legal = 'legal',
+	NotFound = 'not-found',
 	Other = '*'
 }
 
-export function toPath(path?: RoutePath): string {
+const toPath = (path?: RoutePath): string => {
 	if (!path) {
 		return '/';
 	}
@@ -17,4 +18,24 @@ export function toPath(path?: RoutePath): string {
 	}
 
 	return `/${path}`;
-}
+};
+
+export const homeRoute = toPath(RoutePath.Home);
+
+export const blogRoute = toPath(RoutePath.Blog);
+
+export const articleRoute = `${blogRoute}/:slug`;
+
+export const newArticleRoute = `${blogRoute}/new`;
+
+export const projectsRoute = toPath(RoutePath.Projects);
+
+export const aboutRoute = toPath(RoutePath.About);
+
+export const legalRoute = toPath(RoutePath.Legal);
+
+export const notFoundRoute = toPath(RoutePath.NotFound);
+
+export const otherRoute = toPath(RoutePath.Other);
+
+export const toArticle = (id: string): string => `${blogRoute}/${id}`;

@@ -1,0 +1,76 @@
+// COLORS
+$cl-white: #ffffff;
+
+$cl-black: #000000;
+$cl-black-light: #1f1f1f;
+$cl-black-lighter: #272727;
+
+$cl-blue: #0000ff;
+$cl-blue-light: #3838ff;
+$cl-blue-dark: #243f4e;
+
+$cl-grey: #b3b9c5;
+$cl-grey-light: #f5f3ed;
+$cl-grey-dark: #797e88;
+
+// DARK Theme
+
+$d-background: #1f262f;
+$d-primary: $cl-white;
+$d-secondary: $cl-grey;
+$d-tertiary: #9ccafb;
+$d-accent: #11cc9e;
+
+// LIGHT Theme
+
+$l-background: $cl-white;
+$l-primary: $cl-black;
+$l-secondary: $cl-grey-dark;
+$l-tertiary: #fa7176;
+$l-accent: $cl-blue-light;
+
+// RESPONSIVE
+
+$xs: 320px;
+$sm: 480px;
+$md: 768px;
+$lg: 1024px;
+$xl: 1200px;
+
+// MIXINS
+
+@mixin smooth-change($prop...) {
+	transition-property: $prop;
+	transition-duration: 0.2s;
+	transition-timing-function: ease;
+}
+
+@mixin smooth-change-fast($prop...) {
+	transition-property: $prop;
+	transition-duration: 0.1s;
+	transition-timing-function: ease;
+}
+
+@mixin scale-image() {
+	transform: scale(1.2);
+}
+
+@mixin image-container($size) {
+	height: $size;
+	object-fit: contain;
+	width: $size;
+
+	&:hover {
+		@include scale-image();
+	}
+}
+
+@mixin draw-image-white() {
+	// https://stackoverflow.com/questions/22252472/how-to-change-the-color-of-an-svg-element
+	filter: brightness(0) saturate(100%) invert(100%);
+}
+
+@mixin draw-image-black() {
+	// https://stackoverflow.com/questions/22252472/how-to-change-the-color-of-an-svg-element
+	filter: brightness(0) saturate(100%);
+}

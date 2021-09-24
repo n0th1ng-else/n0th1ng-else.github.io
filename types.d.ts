@@ -1,11 +1,17 @@
 import type { LinkInfo, MetaInfo, ProfileAccounts } from './common';
+import type { EmptyToVoid } from './src/types';
 
 declare global {
+	interface Window {
+		newArticle: EmptyToVoid;
+	}
+
 	const runtime: {
 		env: {
 			distInRoot: boolean;
 			mode: string;
 			accounts: ProfileAccounts;
+			version: string;
 		};
 		profile: MetaInfo;
 		publications: LinkInfo[];

@@ -1,18 +1,39 @@
-import { RoutePath } from './routes';
+import { Position } from './helpers/projects';
 
-export const labels = {
-	name: 'Sergey Nikitin',
-	tabs: {
-		[RoutePath.News]: 'News',
-		[RoutePath.Contacts]: 'Contacts',
-		[RoutePath.Projects]: 'Projects',
-		[RoutePath.Articles]: 'Articles',
-		[RoutePath.Packages]: 'Packages'
-	}
+export const getPageTitle = (title: string): string => {
+	const brand = 'Nothing Else';
+	return title ? `${title} | ${brand}` : brand;
 };
 
-export function getPageTitle(path: RoutePath): string {
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore
-	return `${labels.name} | ${labels.tabs[path]}`;
-}
+export const homeTitle = getPageTitle('Home');
+
+export const blogTitle = getPageTitle('Blog');
+
+export const projectsTitle = getPageTitle('Projects');
+
+export const aboutTitle = getPageTitle('About');
+
+export const legalTitle = getPageTitle('Legal Inforamtion');
+
+export const newArticleTitle = getPageTitle('New Article');
+
+export const notFoundTitle = getPageTitle('Page Not Found');
+
+export const getServiceTitle = (service?: string): string => {
+	if (!service) {
+		return '';
+	}
+
+	return service === 'devto' ? 'dev.to' : service;
+};
+
+export const getPositionTitle = (position?: Position): string => {
+	switch (position) {
+		case Position.Frontend:
+			return 'Senior Frontend Engineer';
+		case Position.Fullstack:
+			return 'FullStack Engineer';
+		default:
+			return '';
+	}
+};

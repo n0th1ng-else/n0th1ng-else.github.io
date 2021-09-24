@@ -4,6 +4,8 @@ const distInRoot = Boolean(process.env.DIST_ROOT) || false;
 
 const mode = process.env.NODE_ENV || 'development';
 
+const version = process.env.COMMIT_HASH || '';
+
 const github = process.env.GH_AUTHOR_LOGIN || '';
 
 const linkedIn = process.env.GH_AUTHOR_LINKED_IN || '';
@@ -32,7 +34,8 @@ const procEnv = {
 		twitter
 	},
 	distInRoot,
-	mode
+	mode,
+	version
 };
 
 module.exports = {
