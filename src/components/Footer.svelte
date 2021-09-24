@@ -41,16 +41,13 @@
 				Made with <Link inline external url="https://svelte.dev">Svelte</Link> with 🧡
 			</AdditionalText>
 		</div>
-		<div>
-			<AdditionalText>{version}</AdditionalText>
-		</div>
 	</div>
 	<div class="network big-screen centered w-space">
 		<SocialNetworks />
 	</div>
 	{#if fcp}
 		<div class="centered w-space">
-			<AdditionalText small>first contentful paint took {fcp}s</AdditionalText>
+			<AdditionalText small>{version}. first contentful paint took {fcp}s.</AdditionalText>
 		</div>
 	{/if}
 </Footer>
