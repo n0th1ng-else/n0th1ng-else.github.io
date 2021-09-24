@@ -3,12 +3,12 @@
 	import Footer from '../ui/Footer.svelte';
 	import SocialNetworks from './SocialNetworks.svelte';
 	import Link from '../ui/Link.svelte';
-	import { getVersion } from '../helpers/selectors';
 	import { legalRoute } from '../routes';
 	import { getFirstContentfulPaint } from '../helpers/metrics';
 	import { getCurrentYear } from '../helpers/date';
+	import { getVersion } from '../helpers/version';
 
-	const version = `v2-${getVersion()}`;
+	const version = getVersion();
 	const year = getCurrentYear();
 
 	let fcp = '';
@@ -41,16 +41,13 @@
 				Made with <Link inline external url="https://svelte.dev">Svelte</Link> with 🧡
 			</AdditionalText>
 		</div>
-		<div>
-			<AdditionalText>{version}</AdditionalText>
-		</div>
 	</div>
 	<div class="network big-screen centered w-space">
 		<SocialNetworks />
 	</div>
 	{#if fcp}
 		<div class="centered w-space">
-			<AdditionalText small>first contentful paint took {fcp}s</AdditionalText>
+			<AdditionalText small>{version} // first contentful paint took {fcp}s.</AdditionalText>
 		</div>
 	{/if}
 </Footer>
