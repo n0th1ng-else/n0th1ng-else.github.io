@@ -27,3 +27,5 @@ export const groupByYear = (list: LinkInfo[]): Record<number, LinkInfo[]> =>
 		chunks[year] = [info];
 		return chunks;
 	}, {});
+
+export const getCurrentYear = () => getYear(new Date());
