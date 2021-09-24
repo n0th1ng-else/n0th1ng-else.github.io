@@ -28,6 +28,7 @@
 	import { putNewArticleHandlerIntoWindow } from '../helpers/window';
 
 	putNewArticleHandlerIntoWindow(() => push(newArticleRoute));
+	let pageId;
 
 	const routes = {
 		[homeRoute]: wrap({
@@ -40,11 +41,11 @@
 		}),
 		[newArticleRoute]: wrap({
 			component: NewArticle,
-			userData: { path: RoutePath.Blog }
+			userData: {}
 		}),
 		[articleRoute]: wrap({
 			component: Article,
-			userData: { path: RoutePath.Blog }
+			userData: {}
 		}),
 		[projectsRoute]: wrap({
 			component: Projects,
@@ -65,14 +66,14 @@
 		})
 	};
 
-	const routeLoaded = () => {
-		// const pageId = event.detail.userData.path;
+	const routeLoaded = evt => {
+		pageId = evt.detail.userData.path;
 		sendPageView();
 	};
 </script>
 
 <Container full>
-	<Header />
+	<Header activePath="{pageId}" />
 	<Container>
 		<div class="content__wrapper">
 			<div class="content">

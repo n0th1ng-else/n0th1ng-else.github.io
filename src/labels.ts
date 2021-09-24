@@ -1,6 +1,6 @@
 import { Position } from './helpers/projects';
 
-export const getPageTitle = (title?: string): string => {
+export const getPageTitle = (title: string): string => {
 	const brand = 'Nothing Else';
 	return title ? `${title} | ${brand}` : brand;
 };

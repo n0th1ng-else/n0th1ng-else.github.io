@@ -5,14 +5,14 @@
 	import { toArticle } from '.';
 	import { blogTitle as title } from '../labels';
 	import { getArticles } from '../helpers/selectors';
-	import { groupByYear, getRelativeDate } from '../helpers/date';
+	import { groupByYear, getRelativeDate, sortByDate } from '../helpers/date';
 	import { sortAsNumber } from '../helpers/sort';
 	import type { LinkInfo } from '../../common';
 
 	const groups = groupByYear(getArticles());
 	const years = sortAsNumber(Object.keys(groups));
 
-	const getGroup = (year: string): LinkInfo[] => groups[year];
+	const getGroup = (year: string): LinkInfo[] => sortByDate(groups[year]);
 </script>
 
 <div>
@@ -61,6 +61,7 @@
 
 		&__date {
 			display: none;
+			font-weight: $font-weight-light;
 
 			@media (min-width: $md) {
 				display: block;

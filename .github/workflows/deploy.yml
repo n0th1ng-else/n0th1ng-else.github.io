@@ -21,6 +21,7 @@ jobs:
       - name: Fetch meta info
         run: npm run meta
         env:
+          COMMIT_HASH: ${GITHUB_SHA}
           GH_AUTHOR_LOGIN: ${{ secrets.GH_AUTHOR_LOGIN }}
           GH_AUTHOR_LINKED_IN: ${{ secrets.GH_AUTHOR_LINKED_IN }}
           GH_AUTHOR_TELEGRAM: ${{ secrets.GH_AUTHOR_TELEGRAM }}
@@ -61,6 +62,7 @@ jobs:
       - name: Build project
         run: npm run build
         env:
+          COMMIT_HASH: ${GITHUB_SHA}
           GH_AUTHOR_LOGIN: ${{ secrets.GH_AUTHOR_LOGIN }}
           GH_AUTHOR_LINKED_IN: ${{ secrets.GH_AUTHOR_LINKED_IN }}
           GH_AUTHOR_TELEGRAM: ${{ secrets.GH_AUTHOR_TELEGRAM }}

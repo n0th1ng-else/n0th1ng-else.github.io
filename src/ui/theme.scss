@@ -1,18 +1,33 @@
-// DARK
+// COLORS
+$cl-white: #ffffff;
+
+$cl-black: #000000;
+$cl-black-light: #1f1f1f;
+$cl-black-lighter: #272727;
+
+$cl-blue: #0000ff;
+$cl-blue-light: #3838ff;
+$cl-blue-dark: #243f4e;
+
+$cl-grey: #b3b9c5;
+$cl-grey-light: #f5f3ed;
+$cl-grey-dark: #797e88;
+
+// DARK Theme
 
 $d-background: #1f262f;
-$d-primary: #ffffff;
-$d-secondary: #b3b9c5;
+$d-primary: $cl-white;
+$d-secondary: $cl-grey;
 $d-tertiary: #9ccafb;
 $d-accent: #11cc9e;
 
-// LIGHT
+// LIGHT Theme
 
-$l-background: #ffffff;
-$l-primary: #000000;
-$l-secondary: #b3b9c5;
+$l-background: $cl-white;
+$l-primary: $cl-black;
+$l-secondary: $cl-grey-dark;
 $l-tertiary: #fa7176;
-$l-accent: #0000ff;
+$l-accent: $cl-blue-light;
 
 // RESPONSIVE
 

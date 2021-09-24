@@ -13,6 +13,9 @@
 </script>
 
 <Footer>
+	<div class="network small-screen centered w-space">
+		<SocialNetworks />
+	</div>
 	<div class="legal centered w-space">
 		<div class="legal__part">
 			<AdditionalText>
@@ -39,7 +42,7 @@
 			<AdditionalText>{version}</AdditionalText>
 		</div>
 	</div>
-	<div class="network centered w-space">
+	<div class="network big-screen centered w-space">
 		<SocialNetworks />
 	</div>
 	{#if fcp}
@@ -51,6 +54,7 @@
 
 <style lang="scss">
 	@import '../global';
+	@import '../ui/theme';
 
 	.centered {
 		align-self: center;
@@ -69,6 +73,20 @@
 
 		&__part {
 			padding: $unit-quarter;
+		}
+	}
+
+	.network.big-screen {
+		display: none;
+	}
+
+	@media (min-width: $sm) {
+		.network.small-screen {
+			display: none;
+		}
+
+		.network.big-screen {
+			display: block;
 		}
 	}
 </style>

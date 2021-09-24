@@ -1,5 +1,5 @@
 <script type="ts">
-	import { onDestroy } from 'svelte';
+	import { onDestroy, afterUpdate } from 'svelte';
 	import { push } from 'svelte-spa-router';
 	import {
 		onThemeChange,
@@ -15,7 +15,8 @@
 	import Arrow from './Arrow.svelte';
 	import icoSun from '../assets/icons/sun.svg';
 	import icoMoon from '../assets/icons/moon.svg';
-	import { homeRoute, blogRoute, projectsRoute, aboutRoute } from '../routes';
+	import { homeRoute, blogRoute, projectsRoute, aboutRoute, RoutePath } from '../routes';
+	import Home from '../routes/Home.svelte';
 
 	const toggleThemeIcon = (th: Theme): string => (isDarkTheme(th) ? icoSun : icoMoon);
 
@@ -37,6 +38,8 @@
 
 	const onBack = () => push(blogRoute);
 
+	export let activePath = '';
+
 	onDestroy(() => {
 		unsubscribeTheme();
 		unsubscribePersistTheme();
@@ -51,40 +54,40 @@
 				<Arrow type="left" size="sm" onClick="{onBack}" />
 			</div>
 			<div class="logo-container">
-				<HeaderLink url="{homeRoute}">
+				<HeaderLink url="{homeRoute}" active="{RoutePath.Home === activePath}">
 					<span class="brand">Nothing Else.</span>
 				</HeaderLink>
 			</div>
 			<div class="navigation">
 				<ul class="nav-container">
 					<li class="nav__item--big">
-						<HeaderLink url="{blogRoute}">
+						<HeaderLink url="{blogRoute}" active="{RoutePath.Blog === activePath}">
 							<span class="nav__item">Blog.</span>
 						</HeaderLink>
 					</li>
 					<li class="nav__item--big">
-						<HeaderLink url="{projectsRoute}">
+						<HeaderLink url="{projectsRoute}" active="{RoutePath.Projects === activePath}">
 							<span class="nav__item">Projects.</span>
 						</HeaderLink>
 					</li>
 					<li class="nav__item--big">
-						<HeaderLink url="{aboutRoute}">
+						<HeaderLink url="{aboutRoute}" active="{RoutePath.About === activePath}">
 							<span class="nav__item">It's me.</span>
 						</HeaderLink>
 					</li>
 
 					<li class="nav__item--small">
-						<HeaderLink url="{blogRoute}">
+						<HeaderLink url="{blogRoute}" active="{RoutePath.Blog === activePath}">
 							<span class="nav__item">Blg.</span>
 						</HeaderLink>
 					</li>
 					<li class="nav__item--small">
-						<HeaderLink url="{projectsRoute}">
+						<HeaderLink url="{projectsRoute}" active="{RoutePath.Projects === activePath}">
 							<span class="nav__item">Prjcts.</span>
 						</HeaderLink>
 					</li>
 					<li class="nav__item--small">
-						<HeaderLink url="{aboutRoute}">
+						<HeaderLink url="{aboutRoute}" active="{RoutePath.About === activePath}">
 							<span class="nav__item">Me.</span>
 						</HeaderLink>
 					</li>
@@ -126,6 +129,7 @@
 
 	.nav-container {
 		display: flex;
+		font-weight: $font-weight-light;
 	}
 
 	.nav__item {
@@ -143,7 +147,7 @@
 	}
 
 	.brand {
-		font-weight: $font-weight-semi;
+		font-weight: $font-weight-bold;
 	}
 
 	@media (min-width: $sm) {

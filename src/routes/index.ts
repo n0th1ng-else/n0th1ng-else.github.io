@@ -24,7 +24,7 @@ export const homeRoute = toPath(RoutePath.Home);
 
 export const blogRoute = toPath(RoutePath.Blog);
 
-export const articleRoute = `${blogRoute}/:id`;
+export const articleRoute = `${blogRoute}/:slug`;
 
 export const newArticleRoute = `${blogRoute}/new`;
 

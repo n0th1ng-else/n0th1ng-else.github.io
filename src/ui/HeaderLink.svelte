@@ -4,6 +4,7 @@
 	import { onThemeChange, isDarkTheme, defaultTheme } from '../helpers/theme';
 
 	export let url = 'javascript:void(0);';
+	export let active = false;
 
 	let isDark = isDarkTheme(defaultTheme);
 
@@ -12,7 +13,14 @@
 	onDestroy(() => unsubscribeTheme());
 </script>
 
-<a class="ui-link" class:l="{!isDark}" class:d="{isDark}" href="{url}" use:link="{url}">
+<a
+	class="ui-header-link"
+	class:active
+	class:l="{!isDark}"
+	class:d="{isDark}"
+	href="{url}"
+	use:link="{url}"
+>
 	<slot />
 </a>
 
@@ -28,9 +36,13 @@
 		&:hover {
 			color: $secondary;
 		}
+
+		&.active {
+			color: $secondary;
+		}
 	}
 
-	.ui-link {
+	.ui-header-link {
 		margin: $unit-half;
 		text-decoration: none;
 		&.l {

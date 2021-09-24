@@ -21,7 +21,7 @@
 
 <div class="ui-card" class:l="{!isDark}" class:d="{isDark}">
 	{#if item.logo}
-		<div class="ui-card__logo-container ui-card__section">
+		<div class="ui-card__logo-container">
 			<img class="ui-card__logo" src="{item.logo}" alt="" />
 		</div>
 	{/if}
@@ -72,11 +72,11 @@
 	@import './theme';
 	@import '../global';
 
-	@mixin card-style($primary, $accent) {
+	@mixin card-style($border, $background) {
 		@include smooth-change(background-color, border-color);
 
-		background-color: lighten($accent, 30%);
-		border-color: $accent;
+		background-color: $background;
+		border-color: $border;
 	}
 
 	.ui-card {
@@ -86,11 +86,11 @@
 		padding: $unit $unit-half;
 
 		&.l {
-			@include card-style($l-primary, $l-accent);
+			@include card-style($cl-black-light, $cl-grey-light);
 		}
 
 		&.d {
-			@include card-style($d-primary, $d-accent);
+			@include card-style($cl-black-light, $cl-blue-dark);
 		}
 
 		&__logo-container {
