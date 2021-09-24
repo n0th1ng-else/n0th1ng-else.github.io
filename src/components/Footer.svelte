@@ -3,12 +3,12 @@
 	import Footer from '../ui/Footer.svelte';
 	import SocialNetworks from './SocialNetworks.svelte';
 	import Link from '../ui/Link.svelte';
-	import { getVersion } from '../helpers/selectors';
 	import { legalRoute } from '../routes';
 	import { getFirstContentfulPaint } from '../helpers/metrics';
 	import { getCurrentYear } from '../helpers/date';
+	import { getVersion } from '../helpers/version';
 
-	const version = `v2-${getVersion()}`;
+	const version = getVersion();
 	const year = getCurrentYear();
 
 	let fcp = '';

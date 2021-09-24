@@ -8,4 +8,4 @@ export const getArticles = (): LinkInfo[] => runtime.publications;
 
 export const getAccounts = (): ProfileAccounts => runtime.env.accounts;
 
-export const getVersion = (): string => runtime.env.version ?? 'development';
+export const getVersion = (): string => runtime.env.version ?? '';
