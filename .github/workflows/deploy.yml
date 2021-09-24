@@ -14,8 +14,9 @@ jobs:
         with:
           ref: dev
 
-      - name: Set up node using nvm
-        uses: dcodeIO/setup-node-nvm@v4
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.17.6'
 
       - name: Restore cached node_modules
         uses: actions/cache@v2
@@ -55,8 +56,9 @@ jobs:
         with:
           ref: dev
 
-      - name: Set up node using nvm
-        uses: dcodeIO/setup-node-nvm@v4
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14.17.6'
 
       - name: Restore cached node_modules
         uses: actions/cache@v2
