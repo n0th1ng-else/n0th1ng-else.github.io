@@ -27,7 +27,7 @@ export const getServiceTitle = (service?: string): string => {
 	return service === 'devto' ? 'dev.to' : service;
 };
 
-export const getPositionTitle = (position?: Position) => {
+export const getPositionTitle = (position?: Position): string => {
 	switch (position) {
 		case Position.Frontend:
 			return 'Senior Frontend Engineer';

@@ -1,5 +1,5 @@
 <script type="ts">
-	import { onDestroy, afterUpdate } from 'svelte';
+	import { onDestroy } from 'svelte';
 	import { push } from 'svelte-spa-router';
 	import {
 		onThemeChange,
@@ -16,7 +16,6 @@
 	import icoSun from '../assets/icons/sun.svg';
 	import icoMoon from '../assets/icons/moon.svg';
 	import { homeRoute, blogRoute, projectsRoute, aboutRoute, RoutePath } from '../routes';
-	import Home from '../routes/Home.svelte';
 
 	const toggleThemeIcon = (th: Theme): string => (isDarkTheme(th) ? icoSun : icoMoon);
 

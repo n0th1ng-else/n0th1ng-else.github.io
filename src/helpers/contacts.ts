@@ -8,7 +8,7 @@ import {
 	getDevtoLink,
 	getLinkedInLink
 } from './links';
-import { MaterialIcon } from '../data/icons';
+import type { MaterialIcon } from '../data/icons';
 import twitterLogo from '../assets/images/twitter-logo.svg';
 import githubLogo from '../assets/images/github-logo.png';
 import mediumLogo from '../assets/images/medium-logo.png';
@@ -28,13 +28,6 @@ class ContactModel {
 
 	constructor(public readonly title: string, public readonly type = ContactType.Url) {}
 }
-
-const getLocationContact = (): ContactModel => {
-	const contact = new ContactModel('Amsterdam, NL', ContactType.Location);
-	contact.sub = '(CEST)';
-	contact.icon = MaterialIcon.Location;
-	return contact;
-};
 
 export const getTwitterContact = (): ContactModel => {
 	const accounts = getAccounts();

@@ -8,7 +8,7 @@
 	import { openUrl } from '../helpers/links';
 
 	export let article: LinkInfo | undefined;
-	export let showDate: boolean = false;
+	export let showDate = false;
 
 	const date = getRelativeDate(article?.meta.date);
 	const text = article?.meta.description;

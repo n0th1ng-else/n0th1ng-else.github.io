@@ -24,4 +24,6 @@ export const getEmailLink = (email: string): string => `mailto:${email}`;
 export const getGMapsLink = (query: string): string =>
 	`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 
-export const openUrl = (url: string) => window.open(url, '_blank', 'noreferrer, noopener');
+export const openUrl = (url: string): void => {
+	window.open(url, '_blank', 'noreferrer, noopener');
+};
