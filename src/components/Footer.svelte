@@ -6,8 +6,11 @@
 	import { getVersion } from '../helpers/selectors';
 	import { legalRoute } from '../routes';
 	import { getFirstContentfulPaint } from '../helpers/metrics';
+	import { getCurrentYear } from '../helpers/date';
 
 	const version = `v2-${getVersion()}`;
+	const year = getCurrentYear();
+
 	let fcp = '';
 	getFirstContentfulPaint(time => (fcp = time));
 </script>
@@ -31,7 +34,7 @@
 	</div>
 	<div class="author on-right w-space">
 		<div>
-			<AdditionalText>© 2021 Sergey Nikitin</AdditionalText>
+			<AdditionalText>© {year} Sergey Nikitin</AdditionalText>
 		</div>
 		<div>
 			<AdditionalText>
