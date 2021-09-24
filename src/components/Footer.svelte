@@ -47,7 +47,7 @@
 	</div>
 	{#if fcp}
 		<div class="centered w-space">
-			<AdditionalText small>{version}. first contentful paint took {fcp}s.</AdditionalText>
+			<AdditionalText small>{version} // first contentful paint took {fcp}s.</AdditionalText>
 		</div>
 	{/if}
 </Footer>
