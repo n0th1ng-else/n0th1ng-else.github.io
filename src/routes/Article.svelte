@@ -26,7 +26,7 @@
 	onDestroy(() => hideBack());
 </script>
 
-<Meta title="{metaTitle}" type="article" twitterType="summary" image="{metaImage}" />
+<Meta title="{metaTitle}" type="article" twitterType="summary_large_image" image="{metaImage}" />
 <ArticlePreview article="{article}" showDate />
 
 <svelte:head>
