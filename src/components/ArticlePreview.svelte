@@ -59,14 +59,12 @@
 		}
 
 		&__logo-container {
-			height: $unit * 20;
 			margin: $unit auto;
 			width: 100%;
 		}
 
 		&__logo {
-			height: 100%;
-			object-fit: contain;
+			height: auto;
 			width: 100%;
 		}
 

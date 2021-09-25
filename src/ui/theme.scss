@@ -1,5 +1,6 @@
 // COLORS
 $cl-white: #ffffff;
+$cl-white-light: #fffeff;
 
 $cl-black: #000000;
 $cl-black-light: #1f1f1f;
@@ -15,7 +16,7 @@ $cl-grey-dark: #797e88;
 
 // DARK Theme
 
-$d-background: #1f262f;
+$d-background: #072638;
 $d-primary: $cl-white;
 $d-secondary: $cl-grey;
 $d-tertiary: #9ccafb;
@@ -24,10 +25,10 @@ $d-accent: #11cc9e;
 // LIGHT Theme
 
 $l-background: $cl-white;
-$l-primary: $cl-black;
+$l-primary: #36093b;
 $l-secondary: $cl-grey-dark;
 $l-tertiary: #fa7176;
-$l-accent: $cl-blue-light;
+$l-accent: #9a0fc4;
 
 // RESPONSIVE
 

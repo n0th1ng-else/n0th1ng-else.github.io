@@ -1,5 +1,6 @@
 const https = require('https');
 const crypto = require('crypto');
+const slug = require('slug');
 const { saveMetaToFile } = require('./info');
 const { resources, procEnv } = require('./env');
 const Logger = require('./log');
@@ -63,6 +64,11 @@ class PublicationInfo {
 		this.fullUrl = getFullLink(data, this.service, this.url, this.lang);
 		this.meta = null;
 	}
+
+	setMeta(meta) {
+		this.meta = meta;
+		this.id = slug(meta.title);
+	}
 }
 
 const getPublicationInfo = (id, publication, retry = 0) => {
@@ -72,10 +78,10 @@ const getPublicationInfo = (id, publication, retry = 0) => {
 
 	return sleepFor(retry * 1000).then(() =>
 		getLinkInfo(publication.fullUrl).then(meta => {
-			publication.meta = meta;
+			publication.setMeta(meta);
 			logger.writeOutput(`${id} ${publication.id}. ${publication.meta.title}`);
 
-			if (!meta.title || !meta.description) {
+			if (!publication.meta.title || !publication.meta.description) {
 				logger.writeWarning(
 					`Unable to fetch metadata for ${publication.fullUrl}. Retrying (${retry} out of 10)`
 				);
