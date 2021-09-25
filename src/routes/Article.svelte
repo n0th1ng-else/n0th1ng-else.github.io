@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 	import ArticlePreview from '../components/ArticlePreview.svelte';
+	import Meta from '../ui/Meta.svelte';
 	import { push } from 'svelte-spa-router';
 	import { notFoundRoute } from '../routes';
 	import { getArticles } from '../helpers/selectors';
@@ -18,10 +19,14 @@
 
 	const title = getPageTitle(article?.meta.title ?? '');
 
+	const metaTitle = article?.meta.title ?? '';
+	const metaImage = article?.meta.image ?? '';
+
 	onMount(() => showBack());
 	onDestroy(() => hideBack());
 </script>
 
+<Meta title="{metaTitle}" type="article" twitterType="summary" image="{metaImage}" />
 <ArticlePreview article="{article}" showDate />
 
 <svelte:head>

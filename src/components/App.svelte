@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Router, { push } from 'svelte-spa-router';
 	import { wrap } from 'svelte-spa-router/wrap';
+	import MetaColor from '../ui/MetaColor.svelte';
 	import Container from '../ui/Container.svelte';
 	import Header from './Header.svelte';
 	import Footer from './Footer.svelte';
@@ -72,6 +73,7 @@
 	};
 </script>
 
+<MetaColor />
 <Container full>
 	<Header activePath="{pageId}" />
 	<Container>
