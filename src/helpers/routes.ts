@@ -1,4 +1,4 @@
-export enum RoutePath {
+enum RoutePath {
 	Home = '',
 	Blog = 'blog',
 	Projects = 'projects',
@@ -35,7 +35,5 @@ export const aboutRoute = toPath(RoutePath.About);
 export const legalRoute = toPath(RoutePath.Legal);
 
 export const notFoundRoute = toPath(RoutePath.NotFound);
-
-export const otherRoute = toPath(RoutePath.Other);
 
 export const toArticle = (id: string): string => `${blogRoute}/${id}`;

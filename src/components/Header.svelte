@@ -1,6 +1,6 @@
 <script type="ts">
 	import { onDestroy } from 'svelte';
-	import { push } from 'svelte-spa-router';
+	import { goto } from '$app/navigation';
 	import {
 		onThemeChange,
 		toggleTheme,
@@ -16,9 +16,9 @@
 	import Arrow from './Arrow.svelte';
 	import icoSun from '../assets/icons/sun.svg';
 	import icoMoon from '../assets/icons/moon.svg';
-	import { homeRoute, blogRoute, projectsRoute, aboutRoute, RoutePath } from '../helpers/routes';
+	import { homeRoute, blogRoute, projectsRoute, aboutRoute } from '../helpers/routes';
 
-	export let syncTheme = true;
+	export let syncTheme: boolean;
 
 	const toggleThemeIcon = (th: Theme): string => (isDarkTheme(th) ? icoSun : icoMoon);
 
@@ -43,7 +43,7 @@
 		icon = toggleThemeIcon(theme);
 	};
 
-	const onBack = () => push(blogRoute);
+	const onBack = () => goto(blogRoute);
 
 	export let activePath = '';
 
@@ -61,40 +61,40 @@
 				<Arrow type="left" size="sm" onClick="{onBack}" />
 			</div>
 			<div class="logo-container">
-				<HeaderLink url="{homeRoute}" active="{RoutePath.Home === activePath}">
+				<HeaderLink url="{homeRoute}" active="{homeRoute === activePath}">
 					<span class="brand">Nothing Else.</span>
 				</HeaderLink>
 			</div>
 			<div class="navigation">
 				<List type="header">
 					<li class="nav__item--big">
-						<HeaderLink url="{blogRoute}" active="{RoutePath.Blog === activePath}">
+						<HeaderLink url="{blogRoute}" active="{blogRoute === activePath}">
 							<span class="nav__item">Blog.</span>
 						</HeaderLink>
 					</li>
 					<li class="nav__item--big">
-						<HeaderLink url="{projectsRoute}" active="{RoutePath.Projects === activePath}">
+						<HeaderLink url="{projectsRoute}" active="{projectsRoute === activePath}">
 							<span class="nav__item">Projects.</span>
 						</HeaderLink>
 					</li>
 					<li class="nav__item--big">
-						<HeaderLink url="{aboutRoute}" active="{RoutePath.About === activePath}">
+						<HeaderLink url="{aboutRoute}" active="{aboutRoute === activePath}">
 							<span class="nav__item">It's me.</span>
 						</HeaderLink>
 					</li>
 
 					<li class="nav__item--small">
-						<HeaderLink url="{blogRoute}" active="{RoutePath.Blog === activePath}">
+						<HeaderLink url="{blogRoute}" active="{blogRoute === activePath}">
 							<span class="nav__item">Blg.</span>
 						</HeaderLink>
 					</li>
 					<li class="nav__item--small">
-						<HeaderLink url="{projectsRoute}" active="{RoutePath.Projects === activePath}">
+						<HeaderLink url="{projectsRoute}" active="{projectsRoute === activePath}">
 							<span class="nav__item">Prjcts.</span>
 						</HeaderLink>
 					</li>
 					<li class="nav__item--small">
-						<HeaderLink url="{aboutRoute}" active="{RoutePath.About === activePath}">
+						<HeaderLink url="{aboutRoute}" active="{aboutRoute === activePath}">
 							<span class="nav__item">Me.</span>
 						</HeaderLink>
 					</li>

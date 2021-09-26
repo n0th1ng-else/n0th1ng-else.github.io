@@ -1,3 +1,18 @@
+<script lang="ts" context="module">
+	import type { Load } from '@sveltejs/kit';
+
+	export const load: Load = ({ page }) => {
+		const host = page.host;
+		const path = page.path;
+
+		return {
+			props: {
+				pageUrl: `${host}${path}`
+			}
+		};
+	};
+</script>
+
 <script lang="ts">
 	import Link from '../ui/Link.svelte';
 	import Meta from '../ui/Meta.svelte';
@@ -6,12 +21,15 @@
 	import { blogRoute } from '../helpers/routes';
 	import { getProfile } from '../helpers/selectors';
 
+	export let pageUrl: string;
+
 	const photo = getProfile().image ?? '';
 </script>
 
 <Meta
 	image="{photo}"
 	description="Page not found. But you can still navigate to the other meaningful sections."
+	url="{pageUrl}"
 />
 <div>
 	<div class="image-container">

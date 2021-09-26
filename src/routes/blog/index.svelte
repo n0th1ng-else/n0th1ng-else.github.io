@@ -1,3 +1,18 @@
+<script lang="ts" context="module">
+	import type { Load } from '@sveltejs/kit';
+
+	export const load: Load = ({ page }) => {
+		const host = page.host;
+		const path = page.path;
+
+		return {
+			props: {
+				pageUrl: `${host}${path}`
+			}
+		};
+	};
+</script>
+
 <script lang="ts">
 	import Title from '../../ui/Title.svelte';
 	import SubTitle from '../../ui/SubTitle.svelte';
@@ -11,6 +26,8 @@
 	import { sortAsNumber } from '../../helpers/sort';
 	import type { LinkInfo } from '../../../common';
 
+	export let pageUrl: string;
+
 	const photo = getProfile().image ?? '';
 
 	const groups = groupByYear(getArticles());
@@ -22,6 +39,7 @@
 <Meta
 	image="{photo}"
 	description="List of my publications through the years. Most of them are written in English."
+	url="{pageUrl}"
 />
 <div>
 	<Title>Tracking the posts written by me</Title>

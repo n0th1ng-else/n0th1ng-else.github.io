@@ -1,4 +1,20 @@
+<script lang="ts" context="module">
+	import type { Load } from '@sveltejs/kit';
+
+	export const load: Load = ({ page }) => {
+		const host = page.host;
+		const path = page.path;
+
+		return {
+			props: {
+				pageUrl: `${host}${path}`
+			}
+		};
+	};
+</script>
+
 <script lang="ts">
+	import { browser } from '$app/env';
 	import Title from '../ui/Title.svelte';
 	import SubTitle from '../ui/SubTitle.svelte';
 	import Button from '../ui/Button.svelte';
@@ -12,11 +28,16 @@
 	import { scrollToBottom } from '../helpers/scroll';
 	import { getGitHubContact, getTwitterContact } from '../helpers/contacts';
 
+	export let pageUrl: string;
+
 	const photo = getProfile().image ?? '';
 	const github = getGitHubContact();
 	const twitter = getTwitterContact();
 
 	const scroll = (): void => {
+		if (!browser) {
+			return;
+		}
 		scrollToBottom();
 	};
 </script>
@@ -24,6 +45,7 @@
 <Meta
 	image="{photo}"
 	description="Hey there, it's Sergey. I'm a software engineer from Amsterdam, The Netherlands. I explore and learn everything related to the Frontend, NodeJS. Check my blog out."
+	url="{pageUrl}"
 />
 <div>
 	<Title>About Sergey</Title>

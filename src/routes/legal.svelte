@@ -1,3 +1,18 @@
+<script lang="ts" context="module">
+	import type { Load } from '@sveltejs/kit';
+
+	export const load: Load = ({ page }) => {
+		const host = page.host;
+		const path = page.path;
+
+		return {
+			props: {
+				pageUrl: `${host}${path}`
+			}
+		};
+	};
+</script>
+
 <script lang="ts">
 	import Title from '../ui/Title.svelte';
 	import SubTitle from '../ui/SubTitle.svelte';
@@ -5,12 +20,15 @@
 	import { legalTitle as title } from '../labels';
 	import { getProfile } from '../helpers/selectors';
 
+	export let pageUrl: string;
+
 	const photo = getProfile().image ?? '';
 </script>
 
 <Meta
 	image="{photo}"
 	description="The legal information regarding the content in my blog. Contrubition guide."
+	url="{pageUrl}"
 />
 <div>
 	<Title>Legal information</Title>
