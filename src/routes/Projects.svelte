@@ -3,15 +3,21 @@
 	import SubTitle from '../ui/SubTitle.svelte';
 	import Link from '../ui/Link.svelte';
 	import Card from '../ui/Card.svelte';
+	import Meta from '../ui/Meta.svelte';
 	import { projectsTitle as title } from '../labels';
 	import { getGitHubContact } from '../helpers/contacts';
 	import { getWorkProjects, getPetProjects } from '../helpers/projects';
+	import { getProfile } from '../helpers/selectors';
+
+	const profile = getProfile();
+	const photo = profile.image;
 
 	const gh = getGitHubContact();
 	const workProjects = getWorkProjects();
 	const petProjects = getPetProjects();
 </script>
 
+<Meta image="{photo ?? ''}" description="Big and small noticable project I am contributing to." />
 <div>
 	<Title>Projects</Title>
 	<SubTitle>

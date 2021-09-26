@@ -2,9 +2,10 @@
 	import type { MetaType, TwitterType } from '../helpers/meta';
 	import { getPageTitle } from '../labels';
 
-	export let type: MetaType; // Facebook type
-	export let twitterType: TwitterType; // Twitter type
-	export let title: string; // Page title like head:title
+	export let type: MetaType = 'website'; // Facebook type
+	export let twitterType: TwitterType = 'app'; // Twitter type
+
+	export let title = 'Sergey Nikitin'; // Page title like head:title
 	export let image: string; // Page image
 
 	export let description = ''; // Page description (can be empty)
