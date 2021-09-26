@@ -2,12 +2,16 @@
 	import Title from '../ui/Title.svelte';
 	import SubTitle from '../ui/SubTitle.svelte';
 	import Link from '../ui/Link.svelte';
+	import Meta from '../ui/Meta.svelte';
 	import { toArticle } from '.';
 	import { blogTitle as title } from '../labels';
-	import { getArticles } from '../helpers/selectors';
+	import { getArticles, getProfile } from '../helpers/selectors';
 	import { groupByYear, getRelativeDate, sortByDate } from '../helpers/date';
 	import { sortAsNumber } from '../helpers/sort';
 	import type { LinkInfo } from '../../common';
+
+	const profile = getProfile();
+	const photo = profile.image;
 
 	const groups = groupByYear(getArticles());
 	const years = sortAsNumber(Object.keys(groups));
@@ -15,6 +19,7 @@
 	const getGroup = (year: string): LinkInfo[] => sortByDate(groups[year]);
 </script>
 
+<Meta image="{photo ?? ''}" description="List of my publications through the years" />
 <div>
 	<Title>Tracking the posts written by me</Title>
 	<div>

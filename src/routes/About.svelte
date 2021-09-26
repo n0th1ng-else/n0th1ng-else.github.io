@@ -6,6 +6,7 @@
 	import ListItem from '../ui/ListItem.svelte';
 	import EmailElement from '../components/EmailElement.svelte';
 	import Link from '../ui/Link.svelte';
+	import Meta from '../ui/Meta.svelte';
 	import { aboutTitle as title } from '../labels';
 	import { getProfile } from '../helpers/selectors';
 	import { scrollToBottom } from '../helpers/scroll';
@@ -17,6 +18,10 @@
 	const twitter = getTwitterContact();
 </script>
 
+<Meta
+	image="{photo ?? ''}"
+	description="Hey there, it's Sergey. I'm a software engineer from Amsterdam, The Netherlands. I explore and learn everything related to the Frontend, NodeJS. Check my blog out."
+/>
 <div>
 	<Title>About Sergey</Title>
 	{#if photo}

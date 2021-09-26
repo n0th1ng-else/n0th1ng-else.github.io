@@ -1,3 +1,5 @@
+import { Logger } from './log';
+
 export const sendPageView = (): void => {
 	const path = `${location.pathname}${location.search}${location.hash}`;
 
@@ -6,6 +8,6 @@ export const sendPageView = (): void => {
 			page_path: path
 		});
 	} catch (err) {
-		// TODO implement
+		new Logger('analytics').error('Unable to send page view data', err);
 	}
 };
