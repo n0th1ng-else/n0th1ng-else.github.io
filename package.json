@@ -1,5 +1,6 @@
 {
 	"name": "my-github-page",
+	"version": "2.0.0",
 	"description": "My home page",
 	"dependencies": {
 		"date-fns": "2.16.1"
@@ -63,7 +64,7 @@
 		"webpack",
 		"sass"
 	],
-	"author": "n0th1ng-else",
+	"author": "Sergey Nikitin <srg.post@gmail.com>",
 	"license": "MIT",
 	"simple-git-hooks": {
 		"pre-commit": "npx lint-staged"

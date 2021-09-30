@@ -12,6 +12,7 @@
 	import { onShowBackChange } from '../helpers/navigation';
 	import Button from '../ui/Button.svelte';
 	import HeaderLink from '../ui/HeaderLink.svelte';
+	import List from '../ui/List.svelte';
 	import Arrow from './Arrow.svelte';
 	import icoSun from '../assets/icons/sun.svg';
 	import icoMoon from '../assets/icons/moon.svg';
@@ -58,7 +59,7 @@
 				</HeaderLink>
 			</div>
 			<div class="navigation">
-				<ul class="nav-container">
+				<List type="header">
 					<li class="nav__item--big">
 						<HeaderLink url="{blogRoute}" active="{RoutePath.Blog === activePath}">
 							<span class="nav__item">Blog.</span>
@@ -90,7 +91,7 @@
 							<span class="nav__item">Me.</span>
 						</HeaderLink>
 					</li>
-				</ul>
+				</List>
 			</div>
 			<div class="theme">
 				<Button secondary onClick="{switchTheme}" icon="{icon}" hint="change theme" />
@@ -124,11 +125,6 @@
 				display: block;
 			}
 		}
-	}
-
-	.nav-container {
-		display: flex;
-		font-weight: $font-weight-light;
 	}
 
 	.nav__item {
