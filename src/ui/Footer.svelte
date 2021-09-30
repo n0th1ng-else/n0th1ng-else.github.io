@@ -31,6 +31,7 @@
 	}
 
 	.ui-footer {
+		@include set-font();
 		border-top: 1px solid;
 		display: flex;
 		flex: 0 1 $max-content-width;

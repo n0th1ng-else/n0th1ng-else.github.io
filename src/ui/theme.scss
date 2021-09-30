@@ -75,3 +75,7 @@ $xl: 1200px;
 	// https://stackoverflow.com/questions/22252472/how-to-change-the-color-of-an-svg-element
 	filter: brightness(0) saturate(100%);
 }
+
+@mixin set-font() {
+	font-family: 'Source Sans Pro', sans-serif;
+}

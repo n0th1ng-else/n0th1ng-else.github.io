@@ -3,9 +3,11 @@
 </div>
 
 <style lang="scss">
+	@import './theme';
 	@import '../global';
 
 	.ui-sub {
+		@include set-font();
 		font-size: $font-size-plus;
 		font-weight: $font-weight;
 		margin: 0;

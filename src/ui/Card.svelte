@@ -9,6 +9,7 @@
 	import { getPositionTitle } from '../labels';
 
 	export let item: ProjectItem;
+	export let readonly = false;
 
 	const onClick = (url: string) => () => openUrl(url);
 
@@ -38,17 +39,17 @@
 	<div class="ui-card__actions ui-card__section">
 		{#if item.url}
 			<div class="ui-card__action">
-				<Button onClick="{onClick(item.url)}">Web</Button>
+				<Button onClick="{onClick(item.url)}" disabled="{readonly}">Web</Button>
 			</div>
 		{/if}
 		{#if item.source}
 			<div class="ui-card__action">
-				<Button onClick="{onClick(item.source)}">Source</Button>
+				<Button onClick="{onClick(item.source)}" disabled="{readonly}">Source</Button>
 			</div>
 		{/if}
 		{#if item.registry}
 			<div class="ui-card__action">
-				<Button onClick="{onClick(item.registry)}">Package</Button>
+				<Button onClick="{onClick(item.registry)}" disabled="{readonly}">Package</Button>
 			</div>
 		{/if}
 	</div>

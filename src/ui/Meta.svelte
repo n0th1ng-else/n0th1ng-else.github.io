@@ -3,7 +3,7 @@
 	import { getPageTitle } from '../labels';
 
 	export let type: MetaType = 'website'; // Facebook type
-	export let twitterType: TwitterType = 'app'; // Twitter type
+	export let twitterType: TwitterType = 'summary'; // Twitter type
 
 	export let title = 'Sergey Nikitin'; // Page title like head:title
 	export let image: string; // Page image
@@ -30,6 +30,7 @@
 
 	<meta name="twitter:card" content="{twitterType}" />
 	<meta name="twitter:title" content="{title}" />
+	<meta name="twitter:text:title" content="{title}" />
 	<meta name="twitter:image" content="{image}" />
 	<meta name="twitter:url" content="{url}" />
 

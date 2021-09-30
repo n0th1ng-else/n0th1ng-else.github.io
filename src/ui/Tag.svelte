@@ -9,9 +9,11 @@
 </div>
 
 <style lang="scss">
+	@import './theme';
 	@import '../global';
 
 	.ui-tag {
+		@include set-font();
 		font-style: italic;
 		margin: 0 $unit-quarter;
 	}

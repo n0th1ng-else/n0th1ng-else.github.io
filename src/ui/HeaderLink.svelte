@@ -43,6 +43,7 @@
 	}
 
 	.ui-header-link {
+		@include set-font();
 		margin: $unit-half;
 		text-decoration: none;
 		&.l {

@@ -18,6 +18,8 @@
 	export let icon = '';
 
 	export let hint = '';
+
+	export let disabled = false;
 </script>
 
 <button
@@ -28,6 +30,7 @@
 	class="ui-button"
 	on:click="{onClick}"
 	title="{hint}"
+	disabled="{disabled}"
 >
 	<span class="ui-button__text">
 		<slot />
@@ -80,6 +83,7 @@
 		}
 
 		&__text {
+			@include set-font();
 			text-transform: capitalize;
 		}
 
