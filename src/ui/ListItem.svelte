@@ -31,6 +31,7 @@
 	}
 
 	.ui-list-item {
+		@include set-font();
 		&:before {
 			content: '\2022';
 			font-size: $font-size-bigger;

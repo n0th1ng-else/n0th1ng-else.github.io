@@ -7,9 +7,11 @@
 </div>
 
 <style lang="scss">
+	@import './theme';
 	@import '../global';
 
 	.title {
+		@include set-font();
 		font-size: $font-size-big;
 		font-weight: $font-weight;
 		margin: 0;

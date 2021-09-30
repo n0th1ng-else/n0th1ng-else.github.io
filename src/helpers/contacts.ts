@@ -21,12 +21,15 @@ class ContactModel {
 	public link = '';
 	public image = '';
 	public icon?: MaterialIcon;
+	public readonly type?: ContactType;
 
 	public get subtitle(): string {
 		return this.sub;
 	}
 
-	constructor(public readonly title: string, public readonly type = ContactType.Url) {}
+	constructor(public readonly title: string, type?: ContactType) {
+		this.type = type ?? ContactType.Url;
+	}
 }
 
 export const getTwitterContact = (): ContactModel => {

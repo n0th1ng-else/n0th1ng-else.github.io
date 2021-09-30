@@ -1,5 +1,5 @@
 export const getFirstContentfulPaint = (fn: (time: string) => void): void => {
-	if (!window.performance) {
+	if (!window?.performance) {
 		return;
 	}
 

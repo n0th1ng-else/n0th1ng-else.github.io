@@ -25,6 +25,7 @@
 	}
 
 	.ui-additional-text {
+		@include set-font();
 		&.small {
 			font-size: $font-size-small;
 		}
