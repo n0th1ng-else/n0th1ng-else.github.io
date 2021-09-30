@@ -45,11 +45,13 @@
 	<div class="network big-screen centered w-space">
 		<SocialNetworks />
 	</div>
-	{#if fcp}
-		<div class="centered w-space">
+	<div class="centered w-space">
+		{#if fcp}
 			<AdditionalText small>{version} // first contentful paint took {fcp}s.</AdditionalText>
-		</div>
-	{/if}
+		{:else}
+			<AdditionalText small>{version}</AdditionalText>
+		{/if}
+	</div>
 </Footer>
 
 <style lang="scss">

@@ -7,12 +7,12 @@
 
 	export let title = 'Sergey Nikitin'; // Page title like head:title
 	export let image: string; // Page image
+	export let url = window.location.href; // Ful page url
 
 	export let description = ''; // Page description (can be empty)
 	export let imageAlt = ''; // Image alt text
 
 	const siteName = getPageTitle('Webdev Blog'); // Common website name
-	const url = window.location.href; // Ful page url
 </script>
 
 <svelte:head>

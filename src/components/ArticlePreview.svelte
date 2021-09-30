@@ -9,6 +9,7 @@
 
 	export let article: LinkInfo | undefined;
 	export let showDate = false;
+	export let readonly = false;
 
 	const date = getRelativeDate(article?.meta.date);
 	const text = article?.meta.description;
@@ -38,7 +39,7 @@
 			{text}
 		</div>
 		<div class="article-preview__read-more">
-			<Button hint="Read more" onClick="{onClick}">{btnText}</Button>
+			<Button hint="Read more" onClick="{onClick}" disabled="{readonly}">{btnText}</Button>
 		</div>
 	</div>
 </div>
