@@ -16,7 +16,7 @@
 	import Arrow from './Arrow.svelte';
 	import icoSun from '../assets/icons/sun.svg';
 	import icoMoon from '../assets/icons/moon.svg';
-	import { homeRoute, blogRoute, projectsRoute, aboutRoute, RoutePath } from '../routes';
+	import { homeRoute, blogRoute, projectsRoute, aboutRoute, RoutePath } from '../helpers/routes';
 
 	const toggleThemeIcon = (th: Theme): string => (isDarkTheme(th) ? icoSun : icoMoon);
 

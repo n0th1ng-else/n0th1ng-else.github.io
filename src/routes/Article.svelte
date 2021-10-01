@@ -3,7 +3,7 @@
 	import ArticlePreview from '../components/ArticlePreview.svelte';
 	import Meta from '../ui/Meta.svelte';
 	import { push } from 'svelte-spa-router';
-	import { notFoundRoute } from '../routes';
+	import { notFoundRoute } from '../helpers/routes';
 	import { getArticles } from '../helpers/selectors';
 	import { getPageTitle } from '../labels';
 	import { showBack, hideBack } from '../helpers/navigation';

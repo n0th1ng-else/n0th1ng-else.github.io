@@ -24,7 +24,7 @@
 		articleRoute,
 		otherRoute,
 		legalRoute
-	} from '../routes';
+	} from '../helpers/routes';
 	import { sendPageView } from '../helpers/analytics';
 	import { putNewArticleHandlerIntoWindow } from '../helpers/window';
 

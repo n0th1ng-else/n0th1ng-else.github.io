@@ -2,7 +2,7 @@
 	import Link from '../ui/Link.svelte';
 	import imageNotFound from '../assets/images/not-found.svg';
 	import { notFoundTitle as title } from '../labels';
-	import { blogRoute } from '.';
+	import { blogRoute } from '../helpers/routes';
 
 	export let params: {
 		wild?: string;
