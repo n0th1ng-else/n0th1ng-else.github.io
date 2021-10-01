@@ -3,7 +3,7 @@
 	import Link from '../ui/Link.svelte';
 	import Meta from '../ui/Meta.svelte';
 	import { homeTitle as title } from '../labels';
-	import { blogRoute } from '../routes';
+	import { blogRoute } from '../helpers/routes';
 	import { sortByDate } from '../helpers/date';
 	import { getEngArticles } from '../helpers/articles';
 	import { getProfile } from '../helpers/selectors';

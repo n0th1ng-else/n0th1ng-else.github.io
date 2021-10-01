@@ -3,7 +3,7 @@
 	import SubTitle from '../ui/SubTitle.svelte';
 	import Link from '../ui/Link.svelte';
 	import Meta from '../ui/Meta.svelte';
-	import { toArticle } from '.';
+	import { toArticle } from '../helpers/routes';
 	import { blogTitle as title } from '../labels';
 	import { getArticles, getProfile } from '../helpers/selectors';
 	import { groupByYear, getRelativeDate, sortByDate } from '../helpers/date';

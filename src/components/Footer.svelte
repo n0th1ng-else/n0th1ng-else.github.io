@@ -3,7 +3,7 @@
 	import Footer from '../ui/Footer.svelte';
 	import SocialNetworks from './SocialNetworks.svelte';
 	import Link from '../ui/Link.svelte';
-	import { legalRoute } from '../routes';
+	import { legalRoute } from '../helpers/routes';
 	import { getFirstContentfulPaint } from '../helpers/metrics';
 	import { getCurrentYear } from '../helpers/date';
 	import { getVersion } from '../helpers/version';
