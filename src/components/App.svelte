@@ -5,14 +5,14 @@
 	import Container from '../ui/Container.svelte';
 	import Header from './Header.svelte';
 	import Footer from './Footer.svelte';
-	import NotFound from '../routes/NotFound.svelte';
-	import Article from '../routes/Article.svelte';
-	import NewArticle from '../routes/NewArticle.svelte';
-	import Home from '../routes/Home.svelte';
-	import Blog from '../routes/Blog.svelte';
-	import Projects from '../routes/Projects.svelte';
-	import About from '../routes/About.svelte';
-	import Legal from '../routes/Legal.svelte';
+	import NotFound from '../routes/__error.svelte';
+	import Article from '../routes/blog/[slug].svelte';
+	import NewArticle from '../routes/blog/new.svelte';
+	import Home from '../routes/index.svelte';
+	import Blog from '../routes/blog/index.svelte';
+	import Projects from '../routes/projects.svelte';
+	import About from '../routes/about.svelte';
+	import Legal from '../routes/legal.svelte';
 	import ScrollTop from './ScrollTop.svelte';
 	import {
 		RoutePath,
