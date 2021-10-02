@@ -2,6 +2,7 @@
 	import Title from '../../ui/Title.svelte';
 	import SubTitle from '../../ui/SubTitle.svelte';
 	import Link from '../../ui/Link.svelte';
+	import List from '../../ui/List.svelte';
 	import Meta from '../../ui/Meta.svelte';
 	import { toArticle } from '../../helpers/routes';
 	import { blogTitle as title } from '../../labels';
@@ -26,7 +27,7 @@
 		{#each years as year}
 			<div>
 				<SubTitle>{year}</SubTitle>
-				<ul>
+				<List>
 					{#each getGroup(year) as item}
 						<li>
 							<div class="article">
@@ -41,7 +42,7 @@
 							</div>
 						</li>
 					{/each}
-				</ul>
+				</List>
 			</div>
 		{/each}
 	</div>

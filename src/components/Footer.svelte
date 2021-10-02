@@ -8,11 +8,14 @@
 	import { getCurrentYear } from '../helpers/date';
 	import { getVersion } from '../helpers/version';
 
+	export let showFCP = true;
 	const version = getVersion();
 	const year = getCurrentYear();
 
 	let fcp = '';
-	getFirstContentfulPaint(time => (fcp = time));
+	if (showFCP) {
+		getFirstContentfulPaint(time => (fcp = time));
+	}
 </script>
 
 <Footer>
