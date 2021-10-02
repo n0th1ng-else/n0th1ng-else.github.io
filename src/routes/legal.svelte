@@ -1,9 +1,17 @@
 <script lang="ts">
 	import Title from '../ui/Title.svelte';
 	import SubTitle from '../ui/SubTitle.svelte';
+	import Meta from '../ui/Meta.svelte';
 	import { legalTitle as title } from '../labels';
+	import { getProfile } from '../helpers/selectors';
+
+	const photo = getProfile().image ?? '';
 </script>
 
+<Meta
+	image="{photo}"
+	description="The legal information regarding the content in my blog. Contrubition guide."
+/>
 <div>
 	<Title>Legal information</Title>
 	<SubTitle>Opinions</SubTitle>

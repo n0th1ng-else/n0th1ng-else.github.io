@@ -11,8 +11,7 @@
 	import { sortAsNumber } from '../../helpers/sort';
 	import type { LinkInfo } from '../../../common';
 
-	const profile = getProfile();
-	const photo = profile.image;
+	const photo = getProfile().image ?? '';
 
 	const groups = groupByYear(getArticles());
 	const years = sortAsNumber(Object.keys(groups));
@@ -20,7 +19,10 @@
 	const getGroup = (year: string): LinkInfo[] => sortByDate(groups[year]);
 </script>
 
-<Meta image="{photo ?? ''}" description="List of my publications through the years" />
+<Meta
+	image="{photo}"
+	description="List of my publications through the years. Most of them are written in English."
+/>
 <div>
 	<Title>Tracking the posts written by me</Title>
 	<div>
