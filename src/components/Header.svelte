@@ -18,6 +18,8 @@
 	import icoMoon from '../assets/icons/moon.svg';
 	import { homeRoute, blogRoute, projectsRoute, aboutRoute, RoutePath } from '../helpers/routes';
 
+	export let syncTheme = true;
+
 	const toggleThemeIcon = (th: Theme): string => (isDarkTheme(th) ? icoSun : icoMoon);
 
 	let theme = defaultTheme;
@@ -28,7 +30,12 @@
 		theme = th;
 		icon = toggleThemeIcon(theme);
 	});
-	const unsubscribePersistTheme = onThemeChange(th => persistTheme(th));
+	const unsubscribePersistTheme = onThemeChange(th => {
+		if (!syncTheme) {
+			return;
+		}
+		persistTheme(th);
+	});
 	const unsubscribeShowBack = onShowBackChange(sh => (showBack = sh));
 
 	const switchTheme = () => {

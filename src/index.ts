@@ -1,5 +1,4 @@
 import 'svelte';
-import './index.scss';
 import App from './components/App.svelte';
 import { recoverTheme } from './helpers/theme';
 
