@@ -9,15 +9,17 @@
 	import { getWorkProjects, getPetProjects } from '../helpers/projects';
 	import { getProfile } from '../helpers/selectors';
 
-	const profile = getProfile();
-	const photo = profile.image;
+	const photo = getProfile().image ?? '';
 
 	const gh = getGitHubContact();
 	const workProjects = getWorkProjects();
 	const petProjects = getPetProjects();
 </script>
 
-<Meta image="{photo ?? ''}" description="Big and small noticable project I am contributing to." />
+<Meta
+	image="{photo}"
+	description="Big and small noticable projects I am contributing to. Most of them related to Frontend or NodeJS. Find them all in the my GitHub account."
+/>
 <div>
 	<Title>Projects</Title>
 	<SubTitle>

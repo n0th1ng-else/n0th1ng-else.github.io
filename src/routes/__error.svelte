@@ -1,14 +1,18 @@
 <script lang="ts">
 	import Link from '../ui/Link.svelte';
+	import Meta from '../ui/Meta.svelte';
 	import imageNotFound from '../assets/images/not-found.svg';
 	import { notFoundTitle as title } from '../labels';
 	import { blogRoute } from '../helpers/routes';
+	import { getProfile } from '../helpers/selectors';
 
-	export let params: {
-		wild?: string;
-	} = {};
+	const photo = getProfile().image ?? '';
 </script>
 
+<Meta
+	image="{photo}"
+	description="Page not found. But you can still navigate to the other meaningful sections."
+/>
 <div>
 	<div class="image-container">
 		<img class="image" src="{imageNotFound}" alt="" />

@@ -12,14 +12,17 @@
 	import { scrollToBottom } from '../helpers/scroll';
 	import { getGitHubContact, getTwitterContact } from '../helpers/contacts';
 
-	const profile = getProfile();
-	const photo = profile.image;
+	const photo = getProfile().image ?? '';
 	const github = getGitHubContact();
 	const twitter = getTwitterContact();
+
+	const scroll = (): void => {
+		scrollToBottom();
+	};
 </script>
 
 <Meta
-	image="{photo ?? ''}"
+	image="{photo}"
 	description="Hey there, it's Sergey. I'm a software engineer from Amsterdam, The Netherlands. I explore and learn everything related to the Frontend, NodeJS. Check my blog out."
 />
 <div>
@@ -46,8 +49,8 @@
 	<p>
 		You can contact me by email at <EmailElement /> to say hi! I always appreciate meeting new people.
 		You can find all the links in the footer of each page
-		<Button inline onClick="{scrollToBottom}" hint="scroll to the bottom">⬇️</Button>. Follow me and
-		send me a wave 👋🏿. These are also two main networks I'm in:
+		<Button inline onClick="{scroll}" hint="scroll to the bottom">⬇️</Button>. Follow me and send me
+		a wave 👋🏿. These are also two main networks I'm in:
 	</p>
 	<List>
 		<ListItem>
