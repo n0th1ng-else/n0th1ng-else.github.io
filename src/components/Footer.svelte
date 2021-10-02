@@ -9,7 +9,7 @@
 	import { getVersion } from '../helpers/version';
 
 	export let showFCP: boolean;
-	const version = getVersion();
+	const version = `v${getVersion()}`;
 	const year = getCurrentYear();
 
 	let fcp = '';
