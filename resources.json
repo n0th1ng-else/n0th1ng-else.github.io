@@ -6,7 +6,7 @@
 		},
 		"github": {
 			"host": "github.com",
-			"pattern": "%h/%u"
+			"pattern": "%h/%u/%p"
 		},
 		"habr": {
 			"host": "habr.com",
@@ -65,13 +65,15 @@
 	],
 	"packages": [
 		{
-			"service": "npm",
-			"url": "webpack-config-dump-plugin",
-			"lang": "en"
+			"service": "github",
+			"url": "voice-to-text-bot",
+			"lang": "en",
+			"link": "https://t.me/audiomessbot",
+			"logo": "https://raw.githubusercontent.com/n0th1ng-else/voice-to-text-bot/master/assets/botPic/botPic.svg"
 		},
 		{
 			"service": "npm",
-			"url": "express-history-api-fallback-middleware",
+			"url": "webpack-config-dump-plugin",
 			"lang": "en"
 		},
 		{

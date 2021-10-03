@@ -1,4 +1,4 @@
-class Logger {
+export class Logger {
 	constructor(prefix) {
 		this.prefix = prefix;
 	}
@@ -18,5 +18,3 @@ class Logger {
 		console.error(`[${this.prefix}]`, message);
 	}
 }
-
-module.exports = Logger;

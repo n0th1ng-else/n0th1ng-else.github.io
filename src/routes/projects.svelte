@@ -49,7 +49,7 @@
 	<div class="projects-container">
 		{#each petProjects as item (item.name)}
 			<div class="project-container">
-				<Card item="{item}" readonly="{!browser}" />
+				<Card item="{item}" extended readonly="{!browser}" />
 			</div>
 		{/each}
 	</div>
