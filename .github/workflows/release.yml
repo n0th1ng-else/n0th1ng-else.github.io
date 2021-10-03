@@ -33,20 +33,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy to Heroku
     steps:
-      - name: Fetch the last commit in the PR
-        id: sha
-        uses: actions/github-script@v4
-        with:
-          result-encoding: string
-          script: |
-            const { owner, repo, number } = context.issue;
-            const pr = await github.pulls.get({
-              owner,
-              repo,
-              pull_number: number,
-            });
-            return pr.data.head.sha
-
       - name: App version
         run: echo Picked the app version ${{ github.sha }}
 
