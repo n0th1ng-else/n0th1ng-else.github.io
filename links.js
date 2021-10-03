@@ -1,25 +1,35 @@
-const https = require('https');
-const crypto = require('crypto');
-const slug = require('slug');
-const { saveMetaToFile } = require('./info.cjs');
-const { resources, procEnv } = require('./env.cjs');
-const Logger = require('./log.cjs');
-const metascraper = require('metascraper')([
-	require('metascraper-author')(),
-	require('metascraper-date')(),
-	require('metascraper-description')(),
-	require('metascraper-image')(),
-	require('metascraper-logo')(),
-	require('metascraper-publisher')(),
-	require('metascraper-title')(),
-	require('metascraper-url')()
+import { get } from 'https';
+import { randomUUID } from 'crypto';
+import slug from 'slug';
+import scrapper from 'metascraper';
+import sauthor from 'metascraper-author';
+import sdate from 'metascraper-date';
+import sdescription from 'metascraper-description';
+import simage from 'metascraper-image';
+import slogo from 'metascraper-logo';
+import spublisher from 'metascraper-publisher';
+import stitle from 'metascraper-title';
+import surl from 'metascraper-url';
+import { saveMetaToFile } from './info.js';
+import { env } from './env.js';
+import { Logger } from './log.js';
+
+const metascraper = scrapper([
+	sauthor(),
+	sdate(),
+	sdescription(),
+	simage(),
+	slogo(),
+	spublisher(),
+	stitle(),
+	surl()
 ]);
 
 const logger = new Logger('links');
 
 const getLinkHtml = url =>
-	new Promise((resolve, reject) => {
-		https.get(url, res => {
+	new Promise((resolve, reject) =>
+		get(url, res => {
 			res.setEncoding('utf8');
 			let body = '';
 			res.on('data', data => {
@@ -27,8 +37,8 @@ const getLinkHtml = url =>
 			});
 			res.on('end', () => resolve(body));
 			res.on('error', err => reject(err));
-		});
-	});
+		})
+	);
 
 const getLinkInfo = url => getLinkHtml(url).then(html => metascraper({ html, url }));
 
@@ -57,7 +67,7 @@ const getFullLink = (data, service, path = '', lang = '') => {
 
 class PublicationInfo {
 	constructor(data, info) {
-		this.id = crypto.randomUUID();
+		this.id = randomUUID();
 		this.service = info.service;
 		this.url = info.url;
 		this.lang = info.lang;
@@ -120,6 +130,7 @@ const getPackagesInfo = (packages, info = []) => {
 
 const sleepFor = (ms = 1000) => new Promise(resolve => setTimeout(resolve, ms));
 
+const { procEnv, resources } = env;
 const userInfoUrl = getFullLink(resources, 'github');
 const publicationMeta = resources.publications.map(
 	publication => new PublicationInfo(resources, publication)

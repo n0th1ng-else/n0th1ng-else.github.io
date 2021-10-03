@@ -1,4 +1,6 @@
-const resources = require('./resources.json');
+import { readFileSync } from 'fs';
+
+const getResources = () => JSON.parse(readFileSync(new URL('./resources.json', import.meta.url)));
 
 const distInRoot = Boolean(process.env.DIST_ROOT) || false;
 
@@ -38,7 +40,7 @@ const procEnv = {
 	version
 };
 
-module.exports = {
+export const env = {
 	procEnv,
-	resources
+	resources: getResources()
 };
