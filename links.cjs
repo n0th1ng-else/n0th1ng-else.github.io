@@ -61,6 +61,9 @@ class PublicationInfo {
 		this.service = info.service;
 		this.url = info.url;
 		this.lang = info.lang;
+		this.link = info.link;
+		this.logo = info.logo;
+
 		this.fullUrl = getFullLink(data, this.service, this.url, this.lang);
 		this.meta = null;
 	}

@@ -7,6 +7,8 @@ export interface LinkInfo {
 	lang: ArticleLanguage;
 	fullUrl: string;
 	meta: MetaInfo;
+	link?: string;
+	logo?: string;
 }
 
 export interface MetaInfo {

@@ -3,6 +3,7 @@ import setronicaLogo from '../assets/images/setronica-logo.png';
 import catawikiLogo from '../assets/images/catawiki-logo.svg';
 import { getAccounts, getPackages } from './selectors';
 import { getGithubLink } from './links';
+import type { LinkInfo } from '../../common';
 
 export enum Position {
 	Fullstack,
@@ -53,16 +54,26 @@ const getCatawiki = (): ProjectItem => ({
 
 export const getWorkProjects = (): ProjectItem[] => [getCatawiki(), getSetronica(), getNSS()];
 
-export const getPetProjects = (): ProjectItem[] => {
-	const accounts = getAccounts();
-	const packages = getPackages();
-	const github = accounts.github;
+const transformPackage = (pkg: LinkInfo): ProjectItem => {
+	const isGithubProject = pkg.service === 'github';
+	const github = getAccounts().github;
 
-	return packages.map(pkg => ({
-		name: pkg.meta.title || pkg.url,
-		source: pkg.meta.title ? getGithubLink(github, pkg.meta.title) : undefined,
-		registry: pkg.fullUrl,
-		// tags: ['JavaScript'],
-		description: pkg.meta.description ?? undefined
-	}));
+	if (!isGithubProject) {
+		return {
+			name: pkg.meta.title || pkg.url,
+			source: pkg.meta.title ? getGithubLink(github, pkg.meta.title) : undefined,
+			registry: pkg.fullUrl,
+			description: pkg.meta.description ?? undefined
+		};
+	}
+
+	return {
+		name: pkg.url,
+		source: pkg.meta.url || pkg.fullUrl,
+		description: pkg.meta.title.substr(pkg.meta.title.indexOf(': ') + 2),
+		url: pkg.link,
+		logo: pkg.logo
+	};
 };
+
+export const getPetProjects = (): ProjectItem[] => getPackages().map(pkg => transformPackage(pkg));

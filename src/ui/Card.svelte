@@ -10,6 +10,7 @@
 
 	export let item: ProjectItem;
 	export let readonly = false;
+	export let extended = false;
 
 	const onClick = (url: string) => () => openUrl(url);
 
@@ -26,7 +27,7 @@
 			<img class="ui-card__logo" src="{item.logo}" alt="" />
 		</div>
 	{/if}
-	{#if !item.logo}
+	{#if !item.logo || extended}
 		<div class="ui-card__section ui-card__title ui-card__text">
 			<span>{item.name}</span>
 		</div>
@@ -83,6 +84,9 @@
 	.ui-card {
 		border: $unit-eighth solid black;
 		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
 		height: 100%;
 		padding: $unit $unit-half;
 
@@ -96,7 +100,7 @@
 
 		&__logo-container {
 			height: 10 * $unit-quarter;
-			margin: auto;
+			margin: 0 auto $unit auto;
 			width: 10 * $unit-half;
 		}
 
