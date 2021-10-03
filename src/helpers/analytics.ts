@@ -1,17 +1,15 @@
 import { Logger } from './log';
 
-export const sendPageView = (attempt = 3): void => {
-	const path = `${location.pathname}${location.search}${location.hash}`;
-
+export const sendPageView = (pageUrl: string, attempt = 3): void => {
 	try {
 		gtag('event', 'pageview', {
-			page_path: path
+			page_path: pageUrl
 		});
 	} catch (err) {
 		if (!attempt) {
 			new Logger('analytics').error('Unable to send page view data', err);
 			return;
 		}
-		setTimeout(() => sendPageView(attempt - 1), 1_000);
+		setTimeout(() => sendPageView(pageUrl, attempt - 1), 1_000);
 	}
 };

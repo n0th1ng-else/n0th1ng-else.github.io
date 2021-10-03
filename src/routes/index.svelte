@@ -1,4 +1,20 @@
+<script lang="ts" context="module">
+	import type { Load } from '@sveltejs/kit';
+
+	export const load: Load = ({ page }) => {
+		const host = page.host;
+		const path = page.path;
+
+		return {
+			props: {
+				pageUrl: `${host}${path}`
+			}
+		};
+	};
+</script>
+
 <script lang="ts">
+	import { browser } from '$app/env';
 	import ArticlePreview from '../components/ArticlePreview.svelte';
 	import Link from '../ui/Link.svelte';
 	import Meta from '../ui/Meta.svelte';
@@ -7,6 +23,8 @@
 	import { sortByDate } from '../helpers/date';
 	import { getEngArticles } from '../helpers/articles';
 	import { getProfile } from '../helpers/selectors';
+
+	export let pageUrl: string;
 
 	const photo = getProfile().image ?? '';
 
@@ -17,10 +35,11 @@
 <Meta
 	image="{photo}"
 	description="Latest articles, contacts and interesting observations. All in one place. Welcome to my blog."
+	url="{pageUrl}"
 />
 <div>
 	<div>
-		<ArticlePreview article="{article}" />
+		<ArticlePreview article="{article}" readonly="{!browser}" />
 	</div>
 	<div class="blog-link">
 		Find more posts in my <Link inline url="{blogRoute}">Blog</Link>.

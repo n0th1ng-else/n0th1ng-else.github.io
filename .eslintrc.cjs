@@ -11,7 +11,7 @@ const getCfg = () => ({
 	env: {
 		node: true,
 		browser: true,
-		es6: true
+		es2017: true
 	},
 	globals: {
 		runtime: true
@@ -25,6 +25,10 @@ const getCfg = () => ({
 	settings: {
 		'svelte3/typescript': () => require('typescript'),
 		'svelte3/ignore-styles': () => true
+	},
+	parserOptions: {
+		sourceType: 'module',
+		ecmaVersion: 2019
 	}
 });
 

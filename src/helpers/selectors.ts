@@ -9,3 +9,5 @@ export const getArticles = (): LinkInfo[] => runtime.publications;
 export const getAccounts = (): ProfileAccounts => runtime.env.accounts;
 
 export const getVersion = (): string => runtime.env.version ?? '';
+
+export const isProduction = (): boolean => runtime.env.mode === 'production';

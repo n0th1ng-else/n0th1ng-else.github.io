@@ -1,9 +1,9 @@
 const https = require('https');
 const crypto = require('crypto');
 const slug = require('slug');
-const { saveMetaToFile } = require('./info');
-const { resources, procEnv } = require('./env');
-const Logger = require('./log');
+const { saveMetaToFile } = require('./info.cjs');
+const { resources, procEnv } = require('./env.cjs');
+const Logger = require('./log.cjs');
 const metascraper = require('metascraper')([
 	require('metascraper-author')(),
 	require('metascraper-date')(),

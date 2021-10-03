@@ -7,7 +7,7 @@
 
 	export let title = 'Sergey Nikitin'; // Page title like head:title
 	export let image: string; // Page image
-	export let url = window.location.href; // Ful page url
+	export let url: string; // Ful page url
 
 	export let description = ''; // Page description (can be empty)
 	export let imageAlt = ''; // Image alt text
@@ -20,7 +20,7 @@
 	<meta property="og:title" content="{title}" />
 
 	<meta property="og:image" content="{image}" />
-	<meta property="og:url" content="{url}" />
+	<meta property="og:url" content="{`https://${url}`}" />
 	<meta property="og:site_name" content="{siteName}" />
 
 	{#if description}
@@ -32,7 +32,7 @@
 	<meta name="twitter:title" content="{title}" />
 	<meta name="twitter:text:title" content="{title}" />
 	<meta name="twitter:image" content="{image}" />
-	<meta name="twitter:url" content="{url}" />
+	<meta name="twitter:url" content="{`https://${url}`}" />
 
 	{#if imageAlt}
 		<meta name="twitter:image:alt" content="{imageAlt}" />

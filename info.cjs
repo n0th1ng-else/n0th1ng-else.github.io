@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const Logger = require('./log');
+const Logger = require('./log.cjs');
 
 const logger = new Logger('info');
 

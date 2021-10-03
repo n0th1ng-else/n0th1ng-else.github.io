@@ -8,8 +8,8 @@
 	import { getCurrentYear } from '../helpers/date';
 	import { getVersion } from '../helpers/version';
 
-	export let showFCP = true;
-	const version = getVersion();
+	export let showFCP: boolean;
+	const version = `v${getVersion()}`;
 	const year = getCurrentYear();
 
 	let fcp = '';

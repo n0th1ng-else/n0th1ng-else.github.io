@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
-	import { link } from 'svelte-spa-router';
 	import { onThemeChange, isDarkTheme, defaultTheme } from '../helpers/theme';
 
 	export let external = false;
@@ -33,7 +32,7 @@
 		class:l="{!isDark}"
 		class:d="{isDark}"
 		href="{url}"
-		use:link="{url}"
+		sveltekit:prefetch
 	>
 		<slot />
 	</a>

@@ -4,6 +4,7 @@ node_modules
 # don't lint build output
 dist
 public
+.svelte-kit/
 
 #don't lint meta
 meta
