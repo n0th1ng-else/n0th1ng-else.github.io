@@ -6,7 +6,7 @@ const distInRoot = Boolean(process.env.DIST_ROOT) || false;
 
 const mode = process.env.NODE_ENV || 'development';
 
-const version = process.env.COMMIT_HASH || '';
+const version = process.env.COMMIT_HASH || process.env.VERCEL_GIT_COMMIT_SHA || '';
 
 const github = process.env.GH_AUTHOR_LOGIN || '';
 
