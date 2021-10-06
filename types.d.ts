@@ -1,9 +1,11 @@
 import type { LinkInfo, MetaInfo, ProfileAccounts } from './common';
-import type { EmptyToVoid } from './src/types';
+import type { EmptyToVoid, FilePickerOptions, FileHandle } from './src/types';
 
 declare global {
 	interface Window {
 		newArticle: EmptyToVoid;
+		showOpenFilePicker: (options?: FilePickerOptions) => Promise<FileHandle[]>;
+		showSaveFilePicker: (options?: FilePickerOptions) => Promise<FileHandle>;
 	}
 
 	const runtime: {
