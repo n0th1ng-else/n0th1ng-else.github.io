@@ -1,6 +1,8 @@
 import { format, getYear } from 'date-fns';
 import type { LinkInfo } from '../../common';
 
+export const getDateTime = (date: Date): string => format(date, 'HH:mm:ss');
+
 export const getRelativeDate = (dateInPast?: string | null): string => {
 	if (!dateInPast) {
 		return '';
