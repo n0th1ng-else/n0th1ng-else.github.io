@@ -71,6 +71,6 @@
 	}
 
 	.content {
-		padding: 0 $unit-half;
+		padding: 0 $unit-plus;
 	}
 </style>
