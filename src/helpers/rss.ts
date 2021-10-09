@@ -1,6 +1,20 @@
 import type { LinkInfo } from '../../common';
 import { getAbsoluteArticleUrl, getAbsoluteRssUrl } from './routes';
 import { getArticleDate } from './date';
+import { getPageTitle } from '../labels';
+import { getProfile } from './selectors';
+
+const getProfilePhoto = (url: string, photo?: string): string =>
+	photo
+		? `<image>
+		<url>${photo}</url>
+		<title>${getPageTitle('Webdev Blog')}</title>
+		<link>${url}</link>
+	</image>`
+		: '';
+
+const getArticleLogo = ({ meta }: LinkInfo): string =>
+	meta.image ? `<enclosure url="${meta.image}" length="0" type="image/png"/>` : '';
 
 const getRssArticles = (url: string, articles: LinkInfo[]): string =>
 	articles
@@ -12,6 +26,7 @@ const getRssArticles = (url: string, articles: LinkInfo[]): string =>
         <link>${getAbsoluteArticleUrl(url, article.id)}</link>
         <guid>${getAbsoluteArticleUrl(url, article.id)}</guid>
         <pubDate>${getArticleDate(article).toUTCString()}</pubDate>
+        ${getArticleLogo(article)}
         <content:encoded> 
             <div style="margin-top: 50px; font-style: italic;">
               <strong>
@@ -23,13 +38,14 @@ const getRssArticles = (url: string, articles: LinkInfo[]): string =>
 		)
 		.join('');
 
-const getRssChannel = (url: string, articles: string): string =>
+const getRssChannel = (url: string, articles: string, photo?: string): string =>
 	`<channel>
         <atom:link href="${getAbsoluteRssUrl(url)}" rel="self" type="application/rss+xml" />
         <title>Nothing Else | Sergey Nikitin</title>
         <link>${url}</link>
         <description>Hey there, it's Sergey. I'm a software engineer from Amsterdam, The Netherlands. I explore and learn everything related to Frontend, NodeJS, and Web overall.</description>
-        ${articles}
+		${getProfilePhoto(url, photo)}
+		${articles}
     </channel>`;
 
 const getRssContainer = (channel: string): string =>
@@ -44,8 +60,9 @@ const getRssContainer = (channel: string): string =>
 
 export const generateRss = (host: string, articles: LinkInfo[]): string => {
 	const fullHost = `https://${host}`;
+	const photo = getProfile().image;
 	const rssData = getRssArticles(fullHost, articles);
-	const channel = getRssChannel(fullHost, rssData);
+	const channel = getRssChannel(fullHost, rssData, photo);
 	const container = getRssContainer(channel);
 	return container;
 };
