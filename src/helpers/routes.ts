@@ -24,8 +24,6 @@ export const homeRoute = toPath(RoutePath.Home);
 
 export const blogRoute = toPath(RoutePath.Blog);
 
-export const articleRoute = `${blogRoute}/:slug`;
-
 export const newArticleRoute = `${blogRoute}/new`;
 
 export const projectsRoute = toPath(RoutePath.Projects);
@@ -37,3 +35,7 @@ export const legalRoute = toPath(RoutePath.Legal);
 export const notFoundRoute = toPath(RoutePath.NotFound);
 
 export const toArticle = (id: string): string => `${blogRoute}/${id}`;
+
+export const getAbsoluteArticleUrl = (host: string, slug: string): string => `${host}/blog/${slug}`;
+
+export const getAbsoluteRssUrl = (host: string): string => `${host}/rss`;

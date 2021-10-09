@@ -44,7 +44,7 @@
 
 <Meta
 	image="{photo}"
-	description="Hey there, it's Sergey. I'm a software engineer from Amsterdam, The Netherlands. I explore and learn everything related to the Frontend, NodeJS. Check my blog out."
+	description="Hey there, it's Sergey. I'm a software engineer from Amsterdam, The Netherlands. I explore and learn everything related to Frontend, NodeJS, and Web overall. Check my blog out."
 	url="{pageUrl}"
 />
 <div>
