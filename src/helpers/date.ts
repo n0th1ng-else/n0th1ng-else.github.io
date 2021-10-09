@@ -10,7 +10,7 @@ export const getRelativeDate = (dateInPast?: string | null): string => {
 	return format(dateToConvert, 'd MMMM, yyyy');
 };
 
-const getArticleDate = (item: LinkInfo) =>
+export const getArticleDate = (item: LinkInfo): Date =>
 	item.meta.date ? new Date(item.meta.date) : new Date(0);
 
 export const sortByDate = (list: LinkInfo[]): LinkInfo[] =>
