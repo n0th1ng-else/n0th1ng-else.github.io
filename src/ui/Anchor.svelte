@@ -28,7 +28,7 @@
 		left: 0;
 		top: $unit + $unit-half;
 		transform: translateX(-100%);
-		padding-right: $unit-quarter;
+		padding-right: $unit-eighth;
 
 		&--shown {
 			display: block;
@@ -36,9 +36,9 @@
 
 		&__logo {
 			@include smooth-change(filter);
-			height: $unit - $unit-eighth;
+			height: $unit - $unit-quarter;
 			object-fit: contain;
-			width: $unit - $unit-eighth;
+			width: $unit - $unit-quarter;
 
 			&.l {
 				@include draw-image-black();
