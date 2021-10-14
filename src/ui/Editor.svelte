@@ -1,8 +1,9 @@
 <script lang="ts">
+	import 'highlight.js/scss/github-dark.scss';
 	import { beforeUpdate } from 'svelte';
 	import TextArea from './TextArea.svelte';
-	import marked from 'marked';
 	import { keywordsFromString } from '../helpers/keywords';
+	import { convertMarkdown } from '../helpers/api';
 
 	export let title = '';
 	export let keywords = '';
@@ -10,11 +11,9 @@
 
 	export let preview = false;
 
-	let md = '';
 	let tags: string[] = [];
-	beforeUpdate(() => {
+	beforeUpdate(async () => {
 		if (preview) {
-			md = marked(content);
 			tags = keywordsFromString(keywords);
 		}
 	});
@@ -32,7 +31,13 @@
 				{/each}
 			</div>
 			<div>
-				{@html md}
+				{#await convertMarkdown(content)}
+					Converting...
+				{:then md}
+					{@html md}
+				{:catch error}
+					{error.message}
+				{/await}
 			</div>
 		</div>
 	{:else}
