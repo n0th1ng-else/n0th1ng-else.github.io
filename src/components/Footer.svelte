@@ -41,7 +41,8 @@
 		</div>
 		<div>
 			<AdditionalText>
-				Made with <Link inline external url="https://svelte.dev">Svelte</Link> with 🧡
+				Made with <Link inline external url="https://svelte.dev">Svelte</Link>
+				<Link inline external url="https://kit.svelte.dev">Kit</Link> with 🧡
 			</AdditionalText>
 		</div>
 	</div>
