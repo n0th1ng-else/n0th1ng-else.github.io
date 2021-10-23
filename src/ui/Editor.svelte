@@ -8,6 +8,7 @@
 	export let title = '';
 	export let keywords = '';
 	export let content = '';
+	export let logo = '';
 
 	export let preview = false;
 
@@ -30,6 +31,11 @@
 					<span class="editor__tag">#{tag}</span>
 				{/each}
 			</div>
+			{#if logo}
+				<div>
+					<img class="editor__logo" src="{logo}" alt="" />
+				</div>
+			{/if}
 			<div>
 				{#await convertMarkdown(content)}
 					Converting...
@@ -78,6 +84,12 @@
 		&__tag {
 			color: $l-secondary;
 			margin: $unit-quarter;
+		}
+
+		&__logo {
+			margin-top: $unit-half;
+			width: 100%;
+			object-fit: fill;
 		}
 	}
 </style>

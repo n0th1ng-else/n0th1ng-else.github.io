@@ -39,7 +39,7 @@
 			{text}
 		</div>
 		<div class="article-preview__read-more">
-			<Button hint="Read more" onClick="{onClick}" disabled="{readonly}">{btnText}</Button>
+			<Button hint="Read more" on:click="{onClick}" disabled="{readonly}">{btnText}</Button>
 		</div>
 	</div>
 </div>
