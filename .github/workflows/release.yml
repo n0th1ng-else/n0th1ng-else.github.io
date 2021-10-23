@@ -36,7 +36,9 @@ jobs:
     needs: version
     steps:
       - name: Read app version into ENV
-        run: cat .VERSION >> $APP_VERSION
+        run: |
+          VER=$(cat .VERSION)
+          echo "APP_VERSION=$VER" >> $GITHUB_ENV
 
       - name: App version
         run: echo Picked the app version ${{ env.APP_VERSION }}-${{ github.sha }}
@@ -64,7 +66,9 @@ jobs:
     needs: version
     steps:
       - name: Read app version into ENV
-        run: cat .VERSION >> $APP_VERSION
+        run: |
+          VER=$(cat .VERSION)
+          echo "APP_VERSION=$VER" >> $GITHUB_ENV
 
       - name: App version
         run: echo Picked the app version ${{ env.APP_VERSION }}-${{ github.sha }}
