@@ -14,6 +14,7 @@ declare global {
 			mode: string;
 			accounts: ProfileAccounts;
 			version: string;
+			versionBuild: string;
 		};
 		profile: MetaInfo;
 		publications: LinkInfo[];

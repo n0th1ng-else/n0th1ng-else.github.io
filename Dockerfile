@@ -38,11 +38,13 @@ RUN npm ci --include=dev --also=dev && npm cache clean --force
 
 COPY . $APP_DIR
 
+ARG COMMIT_HASH=local
+ENV COMMIT_HASH ${COMMIT_HASH}
+
 ARG APP_VERSION=local
 ENV APP_VERSION ${APP_VERSION}
-ENV COMMIT_HASH ${APP_VERSION}
 
-RUN echo ${APP_VERSION}
+RUN echo ${APP_VERSION} ${COMMIT_HASH}
 
 RUN npm run meta
 

@@ -114,3 +114,4 @@ public/*
 .wakatime-project
 .DS_Store
 .svelte-kit/
+.VERSION

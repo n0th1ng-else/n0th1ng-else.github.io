@@ -5,3 +5,4 @@ meta/
 dist/
 public/
 .svelte-kit/
+.VERSION
