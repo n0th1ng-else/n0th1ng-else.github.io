@@ -1,15 +1,9 @@
 <script lang="ts">
 	import { copyToClipboard } from '../helpers/clipboard';
-	export let onCopy: () => string;
 
-	const onClick = () => {
-		if (!onCopy) {
-			return;
-		}
+	export let text = '';
 
-		const text = onCopy();
-		copyToClipboard(text);
-	};
+	const onClick = () => copyToClipboard(text);
 </script>
 
 <div on:click="{onClick}" class="copy-container" title="click to copy to clipboard">

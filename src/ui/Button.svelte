@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
+	import { onDestroy, createEventDispatcher } from 'svelte';
 	import { onThemeChange, isDarkTheme, defaultTheme } from '../helpers/theme';
-	import { noop } from '../types';
 
 	let isDark = isDarkTheme(defaultTheme);
 
@@ -9,7 +8,9 @@
 
 	onDestroy(() => unsubscribeTheme());
 
-	export let onClick = noop;
+	const dispatch = createEventDispatcher();
+
+	const onClick = (): void => dispatch('click');
 
 	export let secondary = false;
 

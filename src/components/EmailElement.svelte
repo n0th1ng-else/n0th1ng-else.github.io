@@ -2,17 +2,14 @@
 	import WithCopy from './WithCopy.svelte';
 	import { getEmail } from '../helpers/links';
 
-	const [name, domain] = getEmail();
-
-	const onCopy = () => {
-		const [email] = getEmail(true);
-		return email;
-	};
+	const [name, host, domain] = getEmail();
+	const [email] = getEmail(true);
 </script>
 
-<WithCopy onCopy="{onCopy}">
+<WithCopy text="{email}">
 	<span>
-		<span class="email-part">{name}</span> at <span class="email-part">{domain}</span>
+		<span class="email-part">{name}</span> at <span class="email-part">{host}</span> dot
+		<span class="email-part">{domain}</span>
 	</span>
 </WithCopy>
 

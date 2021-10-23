@@ -1,12 +1,13 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
+	import { onDestroy, createEventDispatcher } from 'svelte';
 	import Button from '../ui/Button.svelte';
 	import iconUp from '../assets/icons/arrow-up.svg';
 	import iconLeft from '../assets/icons/arrow-left.svg';
 	import { onThemeChange, isDarkTheme, defaultTheme } from '../helpers/theme';
-	import { noop } from '../types';
 
-	export let onClick = noop;
+	const dispatch = createEventDispatcher();
+	const onClick = (): void => dispatch('click');
+
 	export let type: 'up' | 'left' = 'up';
 	export let size: 'sm' | 'md' | 'lg' = 'lg';
 
@@ -19,7 +20,7 @@
 	onDestroy(() => unsubscribeTheme());
 </script>
 
-<Button secondary onClick="{onClick}">
+<Button secondary on:click="{onClick}">
 	<div class="btn-logo-container {size}">
 		<img class="btn-logo" class:l="{!isDark}" class:d="{isDark}" src="{icon}" alt="" />
 	</div>

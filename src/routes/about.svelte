@@ -71,8 +71,8 @@
 	<p>
 		You can contact me by email at <EmailElement /> to say hi! I always appreciate meeting new people.
 		You can find all the links in the footer of each page
-		<Button inline onClick="{scroll}" hint="scroll to the bottom">⬇️</Button>. Follow me and send me
-		a wave 👋🏿. These are also two main networks I'm in:
+		<Button inline on:click="{scroll}" hint="scroll to the bottom">⬇️</Button>. Follow me and send
+		me a wave 👋🏿. These are also two main networks I'm in:
 	</p>
 	<List>
 		<ListItem>

@@ -58,7 +58,7 @@
 	<nav role="navigation" class="header">
 		<div class="navigation-wrapper">
 			<div class="back-container" class:show="{showBack}">
-				<Arrow type="left" size="sm" onClick="{onBack}" />
+				<Arrow type="left" size="sm" on:click="{onBack}" />
 			</div>
 			<div class="logo-container">
 				<HeaderLink url="{homeRoute}" active="{homeRoute === activePath}">
@@ -101,7 +101,7 @@
 				</List>
 			</div>
 			<div class="theme">
-				<Button secondary onClick="{switchTheme}" icon="{icon}" hint="change theme" />
+				<Button secondary on:click="{switchTheme}" icon="{icon}" hint="change theme" />
 			</div>
 		</div>
 	</nav>

@@ -22,12 +22,13 @@
 	import icoOk from '../../assets/icons/ok.svg';
 	import { newArticleTitle } from '../../labels';
 	import { getProfile } from '../../helpers/selectors';
-	import { openFile, saveToFile } from '../../helpers/files';
+	import { openJsonFile, openImageFile, saveJsonFile } from '../../helpers/files';
 	import { Logger } from '../../helpers/log';
 	import type { FileHandle } from '../../types';
 	import type { MarkdownFormat } from '../../types';
 	import { keywordsFromString } from '../../helpers/keywords';
 	import { getDateTime } from '../../helpers/date';
+	import { uploadImage } from '../../helpers/upload';
 
 	export let pageUrl: string;
 
@@ -41,11 +42,12 @@
 	let content = '';
 	let file: FileHandle | undefined = undefined;
 	let noticeDate: Date | null = null;
+	let logo = '';
 
 	const togglePreview = () => (preview = !preview);
 
 	const open = () => {
-		openFile<MarkdownFormat>()
+		openJsonFile<MarkdownFormat>()
 			.then(data => {
 				title = data.title || '';
 				keywords = (data.keywords || []).join(', ');
@@ -61,13 +63,21 @@
 			content,
 			keywords: keywordsFromString(keywords)
 		};
-		saveToFile(data, useExistingFile ? file : undefined)
+		saveJsonFile(data, useExistingFile ? file : undefined)
 			.then(fileHandle => {
 				file = fileHandle;
 				noticeDate = new Date();
 			})
 			.catch(err => logger.error('Unable to save the file', err));
 	};
+
+	const saveNewFile = () => save();
+
+	const uploadLogo = () =>
+		openImageFile()
+			.then(file => uploadImage(file))
+			.then(imageUrl => (logo = imageUrl))
+			.catch(err => logger.error('Unable to upload the image', err));
 
 	const saveOnKey = (evt: KeyboardEvent) => {
 		const isMetaPressed = evt.ctrlKey || evt.metaKey;
@@ -94,11 +104,11 @@
 	<div class="controls-container">
 		<div class="main-controls-container">
 			<div>
-				<Button onClick="{open}">Load file</Button>
+				<Button on:click="{open}">Load file</Button>
 			</div>
 			<div class="save-block">
 				<div class="save-control">
-					<Button onClick="{save}">Save the article</Button>
+					<Button on:click="{saveNewFile}">Save the article</Button>
 				</div>
 			</div>
 			{#if noticeDate}
@@ -109,11 +119,14 @@
 			{/if}
 		</div>
 		<div>
-			<Button onClick="{togglePreview}">{preview ? 'Edit' : 'Preview'}</Button>
+			<Button on:click="{togglePreview}">{preview ? 'Edit' : 'Preview'}</Button>
 		</div>
 	</div>
+	<div class="logo-btn">
+		<Button secondary inline on:click="{uploadLogo}">Upload logo</Button>
+	</div>
 	<div class="editor-container">
-		<Editor bind:title bind:keywords bind:content preview="{preview}" />
+		<Editor bind:title bind:keywords bind:content preview="{preview}" logo="{logo}" />
 	</div>
 </div>
 
@@ -158,5 +171,9 @@
 		&__text {
 			margin-left: $unit-eighth;
 		}
+	}
+
+	.logo-btn {
+		margin-top: $unit-half;
 	}
 </style>
