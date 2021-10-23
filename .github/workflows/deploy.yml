@@ -30,6 +30,7 @@ jobs:
       - name: Fetch meta info
         run: npm run meta
         env:
+          APP_VERSION: '2.0.0'
           COMMIT_HASH: ${{ github.sha }}
           GH_AUTHOR_LOGIN: ${{ secrets.GH_AUTHOR_LOGIN }}
           GH_AUTHOR_LINKED_IN: ${{ secrets.GH_AUTHOR_LINKED_IN }}
@@ -80,6 +81,7 @@ jobs:
       - name: Build project
         run: npm run build
         env:
+          APP_VERSION: '2.0.0'
           COMMIT_HASH: ${{ github.sha }}
           GH_AUTHOR_LOGIN: ${{ secrets.GH_AUTHOR_LOGIN }}
           GH_AUTHOR_LINKED_IN: ${{ secrets.GH_AUTHOR_LINKED_IN }}

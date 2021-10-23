@@ -8,3 +8,4 @@ public
 
 #don't lint meta
 meta
+.VERSION

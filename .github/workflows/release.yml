@@ -5,12 +5,25 @@ on:
     branches: [dev]
 
 jobs:
+  version:
+    runs-on: ubuntu-latest
+    name: Push new version
+    steps:
+      - name: Publish new version
+        run: npm run version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   docker:
     runs-on: ubuntu-latest
     name: Push docker image
+    needs: version
     steps:
+      - name: Read app version into ENV
+        run: cat .VERSION >> $APP_VERSION
+
       - name: App version
-        run: echo Picked the app version ${{ github.sha }}
+        run: echo Picked the app version ${{ env.APP_VERSION }}-${{ github.sha }}
 
       - name: Checkout
         uses: actions/checkout@v2.3.4
@@ -27,14 +40,18 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           repository: '${{ github.actor }}/n0th1ng-else.github.io/n0th1ng-else-blog'
           tag_with_sha: true
-          build_args: APP_VERSION=${{ github.sha }},GH_AUTHOR_LOGIN=${{ secrets.GH_AUTHOR_LOGIN }},GH_AUTHOR_LINKED_IN=${{ secrets.GH_AUTHOR_LINKED_IN }},GH_AUTHOR_TELEGRAM=${{ secrets.GH_AUTHOR_TELEGRAM }},GH_AUTHOR_MEDIUM=${{ secrets.GH_AUTHOR_MEDIUM }},GH_AUTHOR_HABR=${{ secrets.GH_AUTHOR_HABR }},GH_AUTHOR_NPM=${{ secrets.GH_AUTHOR_NPM }},GH_AUTHOR_TWITTER=${{ secrets.GH_AUTHOR_TWITTER }},GH_AUTHOR_DEVTO=${{ secrets.GH_AUTHOR_DEVTO }}
+          build_args: APP_VERSION=${{ github.sha }},COMMIT_HASH=${{ env.APP_VERSION }},GH_AUTHOR_LOGIN=${{ secrets.GH_AUTHOR_LOGIN }},GH_AUTHOR_LINKED_IN=${{ secrets.GH_AUTHOR_LINKED_IN }},GH_AUTHOR_TELEGRAM=${{ secrets.GH_AUTHOR_TELEGRAM }},GH_AUTHOR_MEDIUM=${{ secrets.GH_AUTHOR_MEDIUM }},GH_AUTHOR_HABR=${{ secrets.GH_AUTHOR_HABR }},GH_AUTHOR_NPM=${{ secrets.GH_AUTHOR_NPM }},GH_AUTHOR_TWITTER=${{ secrets.GH_AUTHOR_TWITTER }},GH_AUTHOR_DEVTO=${{ secrets.GH_AUTHOR_DEVTO }}
 
   heroku:
     runs-on: ubuntu-latest
     name: Deploy to Heroku
+    needs: version
     steps:
+      - name: Read app version into ENV
+        run: cat .VERSION >> $APP_VERSION
+
       - name: App version
-        run: echo Picked the app version ${{ github.sha }}
+        run: echo Picked the app version ${{ env.APP_VERSION }}-${{ github.sha }}
 
       - name: Checkout
         uses: actions/checkout@v2.3.4
@@ -53,7 +70,8 @@ jobs:
       - name: Push docker image
         run: |
           heroku container:${{ env.D_ACTION }} web --app ${{ env.D_NAME }} --arg \
-          APP_VERSION=${{ env.D_VERSION }},\
+          APP_VERSION=${{ env.APP_VERSION }},\
+          COMMIT_HASH=${{ env.D_VERSION }},\
           GH_AUTHOR_LOGIN=${{ secrets.GH_AUTHOR_LOGIN }},\
           GH_AUTHOR_LINKED_IN=${{ secrets.GH_AUTHOR_LINKED_IN }},\
           GH_AUTHOR_TELEGRAM=${{ secrets.GH_AUTHOR_TELEGRAM }},\
