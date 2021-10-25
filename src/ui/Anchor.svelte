@@ -24,21 +24,16 @@
 
 	.ui-anchor {
 		display: none;
-		position: absolute;
-		left: 0;
-		top: $unit + $unit-half;
-		transform: translateX(-100%);
-		padding-right: $unit-eighth;
 
 		&--shown {
-			display: block;
+			display: inline;
 		}
 
 		&__logo {
 			@include smooth-change(filter);
-			height: $unit - $unit-quarter;
+			height: $unit - $unit-eighth;
 			object-fit: contain;
-			width: $unit - $unit-quarter;
+			width: $unit - $unit-eighth;
 
 			&.l {
 				@include draw-image-black();
