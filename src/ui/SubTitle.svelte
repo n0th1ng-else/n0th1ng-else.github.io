@@ -35,8 +35,8 @@
 			on:mouseover="{showAnchor}"
 			on:mouseleave="{hideAnchor}"
 		>
-			<Anchor id="{id}" show="{show}" />
 			<slot />
+			<Anchor id="{id}" show="{show}" />
 		</h2>
 	{:else}
 		<h2 class="ui-sub" class:l="{!isDark}" class:d="{isDark}">
