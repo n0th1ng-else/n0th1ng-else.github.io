@@ -2,6 +2,7 @@
 	import Button from '../ui/Button.svelte';
 	import Title from '../ui/Title.svelte';
 	import AdditionalText from '../ui/AdditionalText.svelte';
+	import SubTitle from '../ui/SubTitle.svelte';
 	import type { LinkInfo } from '../../common';
 	import { getRelativeDate } from '../helpers/date';
 	import { getServiceTitle } from '../labels';
@@ -24,23 +25,25 @@
 <section>
 	<Title centered="{false}">{article?.meta.title}</Title>
 	{#if showDate}
-		<div class="article-preview__date">
+		<aside class="article-preview__date">
 			<AdditionalText>{date}</AdditionalText>
-		</div>
+		</aside>
 	{/if}
 
 	<div class="article-preview">
 		{#if image}
-			<div class="article-preview__logo-container">
+			<p class="article-preview__logo-container">
 				<img class="article-preview__logo" src="{image}" alt="" />
-			</div>
+			</p>
 		{/if}
 		<div class="article-preview__description">
-			{text}
+			<SubTitle inline>
+				{text}
+			</SubTitle>
 		</div>
-		<div class="article-preview__read-more">
+		<p class="article-preview__read-more">
 			<Button hint="Read more" on:click="{onClick}" disabled="{readonly}">{btnText}</Button>
-		</div>
+		</p>
 	</div>
 </section>
 

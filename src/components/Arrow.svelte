@@ -21,16 +21,24 @@
 </script>
 
 <Button secondary on:click="{onClick}">
-	<div class="btn-logo-container {size}">
-		<img class="btn-logo" class:l="{!isDark}" class:d="{isDark}" src="{icon}" alt="" />
-	</div>
+	<img class="btn-logo {size}" class:l="{!isDark}" class:d="{isDark}" src="{icon}" alt="" />
 </Button>
 
 <style lang="scss">
 	@import '../global';
 	@import '../ui/theme';
 
-	.btn-logo-container {
+	.btn-logo {
+		@include smooth-change(filter, transform);
+
+		&.l {
+			@include draw-image-black();
+		}
+
+		&.d {
+			@include draw-image-white();
+		}
+
 		&.lg {
 			height: $unit-triple;
 			width: $unit-triple;
@@ -42,22 +50,6 @@
 		&.sm {
 			height: $unit-plus;
 			width: $unit-plus;
-		}
-	}
-
-	.btn-logo {
-		@include smooth-change(filter, transform);
-
-		height: 100%;
-		object-fit: contain;
-		width: 100%;
-
-		&.l {
-			@include draw-image-black();
-		}
-
-		&.d {
-			@include draw-image-white();
 		}
 	}
 </style>
