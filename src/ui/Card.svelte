@@ -21,7 +21,7 @@
 	onDestroy(() => unsubscribeTheme());
 </script>
 
-<div class="ui-card" class:l="{!isDark}" class:d="{isDark}">
+<section class="ui-card" class:l="{!isDark}" class:d="{isDark}">
 	{#if item.logo}
 		<div class="ui-card__logo-container">
 			<img class="ui-card__logo" src="{item.logo}" alt="" />
@@ -68,7 +68,7 @@
 			<AdditionalText>{item.description}</AdditionalText>
 		</div>
 	{/if}
-</div>
+</section>
 
 <style lang="scss">
 	@import './theme';
