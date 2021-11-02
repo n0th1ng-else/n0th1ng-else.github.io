@@ -48,13 +48,15 @@
 <MetaColor />
 <Container full>
 	<Header syncTheme="{browser}" activePath="{activePath}" />
-	<Container>
-		<div class="content__wrapper">
-			<div class="content">
-				<slot />
+	<main>
+		<Container>
+			<div class="content__wrapper">
+				<div class="content">
+					<slot />
+				</div>
 			</div>
-		</div>
-	</Container>
+		</Container>
+	</main>
 	<Footer showFCP="{browser}" />
 	{#if browser}
 		<ScrollTop />

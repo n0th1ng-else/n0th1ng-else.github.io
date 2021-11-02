@@ -26,14 +26,7 @@
 		<slot />
 	</a>
 {:else}
-	<a
-		class="ui-link"
-		class:inline
-		class:l="{!isDark}"
-		class:d="{isDark}"
-		href="{url}"
-		sveltekit:prefetch
-	>
+	<a class="ui-link" class:inline class:l="{!isDark}" class:d="{isDark}" href="{url}">
 		<slot />
 	</a>
 {/if}

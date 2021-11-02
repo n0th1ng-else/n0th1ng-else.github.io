@@ -2,9 +2,9 @@
 	export let centered = true;
 </script>
 
-<div>
+<header>
 	<h1 class="title" class:centered><slot /></h1>
-</div>
+</header>
 
 <style lang="scss">
 	@import './theme';

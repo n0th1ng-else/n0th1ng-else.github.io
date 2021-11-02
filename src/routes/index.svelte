@@ -37,14 +37,14 @@
 	description="Latest articles, contacts and interesting observations. All in one place. Welcome to my blog."
 	url="{pageUrl}"
 />
-<div>
+<article>
 	<div>
 		<ArticlePreview article="{article}" readonly="{!browser}" />
 	</div>
 	<div class="blog-link">
 		Find more posts in my <Link inline url="{blogRoute}">Blog</Link>.
 	</div>
-</div>
+</article>
 
 <svelte:head>
 	<title>{title}</title>

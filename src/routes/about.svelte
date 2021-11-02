@@ -23,6 +23,7 @@
 	import EmailElement from '../components/EmailElement.svelte';
 	import Link from '../ui/Link.svelte';
 	import Meta from '../ui/Meta.svelte';
+	import Paragraph from '../ui/Paragraph.svelte';
 	import { aboutTitle as title } from '../labels';
 	import { getProfile } from '../helpers/selectors';
 	import { scrollToBottom } from '../helpers/scroll';
@@ -47,33 +48,39 @@
 	description="Hey there, it's Sergey. I'm a software engineer from Amsterdam, The Netherlands. I explore and learn everything related to Frontend, NodeJS, and Web overall. Check my blog out."
 	url="{pageUrl}"
 />
-<div>
+<article>
 	<Title>About Sergey</Title>
 	{#if photo}
 		<div class="profile__photo-container">
 			<img class="profile__photo" src="{photo}" alt="" />
 		</div>
 	{/if}
-	<p>
-		Hey there, it's Sergey. I'm a software engineer from Amsterdam, The Netherlands. Originally came
-		from Russia, I explore and learn everything related to the Frontend, NodeJS. These days I
-		develop UI with React and write some automation tools that keep the company ecosystem
-		consistently in shape. Previously, I was doing the same with Angular. If you want to know what
-		was before, then it started from Perl and JQuery.
-	</p>
-	<p>
-		In my blog, you can find some explorations and interesting cases. I mostly talk about React,
-		Angular, and NodeJS. Well, sometimes it's about soft skills. Sometimes it's pretty random
-		things.
-	</p>
+	<div class="profile__text-block">
+		<Paragraph>
+			Hey there, it's Sergey. I'm a software engineer from Amsterdam, The Netherlands. Originally
+			came from Russia, I explore and learn everything related to the Frontend, NodeJS. These days I
+			develop UI with React and write some automation tools that keep the company ecosystem
+			consistently in shape. Previously, I was doing the same with Angular. If you want to know what
+			was before, then it started from Perl and JQuery.
+		</Paragraph>
+	</div>
+	<div class="profile__text-block">
+		<Paragraph>
+			In my blog, you can find some explorations and interesting cases. I mostly talk about React,
+			Angular, and NodeJS. Well, sometimes it's about soft skills. Sometimes it's pretty random
+			things.
+		</Paragraph>
+	</div>
 
-	<SubTitle>Connect</SubTitle>
-	<p>
-		You can contact me by email at <EmailElement /> to say hi! I always appreciate meeting new people.
-		You can find all the links in the footer of each page
-		<Button inline on:click="{scroll}" hint="scroll to the bottom">⬇️</Button>. Follow me and send
-		me a wave 👋🏿. These are also two main networks I'm in:
-	</p>
+	<SubTitle id="connect">Connect</SubTitle>
+	<div class="profile__text-block">
+		<Paragraph>
+			You can contact me by email at <EmailElement /> to say hi! I always appreciate meeting new people.
+			You can find all the links in the footer of each page
+			<Button inline on:click="{scroll}" hint="scroll to the bottom">⬇️</Button>. Follow me and send
+			me a wave 👋🏿. These are also two main networks I'm in:
+		</Paragraph>
+	</div>
 	<List>
 		<ListItem>
 			<Link external inline url="{github.link}">GitHub</Link>
@@ -83,14 +90,13 @@
 		</ListItem>
 	</List>
 
-	<SubTitle>Blog</SubTitle>
+	<SubTitle id="blog">Blog</SubTitle>
 	<List>
 		<ListItem>Blazing fast with Svelte</ListItem>
-		<ListItem>No backend, only static GitHub pages</ListItem>
 		<ListItem>Tricky deployment workflow to make it working</ListItem>
 		<ListItem>Baking stuff on my MacBook Pro 2020</ListItem>
 	</List>
-</div>
+</article>
 
 <svelte:head>
 	<title>{title}</title>
@@ -119,5 +125,9 @@
 		height: 100%;
 		object-fit: contain;
 		width: 100%;
+	}
+
+	.profile__text-block {
+		margin: $unit 0;
 	}
 </style>
