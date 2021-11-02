@@ -7,10 +7,8 @@
 </script>
 
 <WithCopy text="{email}">
-	<span>
-		<span class="email-part">{name}</span> at <span class="email-part">{host}</span> dot
-		<span class="email-part">{domain}</span>
-	</span>
+	<span class="email-part">{name}</span> at <span class="email-part">{host}</span> dot
+	<span class="email-part">{domain}</span>
 </WithCopy>
 
 <style lang="scss">

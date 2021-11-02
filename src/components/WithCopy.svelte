@@ -6,17 +6,13 @@
 	const onClick = () => copyToClipboard(text);
 </script>
 
-<div on:click="{onClick}" class="copy-container" title="click to copy to clipboard">
+<span on:click="{onClick}" class="copy-container" title="click to copy to clipboard">
 	<slot />
-</div>
+</span>
 
 <style lang="scss">
-	.copy-container {
-		display: inline;
-
-		&:hover {
-			cursor: pointer;
-			text-decoration: underline;
-		}
+	.copy-container:hover {
+		cursor: pointer;
+		text-decoration: underline;
 	}
 </style>

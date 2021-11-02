@@ -12,14 +12,7 @@
 	onDestroy(() => unsubscribeTheme());
 </script>
 
-<a
-	class="ui-header-link"
-	class:active
-	class:l="{!isDark}"
-	class:d="{isDark}"
-	href="{url}"
-	sveltekit:prefetch
->
+<a class="ui-header-link" class:active class:l="{!isDark}" class:d="{isDark}" href="{url}">
 	<slot />
 </a>
 
