@@ -18,6 +18,7 @@
 	import ArticlePreview from '../components/ArticlePreview.svelte';
 	import Link from '../ui/Link.svelte';
 	import Meta from '../ui/Meta.svelte';
+	import Paragraph from '../ui/Paragraph.svelte';
 	import { homeTitle as title } from '../labels';
 	import { blogRoute } from '../helpers/routes';
 	import { sortByDate } from '../helpers/date';
@@ -37,14 +38,12 @@
 	description="Latest articles, contacts and interesting observations. All in one place. Welcome to my blog."
 	url="{pageUrl}"
 />
-<article>
-	<div>
-		<ArticlePreview article="{article}" readonly="{!browser}" />
-	</div>
-	<div class="blog-link">
+<ArticlePreview article="{article}" readonly="{!browser}" />
+<section class="blog-link">
+	<Paragraph>
 		Find more posts in my <Link inline url="{blogRoute}">Blog</Link>.
-	</div>
-</article>
+	</Paragraph>
+</section>
 
 <svelte:head>
 	<title>{title}</title>
