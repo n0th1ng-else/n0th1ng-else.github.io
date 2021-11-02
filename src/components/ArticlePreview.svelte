@@ -21,7 +21,7 @@
 	const btnText = host ? `Read more on ${host}` : 'Read More';
 </script>
 
-<div>
+<section>
 	<Title centered="{false}">{article?.meta.title}</Title>
 	{#if showDate}
 		<div class="article-preview__date">
@@ -42,7 +42,7 @@
 			<Button hint="Read more" on:click="{onClick}" disabled="{readonly}">{btnText}</Button>
 		</div>
 	</div>
-</div>
+</section>
 
 <style lang="scss">
 	@import '../global';

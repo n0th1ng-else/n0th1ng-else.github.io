@@ -67,7 +67,9 @@
 	image="{metaImage}"
 	url="{pageUrl}"
 />
-<ArticlePreview article="{article}" showDate readonly="{!browser}" />
+<article>
+	<ArticlePreview article="{article}" showDate readonly="{!browser}" />
+</article>
 
 <svelte:head>
 	<title>{title}</title>

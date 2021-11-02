@@ -19,6 +19,7 @@
 	import Link from '../../ui/Link.svelte';
 	import List from '../../ui/List.svelte';
 	import Meta from '../../ui/Meta.svelte';
+	import Paragraph from '../../ui/Paragraph.svelte';
 	import { toArticle } from '../../helpers/routes';
 	import { blogTitle as title } from '../../labels';
 	import { getArticles, getProfile } from '../../helpers/selectors';
@@ -41,32 +42,34 @@
 	description="List of my publications through the years. Most of them are written in English."
 	url="{pageUrl}"
 />
-<div>
+<article>
 	<Title>Tracking the posts written by me</Title>
 	<div>
 		{#each years as year}
-			<div>
+			<section>
 				<SubTitle id="in-{year}">{year}</SubTitle>
 				<List>
 					{#each getGroup(year) as item}
 						<li>
 							<div class="article">
 								<div class="article__title">
-									<Link inline url="{toArticle(item.id)}">
-										{item.meta.title}
-									</Link>
+									<Paragraph>
+										<Link inline url="{toArticle(item.id)}">
+											{item.meta.title}
+										</Link>
+									</Paragraph>
 								</div>
-								<div class="article__date">
+								<aside class="article__date">
 									{getRelativeDate(item.meta.date)}
-								</div>
+								</aside>
 							</div>
 						</li>
 					{/each}
 				</List>
-			</div>
+			</section>
 		{/each}
 	</div>
-</div>
+</article>
 
 <svelte:head>
 	<title>{title}</title>

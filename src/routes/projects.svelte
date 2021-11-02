@@ -39,7 +39,7 @@
 	description="Big and small noticable projects I am contributing to. Most of them related to Frontend or NodeJS. Find them all in the my GitHub account."
 	url="{pageUrl}"
 />
-<div>
+<article>
 	<Title>Projects</Title>
 	<SubTitle>
 		A few highlights of my pet projects. View them all on <Link external inline url="{gh.link}"
@@ -62,7 +62,7 @@
 			</div>
 		{/each}
 	</div>
-</div>
+</article>
 
 <svelte:head>
 	<title>{title}</title>

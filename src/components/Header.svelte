@@ -55,7 +55,7 @@
 </script>
 
 <header class="header-wrapper">
-	<nav role="navigation" class="header">
+	<nav class="header">
 		<div class="navigation-wrapper">
 			<div class="back-container" class:show="{showBack}">
 				<Arrow type="left" size="sm" on:click="{onBack}" />

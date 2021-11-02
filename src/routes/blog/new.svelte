@@ -100,7 +100,7 @@
 </script>
 
 <Meta image="{photo}" description="Article editor" url="{pageUrl}" />
-<div>
+<article>
 	<div class="controls-container">
 		<div class="main-controls-container">
 			<div>
@@ -128,7 +128,7 @@
 	<div class="editor-container">
 		<Editor bind:title bind:keywords bind:content preview="{preview}" logo="{logo}" />
 	</div>
-</div>
+</article>
 
 <svelte:head>
 	<title>{newArticleTitle}</title>

@@ -16,6 +16,7 @@
 <script lang="ts">
 	import Link from '../ui/Link.svelte';
 	import Meta from '../ui/Meta.svelte';
+	import Paragraph from '../ui/Paragraph.svelte';
 	import imageNotFound from '../assets/images/not-found.svg';
 	import { notFoundTitle as title } from '../labels';
 	import { blogRoute } from '../helpers/routes';
@@ -31,18 +32,18 @@
 	description="Page not found. But you can still navigate to the other meaningful sections."
 	url="{pageUrl}"
 />
-<div>
-	<div class="image-container">
+<article>
+	<aside class="image-container">
 		<img class="image" src="{imageNotFound}" alt="" />
-	</div>
-	<div class="text-container">
-		<p class="text">One day something funny would appear on this page...</p>
-		<p class="text">But for now, I was not able to find anything for you, really. My bad.</p>
-		<p class="text">
+	</aside>
+	<section class="text-container">
+		<Paragraph>One day something funny would appear on this page...</Paragraph>
+		<Paragraph>But for now, I was not able to find anything for you, really. My bad.</Paragraph>
+		<Paragraph>
 			Check out <Link inline url="{blogRoute}">my blog</Link>, if you have not already
-		</p>
-	</div>
-</div>
+		</Paragraph>
+	</section>
+</article>
 
 <svelte:head>
 	<title>{title}</title>
@@ -54,10 +55,6 @@
 
 	.text-container {
 		margin-top: $unit;
-	}
-
-	.text {
-		margin: 0;
 		text-align: center;
 	}
 
