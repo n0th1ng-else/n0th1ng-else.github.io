@@ -18,7 +18,7 @@
 	import ArticlePreview from '../components/ArticlePreview.svelte';
 	import Link from '../ui/Link.svelte';
 	import Meta from '../ui/Meta.svelte';
-	import Paragraph from '../ui/Paragraph.svelte';
+	import SubTitle from '../ui/SubTitle.svelte';
 	import { homeTitle as title } from '../labels';
 	import { blogRoute } from '../helpers/routes';
 	import { sortByDate } from '../helpers/date';
@@ -40,9 +40,9 @@
 />
 <ArticlePreview article="{article}" readonly="{!browser}" />
 <section class="blog-link">
-	<Paragraph>
+	<SubTitle inline>
 		Find more posts in my <Link inline url="{blogRoute}">Blog</Link>.
-	</Paragraph>
+	</SubTitle>
 </section>
 
 <svelte:head>

@@ -3,6 +3,7 @@
 	import Button from './Button.svelte';
 	import Tag from './Tag.svelte';
 	import AdditionalText from './AdditionalText.svelte';
+	import LowerTitle from './LowerTitle.svelte';
 	import { openUrl } from '../helpers/links';
 	import { onThemeChange, isDarkTheme, defaultTheme } from '../helpers/theme';
 	import type { ProjectItem } from '../helpers/projects';
@@ -29,7 +30,7 @@
 	{/if}
 	{#if !item.logo || extended}
 		<div class="ui-card__section ui-card__title ui-card__text">
-			<span>{item.name}</span>
+			<LowerTitle>{item.name}</LowerTitle>
 		</div>
 	{/if}
 	{#if getPositionTitle(item.position)}
@@ -128,7 +129,6 @@
 		}
 
 		&__title {
-			font-size: $font-size-big;
 			margin-bottom: $unit-plus;
 		}
 	}
