@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GH_BROWSERLIST_BRANCH: update-browserlist-db
-      GH_DEV_BRANCH: browserlist
+      GH_DEV_BRANCH: dev
     name: Updates the browserlist db
     steps:
       - name: ⬇️ Checkout
@@ -27,6 +27,13 @@ jobs:
 
       - name: ▶️ Install Dependencies
         run: npm ci
+
+      - name: Create a branch
+        uses: peterjgrainger/action-create-branch@v2.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          branch: ${{ env.GH_BROWSERLIST_BRANCH }}
 
       - name: 🚀 Run the update-db command
         run: npx browserslist@latest --update-db
