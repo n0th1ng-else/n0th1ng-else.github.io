@@ -1,5 +1,6 @@
 import type { CloudinaryPayload } from './cloudinary';
-import type { SignatureResponse } from '../types/api';
+import type { SignatureResponse, Version } from '../types/api';
+import type { MetaInfo, LinkInfo, ProfileAccounts } from '../../common';
 
 const getApiPath = (path: string) => `/api/v1/${path}`;
 
@@ -43,3 +44,18 @@ export const uploadImage = (data: SignatureResponse, file: File): Promise<string
 			return imageUrl;
 		});
 };
+
+export const getProfile = (): Promise<MetaInfo> =>
+	fetch(getApiPath('profile')).then(result => result.json());
+
+export const getPackages = (): Promise<LinkInfo[]> =>
+	fetch(getApiPath('packages')).then(result => result.json());
+
+export const getArticles = (): Promise<LinkInfo[]> =>
+	fetch(getApiPath('articles')).then(result => result.json());
+
+export const getAccounts = (): Promise<ProfileAccounts> =>
+	fetch(getApiPath('accounts')).then(result => result.json());
+
+export const getVersion = (): Promise<Version> =>
+	fetch(getApiPath('version')).then(result => result.json());
