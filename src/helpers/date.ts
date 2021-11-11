@@ -1,4 +1,10 @@
-import { format, getYear } from 'date-fns';
+import {
+	format,
+	getYear,
+	differenceInCalendarDays,
+	differenceInHours,
+	differenceInMinutes
+} from 'date-fns';
 import type { LinkInfo } from '../../common';
 
 export const getDateTime = (date: Date): string => format(date, 'HH:mm:ss');
@@ -31,3 +37,24 @@ export const groupByYear = (list: LinkInfo[]): Record<number, LinkInfo[]> =>
 	}, {});
 
 export const getCurrentYear = (): number => getYear(new Date());
+
+export const dateDifference = (start?: Date): string => {
+	if (!start) {
+		return '0m';
+	}
+	const end = new Date();
+	const [d, h, m] = [
+		differenceInCalendarDays(end, start),
+		differenceInHours(end, start),
+		differenceInMinutes(end, start)
+	];
+	return `${d}d ${h}h ${m}m`;
+};
+
+export const dateDifferenceHours = (start?: Date): number => {
+	if (!start) {
+		return 0;
+	}
+	const end = new Date();
+	return differenceInHours(end, start);
+};

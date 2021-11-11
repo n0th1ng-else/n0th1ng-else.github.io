@@ -1,10 +1,12 @@
 import { Logger } from './log';
+import { dateDifference, dateDifferenceHours } from './date';
 
 const logger = new Logger('uptime');
 
 const interval = 60_000;
 
 let timerHandler: NodeJS.Timeout | undefined;
+let startDate: Date | undefined;
 
 const checkStatus = (url: string): Promise<void> =>
 	fetch(url)
@@ -20,6 +22,7 @@ export const initUptime = (host: string): void => {
 	}
 
 	logger.warn('Initializing the status handler');
+	startDate = new Date();
 	const statusUrl = `https://${host}/status`;
 	checkStatus(statusUrl);
 	timerHandler = setInterval(() => {
@@ -27,3 +30,7 @@ export const initUptime = (host: string): void => {
 		checkStatus(statusUrl);
 	}, interval);
 };
+
+export const getUpTime = (): string => dateDifference(startDate);
+
+export const getUpTimeHours = (): number => dateDifferenceHours(startDate);
