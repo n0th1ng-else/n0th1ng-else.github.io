@@ -3,18 +3,18 @@ export class Logger {
 		this.prefix = prefix;
 	}
 
-	writeOutput(message) {
+	writeOutput(...messages) {
 		// eslint-disable-next-line no-console
-		console.log(`[${this.prefix}]`, message);
+		console.log(`[${this.prefix}]`, ...messages);
 	}
 
-	writeWarning(message) {
+	writeWarning(...messages) {
 		// eslint-disable-next-line no-console
-		console.log(`[${this.prefix}]`, message);
+		console.log(`[${this.prefix}]`, ...messages);
 	}
 
-	writeError(message) {
+	writeError(...messages) {
 		// eslint-disable-next-line no-console
-		console.error(`[${this.prefix}]`, message);
+		console.error(`[${this.prefix}]`, ...messages);
 	}
 }
