@@ -114,6 +114,11 @@
 		&__actions {
 			display: flex;
 			justify-content: center;
+			gap: $unit-plus;
+
+			@media (min-width: $md) {
+				gap: 0;
+			}
 		}
 
 		&__action {
