@@ -14,9 +14,17 @@ jobs:
         with:
           ref: dev
 
-      - uses: actions/setup-node@v2
+      - name: Read NodeJS version from .nvmrc
+        id: node-version
+        uses: juliangruber/read-file-action@v1
         with:
-          node-version: '14.17.6'
+          path: ./.nvmrc
+          trim: true
+
+      - name: Setup NodeJS using the obtained nvm version
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.node-version.outputs.content }}
 
       - name: Restore cached node_modules
         uses: actions/cache@v2
@@ -57,9 +65,17 @@ jobs:
         with:
           ref: dev
 
-      - uses: actions/setup-node@v2
+      - name: Read NodeJS version from .nvmrc
+        id: node-version
+        uses: juliangruber/read-file-action@v1
         with:
-          node-version: '14.17.6'
+          path: ./.nvmrc
+          trim: true
+
+      - name: Setup NodeJS using the obtained nvm version
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.node-version.outputs.content }}
 
       - name: Restore cached node_modules
         uses: actions/cache@v2
