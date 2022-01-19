@@ -10,6 +10,7 @@ import slogo from 'metascraper-logo';
 import spublisher from 'metascraper-publisher';
 import stitle from 'metascraper-title';
 import surl from 'metascraper-url';
+import fetch from 'node-fetch';
 import { saveMetaToFile } from './info.js';
 import { env } from './env.js';
 import { Logger } from './log.js';
@@ -27,18 +28,7 @@ const metascraper = scrapper([
 
 const logger = new Logger('links');
 
-const getLinkHtml = url =>
-	new Promise((resolve, reject) =>
-		get(url, res => {
-			res.setEncoding('utf8');
-			let body = '';
-			res.on('data', data => {
-				body = body + data;
-			});
-			res.on('end', () => resolve(body));
-			res.on('error', err => reject(err));
-		})
-	);
+const getLinkHtml = url => fetch(url).then(result => result.text());
 
 const getLinkInfo = url => getLinkHtml(url).then(html => metascraper({ html, url }));
 
