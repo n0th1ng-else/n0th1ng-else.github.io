@@ -21,5 +21,5 @@ declare global {
 		packages: LinkInfo[];
 	};
 
-	const gtag: (type: string, event: string, params: Record<string, string>) => void;
+	const gtag: (type: string, event: string, params: Record<string, string | number>) => void;
 }
