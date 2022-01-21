@@ -23,7 +23,8 @@ export const initUptime = (host: string): void => {
 
 	logger.warn('Initializing the status handler');
 	startDate = new Date();
-	const statusUrl = `https://${host}/status`;
+	const protocol = host.includes('localhost') ? 'http' : 'https';
+	const statusUrl = `${protocol}://${host}/status`;
 	checkStatus(statusUrl);
 	timerHandler = setInterval(() => {
 		logger.warn('Check the health status', statusUrl);
