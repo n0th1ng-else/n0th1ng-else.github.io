@@ -50,7 +50,7 @@ export const dateDifference = (start?: Date): string => {
 			const newPart = Math.floor(acc.ms / frame);
 			const newMs = acc.ms - newPart * frame;
 			return {
-				ms: acc.ms - newMs,
+				ms: newMs,
 				parts: [...acc.parts, newPart]
 			};
 		},
