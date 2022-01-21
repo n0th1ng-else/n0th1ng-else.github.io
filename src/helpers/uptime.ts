@@ -16,14 +16,14 @@ const checkStatus = (url: string): Promise<void> =>
 			err => logger.error('Unable to access the health status api!', err)
 		);
 
-export const initUptime = (host: string): void => {
+export const initUptime = (host?: string): void => {
 	if (timerHandler) {
 		return;
 	}
 
 	logger.warn('Initializing the status handler');
 	startDate = new Date();
-	const protocol = host.includes('localhost') ? 'http' : 'https';
+	const protocol = host && host.includes('localhost') ? 'http' : 'https';
 	const statusUrl = `${protocol}://${host}/status`;
 	checkStatus(statusUrl);
 	timerHandler = setInterval(() => {
