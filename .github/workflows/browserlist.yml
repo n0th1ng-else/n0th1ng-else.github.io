@@ -58,6 +58,7 @@ jobs:
           default_author: github_actor
           message: 'perf(browserlist): Deliver the Browserslist DB update'
           pull: 'NO-PULL'
+          push: origin ${{ env.GH_BROWSERLIST_BRANCH }} --force
 #      - name: 🏗 Create Pull-Request into dist branch
 #        if: steps.auto-commit.outputs.changes_detected == 'true'
 #        uses: repo-sync/pull-request@v2
