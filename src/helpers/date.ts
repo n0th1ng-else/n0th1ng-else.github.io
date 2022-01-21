@@ -1,11 +1,11 @@
-import {
-	format,
-	getYear,
-	differenceInCalendarDays,
-	differenceInHours,
-	differenceInMinutes
-} from 'date-fns';
+import { format, getYear } from 'date-fns';
 import type { LinkInfo } from '../../common';
+
+enum One {
+	Minute = 60 * 1_000,
+	Hour = 60 * 60 * 1_000,
+	Day = 24 * 60 * 60 * 1_000
+}
 
 export const getDateTime = (date: Date): string => format(date, 'HH:mm:ss');
 
@@ -40,13 +40,15 @@ export const getCurrentYear = (): number => getYear(new Date());
 
 export const dateDifference = (start?: Date): string => {
 	if (!start) {
-		return '0m';
+		return '0d 0h 0m';
 	}
 	const end = new Date();
+	const ms = end.getTime() - start.getTime();
+
 	const [d, h, m] = [
-		differenceInCalendarDays(end, start),
-		differenceInHours(end, start),
-		differenceInMinutes(end, start)
+		Math.floor(ms / One.Day),
+		Math.floor(ms / One.Hour),
+		Math.floor(ms / One.Minute)
 	];
 	return `${d}d ${h}h ${m}m`;
 };
@@ -56,5 +58,6 @@ export const dateDifferenceHours = (start?: Date): number => {
 		return 0;
 	}
 	const end = new Date();
-	return differenceInHours(end, start);
+	const ms = end.getTime() - start.getTime();
+	return Math.floor(ms / One.Hour);
 };
