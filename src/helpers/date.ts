@@ -45,11 +45,18 @@ export const dateDifference = (start?: Date): string => {
 	const end = new Date();
 	const ms = end.getTime() - start.getTime();
 
-	const [d, h, m] = [
-		Math.floor(ms / One.Day),
-		Math.floor(ms / One.Hour),
-		Math.floor(ms / One.Minute)
-	];
+	const [d, h, m] = [One.Day, One.Hour, One.Minute].reduce<{ ms: number; parts: number[] }>(
+		(acc, frame) => {
+			const newPart = Math.floor(acc.ms / frame);
+			const newMs = acc.ms - newPart * frame;
+			return {
+				ms: acc.ms - newMs,
+				parts: [...acc.parts, newPart]
+			};
+		},
+		{ ms, parts: [] }
+	).parts;
+
 	return `${d}d ${h}h ${m}m`;
 };
 
