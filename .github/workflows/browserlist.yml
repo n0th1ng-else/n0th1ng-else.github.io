@@ -55,20 +55,20 @@ jobs:
           # - user_info -> Your Display Name <your-actual@email.com>
           # - github_actions -> github-actions <email associated with the github logo>
           # Default: github_actor
-          default_author: github_actor
+          default_author: github_actions
           message: 'perf(browserlist): Deliver the Browserslist DB update'
           pull: 'NO-PULL'
           push: origin ${{ env.GH_BROWSERLIST_BRANCH }} --force
-#      - name: 🏗 Create Pull-Request into dist branch
-#        if: steps.auto-commit.outputs.changes_detected == 'true'
-#        uses: repo-sync/pull-request@v2
-#        with:
-#          pr_title: 'perf(browserlist): Deliver the Browserslist DB update'
-#          pr_body: ':crown: *An automated PR from the Browserlist workflow*'
-#          source_branch: ${{ env.GH_BROWSERLIST_BRANCH }}
-#          destination_branch: ${{ env.GH_DEV_BRANCH }}
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#
+
+      - name: 🏗 Create Pull-Request into dist branch
+        #        if: steps.auto-commit.outputs.changes_detected == 'true'
+        uses: repo-sync/pull-request@v2
+        with:
+          pr_title: 'perf(browserlist): Deliver the Browserslist DB update'
+          pr_body: ':crown: *An automated PR from the Browserlist workflow*'
+          source_branch: ${{ env.GH_BROWSERLIST_BRANCH }}
+          destination_branch: ${{ env.GH_DEV_BRANCH }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 #      - name: Log a message there is anything to commit
 #        if: steps.auto-commit.outputs.changes_detected == 'true'
 #        run: echo 'There is a browserlist update'
