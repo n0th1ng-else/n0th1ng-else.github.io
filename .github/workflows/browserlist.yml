@@ -67,7 +67,7 @@ jobs:
           pr_title: 'perf(browserlist): Deliver the Browserslist DB update'
           pr_body: ':crown: *An automated PR from the Browserlist workflow*'
           source_branch: ${{ env.GH_BROWSERLIST_BRANCH }}
-          destination_branch: ${{ env.GITHUB_REF_NAME }}
+          destination_branch: ${{ github.event.repository.default_branch }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 #      - name: Log a message there is anything to commit
 #        if: steps.auto-commit.outputs.changes_detected == 'true'
