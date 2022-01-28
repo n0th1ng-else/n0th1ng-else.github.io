@@ -2,7 +2,7 @@ name: Update DB
 
 on:
   schedule:
-    - cron: '50 22 * * *'
+    - cron: '30 19 * * *'
 
 jobs:
   browserlist-db:
@@ -69,7 +69,7 @@ jobs:
           pr_title: 'perf(browserlist): Deliver the Browserslist DB update'
           pr_body: ':crown: *An automated PR from the Browserlist workflow*'
           source_branch: ${{ env.GH_BROWSERLIST_BRANCH }}
-          destination_branch: ${{ env.GITHUB_REF_NAME }}
+          destination_branch: $GITHUB_REF_NAME
           github_token: ${{ secrets.GITHUB_TOKEN }}
 #      - name: Log a message there is anything to commit
 #        if: steps.auto-commit.outputs.changes_detected == 'true'
