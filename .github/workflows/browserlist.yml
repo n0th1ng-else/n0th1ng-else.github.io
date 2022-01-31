@@ -1,8 +1,9 @@
 name: Update DB
 
 on:
+  workflow_dispatch:
   schedule:
-    - cron: '30 19 * * *'
+    - cron: '30 12 * * *'
 
 jobs:
   browserlist-db:
@@ -11,24 +12,25 @@ jobs:
       GH_BROWSERLIST_BRANCH: update-browserlist-db
     name: Updates the browserlist db
     steps:
-      - uses: hmarr/debug-action@v2
+      - name: 🥪 Put the default branch name into env so the next steps can access it
+        run: echo "GH_BASE_BRANCH=${GITHUB_REF_NAME}" >> $GITHUB_ENV
 
       - name: ⬇️ Checkout
         uses: actions/checkout@v2
 
-      - name: Read NodeJS version from .nvmrc
+      - name: 📓️ Read NodeJS version from .nvmrc
         id: node-version
         uses: juliangruber/read-file-action@v1
         with:
           path: ./.nvmrc
           trim: true
 
-      - name: Setup NodeJS using the obtained nvm version
+      - name: ▶️ Setup NodeJS using the obtained nvm version
         uses: actions/setup-node@v2
         with:
           node-version: ${{ steps.node-version.outputs.content }}
 
-      - name: Restore cached node_modules
+      - name: 📖️ Restore cached node_modules
         uses: actions/cache@v2
         with:
           path: '**/node_modules'
@@ -37,7 +39,7 @@ jobs:
       - name: ▶️ Install Dependencies
         run: npm i
 
-      - name: Create a branch
+      - name: 🚧 Create a branch
         uses: peterjgrainger/action-create-branch@v2.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -47,7 +49,7 @@ jobs:
       - name: 🚀 Run the update-db command
         run: npx browserslist@latest --update-db
 
-      - uses: EndBug/add-and-commit@v7
+      - uses: 🚧 EndBug/add-and-commit@v7
         with:
           add: 'package-lock.json'
           branch: update-browserlist-db
@@ -63,18 +65,10 @@ jobs:
           push: origin ${{ env.GH_BROWSERLIST_BRANCH }} --force
 
       - name: 🏗 Create Pull-Request into dist branch
-        #        if: steps.auto-commit.outputs.changes_detected == 'true'
         uses: repo-sync/pull-request@v2
         with:
           pr_title: 'perf(browserlist): Deliver the Browserslist DB update'
           pr_body: ':crown: *An automated PR from the Browserlist workflow*'
           source_branch: ${{ env.GH_BROWSERLIST_BRANCH }}
-          destination_branch: $GITHUB_REF_NAME
+          destination_branch: ${{ env.GH_BASE_BRANCH }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-#      - name: Log a message there is anything to commit
-#        if: steps.auto-commit.outputs.changes_detected == 'true'
-#        run: echo 'There is a browserlist update'
-#
-#      - name: Log a message if nothing to commit
-#        if: steps.auto-commit.outputs.changes_detected == 'false'
-#        run: echo 'Everything is up to date'
