@@ -49,7 +49,8 @@ jobs:
       - name: 🚀 Run the update-db command
         run: npx browserslist@latest --update-db
 
-      - uses: 🚧 EndBug/add-and-commit@v7
+      - name: 🚧 Push the branch
+        uses: EndBug/add-and-commit@v7
         with:
           add: 'package-lock.json'
           branch: update-browserlist-db
