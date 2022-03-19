@@ -1,4 +1,4 @@
-type ArticleLanguage = 'en' | 'ru';
+export type ArticleLanguage = 'en' | 'ru';
 
 export interface LinkInfo {
 	id: string;
@@ -9,6 +9,8 @@ export interface LinkInfo {
 	meta: MetaInfo;
 	link?: string;
 	logo?: string;
+	content?: string;
+	internal?: boolean;
 }
 
 export interface MetaInfo {

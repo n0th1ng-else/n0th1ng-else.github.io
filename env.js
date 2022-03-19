@@ -6,6 +6,8 @@ const distInRoot = Boolean(process.env.DIST_ROOT) || false;
 
 const mode = process.env.NODE_ENV || 'development';
 
+const selfUrl = process.env.SELF_URL || '';
+
 const versionBuild = process.env.COMMIT_HASH || process.env.VERCEL_GIT_COMMIT_SHA || '';
 
 const version = process.env.APP_VERSION || '';
@@ -40,7 +42,8 @@ const procEnv = {
 	distInRoot,
 	mode,
 	version,
-	versionBuild
+	versionBuild,
+	selfUrl
 };
 
 export const env = {

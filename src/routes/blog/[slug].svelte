@@ -2,20 +2,35 @@
 	import type { Load } from '@sveltejs/kit';
 	import { notFoundRoute } from '../../helpers/routes';
 	import { getArticles } from '../../helpers/selectors';
+	import { getArticle } from '../../helpers/api';
 
-	export const load: Load = ({ page }) => {
+	export const load: Load = async ({ page }) => {
 		const slug = page.params.slug;
 		const host = page.host;
 		const path = page.path;
+		const pageUrl = `${host}${path}`;
 
 		const articles = getArticles();
 		const article = articles.find(artcl => artcl.id === slug);
+
+		// TODO make sure to delete this
+		try {
+			// eslint-disable-next-line no-console
+			console.log('url:', pageUrl, host);
+			const data = await getArticle(host, slug, true);
+			// eslint-disable-next-line no-console
+			console.log('Article loaded:', data.id);
+		} catch (err) {
+			// eslint-disable-next-line no-console
+			console.error('Unable to load article:', err);
+		}
 
 		if (!article) {
 			return {
 				headers: {
 					Location: notFoundRoute
 				},
+				redirect: notFoundRoute,
 				status: 302
 			};
 		}
@@ -23,7 +38,7 @@
 		return {
 			props: {
 				article,
-				pageUrl: `${host}${path}`
+				pageUrl
 			}
 		};
 	};
