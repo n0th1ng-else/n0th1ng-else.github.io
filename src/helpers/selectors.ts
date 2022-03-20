@@ -13,3 +13,5 @@ export const getVersion = (): string => runtime.env.version ?? '';
 export const getVersionBuild = (): string => runtime.env.versionBuild ?? '';
 
 export const isProduction = (): boolean => runtime.env.mode === 'production';
+
+export const getSelfUrl = (): string => runtime.env.selfUrl;

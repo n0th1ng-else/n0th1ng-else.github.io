@@ -1,15 +1,32 @@
 <script lang="ts" context="module">
 	import type { Load } from '@sveltejs/kit';
+	import { getArticles } from '../../helpers/api';
+	import { Logger } from '../../helpers/log';
 
-	export const load: Load = ({ page }) => {
+	const logger = new Logger('articles:ssr');
+
+	export const load: Load = async ({ page }) => {
 		const host = page.host;
 		const path = page.path;
+		const pageUrl = `${host}${path}`;
 
-		return {
-			props: {
-				pageUrl: `${host}${path}`
-			}
-		};
+		try {
+			const articles = await getArticles(host);
+			return {
+				props: {
+					articles: articles.items,
+					pageUrl
+				}
+			};
+		} catch (err) {
+			logger.error('Failed to load an articles', err);
+			return {
+				props: {
+					articles: [],
+					pageUrl
+				}
+			};
+		}
 	};
 </script>
 
@@ -22,16 +39,17 @@
 	import Paragraph from '../../ui/Paragraph.svelte';
 	import { toArticle } from '../../helpers/routes';
 	import { blogTitle as title } from '../../labels';
-	import { getArticles, getProfile } from '../../helpers/selectors';
+	import { getProfile } from '../../helpers/selectors';
 	import { groupByYear, getRelativeDate, sortByDate } from '../../helpers/date';
 	import { sortAsNumber } from '../../helpers/sort';
 	import type { LinkInfo } from '../../../common';
 
+	export let articles: LinkInfo[];
 	export let pageUrl: string;
 
 	const photo = getProfile().image ?? '';
 
-	const groups = groupByYear(getArticles());
+	const groups = groupByYear(articles);
 	const years = sortAsNumber(Object.keys(groups));
 
 	const getGroup = (year: string): LinkInfo[] => sortByDate(groups[year]);

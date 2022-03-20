@@ -1,6 +1,7 @@
 import type { CloudinaryPayload } from './cloudinary';
 import type { SignatureResponse, Version } from '../types/api';
 import type { MetaInfo, LinkInfo, ProfileAccounts } from '../../common';
+import type { WithPagination } from '../types/api';
 
 const runApi = <Req = unknown, Res = unknown>(
 	url: string,
@@ -22,6 +23,10 @@ const runApi = <Req = unknown, Res = unknown>(
 
 const getApiPath = (path: string, pageUrl?: string): string => {
 	const url = pageUrl ? `${pageUrl}/api/v1/${path}` : `/api/v1/${path}`;
+	return getUrlPrefix(url);
+};
+
+export const getUrlPrefix = (url: string): string => {
 	if (url.startsWith('http')) {
 		return url;
 	}
@@ -33,7 +38,7 @@ const withQuery = (url: string, params: Record<string, unknown>): string => {
 		.filter(key => params[key])
 		.map(key => `${key}=${params[key]}`)
 		.join('&');
-	return `${url}?${q}`;
+	return q ? `${url}?${q}` : url;
 };
 
 // Browser API ----------------------------------------------------------------
@@ -73,7 +78,7 @@ export const getProfile = (host: string): Promise<MetaInfo> => runApi(getApiPath
 export const getPackages = (host: string): Promise<LinkInfo[]> =>
 	runApi(getApiPath('packages', host));
 
-export const getArticles = (host: string, draft?: boolean): Promise<LinkInfo[]> =>
+export const getArticles = (host: string, draft?: boolean): Promise<WithPagination<LinkInfo>> =>
 	runApi(withQuery(getApiPath(`articles`, host), { draft }));
 
 export const getArticle = (host: string, slug: string, draft?: boolean): Promise<LinkInfo> =>

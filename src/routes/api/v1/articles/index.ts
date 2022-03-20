@@ -1,11 +1,12 @@
 import type { RequestHandler } from '@sveltejs/kit';
 
-import type { LinkInfo } from '../../../../../common';
 import { getArticles } from '../../../../helpers/selectors';
 import { getInternalArticles } from '../../../../helpers/server/articles';
+import type { LinkInfo } from '../../../../../common';
+import type { WithPagination } from '../../../../types/api';
 
 // @ts-expect-error finite interface CAN NOT have index signature
-export const get: RequestHandler<void, void, LinkInfo[]> = ({ query }) => {
+export const get: RequestHandler<void, void, WithPagination<LinkInfo>> = ({ query }) => {
 	try {
 		const showDraft = query.get('draft') === 'true';
 		const items = [...getArticles(), ...getInternalArticles(showDraft)];

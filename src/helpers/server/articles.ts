@@ -9,10 +9,11 @@ import { Logger } from '../log';
 const logger = new Logger('articles:server');
 
 interface InternalMetadata {
+	title: string;
+	description: string;
 	language: ArticleLanguage;
 	published: string;
-	description: string;
-	title: string;
+	keywords: string[];
 	draft?: boolean;
 }
 
@@ -65,7 +66,6 @@ const parseArticle = (
 	try {
 		const fileContents = readFileSync(file, 'utf8');
 		const { content, metadata } = parseMD(fileContents);
-		const articleContent = withContent ? { content } : {};
 
 		if (!isMetadata(metadata)) {
 			return null;
@@ -76,8 +76,13 @@ const parseArticle = (
 			return null;
 		}
 
+		const articleContent = withContent ? { content } : {};
+		const keywords =
+			metadata.keywords && Array.isArray(metadata.keywords) ? { keywords: metadata.keywords } : {};
+
 		return {
 			...articleContent,
+			...keywords,
 			id: slug,
 			service: 'blog',
 			url: slug,
