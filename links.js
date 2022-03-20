@@ -1,4 +1,3 @@
-import { get } from 'https';
 import { randomUUID } from 'crypto';
 import slug from 'slug';
 import scrapper from 'metascraper';
