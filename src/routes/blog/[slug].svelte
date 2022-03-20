@@ -1,8 +1,10 @@
 <script lang="ts" context="module">
 	import type { Load } from '@sveltejs/kit';
 	import { notFoundRoute } from '../../helpers/routes';
-	import { getArticles } from '../../helpers/selectors';
 	import { getArticle } from '../../helpers/api';
+	import { Logger } from '../../helpers/log';
+
+	const logger = new Logger('article:ssr');
 
 	export const load: Load = async ({ page }) => {
 		const slug = page.params.slug;
@@ -10,22 +12,16 @@
 		const path = page.path;
 		const pageUrl = `${host}${path}`;
 
-		const articles = getArticles();
-		const article = articles.find(artcl => artcl.id === slug);
-
-		// TODO make sure to delete this
 		try {
-			// eslint-disable-next-line no-console
-			console.log('url:', pageUrl, host);
-			const data = await getArticle(host, slug, true);
-			// eslint-disable-next-line no-console
-			console.log('Article loaded:', data.id);
+			const article = await getArticle(host, slug);
+			return {
+				props: {
+					article,
+					pageUrl
+				}
+			};
 		} catch (err) {
-			// eslint-disable-next-line no-console
-			console.error('Unable to load article:', err);
-		}
-
-		if (!article) {
+			logger.error(`Failed to load an article "${slug}"`, err);
 			return {
 				headers: {
 					Location: notFoundRoute
@@ -34,13 +30,6 @@
 				status: 302
 			};
 		}
-
-		return {
-			props: {
-				article,
-				pageUrl
-			}
-		};
 	};
 </script>
 

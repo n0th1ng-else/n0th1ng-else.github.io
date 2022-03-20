@@ -2,12 +2,12 @@ import type { CloudinaryPayload } from './cloudinary';
 import type { SignatureResponse, Version } from '../types/api';
 import type { MetaInfo, LinkInfo, ProfileAccounts } from '../../common';
 
-const runApi = <Req, Res>(
+const runApi = <Req = unknown, Res = unknown>(
 	url: string,
 	method: 'POST' | 'GET' = 'GET',
 	body?: Req
-): Promise<Res> => {
-	return fetch(url, {
+): Promise<Res> =>
+	fetch(url, {
 		method,
 		headers: {
 			'Content-Type': 'application/json'
@@ -19,28 +19,30 @@ const runApi = <Req, Res>(
 		}
 		return response.json();
 	});
-};
 
 const getApiPath = (path: string, pageUrl?: string): string => {
 	const url = pageUrl ? `${pageUrl}/api/v1/${path}` : `/api/v1/${path}`;
-	return url.startsWith('http') ? url : `https://${url}`;
+	if (url.startsWith('http')) {
+		return url;
+	}
+	return url.includes('localhost') ? `http://${url}` : `https://${url}`;
 };
 
-export const convertMarkdown = (data: string): Promise<string> =>
-	fetch(getApiPath('markdown'), {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			data
-		})
-	})
-		.then(result => result.json())
-		.then(({ result }) => result);
+const withQuery = (url: string, params: Record<string, unknown>): string => {
+	const q = Object.keys(params)
+		.filter(key => params[key])
+		.map(key => `${key}=${params[key]}`)
+		.join('&');
+	return `${url}?${q}`;
+};
 
-export const getSignature = (): Promise<SignatureResponse> =>
-	fetch(getApiPath('upload-form')).then(result => result.json());
+// Browser API ----------------------------------------------------------------
+export const convertMarkdown = (data: string): Promise<string> =>
+	runApi<string, { result: string }>(getApiPath('markdown'), 'POST', data).then(
+		({ result }) => result
+	);
+
+export const getSignature = (): Promise<SignatureResponse> => runApi(getApiPath('upload-form'));
 
 export const uploadImage = (data: SignatureResponse, file: File): Promise<string> => {
 	if (!data.url) {
@@ -55,32 +57,29 @@ export const uploadImage = (data: SignatureResponse, file: File): Promise<string
 	Object.keys(body).forEach(item => {
 		form.append(item, body[item]);
 	});
-	return fetch(url, { method: 'POST', body: form })
-		.then(result => result.json())
-		.then(result => {
-			const imageUrl = result.url;
-			if (!imageUrl) {
-				throw new Error('Something went wrong');
-			}
+	return runApi<FormData, { url: string }>(url, 'POST', form).then(result => {
+		const imageUrl = result.url;
+		if (!imageUrl) {
+			throw new Error('Something went wrong');
+		}
 
-			return imageUrl;
-		});
+		return imageUrl;
+	});
 };
 
-export const getProfile = (): Promise<MetaInfo> =>
-	fetch(getApiPath('profile')).then(result => result.json());
+// Server API ----------------------------------------------------------------
+export const getProfile = (host: string): Promise<MetaInfo> => runApi(getApiPath('profile', host));
 
-export const getPackages = (): Promise<LinkInfo[]> =>
-	fetch(getApiPath('packages')).then(result => result.json());
+export const getPackages = (host: string): Promise<LinkInfo[]> =>
+	runApi(getApiPath('packages', host));
 
-export const getArticles = (showDraft = false): Promise<LinkInfo[]> =>
-	fetch(getApiPath(`articles?draft=${showDraft}`)).then(result => result.json());
+export const getArticles = (host: string, draft?: boolean): Promise<LinkInfo[]> =>
+	runApi(withQuery(getApiPath(`articles`, host), { draft }));
 
-export const getArticle = (pageUrl: string, slug: string, showDraft = false): Promise<LinkInfo> =>
-	runApi(getApiPath(`articles/${slug}?draft=${showDraft}`, pageUrl));
+export const getArticle = (host: string, slug: string, draft?: boolean): Promise<LinkInfo> =>
+	runApi(withQuery(getApiPath(`articles/${slug}`, host), { draft }));
 
-export const getAccounts = (): Promise<ProfileAccounts> =>
-	fetch(getApiPath('accounts')).then(result => result.json());
+export const getAccounts = (host: string): Promise<ProfileAccounts> =>
+	runApi(getApiPath('accounts', host));
 
-export const getVersion = (): Promise<Version> =>
-	fetch(getApiPath('version')).then(result => result.json());
+export const getVersion = (host: string): Promise<Version> => runApi(getApiPath('version', host));
