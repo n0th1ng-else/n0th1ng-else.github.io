@@ -55,25 +55,32 @@ const getCatawiki = (): ProjectItem => ({
 export const getWorkProjects = (): ProjectItem[] => [getCatawiki(), getSetronica(), getNSS()];
 
 const transformPackage = (pkg: LinkInfo): ProjectItem => {
-	const isGithubProject = pkg.service === 'github';
 	const github = getAccounts().github;
 
-	if (!isGithubProject) {
-		return {
-			name: pkg.meta.title || pkg.url,
-			source: pkg.meta.title ? getGithubLink(github, pkg.meta.title) : undefined,
-			registry: pkg.fullUrl,
-			description: pkg.meta.description ?? undefined
-		};
+	switch (pkg.service) {
+		case 'github':
+			return {
+				name: pkg.url,
+				source: pkg.meta.url || pkg.fullUrl,
+				description: pkg.meta.title.substr(pkg.meta.title.indexOf(': ') + 2),
+				url: pkg.link,
+				logo: pkg.logo
+			};
+		case 'npm':
+			return {
+				name: pkg.meta.title || pkg.url,
+				source: pkg.meta.title ? getGithubLink(github, pkg.meta.title) : undefined,
+				registry: pkg.fullUrl,
+				description: pkg.meta.description.slice(0, pkg.meta.description.indexOf('Latest version:'))
+			};
+		default:
+			return {
+				name: pkg.meta.title || pkg.url,
+				source: pkg.meta.title ? getGithubLink(github, pkg.meta.title) : undefined,
+				registry: pkg.fullUrl,
+				description: pkg.meta.description
+			};
 	}
-
-	return {
-		name: pkg.url,
-		source: pkg.meta.url || pkg.fullUrl,
-		description: pkg.meta.title.substr(pkg.meta.title.indexOf(': ') + 2),
-		url: pkg.link,
-		logo: pkg.logo
-	};
 };
 
 export const getPetProjects = (): ProjectItem[] => getPackages().map(pkg => transformPackage(pkg));
