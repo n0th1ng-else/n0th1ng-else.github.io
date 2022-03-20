@@ -3,6 +3,7 @@ import preprocess from 'svelte-preprocess';
 import inject from '@rollup/plugin-inject';
 import nodeAdapter from '@sveltejs/adapter-node';
 import staticAdapter from '@sveltejs/adapter-static';
+import { env } from './env.js';
 
 const isStatic = process.env.BUILD_STATIC === 'true';
 
@@ -16,6 +17,7 @@ const config = {
 		// hydrate the <div id="svelte"> element in src/app.html
 		target: '#svelte',
 		appDir: 'generated',
+		host: env.procEnv.selfUrl,
 		adapter: isStatic
 			? staticAdapter({
 					pages: 'dist',
