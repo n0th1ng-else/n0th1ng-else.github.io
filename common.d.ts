@@ -11,6 +11,7 @@ export interface LinkInfo {
 	logo?: string;
 	content?: string;
 	internal?: boolean;
+	keywords?: string[];
 }
 
 export interface MetaInfo {

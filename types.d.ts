@@ -15,6 +15,7 @@ declare global {
 			accounts: ProfileAccounts;
 			version: string;
 			versionBuild: string;
+			selfUrl: string;
 		};
 		profile: MetaInfo;
 		publications: LinkInfo[];
