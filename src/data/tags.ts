@@ -1,8 +1,10 @@
+import { getUrlPrefix } from '../helpers/api';
+
 export class TagModel {
 	constructor(public readonly title: string, private readonly url: string) {}
 
 	public getUrl(): string {
-		return `https://${this.url}`;
+		return getUrlPrefix(this.url);
 	}
 }
 

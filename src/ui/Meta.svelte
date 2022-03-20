@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { MetaType, TwitterType } from '../helpers/meta';
 	import { getPageTitle } from '../labels';
+	import { getUrlPrefix } from '../helpers/api';
 
 	export let type: MetaType = 'website'; // Facebook type
 	export let twitterType: TwitterType = 'summary'; // Twitter type
@@ -13,6 +14,7 @@
 	export let imageAlt = ''; // Image alt text
 
 	const siteName = getPageTitle('Webdev Blog'); // Common website name
+	const fullUrl = getUrlPrefix(url);
 </script>
 
 <svelte:head>
@@ -20,7 +22,7 @@
 	<meta property="og:title" content="{title}" />
 
 	<meta property="og:image" content="{image}" />
-	<meta property="og:url" content="{`https://${url}`}" />
+	<meta property="og:url" content="{fullUrl}" />
 	<meta property="og:site_name" content="{siteName}" />
 
 	{#if description}
@@ -33,7 +35,7 @@
 	<meta name="twitter:title" content="{title}" />
 	<meta name="twitter:text:title" content="{title}" />
 	<meta name="twitter:image" content="{image}" />
-	<meta name="twitter:url" content="{`https://${url}`}" />
+	<meta name="twitter:url" content="{fullUrl}" />
 
 	{#if imageAlt}
 		<meta name="twitter:image:alt" content="{imageAlt}" />

@@ -2,9 +2,10 @@ import parseMD from 'parse-md';
 import { resolve as resolvePath } from 'path';
 import { readdirSync, readFileSync } from 'fs';
 
-import type { LinkInfo } from '../../../common';
-import type { ArticleLanguage } from '../../../common';
 import { Logger } from '../log';
+import { getUrlPrefix } from '../api';
+import { getSelfUrl } from '../selectors';
+import type { LinkInfo, ArticleLanguage } from '../../../common';
 
 const logger = new Logger('articles:server');
 
@@ -80,6 +81,8 @@ const parseArticle = (
 		const keywords =
 			metadata.keywords && Array.isArray(metadata.keywords) ? { keywords: metadata.keywords } : {};
 
+		const fullUrl = getUrlPrefix(`${getSelfUrl()}/blog/${slug}`);
+
 		return {
 			...articleContent,
 			...keywords,
@@ -87,7 +90,7 @@ const parseArticle = (
 			service: 'blog',
 			url: slug,
 			lang: metadata.language,
-			fullUrl: `https://nothing-else.blog/blog/${slug}`,
+			fullUrl,
 			internal: true,
 			meta: {
 				author: 'Sergey Nikitin',
@@ -97,7 +100,7 @@ const parseArticle = (
 				logo: null,
 				publisher: 'nothing-else.blog',
 				title: metadata.title,
-				url: `https://nothing-else.blog/blog/${slug}`
+				url: fullUrl
 			}
 		};
 	} catch (err) {

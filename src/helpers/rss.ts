@@ -58,11 +58,10 @@ const getRssContainer = (channel: string): string =>
             ${channel}
         </rss>`;
 
-export const generateRss = (host: string, articles: LinkInfo[]): string => {
-	const fullHost = `https://${host}`;
+export const generateRss = (url: string, articles: LinkInfo[]): string => {
 	const photo = getProfile().image;
-	const rssData = getRssArticles(fullHost, articles);
-	const channel = getRssChannel(fullHost, rssData, photo);
+	const rssData = getRssArticles(url, articles);
+	const channel = getRssChannel(url, rssData, photo);
 	const container = getRssContainer(channel);
 	return container;
 };
