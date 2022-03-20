@@ -1,15 +1,32 @@
 <script lang="ts" context="module">
 	import type { Load } from '@sveltejs/kit';
+	import { getArticles } from '../helpers/api';
+	import { Logger } from '../helpers/log';
 
-	export const load: Load = ({ page }) => {
+	const logger = new Logger('home:ssr');
+
+	export const load: Load = async ({ page }) => {
 		const host = page.host;
 		const path = page.path;
+		const pageUrl = `${host}${path}`;
 
-		return {
-			props: {
-				pageUrl: `${host}${path}`
-			}
-		};
+		try {
+			const articles = await getArticles(host);
+			return {
+				props: {
+					articles: articles.items,
+					pageUrl
+				}
+			};
+		} catch (err) {
+			logger.error('Failed to load articles', err);
+			return {
+				props: {
+					articles: [],
+					pageUrl
+				}
+			};
+		}
 	};
 </script>
 
@@ -22,15 +39,17 @@
 	import { homeTitle as title } from '../labels';
 	import { blogRoute } from '../helpers/routes';
 	import { sortByDate } from '../helpers/date';
-	import { getEngArticles } from '../helpers/articles';
 	import { getProfile } from '../helpers/selectors';
+	import type { LinkInfo } from '../../common';
 
+	export let articles: LinkInfo[];
 	export let pageUrl: string;
 
 	const photo = getProfile().image ?? '';
 
-	const articles = sortByDate(getEngArticles());
-	const article = articles.length ? articles[0] : undefined;
+	const engArticles = articles.filter(article => article.lang === 'en');
+	const sortedArticles = sortByDate(engArticles);
+	const article = sortedArticles.length ? sortedArticles[0] : undefined;
 </script>
 
 <Meta

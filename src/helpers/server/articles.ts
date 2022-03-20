@@ -4,7 +4,7 @@ import { readdirSync, readFileSync } from 'fs';
 
 import { Logger } from '../log';
 import { getUrlPrefix } from '../api';
-import { getSelfUrl } from '../selectors';
+import { getExternalArticles, getSelfUrl } from '../selectors';
 import type { LinkInfo, ArticleLanguage } from '../../../common';
 
 const logger = new Logger('articles:server');
@@ -127,3 +127,8 @@ export const getInternalArticle = (slug: string, showDraft: boolean): LinkInfo |
 	const withContent = true;
 	return parseArticle(file.slug, file.location, showDraft, withContent);
 };
+
+export const getAllArticles = (showDraft = false): LinkInfo[] => [
+	...getExternalArticles(),
+	...getInternalArticles(showDraft)
+];
