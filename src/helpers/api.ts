@@ -21,9 +21,9 @@ const runApi = <Req, Res>(
 	});
 };
 
-const getApiPath = (path: string, pageUrl?: string) => {
+const getApiPath = (path: string, pageUrl?: string): string => {
 	const url = pageUrl ? `${pageUrl}/api/v1/${path}` : `/api/v1/${path}`;
-	return url.startsWith('http') ? url : `http://${url}`;
+	return url.startsWith('http') ? url : `https://${url}`;
 };
 
 export const convertMarkdown = (data: string): Promise<string> =>
