@@ -1,5 +1,6 @@
 import { createHash } from 'crypto';
 import { sortAsText } from './sort';
+import { getUrlPrefix } from './api';
 
 const generateSha1Hash = (data: string): string => {
 	const sha = createHash('sha1');
@@ -48,4 +49,4 @@ export const signPayload = (
 };
 
 export const getUrl = (account: string, type: CloudinaryResource): string =>
-	`https://api.cloudinary.com/v1_1/${account}/${type}/upload`;
+	getUrlPrefix(`api.cloudinary.com/v1_1/${account}/${type}/upload`);
