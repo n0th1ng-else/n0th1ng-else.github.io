@@ -1,7 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit';
 
 import { getInternalArticle } from '../../../../helpers/server/articles';
-import { getArticles } from '../../../../helpers/selectors';
+import { getExternalArticles } from '../../../../helpers/selectors';
 import type { LinkInfo } from '../../../../../common';
 
 // @ts-expect-error finite interface CAN NOT have index signature
@@ -17,7 +17,7 @@ export const get: RequestHandler<void, void, LinkInfo> = ({ params, query }) => 
 			};
 		}
 
-		const externalArticles = getArticles();
+		const externalArticles = getExternalArticles();
 		const external = externalArticles.find(({ id }) => id === slug);
 		if (external) {
 			return {

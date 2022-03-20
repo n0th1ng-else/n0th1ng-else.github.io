@@ -1,7 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 
-import { getArticles } from '../../../../helpers/selectors';
-import { getInternalArticles } from '../../../../helpers/server/articles';
+import { getAllArticles } from '../../../../helpers/server/articles';
 import type { LinkInfo } from '../../../../../common';
 import type { WithPagination } from '../../../../types/api';
 
@@ -9,7 +8,7 @@ import type { WithPagination } from '../../../../types/api';
 export const get: RequestHandler<void, void, WithPagination<LinkInfo>> = ({ query }) => {
 	try {
 		const showDraft = query.get('draft') === 'true';
-		const items = [...getArticles(), ...getInternalArticles(showDraft)];
+		const items = getAllArticles(showDraft);
 
 		const body = {
 			page: 1,

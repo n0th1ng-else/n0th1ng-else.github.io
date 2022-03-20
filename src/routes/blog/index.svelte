@@ -19,7 +19,7 @@
 				}
 			};
 		} catch (err) {
-			logger.error('Failed to load an articles', err);
+			logger.error('Failed to load articles', err);
 			return {
 				props: {
 					articles: [],

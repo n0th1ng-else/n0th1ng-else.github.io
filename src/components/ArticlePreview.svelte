@@ -8,22 +8,22 @@
 	import { getServiceTitle } from '../labels';
 	import { openUrl } from '../helpers/links';
 
-	export let article: LinkInfo | undefined;
+	export let article: LinkInfo;
 	export let showDate = false;
 	export let readonly = false;
 
-	const date = getRelativeDate(article?.meta.date);
-	const text = article?.meta.description;
-	const url = article?.fullUrl ?? '';
-	const host = getServiceTitle(article?.service);
-	const image = article?.meta.image;
+	const date = getRelativeDate(article.meta.date);
+	const text = article.meta.description;
+	const url = article.fullUrl ?? '';
+	const host = getServiceTitle(article.service);
+	const image = article.meta.image;
 
 	const onClick = () => openUrl(url);
 	const btnText = host ? `Read more on ${host}` : 'Read More';
 </script>
 
 <section>
-	<Title centered="{false}">{article?.meta.title}</Title>
+	<Title centered="{false}">{article.meta.title}</Title>
 	{#if showDate}
 		<aside class="article-preview__date">
 			<AdditionalText>{date}</AdditionalText>
