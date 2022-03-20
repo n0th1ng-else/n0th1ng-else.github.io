@@ -60,7 +60,7 @@
 		"lint:all": "eslint .",
 		"build": "svelte-kit build",
 		"validate": "svelte-check",
-		"dev": "svelte-kit dev --https",
+		"dev": "svelte-kit dev",
 		"preview": "svelte-kit preview",
 		"start": "node dist"
 	},
