@@ -16,3 +16,13 @@ export interface WithPagination<Item> {
 	items: Item[];
 	total: number;
 }
+
+export enum ApplicationStatus {
+	OK = 'OK'
+}
+
+export interface StatusDto {
+	status: ApplicationStatus;
+	version: string;
+	uptime: string;
+}

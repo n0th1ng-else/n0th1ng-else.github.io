@@ -3,7 +3,7 @@ import type { SignatureResponse, Version } from '../types/api';
 import type { MetaInfo, LinkInfo, ProfileAccounts } from '../../common';
 import type { WithPagination } from '../types/api';
 
-const runApi = <Req = unknown, Res = unknown>(
+export const runApi = <Res = unknown, Req = unknown>(
 	url: string,
 	method: 'POST' | 'GET' = 'GET',
 	body?: Req
@@ -43,7 +43,7 @@ const withQuery = (url: string, params: Record<string, unknown>): string => {
 
 // Browser API ----------------------------------------------------------------
 export const convertMarkdown = (data: string): Promise<string> =>
-	runApi<string, { result: string }>(getApiPath('markdown'), 'POST', data).then(
+	runApi<{ result: string }, string>(getApiPath('markdown'), 'POST', data).then(
 		({ result }) => result
 	);
 
@@ -62,7 +62,7 @@ export const uploadImage = (data: SignatureResponse, file: File): Promise<string
 	Object.keys(body).forEach(item => {
 		form.append(item, body[item]);
 	});
-	return runApi<FormData, { url: string }>(url, 'POST', form).then(result => {
+	return runApi<{ url: string }, FormData>(url, 'POST', form).then(result => {
 		const imageUrl = result.url;
 		if (!imageUrl) {
 			throw new Error('Something went wrong');
