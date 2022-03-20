@@ -5,7 +5,7 @@
 	"dependencies": {
 		"date-fns": "2.16.1",
 		"highlight.js": "11.2.0",
-		"marked": "3.0.4",
+		"marked": "4.0.10",
 		"parse-md": "^3.0.3"
 	},
 	"devDependencies": {
