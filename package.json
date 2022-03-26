@@ -6,7 +6,10 @@
 		"date-fns": "2.16.1",
 		"highlight.js": "11.2.0",
 		"marked": "3.0.4",
-		"parse-md": "^3.0.3"
+		"parse-md": "^3.0.3",
+		"sqip": "canary",
+		"sqip-plugin-data-uri": "canary",
+		"sqip-plugin-pixels": "canary"
 	},
 	"devDependencies": {
 		"@rollup/plugin-inject": "4.0.2",

@@ -3,6 +3,7 @@
 	import Title from '../ui/Title.svelte';
 	import AdditionalText from '../ui/AdditionalText.svelte';
 	import SubTitle from '../ui/SubTitle.svelte';
+	import Image from './Image.svelte';
 	import type { LinkInfo } from '../../common';
 	import { getRelativeDate } from '../helpers/date';
 	import { getServiceTitle } from '../labels';
@@ -17,6 +18,7 @@
 	const url = article.fullUrl ?? '';
 	const host = getServiceTitle(article.service);
 	const image = article.meta.image;
+	const preview = article.meta.imagePreview;
 
 	const onClick = () => openUrl(url);
 	const btnText = host ? `Read more on ${host}` : 'Read More';
@@ -33,7 +35,7 @@
 	<div class="article-preview">
 		{#if image}
 			<p class="article-preview__logo-container">
-				<img class="article-preview__logo" src="{image}" alt="" />
+				<Image alt="article logo" width="100%" height="auto" image="{image}" preview="{preview}" />
 			</p>
 		{/if}
 		<div class="article-preview__description">
@@ -64,11 +66,6 @@
 
 		&__logo-container {
 			margin: $unit auto;
-			width: 100%;
-		}
-
-		&__logo {
-			height: auto;
 			width: 100%;
 		}
 

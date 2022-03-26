@@ -19,6 +19,7 @@ export interface MetaInfo {
 	date: string | null;
 	description: string | null;
 	image: string | null;
+	imagePreview: string | null;
 	logo: string | null;
 	publisher: string | null;
 	title: string | null;

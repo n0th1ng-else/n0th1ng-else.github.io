@@ -6,6 +6,7 @@ import { Logger } from '../log';
 import { getUrlPrefix } from '../api';
 import { getExternalArticles, getSelfUrl } from '../selectors';
 import type { LinkInfo, ArticleLanguage } from '../../../common';
+import { getPreview } from './images';
 
 const logger = new Logger('articles:server');
 
@@ -16,6 +17,7 @@ interface InternalMetadata {
 	published: string;
 	keywords: string[];
 	draft?: boolean;
+	image?: string;
 }
 
 interface FilesystemDescription {
@@ -96,7 +98,8 @@ const parseArticle = (
 				author: 'Sergey Nikitin',
 				date: metadata.published,
 				description: metadata.description,
-				image: null,
+				image: metadata.image,
+				imagePreview: getPreview(metadata.image),
 				logo: null,
 				publisher: 'nothing-else.blog',
 				title: metadata.title,
