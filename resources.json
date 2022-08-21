@@ -69,7 +69,7 @@
 			"url": "voice-to-text-bot",
 			"lang": "en",
 			"link": "https://t.me/audiomessbot",
-			"logo": "https://raw.githubusercontent.com/n0th1ng-else/voice-to-text-bot/master/assets/botPic/botPic.svg"
+			"logo": "https://raw.githubusercontent.com/n0th1ng-else/voice-to-text-bot/master/assets/v2/botPic.png"
 		},
 		{
 			"service": "npm",

@@ -6,7 +6,6 @@
 	import type { LinkInfo } from '../../common';
 	import { getRelativeDate } from '../helpers/date';
 	import { getServiceTitle } from '../labels';
-	import { openUrl } from '../helpers/links';
 
 	export let article: LinkInfo;
 	export let showDate = false;
@@ -18,7 +17,6 @@
 	const host = getServiceTitle(article.service);
 	const image = article.meta.image;
 
-	const onClick = () => openUrl(url);
 	const btnText = host ? `Read more on ${host}` : 'Read More';
 </script>
 
@@ -42,7 +40,7 @@
 			</SubTitle>
 		</div>
 		<p class="article-preview__read-more">
-			<Button hint="Read more" on:click="{onClick}" disabled="{readonly}">{btnText}</Button>
+			<Button hint="Read more" href="{url}" disabled="{readonly}">{btnText}</Button>
 		</p>
 	</div>
 </section>

@@ -27,7 +27,7 @@
 	.ui-additional-text {
 		@include set-font();
 		&.small {
-			font-size: $font-size-small;
+			font-size: $font-size-smaller;
 		}
 		&.l {
 			@include text-style($l-secondary);

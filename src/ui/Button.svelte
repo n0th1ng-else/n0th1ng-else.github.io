@@ -21,26 +21,47 @@
 	export let hint = '';
 
 	export let disabled = false;
+
+	export let href = '';
 </script>
 
-<button
-	class:l="{!isDark}"
-	class:d="{isDark}"
-	class:secondary
-	class:inline
-	class="ui-button"
-	on:click="{onClick}"
-	title="{hint}"
-	disabled="{disabled}"
->
-	<span class="ui-button__text">
-		<slot />
-	</span>
-
-	{#if icon}
-		<img src="{icon}" class="ui-button__icon" alt="{hint}" />
-	{/if}
-</button>
+{#if href}
+	<a
+		class:l="{!isDark}"
+		class:d="{isDark}"
+		class:secondary
+		class:inline
+		class="ui-button"
+		on:click="{onClick}"
+		title="{hint}"
+		href="{href}"
+	>
+		<span class="ui-button__text">
+			<slot />
+		</span>
+		{#if icon}
+			<img src="{icon}" class="ui-button__icon" alt="{hint}" />
+		{/if}
+	</a>
+{:else}
+	<button
+		class:l="{!isDark}"
+		class:d="{isDark}"
+		class:secondary
+		class:inline
+		class="ui-button"
+		on:click="{onClick}"
+		title="{hint}"
+		disabled="{disabled}"
+	>
+		<span class="ui-button__text">
+			<slot />
+		</span>
+		{#if icon}
+			<img src="{icon}" class="ui-button__icon" alt="{hint}" />
+		{/if}
+	</button>
+{/if}
 
 <style lang="scss">
 	@import './theme';
@@ -64,6 +85,7 @@
 		cursor: pointer;
 		display: flex;
 		padding: $unit-half;
+		text-decoration: none;
 
 		&.secondary {
 			border: 0;
@@ -85,6 +107,7 @@
 
 		&__text {
 			@include set-font();
+			font-size: $font-size-small;
 			text-transform: capitalize;
 		}
 

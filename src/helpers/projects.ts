@@ -1,6 +1,7 @@
 import nssLogo from '../assets/images/nss-logo.png';
 import setronicaLogo from '../assets/images/setronica-logo.png';
 import catawikiLogo from '../assets/images/catawiki-logo.svg';
+import tradeshiftLogo from '../assets/images/tradeshift-logo.svg';
 import { getAccounts, getPackages } from './selectors';
 import { getGithubLink } from './links';
 import type { LinkInfo } from '../../common';
@@ -43,6 +44,16 @@ const getSetronica = (): ProjectItem => ({
 	endDate: '01-06-2021'
 });
 
+const getTradeshift = (): ProjectItem => ({
+	name: 'Tradeshift',
+	logo: tradeshiftLogo,
+	url: 'https://tradeshift.com',
+	tags: ['React', 'Angular', 'NodeJS'],
+	position: Position.Frontend,
+	startDate: '01-09-2016',
+	endDate: '01-06-2021'
+});
+
 const getCatawiki = (): ProjectItem => ({
 	name: 'Catawiki',
 	logo: catawikiLogo,
@@ -52,7 +63,12 @@ const getCatawiki = (): ProjectItem => ({
 	startDate: '01-07-2021'
 });
 
-export const getWorkProjects = (): ProjectItem[] => [getCatawiki(), getSetronica(), getNSS()];
+export const getWorkProjects = (): ProjectItem[] => [
+	getCatawiki(),
+	getTradeshift(),
+	getSetronica(),
+	getNSS()
+];
 
 const transformPackage = (pkg: LinkInfo): ProjectItem => {
 	const github = getAccounts().github;

@@ -4,7 +4,6 @@
 	import Tag from './Tag.svelte';
 	import AdditionalText from './AdditionalText.svelte';
 	import LowerTitle from './LowerTitle.svelte';
-	import { openUrl } from '../helpers/links';
 	import { onThemeChange, isDarkTheme, defaultTheme } from '../helpers/theme';
 	import type { ProjectItem } from '../helpers/projects';
 	import { getPositionTitle } from '../labels';
@@ -12,8 +11,6 @@
 	export let item: ProjectItem;
 	export let readonly = false;
 	export let extended = false;
-
-	const onClick = (url: string) => () => openUrl(url);
 
 	let isDark = isDarkTheme(defaultTheme);
 
@@ -41,17 +38,17 @@
 	<div class="ui-card__actions ui-card__section">
 		{#if item.url}
 			<div class="ui-card__action">
-				<Button on:click="{onClick(item.url)}" disabled="{readonly}">Web</Button>
+				<Button href="{item.url}" disabled="{readonly}">Web</Button>
 			</div>
 		{/if}
 		{#if item.source}
 			<div class="ui-card__action">
-				<Button on:click="{onClick(item.source)}" disabled="{readonly}">Source</Button>
+				<Button href="{item.source}" disabled="{readonly}">Source</Button>
 			</div>
 		{/if}
 		{#if item.registry}
 			<div class="ui-card__action">
-				<Button on:click="{onClick(item.registry)}" disabled="{readonly}">Package</Button>
+				<Button href="{item.registry}" disabled="{readonly}">Package</Button>
 			</div>
 		{/if}
 	</div>
