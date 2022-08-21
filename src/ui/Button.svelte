@@ -10,7 +10,9 @@
 
 	const dispatch = createEventDispatcher();
 
-	const onClick = (): void => dispatch('click');
+	const onClick = (): void => {
+		dispatch('click');
+	};
 
 	export let secondary = false;
 
