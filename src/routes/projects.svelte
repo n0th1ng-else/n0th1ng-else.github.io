@@ -36,7 +36,7 @@
 
 <Meta
 	image="{photo}"
-	description="Big and small noticable projects I am contributing to. Most of them related to Frontend or NodeJS. Find them all in the my GitHub account."
+	description="Big and small noticeable projects I am contributing to. Most of them related to Frontend or NodeJS. Find them all in the my GitHub account."
 	url="{pageUrl}"
 />
 <article>
