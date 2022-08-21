@@ -6,7 +6,9 @@
 	import { onThemeChange, isDarkTheme, defaultTheme } from '../helpers/theme';
 
 	const dispatch = createEventDispatcher();
-	const onClick = (): void => dispatch('click');
+	const onClick = (): void => {
+		dispatch('click');
+	};
 
 	export let type: 'up' | 'left' = 'up';
 	export let size: 'sm' | 'md' | 'lg' = 'lg';
