@@ -120,6 +120,7 @@ const getPackagesInfo = (packages, info = []) => {
 const sleepFor = (ms = 1000) => new Promise(resolve => setTimeout(resolve, ms));
 
 const { procEnv, resources } = env;
+logger.writeOutput(`Detected version=${procEnv.version} version build=${procEnv.versionBuild}`);
 const userInfoUrl = getFullLink(resources, 'github');
 const publicationMeta = resources.publications.map(
 	publication => new PublicationInfo(resources, publication)
@@ -132,8 +133,8 @@ Promise.all([
 	getPackagesInfo(packagesMeta)
 ])
 	.then(([profile, publications, packages]) => {
-		saveMetaToFile({ profile, publications, packages, env: procEnv });
-		logger.writeOutput('All is good');
+		const filePath = saveMetaToFile({ profile, publications, packages, env: procEnv });
+		logger.writeOutput('Meta file is save, location:', filePath);
 		process.exit();
 	})
 	.catch(err => {

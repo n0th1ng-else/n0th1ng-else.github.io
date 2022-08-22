@@ -1,0 +1,101 @@
+<script lang="ts">
+	import { accountsStore } from '$lib/browser/stores/accounts';
+	import { versionStore } from '$lib/browser/stores/version';
+	import { getFirstContentfulPaint } from '$lib/browser/utils/vitals';
+	import { getVersion } from '$lib/browser/utils/version';
+	import { legalRoute } from '$lib/common/routes';
+	import { getCurrentYear } from '$lib/common/date';
+	import AdditionalText from '$lib/browser/ui/AdditionalText.svelte';
+	import Footer from '$lib/browser/ui/Footer.svelte';
+	import Link from '$lib/browser/ui/Link.svelte';
+
+	import SocialNetworks from './SocialNetworks.svelte';
+
+	export let showFCP: boolean;
+	const version = getVersion($versionStore);
+	const year = getCurrentYear();
+
+	let fcp = '';
+	if (showFCP) {
+		getFirstContentfulPaint(time => (fcp = time));
+	}
+</script>
+
+<Footer>
+	<div class="network small-screen centered w-space">
+		<SocialNetworks accounts="{$accountsStore}" />
+	</div>
+	<div class="legal centered w-space">
+		<div class="legal__part">
+			<AdditionalText>
+				My posts reflect my own views and may not be those of my employer
+			</AdditionalText>
+		</div>
+		<div class="legal__part">
+			<AdditionalText>
+				Unless otherwise noted, all code is free to use under the
+				<Link inline url="{legalRoute}">MIT License</Link>
+			</AdditionalText>
+		</div>
+	</div>
+	<div class="author on-right w-space">
+		<div>
+			<AdditionalText>© {year} Sergey Nikitin</AdditionalText>
+		</div>
+		<div>
+			<AdditionalText>
+				Made with <Link inline external url="https://svelte.dev">Svelte</Link>
+				<Link inline external url="https://kit.svelte.dev">Kit</Link> with 🧡
+			</AdditionalText>
+		</div>
+	</div>
+	<div class="network big-screen centered w-space">
+		<SocialNetworks accounts="{$accountsStore}" />
+	</div>
+	<div class="centered w-space">
+		{#if fcp}
+			<AdditionalText small>{version} // first contentful paint took {fcp}s.</AdditionalText>
+		{:else}
+			<AdditionalText small>{version}</AdditionalText>
+		{/if}
+	</div>
+</Footer>
+
+<style lang="scss">
+	@import '../ui/theme';
+	@import '../../../global';
+
+	.centered {
+		align-self: center;
+	}
+
+	.on-right {
+		align-self: flex-end;
+	}
+
+	.w-space {
+		margin: $unit $unit-half;
+	}
+
+	.legal {
+		text-align: center;
+
+		&__part {
+			padding: $unit-quarter;
+		}
+	}
+
+	.network.big-screen {
+		display: none;
+	}
+
+	@media (min-width: $sm) {
+		.network.small-screen {
+			display: none;
+		}
+
+		.network.big-screen {
+			display: block;
+		}
+	}
+</style>
