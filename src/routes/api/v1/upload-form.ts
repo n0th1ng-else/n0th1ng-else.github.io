@@ -1,6 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import {
-	BaseCloudinaryPayload,
+	type BaseCloudinaryPayload,
 	CloudinaryResource,
 	getUrl,
 	signPayload
