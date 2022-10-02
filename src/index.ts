@@ -1,6 +1,6 @@
 import 'svelte';
 import App from './routes/__layout.svelte';
-import { recoverTheme } from './helpers/theme';
+import { recoverTheme } from '$lib/browser/stores/theme';
 
 const target = document.querySelector('main');
 

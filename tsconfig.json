@@ -23,7 +23,6 @@
 		"allowJs": true,
 		"checkJs": true
 	},
-	"extends": "@tsconfig/svelte/tsconfig.json",
-	"include": ["types.d.ts", "src/**/*", "src/**/*.svelte", "src/node_modules", "modules.d.ts"],
+	"extends": "./.svelte-kit/tsconfig.json",
 	"exclude": ["node_modules/*", "__sapper__/*", "public/*"]
 }

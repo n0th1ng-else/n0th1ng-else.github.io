@@ -1,6 +1,5 @@
 import { resolve as resolvePath } from 'path';
 import preprocess from 'svelte-preprocess';
-import inject from '@rollup/plugin-inject';
 import nodeAdapter from '@sveltejs/adapter-node';
 import staticAdapter from '@sveltejs/adapter-static';
 import { env } from './env.js';
@@ -15,9 +14,9 @@ const config = {
 
 	kit: {
 		// hydrate the <div id="svelte"> element in src/app.html
-		target: '#svelte',
+		// target: '#svelte',
 		appDir: 'generated',
-		host: env.procEnv.selfUrl,
+		// host: env.procEnv.selfUrl,
 		adapter: isStatic
 			? staticAdapter({
 					pages: 'dist',
@@ -25,14 +24,7 @@ const config = {
 			  })
 			: nodeAdapter({
 					out: 'dist'
-			  }),
-		vite: {
-			plugins: [
-				inject({
-					runtime: resolvePath('./runtime.js')
-				})
-			]
-		}
+			  })
 	}
 };
 

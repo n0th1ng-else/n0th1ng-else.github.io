@@ -1,10 +1,49 @@
-name: Validate
+name: Validate and Test
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
+  version:
+    runs-on: ubuntu-latest
+    name: Fetch next version
+    outputs:
+      version: ${{ steps.getversion.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Read NodeJS version from .nvmrc
+        id: node-version
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./.nvmrc
+          trim: true
+
+      - name: Setup NodeJS using the obtained nvm version
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.node-version.outputs.content }}
+
+      - name: Restore cached node_modules
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Publish new version
+        run: npm run version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Read VERSION file
+        id: getversion
+        run: echo "::set-output name=version::$(cat .VERSION)"
+
   test:
     runs-on: ubuntu-latest
     name: Validate the code
@@ -41,3 +80,36 @@ jobs:
 
       - name: Check the formatting in the project
         run: npm run format:check
+
+  sandbox:
+    runs-on: ubuntu-latest
+    name: Deploy to sandbox
+    needs: [test, version]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Read NodeJS version from .nvmrc
+        id: node-version
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./.nvmrc
+          trim: true
+
+      - name: Setup NodeJS using the obtained nvm version
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.node-version.outputs.content }}
+
+      - name: Install Railway CLI
+        run: npm i -g @railway/cli
+
+      - name: Set the version to sandbox
+        run: railway variables set COMMIT_HASH=sandbox APP_VERSION=${{ env.APP_VERSION }}
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_SANDBOX_TOKEN }}
+          APP_VERSION: ${{ needs.version.outputs.version }}
+#      - name: Deploy Dockerfile to sandbox
+#        run: railway up
+#        env:
+#          RAILWAY_TOKEN: ${{ secrets.RAILWAY_SANDBOX_TOKEN }}

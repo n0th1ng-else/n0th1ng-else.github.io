@@ -5,12 +5,13 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-		<link rel="fav icon" href="/favicon.png" type="image/png" />
+		<link rel="fav icon" href="%sveltekit.assets%/favicon.png" type="image/png" />
+		<link rel="manifest" href="%sveltekit.assets%/manifest.json" />
 
-		%svelte.head%
+		%sveltekit.head%
 	</head>
 
 	<body style="margin: 0">
-		<div id="svelte">%svelte.body%</div>
+		<div id="svelte">%sveltekit.body%</div>
 	</body>
 </html>

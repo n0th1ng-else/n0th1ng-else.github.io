@@ -1,0 +1,80 @@
+<script lang="ts">
+	import { onDestroy } from 'svelte';
+	import { onThemeChange, isDarkTheme, defaultTheme } from '$lib/browser/stores/theme';
+	import Anchor from './Anchor.svelte';
+
+	let isDark = isDarkTheme(defaultTheme);
+
+	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
+
+	export let inline = false;
+	export let id = '';
+
+	let show = false;
+
+	const showAnchor = () => {
+		if (!id) {
+			return;
+		}
+
+		show = true;
+	};
+
+	const hideAnchor = () => (show = false);
+
+	onDestroy(() => unsubscribeTheme());
+</script>
+
+<div class="ui-sub__container">
+	{#if id}
+		<h2
+			id="{id}"
+			class="ui-sub"
+			class:l="{!isDark}"
+			class:d="{isDark}"
+			class:header="{!inline}"
+			on:focus="{showAnchor}"
+			on:mouseover="{showAnchor}"
+			on:mouseleave="{hideAnchor}"
+		>
+			<slot />
+			<Anchor id="{id}" show="{show}" />
+		</h2>
+	{:else}
+		<h2 class="ui-sub" class:l="{!isDark}" class:d="{isDark}" class:header="{!inline}">
+			<slot />
+		</h2>
+	{/if}
+</div>
+
+<style lang="scss">
+	@import './theme';
+	@import '../../../global';
+
+	@mixin subtitle-style($color) {
+		@include smooth-change(color);
+
+		color: $color;
+	}
+
+	.ui-sub {
+		@include set-font();
+		font-size: $font-size;
+		font-weight: $font-weight;
+		margin: 0;
+
+		&.header {
+			font-size: $font-size-plus;
+			padding: $unit-plus 0 $unit 0;
+			position: relative;
+		}
+
+		&.l {
+			@include subtitle-style($l-primary);
+		}
+
+		&.d {
+			@include subtitle-style($d-primary);
+		}
+	}
+</style>

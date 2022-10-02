@@ -15,8 +15,10 @@ export const saveMetaToFile = meta => {
 		mkdirSync(getFolderPath());
 	}
 
+	const filePath = getFullPath();
 	const content = JSON.stringify(meta, null, 2);
-	writeFileSync(getFullPath(), `${content}\n`);
+	writeFileSync(filePath, `${content}\n`);
+	return filePath;
 };
 
 export const readMetaFile = () => {
