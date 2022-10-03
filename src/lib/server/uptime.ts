@@ -31,6 +31,11 @@ export const initUptime = (host?: string): void => {
 	}, interval);
 };
 
-export const getUpTime = (): string => dateDifference(startDate);
+export const getUpTime = (): string => {
+	if (!startDate) {
+		startDate = new Date();
+	}
+	return dateDifference(startDate);
+};
 
 export const getUpTimeHours = (): number => dateDifferenceHours(startDate);
