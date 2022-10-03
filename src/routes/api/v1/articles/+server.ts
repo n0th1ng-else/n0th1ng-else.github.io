@@ -1,13 +1,16 @@
-import { error } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
 import { DEFAULT_PAGE_SIZE } from '$lib/server/const';
 import { getAllArticles } from '$lib/server/articles';
+import { Logger } from '$lib/common/log';
 import type { WithPagination } from '$lib/common/types';
 import type { LinkInfo } from '$lib/common/@types/common';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = ({ url }) => {
+	const logger = new Logger('api:articles');
+	const showDraft = url.searchParams.get('draft') === 'true';
+
 	try {
-		const showDraft = url.searchParams.get('draft') === 'true';
 		const items = getAllArticles(showDraft);
 
 		const body: WithPagination<LinkInfo> = {
@@ -17,8 +20,9 @@ export const GET: RequestHandler = ({ url }) => {
 			total: items.length
 		};
 
-		return new Response(JSON.stringify(body));
-	} catch (e) {
+		return json(body);
+	} catch (err) {
+		logger.error('Unable to read articles', err);
 		throw error(500, 'Something went wrong');
 	}
 };
