@@ -2,7 +2,7 @@
 	import { accountsStore } from '$lib/browser/stores/accounts';
 	import { versionStore } from '$lib/browser/stores/version';
 	import { getFirstContentfulPaint } from '$lib/browser/utils/vitals';
-	import { getVersion } from '$lib/browser/utils/version';
+	import { getVersion } from '$lib/common/version';
 	import { legalRoute } from '$lib/common/routes';
 	import { getCurrentYear } from '$lib/common/date';
 	import AdditionalText from '$lib/browser/ui/AdditionalText.svelte';

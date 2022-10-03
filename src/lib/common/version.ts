@@ -1,4 +1,4 @@
-import type { Version } from '$lib/common/api/types';
+import type { Version } from './api/types';
 
 export const getVersion = (version?: Version, fullVersion = false): string => {
 	const build = version?.versionBuild || '';
