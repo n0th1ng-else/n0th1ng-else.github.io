@@ -5,6 +5,7 @@ enum RoutePath {
 	About = 'about',
 	Legal = 'legal',
 	NotFound = 'not-found',
+	Rss = 'rss.xml',
 	Other = '*'
 }
 
@@ -32,10 +33,12 @@ export const aboutRoute = toPath(RoutePath.About);
 
 export const legalRoute = toPath(RoutePath.Legal);
 
+export const rssRoute = toPath(RoutePath.Rss);
+
 export const notFoundRoute = toPath(RoutePath.NotFound);
 
 export const toArticle = (id: string): string => `${blogRoute}/${id}`;
 
 export const getAbsoluteArticleUrl = (host: string, slug: string): string => `${host}/blog/${slug}`;
 
-export const getAbsoluteRssUrl = (host: string): string => `${host}/rss`;
+export const getAbsoluteRssUrl = (host: string): string => `${host}${rssRoute}`;
