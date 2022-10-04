@@ -1,6 +1,8 @@
+import { redirect } from '@sveltejs/kit';
 import { getArticle } from '$lib/common/api';
 import { Logger } from '$lib/common/log';
 import type { LinkInfo } from '$lib/common/@types/common';
+import { notFoundRoute } from '$lib/common/routes';
 import type { PageServerLoad } from './$types';
 
 interface Output {
@@ -18,8 +20,6 @@ export const load: PageServerLoad<Output> = async ({ url: urlData, params }) => 
 	} catch (err) {
 		const logger = new Logger('article:ssr');
 		logger.error('Failed to load article', err);
-		return {
-			url: urlData.toString()
-		};
+		throw redirect(307, notFoundRoute);
 	}
 };

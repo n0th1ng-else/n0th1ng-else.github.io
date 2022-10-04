@@ -4,6 +4,8 @@
 	import Link from '$lib/browser/ui/Link.svelte';
 	import { getSocialNetworks } from '$lib/browser/utils/contacts';
 	import type { ProfileAccounts } from '$lib/common/@types/common';
+	import { rssRoute } from '$lib/common/routes';
+	import icoRss from '../../../assets/icons/rss.svg';
 
 	export let accounts: ProfileAccounts | null = null;
 	const networks = accounts ? getSocialNetworks(accounts) : [];
@@ -29,6 +31,11 @@
 			</Link>
 		</div>
 	{/each}
+	<div class="social-networks-item">
+		<Link url="{rssRoute}">
+			<img src="{icoRss}" alt="RSS feed" class="logo" class:l="{!isDark}" class:d="{isDark}" />
+		</Link>
+	</div>
 </div>
 
 <style lang="scss">
