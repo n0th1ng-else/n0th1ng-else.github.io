@@ -4,7 +4,7 @@ enum RoutePath {
 	Projects = 'projects',
 	About = 'about',
 	Legal = 'legal',
-	NotFound = 'not-found',
+	NotFound = '404',
 	Rss = 'rss.xml',
 	Other = '*'
 }
