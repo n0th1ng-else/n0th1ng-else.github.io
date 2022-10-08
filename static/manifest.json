@@ -1,7 +1,7 @@
 {
 	"id": "nothing-else-it-blog",
 	"name": "Nothing-Else.blog",
-	"short-name": "Nothing-Else",
+	"short_name": "Nothing-Else",
 	"description": "Nothing-Else blog. Everything related to Frontend, NodeJS, and Web overall",
 	"lang": "en",
 	"display": "standalone",
