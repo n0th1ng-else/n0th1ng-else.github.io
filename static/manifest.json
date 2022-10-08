@@ -1,4 +1,17 @@
 {
 	"id": "nothing-else-it-blog",
-	"name": "Nothing-Else blog. Everything related to Frontend, NodeJS, and Web overall"
+	"name": "Nothing-Else.blog",
+	"short-name": "Nothing-Else",
+	"description": "Nothing-Else blog. Everything related to Frontend, NodeJS, and Web overall",
+	"lang": "en",
+	"display": "standalone",
+	"scope": "https://nothing-else.blog",
+	"background_color": "#072638",
+	"theme_color": "#072638",
+	"start_url": "https://nothing-else.blog",
+	"categories": ["technology", "web", "it", "development"],
+	"icons": [
+		{ "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
+		{ "src": "/icon-512.png", "type": "image/png", "sizes": "512x512" }
+	]
 }
