@@ -100,14 +100,14 @@ jobs:
       - name: Install Railway CLI
         run: npm i -g @railway/cli
 
-      - name: Set the version to sandbox
+      - name: Set the version to PRODUCTION
         run: railway variables set COMMIT_HASH=${{ env.COMMIT_HASH }} APP_VERSION=${{ env.APP_VERSION }}
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_PRODUCTION_TOKEN }}
           COMMIT_HASH: ${{ github.sha }}
           APP_VERSION: ${{ needs.version.outputs.version }}
 
-      - name: Deploy Dockerfile to sandbox
+      - name: Deploy Dockerfile to PRODUCTION
         run: railway up
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_PRODUCTION_TOKEN }}
