@@ -1,10 +1,6 @@
+import { error } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
-interface Output {
-	url: string;
-}
-export const load: PageServerLoad<Output> = async ({ url }) => {
-	return {
-		url: url.toString()
-	};
+export const load: PageServerLoad = async () => {
+	throw error(404, 'Not found');
 };
