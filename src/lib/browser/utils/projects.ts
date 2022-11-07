@@ -4,10 +4,12 @@ import nssLogo from '../../../assets/images/nss-logo.png';
 import setronicaLogo from '../../../assets/images/setronica-logo.png';
 import catawikiLogo from '../../../assets/images/catawiki-logo.svg';
 import tradeshiftLogo from '../../../assets/images/tradeshift-logo.svg';
+import miroLogo from '../../../assets/images/miro-logo.svg';
 
 export enum Position {
 	Fullstack,
-	Frontend
+	FrontendL1,
+	FrontendL2
 }
 
 export interface ProjectItem {
@@ -38,7 +40,7 @@ const getSetronica = (): ProjectItem => ({
 	logo: setronicaLogo,
 	url: 'https://setronica.com',
 	tags: ['React', 'Angular', 'NodeJS'],
-	position: Position.Frontend,
+	position: Position.FrontendL1,
 	startDate: '01-09-2016',
 	endDate: '01-06-2021'
 });
@@ -48,7 +50,7 @@ const getTradeshift = (): ProjectItem => ({
 	logo: tradeshiftLogo,
 	url: 'https://tradeshift.com',
 	tags: ['React', 'Angular', 'NodeJS'],
-	position: Position.Frontend,
+	position: Position.FrontendL1,
 	startDate: '01-09-2016',
 	endDate: '01-06-2021'
 });
@@ -58,11 +60,22 @@ const getCatawiki = (): ProjectItem => ({
 	logo: catawikiLogo,
 	url: 'https://www.catawiki.com',
 	tags: ['React', 'k8s', 'NodeJS'],
-	position: Position.Frontend,
-	startDate: '01-07-2021'
+	position: Position.FrontendL1,
+	startDate: '01-07-2021',
+	endDate: '31-10-2022'
+});
+
+const getMiro = (): ProjectItem => ({
+	name: 'Miro',
+	logo: miroLogo,
+	url: 'https://www.miro.com',
+	tags: ['React', 'NextJS'],
+	position: Position.FrontendL2,
+	startDate: '01-11-2022'
 });
 
 export const getWorkProjects = (): ProjectItem[] => [
+	getMiro(),
 	getCatawiki(),
 	getTradeshift(),
 	getSetronica(),
