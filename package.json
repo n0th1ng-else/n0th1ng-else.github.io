@@ -18,6 +18,7 @@
 		"@typescript-eslint/eslint-plugin": "5.39.0",
 		"@typescript-eslint/parser": "5.39.0",
 		"cross-spawn": "7.0.3",
+		"dotenv-cli": "^6.0.0",
 		"eslint": "8.24.0",
 		"eslint-config-prettier": "8.5.0",
 		"eslint-plugin-svelte3": "4.0.0",
@@ -48,6 +49,7 @@
 	},
 	"scripts": {
 		"meta": "node links.js",
+		"meta:dev": "dotenv npm run meta",
 		"version": "node version.js",
 		"format": "prettier --write",
 		"format:check": "prettier --check .",
@@ -55,7 +57,7 @@
 		"lint:all": "eslint .",
 		"build": "vite build",
 		"validate": "svelte-check",
-		"dev": "vite dev",
+		"dev": "dotenv vite dev",
 		"preview": "vite preview",
 		"start": "node dist"
 	},
