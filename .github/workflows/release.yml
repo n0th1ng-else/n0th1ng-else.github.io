@@ -67,15 +67,22 @@ jobs:
         with:
           node-version: ${{ steps.node-version.outputs.content }}
 
-      - name: Publish to Registry
-        uses: docker/build-push-action@v1
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
         with:
-          registry: docker.pkg.github.com
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          repository: '${{ github.actor }}/n0th1ng-else.github.io/n0th1ng-else-blog'
-          tag_with_sha: true
-          build_args: APP_VERSION=${{ needs.version.outputs.version }},COMMIT_HASH=${{ env.APP_VERSION }},SELF_URL=${{ secrets.SELF_URL }},GH_AUTHOR_LOGIN=${{ secrets.GH_AUTHOR_LOGIN }},GH_AUTHOR_LINKED_IN=${{ secrets.GH_AUTHOR_LINKED_IN }},GH_AUTHOR_TELEGRAM=${{ secrets.GH_AUTHOR_TELEGRAM }},GH_AUTHOR_MEDIUM=${{ secrets.GH_AUTHOR_MEDIUM }},GH_AUTHOR_HABR=${{ secrets.GH_AUTHOR_HABR }},GH_AUTHOR_NPM=${{ secrets.GH_AUTHOR_NPM }},GH_AUTHOR_TWITTER=${{ secrets.GH_AUTHOR_TWITTER }},GH_AUTHOR_DEVTO=${{ secrets.GH_AUTHOR_DEVTO }}
+
+      - name: Publish to Registry
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.actor }}/n0th1ng-else.github.io/n0th1ng-else-blog:latest
+            ghcr.io/${{ github.actor }}/n0th1ng-else.github.io/n0th1ng-else-blog:${{ github.sha }}
+          build-args: APP_VERSION=${{ needs.version.outputs.version }},COMMIT_HASH=${{ env.APP_VERSION }},SELF_URL=${{ secrets.SELF_URL }},GH_AUTHOR_LOGIN=${{ secrets.GH_AUTHOR_LOGIN }},GH_AUTHOR_LINKED_IN=${{ secrets.GH_AUTHOR_LINKED_IN }},GH_AUTHOR_TELEGRAM=${{ secrets.GH_AUTHOR_TELEGRAM }},GH_AUTHOR_MEDIUM=${{ secrets.GH_AUTHOR_MEDIUM }},GH_AUTHOR_HABR=${{ secrets.GH_AUTHOR_HABR }},GH_AUTHOR_NPM=${{ secrets.GH_AUTHOR_NPM }},GH_AUTHOR_TWITTER=${{ secrets.GH_AUTHOR_TWITTER }},GH_AUTHOR_DEVTO=${{ secrets.GH_AUTHOR_DEVTO }}
 
   production:
     runs-on: ubuntu-latest
