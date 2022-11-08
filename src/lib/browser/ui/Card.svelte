@@ -38,17 +38,17 @@
 	<div class="ui-card__actions ui-card__section">
 		{#if item.url}
 			<div class="ui-card__action">
-				<Button href="{item.url}" disabled="{readonly}">Web</Button>
+				<Button href="{item.url}" disabled="{readonly}" external>Website</Button>
 			</div>
 		{/if}
 		{#if item.source}
 			<div class="ui-card__action">
-				<Button href="{item.source}" disabled="{readonly}">Source</Button>
+				<Button href="{item.source}" disabled="{readonly}" external>Source</Button>
 			</div>
 		{/if}
 		{#if item.registry}
 			<div class="ui-card__action">
-				<Button href="{item.registry}" disabled="{readonly}">Package</Button>
+				<Button href="{item.registry}" disabled="{readonly}" external>Package</Button>
 			</div>
 		{/if}
 	</div>

@@ -1,10 +1,24 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
+	import { createEventDispatcher, onDestroy } from 'svelte';
 	import { onThemeChange, isDarkTheme, defaultTheme } from '$lib/browser/stores/theme';
 
 	export let external = false;
+
 	export let inline = false;
+
 	export let url = 'javascript:void(0);';
+
+	export let hint: string | undefined = undefined;
+
+	export let raw = false;
+
+	export let control = true;
+
+	const dispatch = createEventDispatcher();
+
+	const onClick = (): void => {
+		dispatch('click');
+	};
 
 	let isDark = isDarkTheme(defaultTheme);
 
@@ -16,17 +30,32 @@
 {#if external}
 	<a
 		class="ui-link"
+		class:filled="{!raw}"
 		class:inline
 		class:l="{!isDark}"
 		class:d="{isDark}"
+		on:click="{onClick}"
+		aria-hidden="{control ? undefined : 'true'}"
+		tabindex="{control ? undefined : -1}"
 		href="{url}"
+		title="{hint}"
 		target="_blank"
 		rel="noreferrer noopener"
 	>
 		<slot />
 	</a>
 {:else}
-	<a class="ui-link" class:inline class:l="{!isDark}" class:d="{isDark}" href="{url}">
+	<a
+		class="ui-link"
+		class:filled="{!raw}"
+		class:l="{!isDark}"
+		class:d="{isDark}"
+		class:inline
+		class:no-print="{!control}"
+		on:click="{onClick}"
+		href="{url}"
+		title="{hint}"
+	>
 		<slot />
 	</a>
 {/if}
@@ -57,7 +86,14 @@
 		&.inline {
 			margin: 0;
 		}
+		@media print {
+			&.no-print {
+				display: none;
+			}
+		}
+	}
 
+	.filled {
 		&.l {
 			@include link-style($l-tertiary, $l-accent);
 		}
