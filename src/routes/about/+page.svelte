@@ -82,7 +82,7 @@
 	<List>
 		<ListItem>Blazing fast with Svelte</ListItem>
 		<ListItem>Tricky deployment workflow to make it working</ListItem>
-		<ListItem>Baking stuff on my MacBook Pro 2020</ListItem>
+		<ListItem>Baking stuff on my MacBook Pro 2021</ListItem>
 	</List>
 </article>
 

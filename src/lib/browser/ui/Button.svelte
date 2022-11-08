@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onDestroy, createEventDispatcher } from 'svelte';
 	import { onThemeChange, isDarkTheme, defaultTheme } from '$lib/browser/stores/theme';
+	import Link from './Link.svelte';
 
 	let isDark = isDarkTheme(defaultTheme);
 
@@ -20,41 +21,49 @@
 
 	export let icon = '';
 
-	export let hint = '';
+	export let hint: string | undefined = undefined;
 
 	export let disabled = false;
 
 	export let href = '';
+
+	export let external = false;
+
+	export let control = true;
 </script>
 
 {#if href}
-	<a
-		class:l="{!isDark}"
-		class:d="{isDark}"
-		class:secondary
-		class:inline
-		class="ui-button"
+	<Link
 		on:click="{onClick}"
-		title="{hint}"
-		href="{href}"
+		external="{external}"
+		url="{href}"
+		hint="{hint}"
+		raw
+		inline
+		control="{control}"
 	>
-		<span class="ui-button__text">
-			<slot />
+		<span class:l="{!isDark}" class:d="{isDark}" class:secondary class:inline class="ui-button">
+			<span class="ui-button__text">
+				<slot />
+			</span>
+			{#if icon}
+				<img src="{icon}" class="ui-button__icon" alt="{hint}" />
+			{/if}
 		</span>
-		{#if icon}
-			<img src="{icon}" class="ui-button__icon" alt="{hint}" />
-		{/if}
-	</a>
+	</Link>
 {:else}
 	<button
+		class="ui-button"
 		class:l="{!isDark}"
 		class:d="{isDark}"
 		class:secondary
 		class:inline
-		class="ui-button"
+		class:no-print="{!control}"
 		on:click="{onClick}"
 		title="{hint}"
 		disabled="{disabled}"
+		aria-hidden="{control ? undefined : 'true'}"
+		tabindex="{control ? undefined : -1}"
 	>
 		<span class="ui-button__text">
 			<slot />
@@ -99,6 +108,12 @@
 			padding: 0;
 		}
 
+		@media print {
+			&.no-print {
+				display: none;
+			}
+		}
+
 		&.l {
 			@include button-style($l-primary, $l-accent);
 		}
@@ -110,7 +125,6 @@
 		&__text {
 			@include set-font();
 			font-size: $font-size-small;
-			text-transform: capitalize;
 		}
 
 		&__icon {

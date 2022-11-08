@@ -1,8 +1,6 @@
-import { resolve as resolvePath } from 'path';
 import preprocess from 'svelte-preprocess';
 import nodeAdapter from '@sveltejs/adapter-node';
 import staticAdapter from '@sveltejs/adapter-static';
-import { env } from './env.js';
 
 const isStatic = process.env.BUILD_STATIC === 'true';
 

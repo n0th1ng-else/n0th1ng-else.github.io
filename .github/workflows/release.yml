@@ -82,7 +82,18 @@ jobs:
           tags: |
             ghcr.io/${{ github.actor }}/n0th1ng-else.github.io/n0th1ng-else-blog:latest
             ghcr.io/${{ github.actor }}/n0th1ng-else.github.io/n0th1ng-else-blog:${{ github.sha }}
-          build-args: APP_VERSION=${{ needs.version.outputs.version }},COMMIT_HASH=${{ env.APP_VERSION }},SELF_URL=${{ secrets.SELF_URL }},GH_AUTHOR_LOGIN=${{ secrets.GH_AUTHOR_LOGIN }},GH_AUTHOR_LINKED_IN=${{ secrets.GH_AUTHOR_LINKED_IN }},GH_AUTHOR_TELEGRAM=${{ secrets.GH_AUTHOR_TELEGRAM }},GH_AUTHOR_MEDIUM=${{ secrets.GH_AUTHOR_MEDIUM }},GH_AUTHOR_HABR=${{ secrets.GH_AUTHOR_HABR }},GH_AUTHOR_NPM=${{ secrets.GH_AUTHOR_NPM }},GH_AUTHOR_TWITTER=${{ secrets.GH_AUTHOR_TWITTER }},GH_AUTHOR_DEVTO=${{ secrets.GH_AUTHOR_DEVTO }}
+          build-args: |
+            APP_VERSION=${{ needs.version.outputs.version }}
+            COMMIT_HASH=${{ github.sha }}
+            SELF_URL=${{ secrets.SELF_URL }}
+            GH_AUTHOR_LOGIN=${{ secrets.GH_AUTHOR_LOGIN }}
+            GH_AUTHOR_LINKED_IN=${{ secrets.GH_AUTHOR_LINKED_IN }}
+            GH_AUTHOR_TELEGRAM=${{ secrets.GH_AUTHOR_TELEGRAM }}
+            GH_AUTHOR_MEDIUM=${{ secrets.GH_AUTHOR_MEDIUM }}
+            GH_AUTHOR_HABR=${{ secrets.GH_AUTHOR_HABR }}
+            GH_AUTHOR_NPM=${{ secrets.GH_AUTHOR_NPM }}
+            GH_AUTHOR_TWITTER=${{ secrets.GH_AUTHOR_TWITTER }}
+            GH_AUTHOR_DEVTO=${{ secrets.GH_AUTHOR_DEVTO }}
 
   production:
     runs-on: ubuntu-latest

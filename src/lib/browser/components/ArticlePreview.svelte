@@ -17,7 +17,7 @@
 	const host = getServiceTitle(article.service);
 	const image = article.meta.image;
 
-	const btnText = host ? `Read more on ${host}` : 'Read More';
+	const btnText = host ? `Read more on ${host}` : 'Read more';
 </script>
 
 <section>
@@ -40,7 +40,7 @@
 			</SubTitle>
 		</div>
 		<p class="action">
-			<Button hint="Read more" href="{url}" disabled="{readonly}">{btnText}</Button>
+			<Button hint="Read more" href="{url}" disabled="{readonly}" external>{btnText}</Button>
 		</p>
 	</div>
 </section>

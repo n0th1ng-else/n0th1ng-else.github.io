@@ -16,6 +16,8 @@
 
 	const icon = type === 'up' ? iconUp : iconLeft;
 
+	const control = false;
+
 	let isDark = isDarkTheme(defaultTheme);
 
 	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
@@ -23,7 +25,7 @@
 	onDestroy(() => unsubscribeTheme());
 </script>
 
-<Button secondary on:click="{onClick}">
+<Button secondary on:click="{onClick}" control="{control}">
 	<img class="btn-logo {size}" class:l="{!isDark}" class:d="{isDark}" src="{icon}" alt="" />
 </Button>
 
