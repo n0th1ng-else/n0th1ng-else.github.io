@@ -8,6 +8,8 @@
 	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
 
 	export let inline = false;
+	export let centered = false;
+
 	export let id = '';
 
 	let show = false;
@@ -33,6 +35,7 @@
 			class:l="{!isDark}"
 			class:d="{isDark}"
 			class:header="{!inline}"
+			class:centered
 			on:focus="{showAnchor}"
 			on:mouseover="{showAnchor}"
 			on:mouseleave="{hideAnchor}"
@@ -41,7 +44,13 @@
 			<Anchor id="{id}" show="{show}" />
 		</h2>
 	{:else}
-		<h2 class="ui-sub" class:l="{!isDark}" class:d="{isDark}" class:header="{!inline}">
+		<h2
+			class="ui-sub"
+			class:l="{!isDark}"
+			class:d="{isDark}"
+			class:header="{!inline}"
+			class:centered
+		>
 			<slot />
 		</h2>
 	{/if}
@@ -67,6 +76,10 @@
 			font-size: $font-size-plus;
 			padding: $unit-plus 0 $unit 0;
 			position: relative;
+		}
+
+		&.centered {
+			text-align: center;
 		}
 
 		&.l {

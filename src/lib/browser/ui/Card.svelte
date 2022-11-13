@@ -21,9 +21,9 @@
 
 <section class="ui-card" class:l="{!isDark}" class:d="{isDark}">
 	{#if item.logo}
-		<div class="ui-card__logo-container">
+		<p class="ui-card__logo-container">
 			<img class="ui-card__logo" src="{item.logo}" alt="" />
-		</div>
+		</p>
 	{/if}
 	{#if !item.logo || extended}
 		<div class="ui-card__section ui-card__title ui-card__text">
@@ -31,25 +31,25 @@
 		</div>
 	{/if}
 	{#if getPositionTitle(item.position)}
-		<div class="ui-card__text ui-card__section">
+		<p class="ui-card__text ui-card__section">
 			<AdditionalText>{getPositionTitle(item.position)}</AdditionalText>
-		</div>
+		</p>
 	{/if}
 	<div class="ui-card__actions ui-card__section">
 		{#if item.url}
-			<div class="ui-card__action">
+			<p class="ui-card__action">
 				<Button href="{item.url}" disabled="{readonly}" external>Website</Button>
-			</div>
+			</p>
 		{/if}
 		{#if item.source}
-			<div class="ui-card__action">
+			<p class="ui-card__action">
 				<Button href="{item.source}" disabled="{readonly}" external>Source</Button>
-			</div>
+			</p>
 		{/if}
 		{#if item.registry}
-			<div class="ui-card__action">
+			<p class="ui-card__action">
 				<Button href="{item.registry}" disabled="{readonly}" external>Package</Button>
-			</div>
+			</p>
 		{/if}
 	</div>
 	{#if item.tags}
@@ -62,9 +62,9 @@
 		</div>
 	{/if}
 	{#if item.description}
-		<div class="ui-card__text ui-card__section">
+		<p class="ui-card__text ui-card__section">
 			<AdditionalText>{item.description}</AdditionalText>
-		</div>
+		</p>
 	{/if}
 </section>
 

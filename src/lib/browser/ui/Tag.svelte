@@ -4,9 +4,9 @@
 	export let title: string;
 </script>
 
-<div class="ui-tag">
+<p class="ui-tag">
 	<AdditionalText>#{title}</AdditionalText>
-</div>
+</p>
 
 <style lang="scss">
 	@import './theme';
