@@ -1,21 +1,23 @@
 <script lang="ts">
 	import Link from '$lib/browser/ui/Link.svelte';
 	import Paragraph from '$lib/browser/ui/Paragraph.svelte';
+	import SubTitle from '$lib/browser/ui/SubTitle.svelte';
 	import { blogRoute } from '$lib/common/routes';
 	import imageNotFound from '../../../assets/images/not-found.svg';
 </script>
 
 <article>
+	<SubTitle centered>Ops, bumped into empty space?</SubTitle>
+
 	<aside class="container">
 		<img class="image" src="{imageNotFound}" alt="" title="Page not found" />
 	</aside>
-	<section class="text">
-		<Paragraph>One day something funny would appear on this page...</Paragraph>
-		<Paragraph>But for now, I was not able to find anything for you, really. My bad.</Paragraph>
-		<Paragraph>
-			Check out <Link inline url="{blogRoute}">my blog</Link>, if you have not already
-		</Paragraph>
-	</section>
+
+	<Paragraph centered>
+		One day something funny would appear on this page... But for now, I was not able to find
+		anything for you, really. My bad. Check out <Link inline url="{blogRoute}">my blog</Link>, if
+		you have not already
+	</Paragraph>
 </article>
 
 <style lang="scss">
@@ -23,7 +25,6 @@
 	@import '../../../global';
 
 	.text {
-		margin-top: $unit;
 		text-align: center;
 	}
 
@@ -36,6 +37,7 @@
 	.container {
 		margin: auto;
 		height: auto;
+		padding: $unit 0;
 		width: 4 * $unit-plus;
 	}
 

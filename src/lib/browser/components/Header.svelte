@@ -58,14 +58,14 @@
 <header class="header-wrapper">
 	<nav class="header">
 		<div class="navigation-wrapper">
-			<div class="back-container" class:show="{showBack}">
+			<p class="back-container" class:show="{showBack}">
 				<Arrow type="left" size="sm" on:click="{onBack}" />
-			</div>
-			<div class="logo-container">
+			</p>
+			<p class="logo-container">
 				<HeaderLink url="{homeRoute}" active="{homeRoute === activePath}">
 					<span class="brand">Nothing Else.</span>
 				</HeaderLink>
-			</div>
+			</p>
 			<div class="navigation">
 				<List type="header">
 					<li class="nav__item--big">
@@ -101,9 +101,9 @@
 					</li>
 				</List>
 			</div>
-			<div class="theme">
+			<p class="theme">
 				<Button secondary on:click="{switchTheme}" icon="{icon}" hint="change theme" />
-			</div>
+			</p>
 		</div>
 	</nav>
 </header>

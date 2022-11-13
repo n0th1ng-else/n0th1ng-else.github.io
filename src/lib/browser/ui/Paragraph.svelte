@@ -1,8 +1,10 @@
 <script lang="ts">
 	export let mono = false;
+
+	export let centered = false;
 </script>
 
-<p class="ui-paragraph" class:mono><slot /></p>
+<p class="ui-paragraph" class:mono class:centered><slot /></p>
 
 <style lang="scss">
 	@import './theme';
@@ -12,6 +14,10 @@
 
 		&.mono {
 			@include set-font-mono();
+		}
+
+		&.centered {
+			text-align: center;
 		}
 	}
 </style>

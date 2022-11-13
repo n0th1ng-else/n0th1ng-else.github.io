@@ -26,39 +26,39 @@
 		<SocialNetworks accounts="{$accountsStore}" />
 	</div>
 	<div class="legal centered w-space">
-		<div class="legal__part">
+		<p class="legal__part">
 			<AdditionalText>
 				My posts reflect my own views and may not be those of my employer
 			</AdditionalText>
-		</div>
-		<div class="legal__part">
+		</p>
+		<p class="legal__part">
 			<AdditionalText>
 				Unless otherwise noted, all code is free to use under the
 				<Link inline url="{legalRoute}">MIT License</Link>
 			</AdditionalText>
-		</div>
+		</p>
 	</div>
 	<div class="author on-right w-space">
-		<div>
+		<p>
 			<AdditionalText>© {year} Sergey Nikitin</AdditionalText>
-		</div>
-		<div>
+		</p>
+		<p>
 			<AdditionalText>
 				Made with <Link inline external url="https://svelte.dev">Svelte</Link>
 				<Link inline external url="https://kit.svelte.dev">Kit</Link> with 🧡
 			</AdditionalText>
-		</div>
+		</p>
 	</div>
 	<div class="network big-screen centered w-space">
 		<SocialNetworks accounts="{$accountsStore}" />
 	</div>
-	<div class="centered w-space">
+	<p class="centered w-space">
 		{#if fcp}
 			<AdditionalText small>{version} // first contentful paint took {fcp}s.</AdditionalText>
 		{:else}
 			<AdditionalText small>{version}</AdditionalText>
 		{/if}
-	</div>
+	</p>
 </Footer>
 
 <style lang="scss">

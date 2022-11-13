@@ -27,15 +27,15 @@
 			<div>
 				<h1>{title}</h1>
 			</div>
-			<div>
+			<p>
 				{#each tags as tag}
 					<span class="editor__tag">#{tag}</span>
 				{/each}
-			</div>
+			</p>
 			{#if logo}
-				<div>
+				<p>
 					<img class="editor__logo" src="{logo}" alt="" />
-				</div>
+				</p>
 			{/if}
 			<div>
 				{#await convertMarkdown(content)}
@@ -49,16 +49,16 @@
 		</div>
 	{:else}
 		<div class="editor__content">
-			<div>
+			<p>
 				<TextArea bind:text="{title}" size="xl" placeholder="Create a title..." />
-			</div>
-			<div>
+			</p>
+			<p>
 				<TextArea bind:text="{keywords}" size="m" placeholder="Add a few keywords..." />
-			</div>
+			</p>
 		</div>
-		<div class="editor__content">
+		<p class="editor__content">
 			<TextArea bind:text="{content}" size="s" placeholder="Start the article..." />
-		</div>
+		</p>
 	{/if}
 </div>
 

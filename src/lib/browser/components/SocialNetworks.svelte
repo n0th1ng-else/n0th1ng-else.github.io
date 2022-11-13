@@ -19,7 +19,7 @@
 
 <div class="social-networks-wrapper">
 	{#each networks as network (network.title)}
-		<div class="social-networks-item">
+		<p class="social-networks-item">
 			<Link external url="{network.link}">
 				<img
 					src="{network.image}"
@@ -29,13 +29,13 @@
 					class:d="{isDark}"
 				/>
 			</Link>
-		</div>
+		</p>
 	{/each}
-	<div class="social-networks-item">
+	<p class="social-networks-item">
 		<Link url="{rssRoute}">
 			<img src="{icoRss}" alt="RSS feed" class="logo" class:l="{!isDark}" class:d="{isDark}" />
 		</Link>
-	</div>
+	</p>
 </div>
 
 <style lang="scss">

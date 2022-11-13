@@ -8,6 +8,7 @@
 	import Button from '$lib/browser/ui/Button.svelte';
 	import Meta from '$lib/browser/ui/Meta.svelte';
 	import Editor from '$lib/browser/ui/Editor.svelte';
+	import SubTitle from '$lib/browser/ui/SubTitle.svelte';
 	import { openJsonFile, openImageFile, saveJsonFile } from '$lib/browser/utils/files';
 	import { keywordsFromString } from '$lib/browser/utils/keywords';
 	import { newArticleTitle } from '$lib/common/labels';
@@ -87,30 +88,31 @@
 
 <Meta image="{$profileStore.image ?? ''}" description="Article editor" url="{url}" />
 <article>
+	<SubTitle centered>New article</SubTitle>
 	<div class="controls-container">
 		<div class="main-controls-container">
-			<div>
+			<p>
 				<Button on:click="{open}">Load file</Button>
-			</div>
+			</p>
 			<div class="save-block">
-				<div class="save-control">
+				<p class="save-control">
 					<Button on:click="{saveNewFile}">Save the article</Button>
-				</div>
+				</p>
 			</div>
 			{#if noticeDate}
-				<div class="save-note">
+				<p class="save-note">
 					<img src="{icoOk}" alt="" class="save-note__logo" />
-				</div>
-				<div class="save-note__text">changes saved at {getDateTime(noticeDate)}</div>
+				</p>
+				<p class="save-note__text">changes saved at {getDateTime(noticeDate)}</p>
 			{/if}
 		</div>
-		<div>
+		<p>
 			<Button on:click="{togglePreview}">{preview ? 'Edit' : 'Preview'}</Button>
-		</div>
+		</p>
 	</div>
-	<div class="logo-btn">
+	<p class="logo-btn">
 		<Button secondary inline on:click="{uploadLogo}">Upload logo</Button>
-	</div>
+	</p>
 	<div class="editor-container">
 		<Editor bind:title bind:keywords bind:content preview="{preview}" logo="{logo}" />
 	</div>
