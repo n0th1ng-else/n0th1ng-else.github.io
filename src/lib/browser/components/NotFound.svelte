@@ -24,10 +24,6 @@
 	@import '../../../lib/browser/ui/theme';
 	@import '../../../global';
 
-	.text {
-		text-align: center;
-	}
-
 	.image {
 		height: 100%;
 		object-fit: contain;
