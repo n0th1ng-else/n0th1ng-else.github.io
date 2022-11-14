@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onDestroy, createEventDispatcher } from 'svelte';
-	import { onThemeChange, isDarkTheme, defaultTheme } from '$lib/browser/stores/theme';
+	import { onThemeChange, isDarkTheme } from '$lib/browser/stores/theme';
 	import Button from '$lib/browser/ui/Button.svelte';
 
 	import iconUp from '../../../assets/icons/arrow-up.svg';
@@ -18,7 +18,7 @@
 
 	const control = false;
 
-	let isDark = isDarkTheme(defaultTheme);
+	let isDark = true;
 
 	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
 

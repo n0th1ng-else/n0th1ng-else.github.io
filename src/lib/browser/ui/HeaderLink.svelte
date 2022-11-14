@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
-	import { onThemeChange, isDarkTheme, defaultTheme } from '$lib/browser/stores/theme';
+	import { onThemeChange, isDarkTheme } from '$lib/browser/stores/theme';
 
 	export let url = 'javascript:void(0);';
 	export let active = false;
 
-	let isDark = isDarkTheme(defaultTheme);
+	let isDark = true;
 
 	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
 

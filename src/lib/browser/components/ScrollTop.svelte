@@ -20,13 +20,13 @@
 	.to-top-container {
 		@include smooth-change(bottom);
 
-		bottom: 0 - ($unit * 4);
+		bottom: 0 - ($unit * 5);
 		position: fixed;
 		right: $unit-double;
 
 		&.show {
 			@media (min-width: $md) {
-				bottom: $unit-double;
+				bottom: 0;
 			}
 		}
 	}

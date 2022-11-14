@@ -5,22 +5,22 @@
 	import { page } from '$app/stores';
 	import { putNewArticleHandlerIntoWindow } from '$lib/browser/utils/window';
 	import { newArticleRoute } from '$lib/common/routes';
-	import { recoverTheme } from '$lib/browser/stores/theme';
 	import MetaColor from '$lib/browser/ui/MetaColor.svelte';
 	import Container from '$lib/browser/ui/Container.svelte';
 	import Header from '$lib/browser/components/Header.svelte';
 	import Footer from '$lib/browser/components/Footer.svelte';
 	import ScrollTop from '$lib/browser/components/ScrollTop.svelte';
 	import Analytics from '$lib/browser/components/Analytics.svelte';
-	import { versionStore, accountsStore, profileStore } from '$lib/browser/stores';
+	import { versionStore, accountsStore, profileStore, themeStore } from '$lib/browser/stores';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 
-	const { accounts, profile, version } = data;
+	const { accounts, profile, version, theme } = data;
 	versionStore.update(() => version ?? null);
 	accountsStore.update(() => accounts ?? null);
 	profileStore.update(() => profile ?? null);
+	themeStore.update(() => theme);
 
 	let activePath = '';
 
@@ -29,8 +29,6 @@
 	});
 
 	if (browser) {
-		recoverTheme();
-
 		putNewArticleHandlerIntoWindow(() => {
 			goto(newArticleRoute);
 		});
@@ -43,7 +41,7 @@
 
 <MetaColor />
 <Container full>
-	<Header syncTheme="{browser}" activePath="{activePath}" />
+	<Header activePath="{activePath}" />
 	<main>
 		<Container>
 			<div class="content__wrapper">

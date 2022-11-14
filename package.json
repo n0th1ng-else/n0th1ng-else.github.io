@@ -4,7 +4,10 @@
 	"description": "My home page",
 	"dependencies": {
 		"date-fns": "2.29.3",
+		"fp-ts": "^2.13.1",
 		"highlight.js": "11.6.0",
+		"io-ts": "^2.2.19",
+		"js-cookie": "^3.0.1",
 		"marked": "4.1.1",
 		"parse-md": "3.0.3"
 	},
@@ -14,6 +17,7 @@
 		"@sveltejs/adapter-static": "1.0.0-next.44",
 		"@sveltejs/kit": "1.0.0-next.509",
 		"@tsconfig/svelte": "3.0.0",
+		"@types/js-cookie": "^3.0.2",
 		"@types/marked": "4.0.7",
 		"@typescript-eslint/eslint-plugin": "5.39.0",
 		"@typescript-eslint/parser": "5.39.0",
@@ -22,7 +26,6 @@
 		"eslint": "8.24.0",
 		"eslint-config-prettier": "8.5.0",
 		"eslint-plugin-svelte3": "4.0.0",
-		"io-ts": "^2.2.18",
 		"lint-staged": "13.0.3",
 		"metascraper": "5.31.1",
 		"metascraper-author": "5.31.1",

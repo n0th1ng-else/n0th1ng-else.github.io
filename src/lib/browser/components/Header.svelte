@@ -2,41 +2,30 @@
 	import { onDestroy } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { homeRoute, blogRoute, projectsRoute, aboutRoute } from '$lib/common/routes';
-	import {
-		onThemeChange,
-		toggleTheme,
-		isDarkTheme,
-		defaultTheme,
-		persistTheme,
-		Theme
-	} from '$lib/browser/stores/theme';
+	import { onThemeChange, toggleTheme, isDarkTheme } from '$lib/browser/stores/theme';
 	import { showBackStore } from '$lib/browser/stores/navigation';
+	import { DEFAULT_THEME, persistTheme } from '$lib/common/theme';
 	import Button from '$lib/browser/ui/Button.svelte';
 	import HeaderLink from '$lib/browser/ui/HeaderLink.svelte';
 	import List from '$lib/browser/ui/List.svelte';
+	import type { Theme } from '$lib/common/theme';
 
 	import Arrow from './Arrow.svelte';
 	import icoSun from '../../../assets/icons/sun.svg';
 	import icoMoon from '../../../assets/icons/moon.svg';
 
-	export let syncTheme: boolean;
-
 	const toggleThemeIcon = (th: Theme): string => (isDarkTheme(th) ? icoSun : icoMoon);
 
-	let theme = defaultTheme;
+	let theme = DEFAULT_THEME;
 	let icon = toggleThemeIcon(theme);
 	let showBack = false;
 
 	const unsubscribeTheme = onThemeChange(th => {
 		theme = th;
+		persistTheme(th);
 		icon = toggleThemeIcon(theme);
 	});
-	const unsubscribePersistTheme = onThemeChange(th => {
-		if (!syncTheme) {
-			return;
-		}
-		persistTheme(th);
-	});
+
 	const unsubscribeShowBack = showBackStore.subscribe(sh => (showBack = sh));
 
 	const switchTheme = () => {
@@ -50,7 +39,6 @@
 
 	onDestroy(() => {
 		unsubscribeTheme();
-		unsubscribePersistTheme();
 		unsubscribeShowBack();
 	});
 </script>
