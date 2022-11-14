@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher, onDestroy } from 'svelte';
-	import { onThemeChange, isDarkTheme, defaultTheme } from '$lib/browser/stores/theme';
+	import { onThemeChange, isDarkTheme } from '$lib/browser/stores/theme';
 
 	export let external = false;
 
@@ -20,7 +20,7 @@
 		dispatch('click');
 	};
 
-	let isDark = isDarkTheme(defaultTheme);
+	let isDark = true;
 
 	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
 
