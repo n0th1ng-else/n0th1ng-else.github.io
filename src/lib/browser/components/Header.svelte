@@ -47,7 +47,7 @@
 	<nav class="header">
 		<div class="navigation-wrapper">
 			<p class="back-container" class:show="{showBack}">
-				<Arrow type="left" size="sm" on:click="{onBack}" />
+				<Arrow type="left" size="sm" on:click="{onBack}" hint="Go back to the articles list" />
 			</p>
 			<p class="logo-container">
 				<HeaderLink url="{homeRoute}" active="{homeRoute === activePath}">

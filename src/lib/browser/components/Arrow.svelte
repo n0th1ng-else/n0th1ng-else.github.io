@@ -13,6 +13,7 @@
 
 	export let type: 'up' | 'left' = 'up';
 	export let size: 'sm' | 'md' | 'lg' = 'lg';
+	export let hint: string | undefined = undefined;
 
 	const icon = type === 'up' ? iconUp : iconLeft;
 
@@ -25,7 +26,7 @@
 	onDestroy(() => unsubscribeTheme());
 </script>
 
-<Button secondary on:click="{onClick}" control="{control}">
+<Button secondary on:click="{onClick}" control="{control}" hint="{hint}">
 	<img class="btn-logo {size}" class:l="{!isDark}" class:d="{isDark}" src="{icon}" alt="" />
 </Button>
 

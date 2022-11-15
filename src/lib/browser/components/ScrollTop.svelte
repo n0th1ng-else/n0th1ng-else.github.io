@@ -8,7 +8,7 @@
 </script>
 
 <p class="to-top-container" class:show="{y > yBorder}">
-	<Arrow on:click="{scrollToTop}" />
+	<Arrow on:click="{scrollToTop}" hint="Scroll to the top of the page" />
 </p>
 
 <svelte:window bind:scrollY="{y}" />
