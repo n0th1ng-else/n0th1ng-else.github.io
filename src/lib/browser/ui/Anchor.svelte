@@ -15,7 +15,13 @@
 </script>
 
 <a class="ui-anchor" class:ui-anchor--shown="{show}" href="#{id}">
-	<img src="{icoAnchor}" alt="" class="ui-anchor__logo" class:l="{!isDark}" class:d="{isDark}" />
+	<img
+		src="{icoAnchor}"
+		alt="Link to this section"
+		class="ui-anchor__logo"
+		class:l="{!isDark}"
+		class:d="{isDark}"
+	/>
 </a>
 
 <style lang="scss">
