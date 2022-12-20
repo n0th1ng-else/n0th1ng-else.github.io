@@ -1,7 +1,6 @@
 import * as t from 'io-ts';
 import Cookies from 'js-cookie';
-import { pipe } from 'fp-ts/function';
-import { fold } from 'fp-ts/Either';
+import { function as f, either as e } from 'fp-ts';
 import type { CookiesWrapper } from '$lib/common/cookie';
 import { getCookie, setCookie } from '$lib/common/cookie';
 
@@ -12,10 +11,10 @@ export type Theme = t.TypeOf<typeof Theme>;
 export const DEFAULT_THEME: Theme = 'dark';
 
 export const readTheme = (instance: CookiesWrapper = Cookies): Theme => {
-	return pipe(
+	return f.pipe(
 		getCookie('theme', instance),
 		Theme.decode,
-		fold<unknown, Theme, Theme>(
+		e.fold<unknown, Theme, Theme>(
 			() => DEFAULT_THEME,
 			cookieTheme => cookieTheme
 		)
