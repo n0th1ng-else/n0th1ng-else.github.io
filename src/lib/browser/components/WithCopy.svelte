@@ -4,9 +4,22 @@
 	export let text = '';
 
 	const onClick = () => copyToClipboard(text);
+
+	const onKeyboard = (evt: KeyboardEvent) => {
+		if (evt.key === 'Enter') {
+			onClick();
+		}
+	};
 </script>
 
-<span on:click="{onClick}" class="copy-container" title="click to copy to clipboard">
+<span
+	on:click="{onClick}"
+	on:keydown="{onKeyboard}"
+	class="copy-container"
+	title="click to copy to clipboard"
+	tabindex="0"
+	role="button"
+>
 	<slot />
 </span>
 

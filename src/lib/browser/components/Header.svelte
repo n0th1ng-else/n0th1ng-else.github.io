@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import { onDestroy } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { homeRoute, blogRoute, projectsRoute, aboutRoute } from '$lib/common/routes';
