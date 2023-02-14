@@ -30,27 +30,21 @@
 <div class="ui-sub__container">
 	{#if id}
 		<h2
-			id="{id}"
+			{id}
 			class="ui-sub"
-			class:l="{!isDark}"
-			class:d="{isDark}"
-			class:header="{!inline}"
+			class:l={!isDark}
+			class:d={isDark}
+			class:header={!inline}
 			class:centered
-			on:focus="{showAnchor}"
-			on:mouseover="{showAnchor}"
-			on:mouseleave="{hideAnchor}"
+			on:focus={showAnchor}
+			on:mouseover={showAnchor}
+			on:mouseleave={hideAnchor}
 		>
 			<slot />
-			<Anchor id="{id}" show="{show}" />
+			<Anchor {id} {show} />
 		</h2>
 	{:else}
-		<h2
-			class="ui-sub"
-			class:l="{!isDark}"
-			class:d="{isDark}"
-			class:header="{!inline}"
-			class:centered
-		>
+		<h2 class="ui-sub" class:l={!isDark} class:d={isDark} class:header={!inline} class:centered>
 			<slot />
 		</h2>
 	{/if}

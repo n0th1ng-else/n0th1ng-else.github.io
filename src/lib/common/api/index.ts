@@ -14,12 +14,17 @@ export const runApi = <Res = unknown, Req = unknown>(
 	opts?: RequestConfig
 ): Promise<Res> => {
 	const isText = opts?.type === 'text';
+	const bodyObj = body
+		? {
+				body: isText ? body.toString() : JSON.stringify(body)
+		  }
+		: {};
 	return fetch(url, {
 		method,
 		headers: {
 			'Content-Type': isText ? 'text/plain' : 'application/json'
 		},
-		body: isText ? body.toString() : JSON.stringify(body)
+		...bodyObj
 	}).then(response => {
 		if (!response.ok) {
 			throw new Error(response.statusText);
@@ -69,9 +74,11 @@ export const uploadImage = (data: SignatureResponse, file: File): Promise<string
 		...payload
 	};
 	const form = new FormData();
-	Object.keys(body).forEach(item => {
-		form.append(item, body[item]);
-	});
+
+	for (const [key, value] of Object.entries(body)) {
+		form.append(key, value);
+	}
+
 	return runApi<{ url: string }, FormData>(url, 'POST', form).then(result => {
 		const imageUrl = result.url;
 		if (!imageUrl) {

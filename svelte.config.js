@@ -1,4 +1,4 @@
-import preprocess from 'svelte-preprocess';
+import { vitePreprocess } from '@sveltejs/kit/vite';
 import nodeAdapter from '@sveltejs/adapter-node';
 import staticAdapter from '@sveltejs/adapter-static';
 
@@ -6,9 +6,9 @@ const isStatic = process.env.BUILD_STATIC === 'true';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	// Consult https://github.com/sveltejs/svelte-preprocess
+	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
 	// for more information about preprocessors
-	preprocess: preprocess(),
+	preprocess: vitePreprocess(),
 
 	kit: {
 		// hydrate the <div id="svelte"> element in src/app.html

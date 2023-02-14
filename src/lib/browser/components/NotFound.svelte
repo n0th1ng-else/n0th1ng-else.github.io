@@ -10,13 +10,13 @@
 	<SubTitle centered>Ops, bumped into empty space?</SubTitle>
 
 	<aside class="container">
-		<img class="image" src="{imageNotFound}" alt="" title="Page not found" />
+		<img class="image" src={imageNotFound} alt="" title="Page not found" />
 	</aside>
 
 	<Paragraph centered>
 		One day something funny would appear on this page... But for now, I was not able to find
-		anything for you, really. My bad. Check out <Link inline url="{blogRoute}">my blog</Link>, if
-		you have not already
+		anything for you, really. My bad. Check out <Link inline url={blogRoute}>my blog</Link>, if you
+		have not already
 	</Paragraph>
 </article>
 

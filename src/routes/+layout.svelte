@@ -41,7 +41,7 @@
 
 <MetaColor />
 <Container full>
-	<Header activePath="{activePath}" />
+	<Header {activePath} />
 	<main>
 		<Container>
 			<div class="content__wrapper">
@@ -51,7 +51,7 @@
 			</div>
 		</Container>
 	</main>
-	<Footer showFCP="{browser}" />
+	<Footer showFCP={browser} />
 	{#if browser}
 		<ScrollTop />
 		<Analytics />

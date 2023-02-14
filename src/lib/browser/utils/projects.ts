@@ -90,7 +90,7 @@ const transformPackage = (pkg: LinkInfo, accounts: ProfileAccounts): ProjectItem
 			return {
 				name: pkg.url,
 				source: pkg.meta.url || pkg.fullUrl,
-				description: pkg.meta.title.substr(pkg.meta.title.indexOf(': ') + 2),
+				description: pkg.meta.title?.substr(pkg.meta.title.indexOf(': ') + 2) || '',
 				url: pkg.link,
 				logo: pkg.logo
 			};
@@ -99,14 +99,15 @@ const transformPackage = (pkg: LinkInfo, accounts: ProfileAccounts): ProjectItem
 				name: pkg.meta.title || pkg.url,
 				source: pkg.meta.title ? getGithubLink(github, pkg.meta.title) : undefined,
 				registry: pkg.fullUrl,
-				description: pkg.meta.description.slice(0, pkg.meta.description.indexOf('Latest version:'))
+				description:
+					pkg.meta.description?.slice(0, pkg.meta.description.indexOf('Latest version:')) || ''
 			};
 		default:
 			return {
 				name: pkg.meta.title || pkg.url,
 				source: pkg.meta.title ? getGithubLink(github, pkg.meta.title) : undefined,
 				registry: pkg.fullUrl,
-				description: pkg.meta.description
+				description: pkg.meta.description || ''
 			};
 	}
 };

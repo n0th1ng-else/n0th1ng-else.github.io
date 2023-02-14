@@ -23,7 +23,7 @@
 
 <Footer>
 	<div class="network small-screen centered w-space">
-		<SocialNetworks accounts="{$accountsStore}" />
+		<SocialNetworks accounts={$accountsStore} />
 	</div>
 	<div class="legal centered w-space">
 		<p class="legal__part">
@@ -34,7 +34,7 @@
 		<p class="legal__part">
 			<AdditionalText>
 				Unless otherwise noted, all code is free to use under the
-				<Link inline url="{legalRoute}">MIT License</Link>
+				<Link inline url={legalRoute}>MIT License</Link>
 			</AdditionalText>
 		</p>
 	</div>
@@ -50,7 +50,7 @@
 		</p>
 	</div>
 	<div class="network big-screen centered w-space">
-		<SocialNetworks accounts="{$accountsStore}" />
+		<SocialNetworks accounts={$accountsStore} />
 	</div>
 	<p class="centered w-space">
 		{#if fcp}

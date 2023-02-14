@@ -16,18 +16,22 @@
 
 	const engArticles = articles.filter(article => article.lang === 'en');
 	const sortedArticles = sortByDate(engArticles);
-	const article = sortedArticles.length ? sortedArticles[0] : undefined;
+	const article = sortedArticles.at(0);
 </script>
 
 <Meta
-	image="{$profileStore?.image ?? ''}"
+	image={$profileStore?.image ?? ''}
 	description="Latest articles, contacts and interesting observations. All in one place. Welcome to my blog."
-	url="{url}"
+	{url}
 />
-<ArticlePreview article="{article}" readonly="{!browser}" />
+
+{#if article}
+	<ArticlePreview {article} readonly={!browser} />
+{/if}
+
 <section class="blog-link">
 	<SubTitle inline>
-		Find more posts in my <Link inline url="{blogRoute}">Blog</Link>.
+		Find more posts in my <Link inline url={blogRoute}>Blog</Link>.
 	</SubTitle>
 </section>
 

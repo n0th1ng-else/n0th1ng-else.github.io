@@ -30,7 +30,7 @@ export const sortByDate = (list: LinkInfo[]): LinkInfo[] =>
 	list.sort((iA, iB) => getArticleDate(iB).getTime() - getArticleDate(iA).getTime());
 
 export const groupByYear = (list: LinkInfo[]): Record<number, LinkInfo[]> =>
-	sortByDate(list).reduce((chunks, info) => {
+	sortByDate(list).reduce<Record<number, LinkInfo[]>>((chunks, info) => {
 		const year = getYear(getArticleDate(info));
 		if (chunks[year]) {
 			chunks[year] = [...chunks[year], info];

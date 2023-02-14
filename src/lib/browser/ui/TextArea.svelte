@@ -21,11 +21,12 @@
 </script>
 
 <textarea
-	placeholder="{placeholder}"
+	{placeholder}
 	class="ui-textarea ui-textarea--{size}"
-	bind:value="{text}"
-	bind:this="{ref}"
-	on:input="{onChange}"></textarea>
+	bind:value={text}
+	bind:this={ref}
+	on:input={onChange}
+/>
 
 <style lang="scss">
 	@import './theme';

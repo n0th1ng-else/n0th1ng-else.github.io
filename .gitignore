@@ -115,3 +115,5 @@ public/*
 .DS_Store
 .svelte-kit/
 .VERSION
+
+vite.config.ts.*

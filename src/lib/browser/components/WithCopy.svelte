@@ -13,8 +13,8 @@
 </script>
 
 <span
-	on:click="{onClick}"
-	on:keydown="{onKeyboard}"
+	on:click={onClick}
+	on:keydown={onKeyboard}
 	class="copy-container"
 	title="click to copy to clipboard"
 	tabindex="0"

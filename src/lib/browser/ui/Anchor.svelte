@@ -14,13 +14,13 @@
 	onDestroy(() => unsubscribeTheme());
 </script>
 
-<a class="ui-anchor" class:ui-anchor--shown="{show}" href="#{id}">
+<a class="ui-anchor" class:ui-anchor--shown={show} href="#{id}">
 	<img
-		src="{icoAnchor}"
+		src={icoAnchor}
 		alt="Link to this section"
 		class="ui-anchor__logo"
-		class:l="{!isDark}"
-		class:d="{isDark}"
+		class:l={!isDark}
+		class:d={isDark}
 	/>
 </a>
 

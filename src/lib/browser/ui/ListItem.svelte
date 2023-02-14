@@ -9,7 +9,7 @@
 	onDestroy(() => unsubscribeTheme());
 </script>
 
-<li class="ui-list-item" class:l="{!isDark}" class:d="{isDark}">
+<li class="ui-list-item" class:l={!isDark} class:d={isDark}>
 	<slot />
 </li>
 

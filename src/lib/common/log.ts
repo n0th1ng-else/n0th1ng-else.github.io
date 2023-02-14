@@ -7,7 +7,7 @@ export class Logger {
 		console.warn(ctx, msg, data || '');
 	}
 
-	public error(msg: string, err: Error): void {
+	public error(msg: string, err: unknown): void {
 		const ctx = this.getContext();
 		// eslint-disable-next-line no-console
 		console.error(ctx, msg, err);

@@ -1,4 +1,4 @@
-FROM node:16.17.1
+FROM node:18.14.0
 
 EXPOSE 8080
 
@@ -54,5 +54,7 @@ RUN npm run meta
 RUN npm run build
 
 RUN find $APP_DIR/src -type f | xargs -L1 rm -f
+
+USER node
 
 CMD ["npm", "start"]

@@ -18,17 +18,10 @@ jobs:
       - name: ⬇️ Checkout
         uses: actions/checkout@v2
 
-      - name: 📓️ Read NodeJS version from .nvmrc
-        id: node-version
-        uses: juliangruber/read-file-action@v1
+      - name: Setup NodeJS using the obtained nvm version
+        uses: actions/setup-node@v3
         with:
-          path: ./.nvmrc
-          trim: true
-
-      - name: ▶️ Setup NodeJS using the obtained nvm version
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ steps.node-version.outputs.content }}
+          node-version-file: '.nvmrc'
 
       - name: 📖️ Restore cached node_modules
         uses: actions/cache@v2
@@ -37,7 +30,7 @@ jobs:
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: ▶️ Install Dependencies
-        run: npm i
+        run: npm ci
 
       - name: 🚧 Create a branch
         uses: peterjgrainger/action-create-branch@v2.0.1

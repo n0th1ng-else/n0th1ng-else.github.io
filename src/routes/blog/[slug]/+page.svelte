@@ -11,9 +11,9 @@
 
 	const { url, article } = data;
 
-	const title = getPageTitle(article.meta.title);
-	const metaTitle = article.meta.title;
-	const metaImage = article.meta.image;
+	const title = getPageTitle(article.meta.title ?? '');
+	const metaTitle = article.meta.title ?? '';
+	const metaImage = article.meta.image ?? '';
 
 	onMount(() => {
 		if (!browser) {
@@ -30,15 +30,9 @@
 	});
 </script>
 
-<Meta
-	title="{metaTitle}"
-	type="article"
-	twitterType="summary_large_image"
-	image="{metaImage}"
-	url="{url}"
-/>
+<Meta title={metaTitle} type="article" twitterType="summary_large_image" image={metaImage} {url} />
 
-<ArticlePreview article="{article}" showDate readonly="{!browser}" />
+<ArticlePreview {article} showDate readonly={!browser} />
 
 <svelte:head>
 	<title>{title}</title>

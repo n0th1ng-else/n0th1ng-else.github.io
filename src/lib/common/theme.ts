@@ -1,24 +1,19 @@
-import * as t from 'io-ts';
+import { z } from 'zod';
 import Cookies from 'js-cookie';
-import { function as f, either as e } from 'fp-ts';
 import type { CookiesWrapper } from '$lib/common/cookie';
 import { getCookie, setCookie } from '$lib/common/cookie';
 
-const Theme = t.union([t.literal('light'), t.literal('dark')]);
+const ThemeSchema = z
+	.union([z.literal('light'), z.literal('dark')])
+	.describe('Theme validation schema');
 
-export type Theme = t.TypeOf<typeof Theme>;
+export type Theme = z.infer<typeof ThemeSchema>;
 
 export const DEFAULT_THEME: Theme = 'dark';
 
 export const readTheme = (instance: CookiesWrapper = Cookies): Theme => {
-	return f.pipe(
-		getCookie('theme', instance),
-		Theme.decode,
-		e.fold<unknown, Theme, Theme>(
-			() => DEFAULT_THEME,
-			cookieTheme => cookieTheme
-		)
-	);
+	const cookieValue = getCookie('theme', instance);
+	return ThemeSchema.catch(DEFAULT_THEME).parse(cookieValue);
 };
 
 export const persistTheme = (theme: Theme): void => {

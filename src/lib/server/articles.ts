@@ -110,7 +110,13 @@ const parseArticle = (
 
 export const getInternalArticles = (showDraft: boolean): LinkInfo[] => {
 	const files = findAllArticles();
-	return files.map(file => parseArticle(file.slug, file.location, showDraft)).filter(Boolean);
+	return files.reduce<LinkInfo[]>((acc, file) => {
+		const fl = parseArticle(file.slug, file.location, showDraft);
+		if (fl) {
+			return [...acc, fl];
+		}
+		return acc;
+	}, []);
 };
 
 export const getInternalArticle = (slug: string, showDraft: boolean): LinkInfo | null => {
