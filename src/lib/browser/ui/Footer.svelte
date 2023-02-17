@@ -10,7 +10,7 @@
 </script>
 
 <footer class="ui-footer-wrapper">
-	<div class="ui-footer" class:l="{!isDark}" class:d="{isDark}">
+	<div class="ui-footer" class:l={!isDark} class:d={isDark}>
 		<slot />
 	</div>
 </footer>

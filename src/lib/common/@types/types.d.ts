@@ -8,19 +8,5 @@ declare global {
 		showSaveFilePicker: (options?: FilePickerOptions) => Promise<FileHandle>;
 	}
 
-	const runtime: {
-		env: {
-			distInRoot: boolean;
-			mode: string;
-			accounts: ProfileAccounts;
-			version: string;
-			versionBuild: string;
-			selfUrl: string;
-		};
-		profile: MetaInfo;
-		publications: LinkInfo[];
-		packages: LinkInfo[];
-	};
-
 	const gtag: (type: string, event: string, params: Record<string, string | number>) => void;
 }

@@ -19,10 +19,10 @@
 	onDestroy(() => unsubscribeTheme());
 </script>
 
-<section class="ui-card" class:l="{!isDark}" class:d="{isDark}">
+<section class="ui-card" class:l={!isDark} class:d={isDark}>
 	{#if item.logo}
 		<p class="ui-card__logo-container">
-			<img class="ui-card__logo" src="{item.logo}" alt="" />
+			<img class="ui-card__logo" src={item.logo} alt="" />
 		</p>
 	{/if}
 	{#if !item.logo || extended}
@@ -38,17 +38,17 @@
 	<div class="ui-card__actions ui-card__section">
 		{#if item.url}
 			<p class="ui-card__action">
-				<Button href="{item.url}" disabled="{readonly}" external>Website</Button>
+				<Button href={item.url} disabled={readonly} external>Website</Button>
 			</p>
 		{/if}
 		{#if item.source}
 			<p class="ui-card__action">
-				<Button href="{item.source}" disabled="{readonly}" external>Source</Button>
+				<Button href={item.source} disabled={readonly} external>Source</Button>
 			</p>
 		{/if}
 		{#if item.registry}
 			<p class="ui-card__action">
-				<Button href="{item.registry}" disabled="{readonly}" external>Package</Button>
+				<Button href={item.registry} disabled={readonly} external>Package</Button>
 			</p>
 		{/if}
 	</div>
@@ -56,7 +56,7 @@
 		<div class="ui-card__actions ui-card__section">
 			{#each item.tags as tag (tag)}
 				<div class="ui-card__action">
-					<Tag title="{tag}" />
+					<Tag title={tag} />
 				</div>
 			{/each}
 		</div>

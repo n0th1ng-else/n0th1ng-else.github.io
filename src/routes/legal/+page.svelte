@@ -13,9 +13,9 @@
 </script>
 
 <Meta
-	image="{$profileStore?.image ?? ''}"
+	image={$profileStore?.image ?? ''}
 	description="The legal information regarding the content in my blog. Contribution guide."
-	url="{url}"
+	{url}
 />
 <article>
 	<Title>Legal information</Title>

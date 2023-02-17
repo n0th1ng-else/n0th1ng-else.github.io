@@ -38,9 +38,14 @@ export const signPayload = (
 	secret: string
 ): SignedCloudinaryPayload => {
 	const omitted = ['cloud_name', 'resource_type', 'api_key'];
-	const flat = sortAsText(Object.keys(payload).filter(key => !omitted.includes(key)))
-		.map(field => `${field}=${payload[field]}`)
-		.join('&');
+	const pairs: string[] = [];
+	for (const [key, value] of Object.entries(payload)) {
+		if (!omitted.includes(key)) {
+			pairs.push(`${key}=${value}`);
+		}
+	}
+
+	const flat = sortAsText(pairs).join('&');
 	const full = `${flat}${secret}`;
 	return {
 		...payload,

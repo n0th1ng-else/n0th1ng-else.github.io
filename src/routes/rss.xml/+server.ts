@@ -19,7 +19,7 @@ export const GET: RequestHandler = async ({ url: urlData }) => {
 
 	const articles = sortByDate(getAllArticles());
 
-	return new Response(generateRss(url, profile.image, articles), {
+	return new Response(generateRss(url, profile.image || '', articles), {
 		headers: getXMLHeaders()
 	});
 };

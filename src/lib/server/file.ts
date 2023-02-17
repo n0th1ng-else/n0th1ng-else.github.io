@@ -2,7 +2,6 @@ import path from 'path';
 import fs from 'fs';
 import url from 'url';
 
-// @ts-expect-error its a Node instance
 export const rootDir = url.fileURLToPath(new URL('../../..', import.meta.url));
 
 export const readJsonFile = <Res>(fileName: string): Res => JSON.parse(readFileContent(fileName));

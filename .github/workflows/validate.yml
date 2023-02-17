@@ -9,22 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     name: Fetch next version
     outputs:
-      version: ${{ steps.getversion.outputs.version }}
+      version: ${{ steps.version.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Read NodeJS version from .nvmrc
-        id: node-version
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ./.nvmrc
-          trim: true
-
       - name: Setup NodeJS using the obtained nvm version
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ steps.node-version.outputs.content }}
+          node-version-file: '.nvmrc'
 
       - name: Restore cached node_modules
         uses: actions/cache@v2
@@ -41,27 +34,26 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Read VERSION file
-        id: getversion
-        run: echo "::set-output name=version::$(cat .VERSION)"
+        id: version
+        run: |
+          APP_VER=$(cat .VERSION)
+          echo "version=$APP_VER" >> $GITHUB_OUTPUT
+          echo "Version: $APP_VER"
 
-  test:
+  validate:
     runs-on: ubuntu-latest
     name: Validate the code
+    strategy:
+      matrix:
+        cmd: [check, 'lint:all', 'format:check']
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Read NodeJS version from .nvmrc
-        id: node-version
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ./.nvmrc
-          trim: true
-
       - name: Setup NodeJS using the obtained nvm version
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ steps.node-version.outputs.content }}
+          node-version-file: '.nvmrc'
 
       - name: Restore cached node_modules
         uses: actions/cache@v2
@@ -72,34 +64,21 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Validate the project
-        run: npm run validate
-
-      - name: Lint the project
-        run: npm run lint:all
-
-      - name: Check the formatting in the project
-        run: npm run format:check
+      - name: Run ${{ matrix.cmd }}
+        run: npm run ${{ matrix.cmd }}
 
   sandbox:
     runs-on: ubuntu-latest
     name: Deploy to sandbox
-    needs: [test, version]
+    needs: [validate, version]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Read NodeJS version from .nvmrc
-        id: node-version
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ./.nvmrc
-          trim: true
-
       - name: Setup NodeJS using the obtained nvm version
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ steps.node-version.outputs.content }}
+          node-version-file: '.nvmrc'
 
       - name: Install Railway CLI
         run: npm i -g @railway/cli

@@ -21,7 +21,7 @@
 </script>
 
 <section>
-	<Title centered="{false}">{article.meta.title}</Title>
+	<Title centered={false}>{article.meta.title}</Title>
 	{#if showDate}
 		<aside class="date">
 			<AdditionalText>{date}</AdditionalText>
@@ -31,7 +31,7 @@
 	<div class="container">
 		{#if image}
 			<p class="logo-container">
-				<img class="logo" src="{image}" alt="" />
+				<img class="logo" src={image} alt="" />
 			</p>
 		{/if}
 		<div class="description">
@@ -40,7 +40,7 @@
 			</SubTitle>
 		</div>
 		<p class="action">
-			<Button hint="Read more" href="{url}" disabled="{readonly}" external>{btnText}</Button>
+			<Button hint="Read more" href={url} disabled={readonly} external>{btnText}</Button>
 		</p>
 	</div>
 </section>
