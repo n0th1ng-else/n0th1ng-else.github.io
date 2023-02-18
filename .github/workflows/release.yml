@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Push new version
     outputs:
-      version: ${{ steps.getversion.outputs.version }}
+      version: ${{ steps.version.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -34,10 +34,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Read VERSION file
+        env:
+          COLOR_GREEN: "\x1b[32m"
+          TEXT_BOLD: "\x1b[1m"
         id: version
         run: |
           APP_VER=$(cat .VERSION)
           echo "version=$APP_VER" >> $GITHUB_OUTPUT
+          echo "${{ env.TEXT_BOLD }}Version: ${{ env.COLOR_GREEN }}$APP_VER"
 
   docker:
     runs-on: ubuntu-latest

@@ -34,11 +34,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Read VERSION file
+        env:
+          COLOR_GREEN: "\x1b[32m"
+          TEXT_BOLD: "\x1b[1m"
         id: version
         run: |
           APP_VER=$(cat .VERSION)
           echo "version=$APP_VER" >> $GITHUB_OUTPUT
-          echo "Version: $APP_VER"
+          echo "${{ env.TEXT_BOLD }}Version: ${{ env.COLOR_GREEN }}$APP_VER"
 
   validate:
     runs-on: ubuntu-latest
