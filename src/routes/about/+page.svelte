@@ -77,13 +77,6 @@
 			<Link external inline url={twitter?.link}>Twitter</Link>
 		</ListItem>
 	</List>
-
-	<SubTitle id="blog">Blog</SubTitle>
-	<List>
-		<ListItem>Blazing fast with Svelte</ListItem>
-		<ListItem>Tricky deployment workflow to make it working</ListItem>
-		<ListItem>Baking stuff on my MacBook Pro 2021</ListItem>
-	</List>
 </article>
 
 <svelte:head>
