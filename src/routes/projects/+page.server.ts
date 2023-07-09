@@ -7,20 +7,19 @@ interface Output {
 	packages?: LinkInfo[];
 	url: string;
 }
-export const load: PageServerLoad<Output> = async ({ url: urlData }) => {
-	const url = urlData.origin;
+export const load: PageServerLoad<Output> = async ({ url }) => {
 	try {
-		const packages = await getPackages(url);
+		const packages = await getPackages(url.origin);
 		return {
 			packages,
-			url: urlData.toString()
+			url: url.toString()
 		};
 	} catch (err) {
 		const logger = new Logger('projects:ssr');
 		logger.error('Failed to load projects', err);
 		return {
 			packages: [],
-			url: urlData.toString()
+			url: url.toString()
 		};
 	}
 };

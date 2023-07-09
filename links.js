@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 import slug from 'slug';
 import scrapper from 'metascraper';
 import sauthor from 'metascraper-author';
@@ -9,7 +9,6 @@ import slogo from 'metascraper-logo';
 import spublisher from 'metascraper-publisher';
 import stitle from 'metascraper-title';
 import surl from 'metascraper-url';
-import fetch from 'node-fetch';
 import { saveMetaToFile } from './info.js';
 import { env } from './env.js';
 import { Logger } from './log.js';
@@ -134,7 +133,7 @@ Promise.all([
 ])
 	.then(([profile, publications, packages]) => {
 		const filePath = saveMetaToFile({ profile, publications, packages, env: procEnv });
-		logger.writeOutput('Meta file is save, location:', filePath);
+		logger.writeOutput('Meta file is save, location:', filePath.href);
 		process.exit();
 	})
 	.catch(err => {

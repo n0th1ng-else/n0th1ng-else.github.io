@@ -7,14 +7,13 @@ interface Output {
 	articles: LinkInfo[];
 	url: string;
 }
-export const load: PageServerLoad<Output> = async ({ url: urlData }) => {
-	const url = urlData.origin;
+export const load: PageServerLoad<Output> = async ({ url }) => {
 	try {
-		const articles = await getArticles(url);
+		const articles = await getArticles(url.origin);
 
 		return {
 			articles: articles.items,
-			url: urlData.toString()
+			url: url.toString()
 		};
 	} catch (err) {
 		const logger = new Logger('home:ssr');
@@ -22,7 +21,7 @@ export const load: PageServerLoad<Output> = async ({ url: urlData }) => {
 
 		return {
 			articles: [],
-			url: urlData.toString()
+			url: url.toString()
 		};
 	}
 };

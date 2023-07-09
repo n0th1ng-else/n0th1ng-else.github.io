@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { readFileSync } from 'node:fs';
 
 const getResources = () => JSON.parse(readFileSync(new URL('./resources.json', import.meta.url)));
 

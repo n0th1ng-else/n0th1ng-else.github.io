@@ -1,4 +1,3 @@
-import type { LinkInfo, MetaInfo, ProfileAccounts } from '$lib/common/@types/common';
 import type { EmptyToVoid, FilePickerOptions, FileHandle } from '../../../types';
 
 declare global {
