@@ -1,79 +1,19 @@
-name: Validate and Test
+name: Validate PR
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
-  version:
-    runs-on: ubuntu-latest
-    name: Fetch next version
-    outputs:
-      version: ${{ steps.version.outputs.version }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+  ci:
+    uses: ./.github/workflows/ci.yml
+    secrets: inherit
 
-      - name: Setup NodeJS using the obtained nvm version
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
-
-      - name: Restore cached node_modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Publish new version
-        run: npm run version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Read VERSION file
-        env:
-          COLOR_GREEN: "\x1b[32m"
-          TEXT_BOLD: "\x1b[1m"
-        id: version
-        run: |
-          APP_VER=$(cat .VERSION)
-          echo "version=$APP_VER" >> $GITHUB_OUTPUT
-          echo "${{ env.TEXT_BOLD }}Version: ${{ env.COLOR_GREEN }}$APP_VER"
-
-  validate:
-    runs-on: ubuntu-latest
-    name: Validate the code
-    strategy:
-      matrix:
-        cmd: [check, 'lint:all', 'format:check']
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup NodeJS using the obtained nvm version
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
-
-      - name: Restore cached node_modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Run ${{ matrix.cmd }}
-        run: npm run ${{ matrix.cmd }}
-
-  sandbox:
+  preview:
     runs-on: ubuntu-latest
     name: Deploy to sandbox
-    needs: [validate, version]
+    environment: Preview
+    needs: ci
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -83,16 +23,11 @@ jobs:
         with:
           node-version-file: '.nvmrc'
 
-      - name: Install Railway CLI
-        run: npm i -g @railway/cli
-
-      - name: Set the version to SANDBOX
-        run: railway variables set COMMIT_HASH=sandbox APP_VERSION=${{ env.APP_VERSION }}
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_SANDBOX_TOKEN }}
-          APP_VERSION: ${{ needs.version.outputs.version }}
+      - name: Install and configure the Koyeb CLI
+        uses: koyeb-community/install-koyeb-cli@v2
+        with:
+          api_token: ${{ secrets.KOYEB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 #
-#      - name: Deploy Dockerfile to SANDBOX
-#        run: railway up
-#        env:
-#          RAILWAY_TOKEN: ${{ secrets.RAILWAY_SANDBOX_TOKEN }}
+#      - name: Deploy to Koyeb
+#        run: koyeb service redeploy blog/n0th1ng-else-blog
