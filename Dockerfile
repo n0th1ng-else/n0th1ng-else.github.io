@@ -36,8 +36,8 @@ ENV GH_AUTHOR_DEVTO ${GH_AUTHOR_DEVTO}
 ARG SELF_URL
 ENV SELF_URL ${SELF_URL}
 
-COPY package.json package-lock.json $APP_DIR
-RUN npm ci --include=dev --also=dev && npm cache clean --force
+COPY package.json package-lock.json svelte.config.js $APP_DIR
+RUN npm ci --include=dev && npm cache clean --force
 
 COPY . $APP_DIR
 

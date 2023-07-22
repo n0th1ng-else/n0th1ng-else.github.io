@@ -1,116 +1,30 @@
-name: Service Release
+name: Build and Release
 
 on:
   push:
     branches: [dev]
 
 jobs:
-  version:
-    runs-on: ubuntu-latest
-    name: Push new version
-    outputs:
-      version: ${{ steps.version.outputs.version }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup NodeJS using the obtained nvm version
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
-
-      - name: Restore cached node_modules
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Publish new version
-        run: npm run version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Read VERSION file
-        env:
-          COLOR_GREEN: "\x1b[32m"
-          TEXT_BOLD: "\x1b[1m"
-        id: version
-        run: |
-          APP_VER=$(cat .VERSION)
-          echo "version=$APP_VER" >> $GITHUB_OUTPUT
-          echo "${{ env.TEXT_BOLD }}Version: ${{ env.COLOR_GREEN }}$APP_VER"
-
-  docker:
-    runs-on: ubuntu-latest
-    name: Push docker image
-    needs: version
-    steps:
-      - name: App version
-        run: echo Picked the app version ${{ needs.version.outputs.version }}-${{ github.sha }}
-
-      - name: Checkout
-        uses: actions/checkout@v2.3.4
-
-      - name: Setup NodeJS using the obtained nvm version
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: '.nvmrc'
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish to Registry
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          push: true
-          tags: |
-            ghcr.io/${{ github.actor }}/n0th1ng-else.github.io/n0th1ng-else-blog:latest
-            ghcr.io/${{ github.actor }}/n0th1ng-else.github.io/n0th1ng-else-blog:${{ github.sha }}
-          build-args: |
-            APP_VERSION=${{ needs.version.outputs.version }}
-            COMMIT_HASH=${{ github.sha }}
-            SELF_URL=${{ secrets.SELF_URL }}
-            GH_AUTHOR_LOGIN=${{ secrets.GH_AUTHOR_LOGIN }}
-            GH_AUTHOR_LINKED_IN=${{ secrets.GH_AUTHOR_LINKED_IN }}
-            GH_AUTHOR_TELEGRAM=${{ secrets.GH_AUTHOR_TELEGRAM }}
-            GH_AUTHOR_MEDIUM=${{ secrets.GH_AUTHOR_MEDIUM }}
-            GH_AUTHOR_HABR=${{ secrets.GH_AUTHOR_HABR }}
-            GH_AUTHOR_NPM=${{ secrets.GH_AUTHOR_NPM }}
-            GH_AUTHOR_TWITTER=${{ secrets.GH_AUTHOR_TWITTER }}
-            GH_AUTHOR_DEVTO=${{ secrets.GH_AUTHOR_DEVTO }}
+  ci:
+    uses: ./.github/workflows/ci.yml
+    secrets: inherit
+    with:
+      docker-tag: latest
 
   production:
     runs-on: ubuntu-latest
     name: Deploy to production
-    needs: version
+    environment: Production
+    needs: ci
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup NodeJS using the obtained nvm version
-        uses: actions/setup-node@v3
+      - name: Install and configure the Koyeb CLI
+        uses: koyeb-community/install-koyeb-cli@v2
         with:
-          node-version-file: '.nvmrc'
+          api_token: ${{ secrets.KOYEB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install Railway CLI
-        run: npm i -g @railway/cli
-
-      - name: Set the version to PRODUCTION
-        run: railway variables set COMMIT_HASH=${{ env.COMMIT_HASH }} APP_VERSION=${{ env.APP_VERSION }}
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_PRODUCTION_TOKEN }}
-          COMMIT_HASH: ${{ github.sha }}
-          APP_VERSION: ${{ needs.version.outputs.version }}
-
-      - name: Deploy Dockerfile to PRODUCTION
-        run: railway up
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_PRODUCTION_TOKEN }}
+      - name: Deploy to Koyeb
+        run: koyeb service redeploy blog/n0th1ng-else-blog
