@@ -91,7 +91,7 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.actor }}/n0th1ng-else.github.io/n0th1ng-else-blog:${{ github.sha }}
+            ghcr.io/${{ github.actor }}/${{ github.event.repository.name }}/${{ vars.DOCKER_IMAGE }}:${{ github.sha }}
           build-args: |
             APP_VERSION=${{ needs.version.outputs.version }}
             COMMIT_HASH=${{ github.sha }}
@@ -112,8 +112,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.actor }}/n0th1ng-else.github.io/n0th1ng-else-blog:${{ github.sha }}
-            ghcr.io/${{ github.actor }}/n0th1ng-else.github.io/n0th1ng-else-blog:${{ inputs.docker-tag }}
+            ghcr.io/${{ github.actor }}/${{ github.event.repository.name }}/${{ vars.DOCKER_IMAGE }}:${{ github.sha }}
+            ghcr.io/${{ github.actor }}/${{ github.event.repository.name }}/${{ vars.DOCKER_IMAGE }}:${{ inputs.docker-tag }}
           build-args: |
             APP_VERSION=${{ needs.version.outputs.version }}
             COMMIT_HASH=${{ github.sha }}

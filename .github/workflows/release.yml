@@ -10,3 +10,21 @@ jobs:
     secrets: inherit
     with:
       docker-tag: latest
+
+  deploy:
+    name: Deploy to NorthFlank
+    runs-on: ubuntu-latest
+    environment: Production
+    needs: ci
+    env:
+      API_TOKEN: ${{ secrets.NORTHFLANK_API_KEY }}
+      API_URL: https://api.northflank.com/v1/projects/${{ vars.NORTHFLANK_PROJECT }}/services/${{ vars.NORTHFLANK_SERVICE }}/deployment
+      DOCKER_IMAGE: ghcr.io/${{ github.actor }}/${{ github.event.repository.name }}/${{ vars.DOCKER_IMAGE }}:latest
+    steps:
+      - name: Call NorthFlank deployment
+        run: |
+          curl --header "Content-Type: application/json" \
+               --header "Authorization: Bearer ${{ env.API_TOKEN }}" \
+               --request POST \
+               --data '{"external":{"imagePath":"${{ env.DOCKER_IMAGE }}"},"docker":{"configType":"default"}}' \
+               ${{ env.API_URL }}
