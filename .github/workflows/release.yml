@@ -10,21 +10,3 @@ jobs:
     secrets: inherit
     with:
       docker-tag: latest
-
-  production:
-    runs-on: ubuntu-latest
-    name: Deploy to production
-    environment: Production
-    needs: ci
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Install and configure the Koyeb CLI
-        uses: koyeb-community/install-koyeb-cli@v2
-        with:
-          api_token: ${{ secrets.KOYEB_TOKEN }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Deploy to Koyeb
-        run: koyeb service redeploy blog/n0th1ng-else-blog
