@@ -1,4 +1,4 @@
-import { writeFileSync } from 'fs';
+import { writeFileSync } from 'node:fs';
 import { sync as spawnSync } from 'cross-spawn';
 import { Logger } from './log.js';
 

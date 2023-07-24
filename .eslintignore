@@ -9,3 +9,10 @@ public
 #don't lint meta
 meta
 .VERSION
+
+env.js
+info.js
+links.js
+log.js
+version.js
+svelte.config.js

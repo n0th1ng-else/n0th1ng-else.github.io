@@ -4,7 +4,7 @@ import { readTheme } from '$lib/common/theme';
 import type { MetaInfo, ProfileAccounts } from '$lib/common/@types/common';
 import type { Version } from '$lib/common/api/types';
 import type { Theme } from '$lib/common/theme';
-import type { PageServerLoad } from './$types';
+import type { LayoutServerLoad } from './$types';
 
 interface Output {
 	accounts?: ProfileAccounts;
@@ -12,13 +12,13 @@ interface Output {
 	version?: Version;
 	theme: Theme;
 }
-export const load: PageServerLoad<Output> = async ({ url: urlData, cookies }) => {
+export const load: LayoutServerLoad<Output> = async ({ url, cookies }) => {
 	const theme = readTheme(cookies);
-	const url = urlData.origin;
+	const urlOrigin = url.origin;
 	try {
-		const accounts = await getAccounts(url);
-		const profile = await getProfile(url);
-		const version = await getVersion(url);
+		const accounts = await getAccounts(urlOrigin);
+		const profile = await getProfile(urlOrigin);
+		const version = await getVersion(urlOrigin);
 		return {
 			accounts,
 			profile,

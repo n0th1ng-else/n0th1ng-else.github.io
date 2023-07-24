@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { Logger } from './log.js';
 
 const logger = new Logger('info');

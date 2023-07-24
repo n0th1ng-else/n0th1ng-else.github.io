@@ -41,7 +41,10 @@ class ContactModel {
 		return this.sub;
 	}
 
-	constructor(public readonly title: string, type?: ContactType) {
+	constructor(
+		public readonly title: string,
+		type?: ContactType
+	) {
 		this.type = type ?? ContactType.Url;
 	}
 }
