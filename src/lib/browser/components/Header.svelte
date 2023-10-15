@@ -46,51 +46,51 @@
 <header class="header-wrapper">
 	<nav class="header">
 		<div class="navigation-wrapper">
-			<p class="back-container" class:show={showBack}>
-				<Arrow type="left" size="sm" on:click={onBack} hint="Go back to the articles list" />
+			<p class="back-container" class:show="{showBack}">
+				<Arrow type="left" size="sm" on:click="{onBack}" hint="Go back to the articles list" />
 			</p>
 			<p class="logo-container">
-				<HeaderLink url={homeRoute} active={homeRoute === activePath}>
+				<HeaderLink url="{homeRoute}" active="{homeRoute === activePath}">
 					<span class="brand">Nothing Else.</span>
 				</HeaderLink>
 			</p>
 			<div class="navigation">
 				<List type="header">
 					<li class="nav__item--big">
-						<HeaderLink url={blogRoute} active={blogRoute === activePath}>
+						<HeaderLink url="{blogRoute}" active="{blogRoute === activePath}">
 							<span class="nav__item">Blog.</span>
 						</HeaderLink>
 					</li>
 					<li class="nav__item--big">
-						<HeaderLink url={projectsRoute} active={projectsRoute === activePath}>
+						<HeaderLink url="{projectsRoute}" active="{projectsRoute === activePath}">
 							<span class="nav__item">Projects.</span>
 						</HeaderLink>
 					</li>
 					<li class="nav__item--big">
-						<HeaderLink url={aboutRoute} active={aboutRoute === activePath}>
+						<HeaderLink url="{aboutRoute}" active="{aboutRoute === activePath}">
 							<span class="nav__item">It's me.</span>
 						</HeaderLink>
 					</li>
 
 					<li class="nav__item--small">
-						<HeaderLink url={blogRoute} active={blogRoute === activePath}>
+						<HeaderLink url="{blogRoute}" active="{blogRoute === activePath}">
 							<span class="nav__item">Blg.</span>
 						</HeaderLink>
 					</li>
 					<li class="nav__item--small">
-						<HeaderLink url={projectsRoute} active={projectsRoute === activePath}>
+						<HeaderLink url="{projectsRoute}" active="{projectsRoute === activePath}">
 							<span class="nav__item">Prjcts.</span>
 						</HeaderLink>
 					</li>
 					<li class="nav__item--small">
-						<HeaderLink url={aboutRoute} active={aboutRoute === activePath}>
+						<HeaderLink url="{aboutRoute}" active="{aboutRoute === activePath}">
 							<span class="nav__item">Me.</span>
 						</HeaderLink>
 					</li>
 				</List>
 			</div>
 			<p class="theme">
-				<Button secondary on:click={switchTheme} {icon} hint="change theme" />
+				<Button secondary on:click="{switchTheme}" {icon} hint="change theme" />
 			</p>
 		</div>
 	</nav>

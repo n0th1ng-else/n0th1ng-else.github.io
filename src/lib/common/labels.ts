@@ -1,4 +1,6 @@
 import { Position } from '$lib/browser/utils/projects';
+import { isInternalArticle } from '$lib/common/articles';
+import type { LinkInfo } from '$lib/common/@types/common';
 
 export const getPageTitle = (title: string): string => {
 	const brand = 'Nothing Else';
@@ -19,12 +21,12 @@ export const newArticleTitle = getPageTitle('New Article');
 
 export const notFoundTitle = getPageTitle('Page Not Found');
 
-export const getServiceTitle = (service?: string): string => {
-	if (!service) {
+export const getServiceTitle = (article: LinkInfo): string => {
+	if (!article.service || isInternalArticle(article)) {
 		return '';
 	}
 
-	return service === 'devto' ? 'dev.to' : service;
+	return article.service === 'devto' ? 'dev.to' : article.service;
 };
 
 export const getPositionTitle = (position?: Position): string => {

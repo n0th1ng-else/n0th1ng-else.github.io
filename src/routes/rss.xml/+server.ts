@@ -17,7 +17,7 @@ export const GET: RequestHandler = async ({ url: urlData }) => {
 		throw error(500, 'Something went wrong');
 	}
 
-	const articles = sortByDate(getAllArticles());
+	const articles = sortByDate(await getAllArticles());
 
 	return new Response(generateRss(url, profile.image || '', articles), {
 		headers: getXMLHeaders()

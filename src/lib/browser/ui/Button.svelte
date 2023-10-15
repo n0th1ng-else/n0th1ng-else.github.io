@@ -33,35 +33,35 @@
 </script>
 
 {#if href}
-	<Link on:click={onClick} {external} url={href} {hint} raw inline {control}>
-		<span class:l={!isDark} class:d={isDark} class:secondary class:inline class="ui-button">
+	<Link on:click="{onClick}" {external} url="{href}" {hint} raw inline {control}>
+		<span class:l="{!isDark}" class:d="{isDark}" class:secondary class:inline class="ui-button">
 			<span class="ui-button__text">
 				<slot />
 			</span>
 			{#if icon}
-				<img src={icon} class="ui-button__icon" alt={hint} />
+				<img src="{icon}" class="ui-button__icon" alt="{hint}" />
 			{/if}
 		</span>
 	</Link>
 {:else}
 	<button
 		class="ui-button"
-		class:l={!isDark}
-		class:d={isDark}
+		class:l="{!isDark}"
+		class:d="{isDark}"
 		class:secondary
 		class:inline
-		class:no-print={!control}
-		on:click={onClick}
-		title={hint}
+		class:no-print="{!control}"
+		on:click="{onClick}"
+		title="{hint}"
 		{disabled}
-		aria-hidden={control ? undefined : 'true'}
-		tabindex={control ? undefined : -1}
+		aria-hidden="{control ? undefined : 'true'}"
+		tabindex="{control ? undefined : -1}"
 	>
 		<span class="ui-button__text">
 			<slot />
 		</span>
 		{#if icon}
-			<img src={icon} class="ui-button__icon" alt={hint} />
+			<img src="{icon}" class="ui-button__icon" alt="{hint}" />
 		{/if}
 	</button>
 {/if}

@@ -26,8 +26,8 @@
 	onDestroy(() => unsubscribeTheme());
 </script>
 
-<Button secondary on:click={onClick} {control} {hint}>
-	<img class="btn-logo {size}" class:l={!isDark} class:d={isDark} src={icon} alt="" />
+<Button secondary on:click="{onClick}" {control} {hint}>
+	<img class="btn-logo {size}" class:l="{!isDark}" class:d="{isDark}" src="{icon}" alt="" />
 </Button>
 
 <style lang="scss">

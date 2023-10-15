@@ -32,7 +32,7 @@
 </script>
 
 <Meta
-	image={photo}
+	image="{photo}"
 	description="Hey there, it's Sergey. I'm a software engineer from Amsterdam, the Netherlands. I explore and learn everything related to Frontend, NodeJS, and Web overall. Check my blog out."
 	{url}
 />
@@ -40,7 +40,7 @@
 	<Title>About Sergey</Title>
 	{#if photo}
 		<p class="photo-container">
-			<img class="photo" src={photo} alt="" />
+			<img class="photo" src="{photo}" alt="" />
 		</p>
 	{/if}
 	<div class="section">
@@ -65,16 +65,16 @@
 		<Paragraph>
 			You can contact me by email at <EmailElement /> to say hi! I always appreciate meeting new people.
 			You can find all the links in the footer of each page
-			<Button inline on:click={scroll} hint="scroll to the bottom">⬇️</Button>. Follow me and send
+			<Button inline on:click="{scroll}" hint="scroll to the bottom">⬇️</Button>. Follow me and send
 			me a wave 👋🏿. These are also two main networks I'm in:
 		</Paragraph>
 	</div>
 	<List>
 		<ListItem>
-			<Link external inline url={github?.link}>GitHub</Link>
+			<Link external inline url="{github?.link}">GitHub</Link>
 		</ListItem>
 		<ListItem>
-			<Link external inline url={twitter?.link}>Twitter</Link>
+			<Link external inline url="{twitter?.link}">Twitter</Link>
 		</ListItem>
 	</List>
 </article>

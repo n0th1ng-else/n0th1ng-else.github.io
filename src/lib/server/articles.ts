@@ -1,10 +1,14 @@
 import parseMD from 'parse-md';
 import { resolve as resolvePath } from 'path';
 import { readdirSync, readFileSync } from 'fs';
+import { fetchExternalArticles, getSelfUrl } from '$lib/server/selectors';
 import { Logger } from '$lib/common/log';
 import { getUrlPrefix } from '$lib/common/api';
-import { fetchExternalArticles, getSelfUrl } from '$lib/server/selectors';
-import type { LinkInfo, ArticleLanguage } from '$lib/common/@types/common';
+import { SUPPORTED_LANGUAGES } from '$lib/common/language';
+import { MY_BLOG_SERVICE } from '$lib/common/articles';
+import { renderMarkdown } from '$lib/server/markdown';
+import type { LinkInfo } from '$lib/common/@types/common';
+import type { ArticleLanguage } from '$lib/common/language';
 
 const logger = new Logger('articles:server');
 
@@ -12,7 +16,8 @@ interface InternalMetadata {
 	title: string;
 	description: string;
 	language: ArticleLanguage;
-	published: string;
+	date: string;
+	image: string;
 	keywords: string[];
 	draft?: boolean;
 }
@@ -24,12 +29,15 @@ interface FilesystemDescription {
 
 const isMetadata = (value: unknown): value is InternalMetadata => {
 	try {
-		const res =
-			{}.hasOwnProperty.call(value, 'language') &&
-			{}.hasOwnProperty.call(value, 'published') &&
-			{}.hasOwnProperty.call(value, 'description') &&
-			{}.hasOwnProperty.call(value, 'title');
-		return res;
+		if (typeof value !== 'object' || !value) {
+			return false;
+		}
+		const hasLang = 'language' in value && SUPPORTED_LANGUAGES.some(l => l === value.language);
+		const hasTitle = 'title' in value;
+		const hasDescription = 'description' in value;
+		const hasPublished = 'date' in value;
+		const hasMissingFields = [hasLang, hasTitle, hasDescription, hasPublished].includes(false);
+		return !hasMissingFields;
 	} catch (err) {
 		logger.error('Failed to check article metadata', err);
 		return false;
@@ -57,12 +65,11 @@ const findAllArticles = (rootFolder = process.cwd()): FilesystemDescription[] =>
 	}
 };
 
-const parseArticle = (
+const parseArticle = async (
 	slug: string,
 	file: string,
-	showDraft: boolean,
-	withContent = false
-): LinkInfo | null => {
+	showDraft: boolean
+): Promise<LinkInfo | null> => {
 	try {
 		const fileContents = readFileSync(file, 'utf8');
 		const { content, metadata } = parseMD(fileContents);
@@ -76,26 +83,27 @@ const parseArticle = (
 			return null;
 		}
 
-		const articleContent = withContent ? { content } : {};
+		const parsedContent = await renderMarkdown(content);
+
 		const keywords =
 			metadata.keywords && Array.isArray(metadata.keywords) ? { keywords: metadata.keywords } : {};
 
 		const fullUrl = getUrlPrefix(`${getSelfUrl()}/blog/${slug}`);
 
 		return {
-			...articleContent,
 			...keywords,
 			id: slug,
-			service: 'blog',
+			service: MY_BLOG_SERVICE,
 			url: slug,
 			lang: metadata.language,
 			fullUrl,
+			content: parsedContent,
 			internal: true,
 			meta: {
 				author: 'Sergey Nikitin',
-				date: metadata.published,
+				date: metadata.date,
 				description: metadata.description,
-				image: null,
+				image: metadata.image,
 				logo: null,
 				publisher: 'nothing-else.blog',
 				title: metadata.title,
@@ -108,18 +116,26 @@ const parseArticle = (
 	}
 };
 
-export const getInternalArticles = (showDraft: boolean): LinkInfo[] => {
+export const getInternalArticles = async (showDraft: boolean): Promise<LinkInfo[]> => {
+	const articles: LinkInfo[] = [];
 	const files = findAllArticles();
-	return files.reduce<LinkInfo[]>((acc, file) => {
-		const fl = parseArticle(file.slug, file.location, showDraft);
-		if (fl) {
-			return [...acc, fl];
+	if (!files.length) {
+		return [];
+	}
+	do {
+		const file = files.shift();
+		const article = file ? await parseArticle(file.slug, file.location, showDraft) : null;
+		if (article) {
+			articles.push(article);
 		}
-		return acc;
-	}, []);
+	} while (files.length);
+	return articles;
 };
 
-export const getInternalArticle = (slug: string, showDraft: boolean): LinkInfo | null => {
+export const getInternalArticle = async (
+	slug: string,
+	showDraft: boolean
+): Promise<LinkInfo | null> => {
 	const files = findAllArticles();
 	const file = files.find(file => file.slug === slug);
 
@@ -127,11 +143,11 @@ export const getInternalArticle = (slug: string, showDraft: boolean): LinkInfo |
 		return null;
 	}
 
-	const withContent = true;
-	return parseArticle(file.slug, file.location, showDraft, withContent);
+	return await parseArticle(file.slug, file.location, showDraft);
 };
 
-export const getAllArticles = (showDraft = false): LinkInfo[] => [
-	...fetchExternalArticles(),
-	...getInternalArticles(showDraft)
-];
+export const getAllArticles = async (showDraft = false): Promise<LinkInfo[]> => {
+	const external = await fetchExternalArticles();
+	const internal = await getInternalArticles(showDraft);
+	return [...external, ...internal];
+};

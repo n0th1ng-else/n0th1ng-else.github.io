@@ -26,7 +26,7 @@
 </script>
 
 <Meta
-	image={$profileStore?.image ?? ''}
+	image="{$profileStore?.image ?? ''}"
 	description="List of my publications through the years. Most of them are written in English."
 	{url}
 />
@@ -42,7 +42,7 @@
 							<div class="article">
 								<div class="article__title">
 									<Paragraph>
-										<Link inline url={toArticle(item.id)}>
+										<Link inline url="{toArticle(item.id)}">
 											{item.meta.title}
 										</Link>
 									</Paragraph>

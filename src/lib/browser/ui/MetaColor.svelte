@@ -10,5 +10,5 @@
 </script>
 
 <svelte:head>
-	<meta name="theme-color" content={isDark ? '#072638' : '#ffffff'} />
+	<meta name="theme-color" content="{isDark ? '#072638' : '#ffffff'}" />
 </svelte:head>

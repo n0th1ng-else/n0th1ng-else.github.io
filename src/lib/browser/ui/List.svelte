@@ -2,7 +2,7 @@
 	export let type: 'regular' | 'header' = 'regular';
 </script>
 
-<ul class="ui-list" class:ui-list--header={type === 'header'}>
+<ul class="ui-list" class:ui-list--header="{type === 'header'}">
 	<slot />
 </ul>
 

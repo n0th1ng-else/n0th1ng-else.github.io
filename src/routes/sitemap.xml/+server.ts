@@ -8,7 +8,7 @@ import type { RequestHandler } from './$types';
 export const GET: RequestHandler = async ({ url: urlData }) => {
 	const url = urlData.origin;
 
-	const articles = sortByDate(getAllArticles());
+	const articles = sortByDate(await getAllArticles());
 	const ids = articles.map(({ id }) => id);
 	const routes = getRoutes(url, ids);
 
