@@ -2,7 +2,7 @@
 	import { onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
 	import { profileStore } from '$lib/browser/stores';
-	import { uploadImage } from '$lib/browser/utils/upload';
+	import { uploadImage } from '$lib/common/api';
 	import { Logger } from '$lib/common/log';
 	import { getDateTime } from '$lib/common/date';
 	import Button from '$lib/browser/ui/Button.svelte';
@@ -62,8 +62,12 @@
 
 	const uploadLogo = () =>
 		openImageFile()
-			.then(file => uploadImage(file))
-			.then(imageUrl => (logo = imageUrl))
+			.then(file => {
+				const form = new FormData();
+				form.append('file', file);
+				return uploadImage(form);
+			})
+			.then(response => (logo = response.url))
 			.catch(err => logger.error('Unable to upload the image', err));
 
 	const saveOnKey = (evt: KeyboardEvent) => {
@@ -86,32 +90,32 @@
 	});
 </script>
 
-<Meta image={$profileStore?.image ?? ''} description="Article editor" {url} />
+<Meta image="{$profileStore?.image ?? ''}" description="Article editor" {url} />
 <article>
 	<SubTitle centered>New article</SubTitle>
 	<div class="controls-container">
 		<div class="main-controls-container">
 			<p>
-				<Button on:click={open}>Load file</Button>
+				<Button on:click="{open}">Load file</Button>
 			</p>
 			<div class="save-block">
 				<p class="save-control">
-					<Button on:click={saveNewFile}>Save the article</Button>
+					<Button on:click="{saveNewFile}">Save the article</Button>
 				</p>
 			</div>
 			{#if noticeDate}
 				<p class="save-note">
-					<img src={icoOk} alt="" class="save-note__logo" />
+					<img src="{icoOk}" alt="" class="save-note__logo" />
 				</p>
 				<p class="save-note__text">changes saved at {getDateTime(noticeDate)}</p>
 			{/if}
 		</div>
 		<p>
-			<Button on:click={togglePreview}>{preview ? 'Edit' : 'Preview'}</Button>
+			<Button on:click="{togglePreview}">{preview ? 'Edit' : 'Preview'}</Button>
 		</p>
 	</div>
 	<p class="logo-btn">
-		<Button secondary inline on:click={uploadLogo}>Upload logo</Button>
+		<Button secondary inline on:click="{uploadLogo}">Upload logo</Button>
 	</p>
 	<div class="editor-container">
 		<Editor bind:title bind:keywords bind:content {preview} {logo} />

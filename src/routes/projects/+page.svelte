@@ -21,21 +21,21 @@
 </script>
 
 <Meta
-	image={$profileStore?.image ?? ''}
+	image="{$profileStore?.image ?? ''}"
 	description="Big and small noticeable projects I am contributing to. Most of them related to Frontend or NodeJS. Find them all in the my GitHub account."
 	{url}
 />
 <article>
 	<Title>Projects</Title>
 	<SubTitle>
-		A few highlights of my pet projects. View them all on <Link external inline url={gh?.link}
+		A few highlights of my pet projects. View them all on <Link external inline url="{gh?.link}"
 			>{gh?.title}</Link
 		>.
 	</SubTitle>
 	<div class="projects-container">
 		{#each petProjects as item (item.name)}
 			<div class="project-container">
-				<Card {item} extended readonly={!browser} />
+				<Card {item} extended readonly="{!browser}" />
 			</div>
 		{/each}
 	</div>
@@ -44,7 +44,7 @@
 	<div class="projects-container">
 		{#each workProjects as item (item.name)}
 			<div class="project-container">
-				<Card {item} extended readonly={!browser} />
+				<Card {item} extended readonly="{!browser}" />
 			</div>
 		{/each}
 	</div>

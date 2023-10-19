@@ -3,7 +3,7 @@
 	"version": "0.0.0-semantically-released",
 	"description": "My home page",
 	"engines": {
-		"node": ">=18.18.2"
+		"node": ">=18.18.1"
 	},
 	"dependencies": {
 		"date-fns": "2.30.0",
@@ -20,6 +20,7 @@
 		"@sveltejs/kit": "1.25.2",
 		"@tsconfig/svelte": "5.0.2",
 		"@types/js-cookie": "3.0.4",
+		"@types/slug": "5.0.5",
 		"@typescript-eslint/eslint-plugin": "6.7.5",
 		"@typescript-eslint/parser": "6.7.5",
 		"cross-spawn": "7.0.3",
@@ -63,7 +64,8 @@
 		"dev": "dotenv vite dev",
 		"preview": "vite preview",
 		"start": "node dist",
-		"prepare": "svelte-kit sync"
+		"prepare": "svelte-kit sync",
+		"draft": "node ./src/scripts/create-md.js"
 	},
 	"type": "module",
 	"keywords": [

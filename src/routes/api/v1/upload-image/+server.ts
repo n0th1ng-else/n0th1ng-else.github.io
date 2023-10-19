@@ -1,9 +1,10 @@
 import { error, json } from '@sveltejs/kit';
 import { CloudinaryResource, getUrl, signPayload } from '$lib/server/cloudinary';
+import { runRawApi } from '$lib/common/api';
 import type { BaseCloudinaryPayload } from '$lib/server/cloudinary';
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = () => {
+export const POST: RequestHandler = async ({ request }) => {
 	// TODO read env properly. most likely does not work
 	const api = {
 		account: process.env.CLOUDINARY_ACCOUNT || '',
@@ -20,10 +21,17 @@ export const GET: RequestHandler = () => {
 		api_key: api.key,
 		timestamp: new Date().getTime(),
 		resource_type: CloudinaryResource.Image,
-		folder: 'blog'
+		upload_preset: 'default'
 	};
+
 	const url = getUrl(api.account, CloudinaryResource.Image);
 	const signed = signPayload(payload, api.secret);
 
-	return json({ url, payload: signed });
+	const form = await request.formData();
+	for (const [key, value] of Object.entries(signed)) {
+		form.append(key, value);
+	}
+
+	const cloudinaryResponse = await runRawApi<{ url: string }, FormData>(url, 'POST', {}, form);
+	return json({ url: cloudinaryResponse });
 };

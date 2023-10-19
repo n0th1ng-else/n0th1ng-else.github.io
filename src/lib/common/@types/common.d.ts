@@ -1,6 +1,6 @@
-export type ArticleLanguage = 'en' | 'ru';
+import type { ArticleLanguage } from '$lib/common/language';
 
-export interface LinkInfo {
+type BaseLinkInfo = {
 	id: string;
 	service: string;
 	url: string;
@@ -9,10 +9,19 @@ export interface LinkInfo {
 	meta: MetaInfo;
 	link?: string;
 	logo?: string;
-	content?: string;
-	internal?: boolean;
 	keywords?: string[];
-}
+};
+
+type ExternalLinkInfo = {
+	internal: false;
+};
+
+type InternalLinkInfo = {
+	internal: true;
+	content: string;
+};
+
+export type LinkInfo = BaseLinkInfo & (ExternalLinkInfo | InternalLinkInfo);
 
 export interface MetaInfo {
 	author: string | null;

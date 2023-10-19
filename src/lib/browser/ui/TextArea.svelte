@@ -23,10 +23,10 @@
 <textarea
 	{placeholder}
 	class="ui-textarea ui-textarea--{size}"
-	bind:value={text}
-	bind:this={ref}
-	on:input={onChange}
-/>
+	bind:value="{text}"
+	bind:this="{ref}"
+	on:input="{onChange}"
+></textarea>
 
 <style lang="scss">
 	@import './theme';

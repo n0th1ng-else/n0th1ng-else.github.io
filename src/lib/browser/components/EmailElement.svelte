@@ -6,7 +6,7 @@
 	const [email] = getEmail(true);
 </script>
 
-<WithCopy text={email}>
+<WithCopy text="{email}">
 	<span class="email-part">{name}</span> at <span class="email-part">{host}</span> dot
 	<span class="email-part">{domain}</span>
 </WithCopy>

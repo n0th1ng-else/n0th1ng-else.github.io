@@ -11,7 +11,7 @@
 	export let small = false;
 </script>
 
-<span class="ui-additional-text" class:l={!isDark} class:d={isDark} class:small>
+<span class="ui-additional-text" class:l="{!isDark}" class:d="{isDark}" class:small>
 	<slot />
 </span>
 

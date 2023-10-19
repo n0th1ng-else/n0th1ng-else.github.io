@@ -20,18 +20,18 @@
 </script>
 
 <Meta
-	image={$profileStore?.image ?? ''}
+	image="{$profileStore?.image ?? ''}"
 	description="Latest articles, contacts and interesting observations. All in one place. Welcome to my blog."
 	{url}
 />
 
 {#if article}
-	<ArticlePreview {article} readonly={!browser} />
+	<ArticlePreview {article} readonly="{!browser}" />
 {/if}
 
 <section class="blog-link">
 	<SubTitle inline>
-		Find more posts in my <Link inline url={blogRoute}>Blog</Link>.
+		Find more posts in my <Link inline url="{blogRoute}">Blog</Link>.
 	</SubTitle>
 </section>
 

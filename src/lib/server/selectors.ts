@@ -16,7 +16,8 @@ export const readProfile = (): MetaInfo => readMetaFile().profile;
 
 export const fetchPackages = (): LinkInfo[] => readMetaFile().packages;
 
-export const fetchExternalArticles = (): LinkInfo[] => readMetaFile().publications;
+export const fetchExternalArticles = async (): Promise<LinkInfo[]> =>
+	Promise.resolve(readMetaFile().publications);
 
 export const readEnvironment = (): MetaEnvironment => readMetaFile().env;
 

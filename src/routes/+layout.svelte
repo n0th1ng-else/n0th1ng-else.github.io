@@ -51,7 +51,7 @@
 			</div>
 		</Container>
 	</main>
-	<Footer showFCP={browser} />
+	<Footer showFCP="{browser}" />
 	{#if browser}
 		<ScrollTop />
 		<Analytics />

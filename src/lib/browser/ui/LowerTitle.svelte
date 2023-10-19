@@ -9,7 +9,7 @@
 	onDestroy(() => unsubscribeTheme());
 </script>
 
-<h3 class="ui-lower-sub" class:l={!isDark} class:d={isDark}>
+<h3 class="ui-lower-sub" class:l="{!isDark}" class:d="{isDark}">
 	<slot />
 </h3>
 

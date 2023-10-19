@@ -22,15 +22,11 @@ export interface BaseCloudinaryPayload {
 	timestamp: number;
 	public_id?: string;
 	eager?: string;
-	folder: string;
+	upload_preset: string;
 }
 
 export interface SignedCloudinaryPayload extends BaseCloudinaryPayload {
 	signature: string;
-}
-
-export interface CloudinaryPayload extends SignedCloudinaryPayload {
-	file: File;
 }
 
 export const signPayload = (

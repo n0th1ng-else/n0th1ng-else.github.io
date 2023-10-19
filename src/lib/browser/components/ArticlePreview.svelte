@@ -5,6 +5,7 @@
 	import AdditionalText from '$lib/browser/ui/AdditionalText.svelte';
 	import SubTitle from '$lib/browser/ui/SubTitle.svelte';
 	import { getServiceTitle } from '$lib/common/labels';
+	import { isInternalArticle } from '$lib/common/articles';
 	import type { LinkInfo } from '$lib/common/@types/common';
 
 	export let article: LinkInfo;
@@ -14,14 +15,15 @@
 	const date = getRelativeDate(article.meta.date);
 	const text = article.meta.description;
 	const url = article.fullUrl ?? '';
-	const host = getServiceTitle(article.service);
+	const host = getServiceTitle(article);
+	const external = !isInternalArticle(article);
 	const image = article.meta.image;
 
 	const btnText = host ? `Read more on ${host}` : 'Read more';
 </script>
 
 <section>
-	<Title centered={false}>{article.meta.title}</Title>
+	<Title centered="{false}">{article.meta.title}</Title>
 	{#if showDate}
 		<aside class="date">
 			<AdditionalText>{date}</AdditionalText>
@@ -31,7 +33,7 @@
 	<div class="container">
 		{#if image}
 			<p class="logo-container">
-				<img class="logo" src={image} alt="" />
+				<img class="logo" src="{image}" alt="" />
 			</p>
 		{/if}
 		<div class="description">
@@ -40,7 +42,9 @@
 			</SubTitle>
 		</div>
 		<p class="action">
-			<Button hint="Read more" href={url} disabled={readonly} external>{btnText}</Button>
+			<Button hint="Read full article" href="{url}" disabled="{readonly}" {external}
+				>{btnText}</Button
+			>
 		</p>
 	</div>
 </section>

@@ -1,8 +1,5 @@
-import type { SignedCloudinaryPayload } from '$lib/server/cloudinary';
-
-export interface SignatureResponse {
+export interface ImageResponse {
 	url: string;
-	payload: SignedCloudinaryPayload;
 }
 
 export interface Version {

@@ -30,15 +30,15 @@
 {#if external}
 	<a
 		class="ui-link"
-		class:filled={!raw}
+		class:filled="{!raw}"
 		class:inline
-		class:l={!isDark}
-		class:d={isDark}
-		on:click={onClick}
-		aria-hidden={control ? undefined : 'true'}
-		tabindex={control ? undefined : -1}
-		href={url}
-		title={hint}
+		class:l="{!isDark}"
+		class:d="{isDark}"
+		on:click="{onClick}"
+		aria-hidden="{control ? undefined : 'true'}"
+		tabindex="{control ? undefined : -1}"
+		href="{url}"
+		title="{hint}"
 		target="_blank"
 		rel="noreferrer noopener"
 	>
@@ -47,14 +47,14 @@
 {:else}
 	<a
 		class="ui-link"
-		class:filled={!raw}
-		class:l={!isDark}
-		class:d={isDark}
+		class:filled="{!raw}"
+		class:l="{!isDark}"
+		class:d="{isDark}"
 		class:inline
-		class:no-print={!control}
-		on:click={onClick}
-		href={url}
-		title={hint}
+		class:no-print="{!control}"
+		on:click="{onClick}"
+		href="{url}"
+		title="{hint}"
 	>
 		<slot />
 	</a>

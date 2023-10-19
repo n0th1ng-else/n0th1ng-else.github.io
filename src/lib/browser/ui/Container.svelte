@@ -11,7 +11,7 @@
 	onDestroy(() => unsubscribeTheme());
 </script>
 
-<div class:l={!isDark} class:d={isDark} class="ui-container" class:full-screen={full}>
+<div class:l="{!isDark}" class:d="{isDark}" class="ui-container" class:full-screen="{full}">
 	<slot />
 </div>
 

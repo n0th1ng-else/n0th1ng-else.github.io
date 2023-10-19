@@ -1,36 +1,49 @@
 import type { MetaInfo, LinkInfo, ProfileAccounts } from '../@types/common';
-import type { CloudinaryPayload } from '$lib/server/cloudinary';
-import type { SignatureResponse, Version } from './types';
+import type { ImageResponse, Version } from './types';
 import type { WithPagination } from '../types';
 
-interface RequestConfig {
+type RequestConfig = {
 	type: 'json' | 'text';
-}
+};
 
-export const runApi = <Res = unknown, Req = unknown>(
+type HttpMethod = 'POST' | 'GET';
+
+export const runRawApi = async <Res = unknown, Req extends string | FormData = string>(
 	url: string,
-	method: 'POST' | 'GET' = 'GET',
-	body?: Req,
-	opts?: RequestConfig
+	method: HttpMethod,
+	headers: Record<string, string> = {},
+	body?: Req
 ): Promise<Res> => {
-	const isText = opts?.type === 'text';
-	const bodyObj = body
-		? {
-				body: isText ? body.toString() : JSON.stringify(body)
-		  }
-		: {};
 	return fetch(url, {
 		method,
-		headers: {
-			'Content-Type': isText ? 'text/plain' : 'application/json'
-		},
-		...bodyObj
+		headers,
+		body,
+		credentials: 'same-origin'
 	}).then(response => {
 		if (!response.ok) {
 			throw new Error(response.statusText);
 		}
 		return response.json();
 	});
+};
+
+export const runApi = async <Res = unknown, Req = unknown>(
+	url: string,
+	method: HttpMethod = 'GET',
+	body?: Req,
+	opts?: RequestConfig
+): Promise<Res> => {
+	const isText = opts?.type === 'text';
+	const headers = {
+		'Content-Type': isText ? 'text/plain' : 'application/json'
+	};
+
+	if (!body) {
+		return runRawApi(url, method, headers);
+	}
+
+	const data = isText ? body.toString() : JSON.stringify(body);
+	return runRawApi<Res, string>(url, method, headers, data);
 };
 
 const getApiPath = (path: string, pageUrl?: string): string => {
@@ -62,32 +75,8 @@ export const convertMarkdown = (data: string): Promise<string> =>
 		({ result }) => result
 	);
 
-export const getSignature = (): Promise<SignatureResponse> => runApi(getApiPath('upload-form'));
-
-export const uploadImage = (data: SignatureResponse, file: File): Promise<string> => {
-	if (!data.url) {
-		return Promise.reject(new Error('Upload form is invalid'));
-	}
-	const { url, payload } = data;
-	const body: CloudinaryPayload = {
-		file,
-		...payload
-	};
-	const form = new FormData();
-
-	for (const [key, value] of Object.entries(body)) {
-		form.append(key, value);
-	}
-
-	return runApi<{ url: string }, FormData>(url, 'POST', form).then(result => {
-		const imageUrl = result.url;
-		if (!imageUrl) {
-			throw new Error('Something went wrong');
-		}
-
-		return imageUrl;
-	});
-};
+export const uploadImage = (form: FormData): Promise<ImageResponse> =>
+	runRawApi(getApiPath('upload-image'), 'POST', {}, form);
 
 // Server API ----------------------------------------------------------------
 export const getProfile = (host: string): Promise<MetaInfo> => runApi(getApiPath('profile', host));
