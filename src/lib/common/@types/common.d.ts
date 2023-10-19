@@ -32,6 +32,7 @@ export interface MetaInfo {
 	publisher: string | null;
 	title: string | null;
 	url: string | null;
+	draft: boolean | null;
 }
 
 export interface ProfileAccounts {

@@ -15,13 +15,24 @@
 
 	export let data: PageData;
 
-	const { url, articles } = data;
+	const { url, articles, showDraft } = data;
 
 	const groups = groupByYear(articles);
 	const years = sortAsNumber(Object.keys(groups));
 	const getGroup = (year: string): LinkInfo[] => {
 		// @ts-expect-error the year is actually a property of groups (Object.keys(groups))
 		return sortByDate(groups[year]);
+	};
+
+	const getUrl = (item: LinkInfo): string => {
+		const url = toArticle(item.id);
+		const addQuery = showDraft && item.meta.draft;
+		return addQuery ? `${url}?draft=true` : url;
+	};
+
+	const getTitle = (item: LinkInfo): string => {
+		const title = item.meta.title ?? '';
+		return item.meta.draft ? `[⭐⭐DRAFT⭐⭐] ${title}` : title;
 	};
 </script>
 
@@ -42,8 +53,8 @@
 							<div class="article">
 								<div class="article__title">
 									<Paragraph>
-										<Link inline url="{toArticle(item.id)}">
-											{item.meta.title}
+										<Link inline url="{getUrl(item)}">
+											{getTitle(item)}
 										</Link>
 									</Paragraph>
 								</div>

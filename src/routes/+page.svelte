@@ -2,7 +2,6 @@
 	import { browser } from '$app/environment';
 	import { profileStore } from '$lib/browser/stores';
 	import { blogRoute } from '$lib/common/routes';
-	import { sortByDate } from '$lib/common/date';
 	import Link from '$lib/browser/ui/Link.svelte';
 	import Meta from '$lib/browser/ui/Meta.svelte';
 	import SubTitle from '$lib/browser/ui/SubTitle.svelte';
@@ -12,11 +11,7 @@
 
 	export let data: PageData;
 
-	const { url, articles } = data;
-
-	const engArticles = articles.filter(article => article.lang === 'en');
-	const sortedArticles = sortByDate(engArticles);
-	const article = sortedArticles.at(0);
+	const { url, article, showDraft } = data;
 </script>
 
 <Meta
@@ -26,7 +21,7 @@
 />
 
 {#if article}
-	<ArticlePreview {article} readonly="{!browser}" />
+	<ArticlePreview {article} readonly="{!browser}" addDraft="{showDraft}" />
 {/if}
 
 <section class="blog-link">
