@@ -107,7 +107,8 @@ const parseArticle = async (
 				logo: null,
 				publisher: 'nothing-else.blog',
 				title: metadata.title,
-				url: fullUrl
+				url: fullUrl,
+				draft: metadata.draft ?? true
 			}
 		};
 	} catch (err) {

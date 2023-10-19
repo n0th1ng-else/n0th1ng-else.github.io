@@ -11,13 +11,18 @@
 	export let article: LinkInfo;
 	export let showDate = false;
 	export let readonly = false;
+	export let addDraft = false;
 
 	const date = getRelativeDate(article.meta.date);
 	const text = article.meta.description;
-	const url = article.fullUrl ?? '';
 	const host = getServiceTitle(article);
 	const external = !isInternalArticle(article);
 	const image = article.meta.image;
+
+	const getUrl = (item: LinkInfo): string => {
+		const url = item.fullUrl ?? '';
+		return addDraft ? `${url}?draft=true` : url;
+	};
 
 	const btnText = host ? `Read more on ${host}` : 'Read more';
 </script>
@@ -42,7 +47,7 @@
 			</SubTitle>
 		</div>
 		<p class="action">
-			<Button hint="Read full article" href="{url}" disabled="{readonly}" {external}
+			<Button hint="Read full article" href="{getUrl(article)}" disabled="{readonly}" {external}
 				>{btnText}</Button
 			>
 		</p>

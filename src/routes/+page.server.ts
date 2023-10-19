@@ -1,18 +1,27 @@
 import { getArticles } from '$lib/common/api';
 import { Logger } from '$lib/common/log';
+import { shouldShowDraft } from '$lib/server/url';
+import { sortByDate } from '$lib/common/date';
+import { getEnglishArticles } from '$lib/common/language';
 import type { LinkInfo } from '$lib/common/@types/common';
 import type { PageServerLoad } from './$types';
 
 interface Output {
-	articles: LinkInfo[];
+	showDraft: boolean;
 	url: string;
+	article?: LinkInfo;
 }
 export const load: PageServerLoad<Output> = async ({ url }) => {
+	const showDraft = shouldShowDraft(url);
 	try {
-		const articles = await getArticles(url.origin);
+		const articles = await getArticles(url.origin, showDraft);
+		const engArticles = getEnglishArticles(articles.items);
+		const sortedArticles = sortByDate(engArticles);
+		const article = sortedArticles.at(0);
 
 		return {
-			articles: articles.items,
+			showDraft,
+			article,
 			url: url.toString()
 		};
 	} catch (err) {
@@ -20,7 +29,7 @@ export const load: PageServerLoad<Output> = async ({ url }) => {
 		logger.error('Failed to load home', err);
 
 		return {
-			articles: [],
+			showDraft,
 			url: url.toString()
 		};
 	}
