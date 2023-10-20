@@ -1,0 +1,77 @@
+// Markdown styling framework
+@import '../../../../global';
+@import '../../ui/theme';
+
+.mkdn {
+	.mkdn-img {
+		height: auto;
+		width: 100%;
+	}
+
+	.mkdn-bold {
+		font-style: italic;
+		font-weight: $font-weight-bold;
+	}
+
+	.mkdn-code {
+		padding: 1px $unit-eighth;
+		border-radius: $unit-eighth;
+	}
+
+	.mkdn-ul {
+		margin-block-start: $unit-double;
+		margin-block-end: $unit;
+		padding-inline-start: 0;
+	}
+
+	.mkdn-li {
+		margin-inline-start: $unit;
+		margin-block-end: $unit;
+	}
+
+	.mkdn-alt {
+		margin-block-start: 0;
+		text-align: center;
+	}
+
+	.mkdn-h2 {
+		font-weight: $font-weight-bold;
+		margin-block-start: $unit-triple;
+		margin-block-end: $unit-half;
+	}
+
+	.mkdn-p {
+		margin-block-end: 0;
+	}
+
+	// theme-specifics
+	&.d {
+		.mkdn-link {
+			@include link-style($d-tertiary, $d-accent);
+		}
+
+		.mkdn-code {
+			@include background-color-style($cl-grey-darker);
+			@include text-color-style($cl-grey-light);
+		}
+
+		.mkdn-alt {
+			@include text-style($d-secondary);
+		}
+	}
+
+	&.l {
+		.mkdn-link {
+			@include link-style($l-tertiary, $l-accent);
+		}
+
+		.mkdn-code {
+			@include background-color-style($cl-yellow-darkest);
+			@include text-color-style($cl-black-lightest);
+		}
+
+		.mkdn-alt {
+			@include text-style($l-secondary);
+		}
+	}
+}

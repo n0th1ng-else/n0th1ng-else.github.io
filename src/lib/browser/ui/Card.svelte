@@ -89,7 +89,7 @@
 		padding: $unit $unit-half;
 
 		&.l {
-			@include card-style($cl-black-light, $cl-grey-light);
+			@include card-style($cl-black-light, $cl-grey-lighter);
 		}
 
 		&.d {

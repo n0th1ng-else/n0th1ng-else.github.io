@@ -69,7 +69,7 @@
 
 	.editor {
 		&__container {
-			background-color: $cl-grey-lighter;
+			background-color: $cl-grey-lightest;
 			border: 1px solid $cl-grey-dark;
 			border-radius: $unit-half;
 			padding: $unit-double $unit-triple;

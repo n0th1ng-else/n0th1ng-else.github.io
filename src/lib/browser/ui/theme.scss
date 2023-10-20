@@ -5,6 +5,7 @@ $cl-white-light: #fffeff;
 $cl-black: #000000;
 $cl-black-light: #1f1f1f;
 $cl-black-lighter: #272727;
+$cl-black-lightest: #2a2828c2;
 
 $cl-blue: #0000ff;
 $cl-blue-light: #3838ff;
@@ -12,8 +13,12 @@ $cl-blue-dark: #243f4e;
 
 $cl-grey: #b3b9c5;
 $cl-grey-light: #f5f3ed;
-$cl-grey-lighter: #f5f5f5;
+$cl-grey-lighter: #f5f3ed;
+$cl-grey-lightest: #f5f5f5;
 $cl-grey-dark: #797e88;
+$cl-grey-darker: #f5f5ac30;
+
+$cl-yellow-darkest: #a2a28c5e;
 
 // DARK Theme
 
@@ -83,4 +88,33 @@ $xl: 1200px;
 
 @mixin set-font-mono() {
 	font-family: monospace;
+}
+
+@mixin text-color-style($color) {
+	@include smooth-change-fast(color);
+	color: $color;
+}
+
+@mixin background-color-style($color) {
+	@include smooth-change-fast(background-color);
+	background-color: $color;
+}
+
+@mixin link-style($primary, $secondary) {
+	@include smooth-change-fast(color);
+
+	color: $primary;
+
+	&:visited {
+		color: darken($primary, 10%);
+	}
+
+	&:hover {
+		color: $secondary;
+	}
+}
+
+@mixin text-style($color) {
+	@include smooth-change(color);
+	color: $color;
 }

@@ -1,12 +1,11 @@
-import parseMD from 'parse-md';
 import { resolve as resolvePath } from 'path';
-import { readdirSync, readFileSync } from 'fs';
+import { readdirSync } from 'fs';
 import { fetchExternalArticles, getSelfUrl } from '$lib/server/selectors';
 import { Logger } from '$lib/common/log';
 import { getUrlPrefix } from '$lib/common/api';
 import { SUPPORTED_LANGUAGES } from '$lib/common/language';
 import { MY_BLOG_SERVICE } from '$lib/common/articles';
-import { renderMarkdown } from '$lib/server/markdown';
+import { readMarkdownFile, renderMarkdown } from '$lib/server/markdown';
 import type { LinkInfo } from '$lib/common/@types/common';
 import type { ArticleLanguage } from '$lib/common/language';
 
@@ -71,8 +70,7 @@ const parseArticle = async (
 	showDraft: boolean
 ): Promise<LinkInfo | null> => {
 	try {
-		const fileContents = readFileSync(file, 'utf8');
-		const { content, metadata } = parseMD(fileContents);
+		const { content, metadata } = readMarkdownFile(file);
 
 		if (!isMetadata(metadata)) {
 			return null;
