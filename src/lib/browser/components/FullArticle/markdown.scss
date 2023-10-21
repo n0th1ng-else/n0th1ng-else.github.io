@@ -14,7 +14,8 @@
 	}
 
 	.mkdn-code {
-		padding: 1px $unit-eighth;
+		padding-block: 1px;
+		padding-inline: $unit-eighth;
 		border-radius: $unit-eighth;
 	}
 

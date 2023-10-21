@@ -15,7 +15,8 @@
 		font-size: $font-size-big;
 		font-weight: $font-weight;
 		margin: 0;
-		padding: ($unit-double + $unit-half) 0 $unit-plus 0;
+		padding-block: ($unit-double + $unit-half) $unit-plus;
+		padding-inline: 0;
 		text-transform: capitalize;
 
 		&.centered {

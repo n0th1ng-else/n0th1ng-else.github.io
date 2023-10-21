@@ -72,11 +72,13 @@
 			background-color: $cl-grey-lightest;
 			border: 1px solid $cl-grey-dark;
 			border-radius: $unit-half;
-			padding: $unit-double $unit-triple;
+			padding-block: $unit-double;
+			padding-inline: $unit-triple;
 		}
 
 		&__content {
-			padding: $unit-double $unit-triple;
+			padding-block: $unit-double;
+			padding-inline: $unit-triple;
 		}
 
 		&__preview {
@@ -89,7 +91,7 @@
 		}
 
 		&__logo {
-			margin-top: $unit-half;
+			margin-block-start: $unit-half;
 			width: 100%;
 			object-fit: fill;
 		}

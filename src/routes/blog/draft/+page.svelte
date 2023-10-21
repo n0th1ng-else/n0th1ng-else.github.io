@@ -130,7 +130,7 @@
 	@import '../../../global';
 
 	.editor-container {
-		padding-top: $unit;
+		padding-block-start: $unit;
 	}
 
 	.controls-container {
@@ -149,7 +149,7 @@
 
 	.save-block,
 	.save-note {
-		margin-left: $unit;
+		margin-inline-start: $unit;
 	}
 
 	.save-note {
@@ -161,11 +161,11 @@
 		}
 
 		&__text {
-			margin-left: $unit-eighth;
+			margin-inline-start: $unit-eighth;
 		}
 	}
 
 	.logo-btn {
-		margin-top: $unit-half;
+		margin-block-start: $unit-half;
 	}
 </style>

@@ -86,7 +86,8 @@
 		flex-direction: column;
 		justify-content: center;
 		height: 100%;
-		padding: $unit $unit-half;
+		padding-block: $unit;
+		padding-inline: $unit-half;
 
 		&.l {
 			@include card-style($cl-black-light, $cl-grey-lighter);
@@ -98,7 +99,8 @@
 
 		&__logo-container {
 			height: 10 * $unit-quarter;
-			margin: 0 auto $unit auto;
+			margin-block: 0 $unit;
+			margin-inline: auto;
 			width: 10 * $unit-half;
 		}
 
@@ -119,7 +121,8 @@
 		}
 
 		&__action {
-			margin: 0 $unit-quarter;
+			margin-block: 0;
+			margin-inline: $unit-quarter;
 		}
 
 		&__text {
@@ -127,11 +130,11 @@
 		}
 
 		&__section {
-			margin-bottom: $unit;
+			margin-block-end: $unit;
 		}
 
 		&__title {
-			margin-bottom: $unit-plus;
+			margin-block-end: $unit-plus;
 		}
 	}
 </style>

@@ -68,6 +68,7 @@
 	@import '../../global';
 
 	.legal-text {
-		margin: $unit 0;
+		margin-block: $unit;
+		margin-inline: 0;
 	}
 </style>
