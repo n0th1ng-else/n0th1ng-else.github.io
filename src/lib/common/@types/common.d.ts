@@ -19,6 +19,7 @@ type ExternalLinkInfo = {
 type InternalLinkInfo = {
 	internal: true;
 	content: string;
+	readingTime: number;
 };
 
 export type LinkInfo = BaseLinkInfo & (ExternalLinkInfo | InternalLinkInfo);
