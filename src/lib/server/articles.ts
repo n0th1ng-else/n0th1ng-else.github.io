@@ -4,7 +4,7 @@ import { fetchExternalArticles, getSelfUrl } from '$lib/server/selectors';
 import { Logger } from '$lib/common/log';
 import { getUrlPrefix } from '$lib/common/api';
 import { SUPPORTED_LANGUAGES } from '$lib/common/language';
-import { MY_BLOG_SERVICE } from '$lib/common/articles';
+import { getReadingTime, MY_BLOG_SERVICE } from '$lib/common/articles';
 import { readMarkdownFile, renderMarkdown } from '$lib/server/markdown';
 import type { LinkInfo } from '$lib/common/@types/common';
 import type { ArticleLanguage } from '$lib/common/language';
@@ -87,6 +87,7 @@ const parseArticle = async (
 			metadata.keywords && Array.isArray(metadata.keywords) ? { keywords: metadata.keywords } : {};
 
 		const fullUrl = getUrlPrefix(`${getSelfUrl()}/blog/${slug}`);
+		const readingTime = getReadingTime(content, parsedContent);
 
 		return {
 			...keywords,
@@ -95,6 +96,7 @@ const parseArticle = async (
 			url: slug,
 			lang: metadata.language,
 			fullUrl,
+			readingTime,
 			content: parsedContent,
 			internal: true,
 			meta: {

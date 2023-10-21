@@ -13,6 +13,8 @@
 
 	const date = getRelativeDate(article.meta.date);
 	const text = article.internal ? article.content : article.meta.description;
+	const readingTime = article.internal ? article.readingTime : 0;
+	const readingMin = Math.ceil(readingTime / 60);
 
 	let isDark = true;
 
@@ -23,7 +25,8 @@
 
 <section>
 	<Title centered="{false}">{article.meta.title}</Title>
-	<aside class="date">
+	<aside class="meta">
+		<AdditionalText>{readingMin} min read</AdditionalText>
 		<AdditionalText>{date}</AdditionalText>
 	</aside>
 
@@ -36,9 +39,9 @@
 </section>
 
 <style lang="scss">
-	.date {
+	.meta {
 		display: flex;
-		justify-content: flex-end;
+		justify-content: space-between;
 	}
 
 	.container {
