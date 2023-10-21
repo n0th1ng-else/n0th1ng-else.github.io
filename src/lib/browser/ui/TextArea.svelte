@@ -34,7 +34,7 @@
 
 	.ui-textarea {
 		@include set-font();
-		background-color: $cl-grey-lighter;
+		background-color: $cl-grey-lightest;
 		border: 0;
 		padding: 0;
 		resize: none;

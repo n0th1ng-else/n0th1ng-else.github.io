@@ -4,7 +4,7 @@
 	import { showBack, hideBack } from '$lib/browser/stores/navigation';
 	import Meta from '$lib/browser/ui/Meta.svelte';
 	import ArticlePreview from '$lib/browser/components/ArticlePreview.svelte';
-	import FullArticle from '$lib/browser/components/FullArticle.svelte';
+	import FullArticle from '$lib/browser/components/FullArticle/FullArticle.svelte';
 	import { getPageTitle } from '$lib/common/labels';
 	import { isInternalArticle } from '$lib/common/articles';
 	import type { PageData } from './$types';

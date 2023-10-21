@@ -19,11 +19,6 @@
 	@import './theme';
 	@import '../../../global';
 
-	@mixin text-style($color) {
-		@include smooth-change(color);
-		color: $color;
-	}
-
 	.ui-additional-text {
 		@include set-font();
 		&.small {

@@ -64,20 +64,6 @@
 	@import './theme';
 	@import '../../../global';
 
-	@mixin link-style($primary, $secondary) {
-		@include smooth-change-fast(color);
-
-		color: $primary;
-
-		&:visited {
-			color: darken($primary, 10%);
-		}
-
-		&:hover {
-			color: $secondary;
-		}
-	}
-
 	.ui-link {
 		@include set-font();
 		margin: $unit-half;
