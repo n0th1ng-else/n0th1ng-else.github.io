@@ -62,11 +62,13 @@
 	@import '../global';
 
 	.content__wrapper {
-		margin: 0 auto;
+		margin-block: 0;
+		margin-inline: auto;
 		max-width: $max-content-width;
 	}
 
 	.content {
-		padding: 0 $unit-half;
+		padding-block: 0;
+		padding-inline: $unit-half;
 	}
 </style>

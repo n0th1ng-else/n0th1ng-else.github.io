@@ -33,13 +33,14 @@
 	.ui-list-item {
 		@include set-font();
 
-		padding: $unit-quarter 0;
+		padding-block: $unit-quarter;
+		padding-inline: 0;
 
 		&:before {
 			content: '\2022';
 			font-size: $font-size-bigger;
 			line-height: $unit;
-			padding-right: $unit-half;
+			padding-inline-end: $unit-half;
 			vertical-align: middle;
 		}
 

@@ -15,6 +15,7 @@
 	.ui-tag {
 		@include set-font();
 		font-style: italic;
-		margin: 0 $unit-quarter;
+		margin-block: 0;
+		margin-inline: $unit-quarter;
 	}
 </style>

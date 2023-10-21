@@ -105,7 +105,7 @@
 		display: flex;
 		height: $unit-triple;
 		justify-content: center;
-		padding-bottom: $unit-triple;
+		padding-block-end: $unit-triple;
 	}
 
 	.navigation-wrapper {

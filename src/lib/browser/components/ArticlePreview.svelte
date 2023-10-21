@@ -68,15 +68,18 @@
 	}
 
 	.description {
-		margin: $unit 0;
+		margin-block: $unit;
+		margin-inline: 0;
 	}
 
 	.action {
-		margin: $unit-double auto;
+		margin-block: $unit-double;
+		margin-inline: auto;
 	}
 
 	.logo-container {
-		margin: $unit auto;
+		margin-block: $unit;
+		margin-inline: auto;
 		width: 100%;
 	}
 

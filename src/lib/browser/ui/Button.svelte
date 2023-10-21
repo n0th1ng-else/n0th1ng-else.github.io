@@ -92,7 +92,8 @@
 
 		&.secondary {
 			border: 0;
-			padding: 0 $unit-half;
+			padding-block: 0;
+			padding-inline: $unit-half;
 		}
 		&.inline {
 			border: 0;

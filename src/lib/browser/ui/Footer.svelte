@@ -36,8 +36,9 @@
 		display: flex;
 		flex: 0 1 $max-content-width;
 		flex-direction: column;
-		margin-top: $unit-triple;
-		padding: $unit-double 0;
+		margin-block-start: $unit-triple;
+		padding-block: $unit-double;
+		padding-inline: 0;
 
 		&.l {
 			@include border-style($l-secondary);

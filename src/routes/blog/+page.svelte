@@ -81,7 +81,7 @@
 	.article {
 		display: flex;
 		align-items: center;
-		margin-bottom: $unit;
+		margin-block-end: $unit;
 
 		&__title {
 			flex: 1;

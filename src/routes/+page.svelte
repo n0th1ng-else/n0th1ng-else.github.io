@@ -37,6 +37,6 @@
 <style lang="scss">
 	@import '../global';
 	.blog-link {
-		margin-top: $unit;
+		margin-block-start: $unit;
 	}
 </style>

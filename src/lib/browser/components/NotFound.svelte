@@ -33,7 +33,8 @@
 	.container {
 		margin: auto;
 		height: auto;
-		padding: $unit 0;
+		padding-block: $unit;
+		padding-inline: 0;
 		width: 4 * $unit-plus;
 	}
 

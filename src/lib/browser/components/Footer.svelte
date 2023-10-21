@@ -74,7 +74,8 @@
 	}
 
 	.w-space {
-		margin: $unit $unit-half;
+		margin-block: $unit;
+		margin-inline: $unit-half;
 	}
 
 	.legal {
