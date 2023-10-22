@@ -7,12 +7,14 @@
 	import Title from '$lib/browser/ui/Title.svelte';
 	import AdditionalText from '$lib/browser/ui/AdditionalText.svelte';
 	import SubTitle from '$lib/browser/ui/SubTitle.svelte';
+	import Tag from '$lib/browser/ui/Tag.svelte';
 	import type { LinkInfo } from '$lib/common/@types/common';
 
 	export let article: LinkInfo;
 
 	const date = getRelativeDate(article.meta.date);
 	const text = article.internal ? article.content : article.meta.description;
+	const keywords = article.keywords;
 	const readingTime = article.internal ? article.readingTime : 0;
 	const readingMin = Math.ceil(readingTime / 60);
 
@@ -36,9 +38,19 @@
 			{@html text}
 		</SubTitle>
 	</div>
+
+	{#if keywords}
+		<div class="tags">
+			{#each keywords as keyword}
+				<Tag title="{keyword}" />
+			{/each}
+		</div>
+	{/if}
 </section>
 
 <style lang="scss">
+	@import '../../../../global';
+
 	.meta {
 		display: flex;
 		justify-content: space-between;
@@ -47,5 +59,11 @@
 	.container {
 		display: flex;
 		flex-direction: column;
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		margin-block-start: $unit;
 	}
 </style>
