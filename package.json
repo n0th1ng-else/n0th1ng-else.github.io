@@ -54,7 +54,7 @@
 		"meta": "node src/ci/links.js",
 		"meta:dev": "dotenv npm run meta",
 		"version": "node src/ci/version.js",
-		"format": "prettier --plugin-search-dir --write .",
+		"format": "prettier --write ./**/*.svelte && prettier --write .",
 		"format:check": "prettier --plugin-search-dir --check .",
 		"lint": "eslint .",
 		"build": "vite build",
