@@ -12,11 +12,17 @@
 	export let data: PageData;
 
 	const { url, host, article, showDraft } = data;
+
+	const seoTitle = article ? `Latest in the blog: ${article.meta.title}` : undefined;
+	const seoDescription = article
+		? article.meta.description
+		: 'Latest articles, contacts and interesting observations. All in one place.';
 </script>
 
 <Meta
 	image="{$profileStore?.image ?? ''}"
-	description="Latest articles, contacts and interesting observations. All in one place. Welcome to my blog."
+	title="{seoTitle}"
+	description="{seoDescription}"
 	{url}
 />
 

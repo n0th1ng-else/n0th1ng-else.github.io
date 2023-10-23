@@ -14,8 +14,9 @@
 	const { url, host, article } = data;
 
 	const title = getPageTitle(article.meta.title ?? '');
-	const metaTitle = article.meta.title ?? '';
-	const metaImage = article.meta.image ?? '';
+	const seoTitle = article.meta.title ?? '';
+	const seoImage = article.meta.image ?? '';
+	const seoDescription = article.meta.description ?? '';
 	const internal = isInternalArticle(article);
 
 	onMount(() => {
@@ -34,10 +35,11 @@
 </script>
 
 <Meta
-	title="{metaTitle}"
+	title="{seoTitle}"
 	type="article"
 	twitterType="summary_large_image"
-	image="{metaImage}"
+	image="{seoImage}"
+	description="{seoDescription}"
 	{url}
 />
 

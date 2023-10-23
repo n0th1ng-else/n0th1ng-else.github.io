@@ -37,6 +37,7 @@
 
 <Meta
 	image="{$profileStore?.image ?? ''}"
+	title="Published in the blog"
 	description="List of my publications through the years. Most of them are written in English."
 	{url}
 />
