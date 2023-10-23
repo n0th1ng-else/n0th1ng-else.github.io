@@ -1,6 +1,4 @@
-FROM node:18.18.1
-
-EXPOSE 8080
+FROM node:18.18.1 as builder
 
 ENV NODE_ENV production
 
@@ -50,8 +48,22 @@ RUN npm run meta
 
 RUN npm run build
 
-RUN find $APP_DIR/src -type f | xargs -L1 rm -f
-RUN find $APP_DIR/articles -type f | xargs -L1 rm -f
+# Run stage layer
+
+FROM node:18.18.1
+
+ARG APP_DIR=/usr/src/app/
+
+RUN mkdir -p $APP_DIR
+WORKDIR $APP_DIR
+
+COPY --from=builder $APP_DIR/package.json $APP_DIR
+# TODO: copy only production dependencies
+COPY --from=builder $APP_DIR/node_modules $APP_DIR/node_modules
+COPY --from=builder $APP_DIR/dist $APP_DIR/dist
+COPY --from=builder $APP_DIR/meta $APP_DIR/meta
+
+EXPOSE 8080
 
 USER node
 
