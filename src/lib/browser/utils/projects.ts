@@ -1,4 +1,4 @@
-import type { LinkInfo, ProfileAccounts } from '$lib/common/@types/common';
+import type { PackageInfo, ProfileAccounts } from '$lib/common/@types/common';
 import { getGithubLink } from './links';
 import nssLogo from '../../../assets/images/nss-logo.png';
 import setronicaLogo from '../../../assets/images/setronica-logo.png';
@@ -82,7 +82,7 @@ export const getWorkProjects = (): ProjectItem[] => [
 	getNSS()
 ];
 
-const transformPackage = (pkg: LinkInfo, accounts: ProfileAccounts): ProjectItem => {
+const transformPackage = (pkg: PackageInfo, accounts: ProfileAccounts): ProjectItem => {
 	const github = accounts.github;
 
 	switch (pkg.service) {
@@ -112,5 +112,5 @@ const transformPackage = (pkg: LinkInfo, accounts: ProfileAccounts): ProjectItem
 	}
 };
 
-export const getPetProjects = (packages: LinkInfo[], accounts: ProfileAccounts): ProjectItem[] =>
+export const getPetProjects = (packages: PackageInfo[], accounts: ProfileAccounts): ProjectItem[] =>
 	packages.map(pkg => transformPackage(pkg, accounts));

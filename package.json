@@ -51,13 +51,12 @@
 		"vite": "4.4.11"
 	},
 	"scripts": {
-		"meta": "node links.js",
+		"meta": "node src/ci/links.js",
 		"meta:dev": "dotenv npm run meta",
-		"version": "node version.js",
-		"format": "prettier --plugin-search-dir --write",
+		"version": "node src/ci/version.js",
+		"format": "prettier --plugin-search-dir --write .",
 		"format:check": "prettier --plugin-search-dir --check .",
-		"lint": "eslint",
-		"lint:all": "eslint .",
+		"lint": "eslint .",
 		"build": "vite build",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -65,7 +64,7 @@
 		"preview": "vite preview",
 		"start": "node dist",
 		"prepare": "svelte-kit sync",
-		"draft": "node ./src/scripts/create-md.js"
+		"draft": "node src/ci/create-md.js"
 	},
 	"type": "module",
 	"keywords": [

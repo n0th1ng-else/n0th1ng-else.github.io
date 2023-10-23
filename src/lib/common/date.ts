@@ -1,8 +1,8 @@
 import { format, getYear } from 'date-fns';
-import type { LinkInfo } from '$lib/common/@types/common';
+import type { PublicationInfo } from '$lib/common/@types/common';
 
 export enum One {
-	Second = 1_00,
+	Second = 1_000,
 	Minute = 60 * 1_000,
 	Hour = 60 * 60 * 1_000,
 	Day = 24 * 60 * 60 * 1_000
@@ -23,14 +23,14 @@ export const getRelativeDate = (dateInPast?: string | null): string => {
 	return format(dateToConvert, 'd MMMM, yyyy');
 };
 
-export const getArticleDate = (item: LinkInfo): Date =>
+export const getArticleDate = (item: PublicationInfo): Date =>
 	item.meta.date ? new Date(item.meta.date) : new Date(0);
 
-export const sortByDate = (list: LinkInfo[]): LinkInfo[] =>
+export const sortByDate = (list: PublicationInfo[]): PublicationInfo[] =>
 	list.sort((iA, iB) => getArticleDate(iB).getTime() - getArticleDate(iA).getTime());
 
-export const groupByYear = (list: LinkInfo[]): Record<number, LinkInfo[]> =>
-	sortByDate(list).reduce<Record<number, LinkInfo[]>>((chunks, info) => {
+export const groupByYear = (list: PublicationInfo[]): Record<number, PublicationInfo[]> =>
+	sortByDate(list).reduce<Record<number, PublicationInfo[]>>((chunks, info) => {
 		const year = getYear(getArticleDate(info));
 		if (chunks[year]) {
 			chunks[year] = [...chunks[year], info];
@@ -72,4 +72,9 @@ export const dateDifferenceHours = (start?: Date): number => {
 	const end = new Date();
 	const ms = end.getTime() - start.getTime();
 	return Math.floor(ms / One.Hour);
+};
+
+export const secondsToMinutes = (timeSec: number): number => {
+	const secondsInMinute = Math.floor(One.Minute / One.Second);
+	return Math.ceil(timeSec / secondsInMinute);
 };

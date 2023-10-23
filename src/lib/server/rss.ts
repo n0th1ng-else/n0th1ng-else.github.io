@@ -1,7 +1,7 @@
 import { getAbsoluteArticleUrl, getAbsoluteRssUrl } from '$lib/common/routes';
 import { getArticleDate } from '$lib/common/date';
 import { getPageTitle } from '$lib/common/labels';
-import type { LinkInfo } from '$lib/common/@types/common';
+import type { PublicationInfo } from '$lib/common/@types/common';
 
 const getProfilePhoto = (url: string, photo?: string): string =>
 	photo
@@ -12,10 +12,10 @@ const getProfilePhoto = (url: string, photo?: string): string =>
 	</image>`
 		: '';
 
-const getArticleLogo = ({ meta }: LinkInfo): string =>
+const getArticleLogo = ({ meta }: PublicationInfo): string =>
 	meta.image ? `<enclosure url="${meta.image}" length="0" type="image/png"/>` : '';
 
-const getRssArticles = (url: string, articles: LinkInfo[]): string =>
+const getRssArticles = (url: string, articles: PublicationInfo[]): string =>
 	articles
 		.map(
 			article =>
@@ -57,7 +57,11 @@ const getRssContainer = (channel: string): string =>
             ${channel}
         </rss>`;
 
-export const generateRss = (url: string, profileImage: string, articles: LinkInfo[]): string => {
+export const generateRss = (
+	url: string,
+	profileImage: string,
+	articles: PublicationInfo[]
+): string => {
 	const rssData = getRssArticles(url, articles);
 	const channel = getRssChannel(url, rssData, profileImage);
 	const container = getRssContainer(channel);

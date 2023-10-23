@@ -1,14 +1,14 @@
 import { getAccounts, getProfile, getVersion } from '$lib/common/api';
 import { Logger } from '$lib/common/log';
 import { readTheme } from '$lib/common/theme';
-import type { MetaInfo, ProfileAccounts } from '$lib/common/@types/common';
+import type { ProfileInfo, ProfileAccounts } from '$lib/common/@types/common';
 import type { Version } from '$lib/common/api/types';
 import type { Theme } from '$lib/common/theme';
 import type { LayoutServerLoad } from './$types';
 
 interface Output {
 	accounts?: ProfileAccounts;
-	profile?: MetaInfo;
+	profile?: ProfileInfo;
 	version?: Version;
 	theme: Theme;
 }

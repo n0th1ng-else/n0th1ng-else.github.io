@@ -54,6 +54,7 @@ RUN npm run meta
 RUN npm run build
 
 RUN find $APP_DIR/src -type f | xargs -L1 rm -f
+RUN find $APP_DIR/articles -type f | xargs -L1 rm -f
 
 USER node
 

@@ -1,4 +1,4 @@
-import type { MetaInfo, LinkInfo, ProfileAccounts } from '../@types/common';
+import type { ProfileAccounts, PublicationInfo, PackageInfo, ProfileInfo } from '../@types/common';
 import type { ImageResponse, Version } from './types';
 import type { WithPagination } from '../types';
 
@@ -70,24 +70,24 @@ const withQuery = (url: string, params: Record<string, unknown>): string => {
 };
 
 // Browser API ----------------------------------------------------------------
-export const convertMarkdown = (data: string): Promise<string> =>
-	runApi<{ result: string }, string>(getApiPath('markdown'), 'POST', data, { type: 'text' }).then(
-		({ result }) => result
-	);
 
 export const uploadImage = (form: FormData): Promise<ImageResponse> =>
 	runRawApi(getApiPath('upload-image'), 'POST', {}, form);
 
 // Server API ----------------------------------------------------------------
-export const getProfile = (host: string): Promise<MetaInfo> => runApi(getApiPath('profile', host));
+export const getProfile = (host: string): Promise<ProfileInfo> =>
+	runApi(getApiPath('profile', host));
 
-export const getPackages = (host: string): Promise<LinkInfo[]> =>
+export const getPackages = (host: string): Promise<PackageInfo[]> =>
 	runApi(getApiPath('packages', host));
 
-export const getArticles = (host: string, draft?: boolean): Promise<WithPagination<LinkInfo>> =>
+export const getArticles = (
+	host: string,
+	draft?: boolean
+): Promise<WithPagination<PublicationInfo>> =>
 	runApi(withQuery(getApiPath(`articles`, host), { draft }));
 
-export const getArticle = (host: string, slug: string, draft?: boolean): Promise<LinkInfo> =>
+export const getArticle = (host: string, slug: string, draft?: boolean): Promise<PublicationInfo> =>
 	runApi(withQuery(getApiPath(`articles/${slug}`, host), { draft }));
 
 export const getAccounts = (host: string): Promise<ProfileAccounts> =>

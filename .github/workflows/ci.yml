@@ -45,7 +45,7 @@ jobs:
     name: Validate the code
     strategy:
       matrix:
-        cmd: [check, 'lint:all', 'format:check']
+        cmd: [check, lint, 'format:check']
     steps:
       - name: Checkout
         uses: actions/checkout@v2

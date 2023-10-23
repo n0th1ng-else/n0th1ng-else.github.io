@@ -1,30 +1,31 @@
 <script lang="ts">
-	import { getRelativeDate } from '$lib/common/date';
 	import Button from '$lib/browser/ui/Button.svelte';
 	import Title from '$lib/browser/ui/Title.svelte';
 	import AdditionalText from '$lib/browser/ui/AdditionalText.svelte';
 	import SubTitle from '$lib/browser/ui/SubTitle.svelte';
+	import { getRelativeDate } from '$lib/common/date';
 	import { getServiceTitle } from '$lib/common/labels';
 	import { isInternalArticle } from '$lib/common/articles';
-	import type { LinkInfo } from '$lib/common/@types/common';
+	import type { PublicationInfo } from '$lib/common/@types/common';
 
-	export let article: LinkInfo;
+	export let article: PublicationInfo;
 	export let showDate = false;
 	export let readonly = false;
 	export let addDraft = false;
+	export let selfUrl = '';
 
 	const date = getRelativeDate(article.meta.date);
 	const text = article.meta.description;
-	const host = getServiceTitle(article);
-	const external = !isInternalArticle(article);
+	const externalService = getServiceTitle(article);
+	const internal = isInternalArticle(article);
 	const image = article.meta.image;
 
-	const getUrl = (item: LinkInfo): string => {
-		const url = item.fullUrl ?? '';
+	const getUrl = (item: PublicationInfo): string => {
+		const url = internal ? `${selfUrl}${item.fullUrl}` : item.fullUrl;
 		return addDraft ? `${url}?draft=true` : url;
 	};
 
-	const btnText = host ? `Read more on ${host}` : 'Read more';
+	const btnText = externalService ? `Read more on ${externalService}` : 'Read more';
 </script>
 
 <section>
@@ -47,7 +48,7 @@
 			</SubTitle>
 		</div>
 		<p class="action">
-			<Button hint="Read full article" href="{getUrl(article)}" disabled="{readonly}" {external}
+			<Button hint="Read full article" href="{getUrl(article)}" disabled="{readonly}" external="{!internal}"
 				>{btnText}</Button
 			>
 		</p>

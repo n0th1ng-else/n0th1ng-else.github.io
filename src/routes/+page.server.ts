@@ -3,13 +3,14 @@ import { Logger } from '$lib/common/log';
 import { shouldShowDraft } from '$lib/server/url';
 import { sortByDate } from '$lib/common/date';
 import { getEnglishArticles } from '$lib/common/language';
-import type { LinkInfo } from '$lib/common/@types/common';
+import type { PublicationInfo } from '$lib/common/@types/common';
 import type { PageServerLoad } from './$types';
 
 interface Output {
 	showDraft: boolean;
 	url: string;
-	article?: LinkInfo;
+	host: string;
+	article?: PublicationInfo;
 }
 export const load: PageServerLoad<Output> = async ({ url }) => {
 	const showDraft = shouldShowDraft(url);
@@ -20,9 +21,10 @@ export const load: PageServerLoad<Output> = async ({ url }) => {
 		const article = sortedArticles.at(0);
 
 		return {
-			showDraft,
 			article,
-			url: url.toString()
+			showDraft,
+			url: url.toString(),
+			host: url.origin
 		};
 	} catch (err) {
 		const logger = new Logger('home:ssr');
@@ -30,7 +32,8 @@ export const load: PageServerLoad<Output> = async ({ url }) => {
 
 		return {
 			showDraft,
-			url: url.toString()
+			url: url.toString(),
+			host: url.origin
 		};
 	}
 };

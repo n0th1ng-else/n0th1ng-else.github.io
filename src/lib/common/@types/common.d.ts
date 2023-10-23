@@ -1,40 +1,36 @@
 import type { ArticleLanguage } from '$lib/common/language';
 
-type BaseLinkInfo = {
+type BasePublicationMeta = {
+	description: string;
+	date: string;
+	image: string;
+	title: string;
+};
+
+type BasePublicationInfo = {
 	id: string;
-	service: string;
 	url: string;
 	lang: ArticleLanguage | string;
 	fullUrl: string;
-	meta: MetaInfo;
-	link?: string;
-	logo?: string;
-	keywords?: string[];
+	draft: boolean;
 };
 
-type ExternalLinkInfo = {
+export type ExternalPublicationInfo = BasePublicationInfo & {
 	internal: false;
+	service: string;
+	meta: BasePublicationMeta;
 };
 
-type InternalLinkInfo = {
+export type InternalPublicationInfo = BasePublicationInfo & {
 	internal: true;
 	content: string;
-	readingTime: number;
+	meta: BasePublicationMeta & {
+		keywords: string[];
+		readingTime: number;
+	};
 };
 
-export type LinkInfo = BaseLinkInfo & (ExternalLinkInfo | InternalLinkInfo);
-
-export interface MetaInfo {
-	author: string | null;
-	date: string | null;
-	description: string | null;
-	image: string | null;
-	logo: string | null;
-	publisher: string | null;
-	title: string | null;
-	url: string | null;
-	draft: boolean | null;
-}
+export type PublicationInfo = InternalPublicationInfo | ExternalPublicationInfo;
 
 export interface ProfileAccounts {
 	habr: string;
@@ -42,7 +38,25 @@ export interface ProfileAccounts {
 	linkedIn: string;
 	medium: string;
 	npm: string;
-	telergam: string;
+	telegram: string;
 	twitter: string;
 	devto: string;
 }
+
+export type ProfileInfo = {
+	image: string;
+};
+
+export type PackageInfo = {
+	id: string;
+	service: string;
+	fullUrl: string;
+	url: string;
+	link: string;
+	logo: string;
+	meta: {
+		title: string;
+		description: string;
+		url: string;
+	};
+};
