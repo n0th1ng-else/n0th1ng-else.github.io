@@ -42,12 +42,14 @@ export interface RoutePriority {
 	critical: string[];
 	major: string[];
 	minor: string[];
+	trivial: string[];
 }
 
-export const getRoutes = (host: string, slugs: string[]): RoutePriority => {
+export const getRoutes = (internalSlugs: string[], externalSlugs: string[]): RoutePriority => {
 	return {
-		critical: slugs.map(slug => `${blogRoute}/${slug}`),
-		major: [homeRoute, blogRoute, projectsRoute, aboutRoute],
-		minor: [legalRoute, notFoundRoute]
+		critical: internalSlugs.map(slug => `${blogRoute}/${slug}`),
+		major: externalSlugs.map(slug => `${blogRoute}/${slug}`),
+		minor: [homeRoute, blogRoute, projectsRoute, aboutRoute],
+		trivial: [legalRoute, notFoundRoute]
 	};
 };

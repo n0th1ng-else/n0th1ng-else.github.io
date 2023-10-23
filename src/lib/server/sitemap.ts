@@ -21,9 +21,10 @@ const getSitemapContainer = (urls: string): string =>
 
 export const generateSitemap = (url: string, routes: RoutePriority) => {
 	const critical = routes.critical.map(route => getSitemapRoute(url, route, '0.9')).join('\n');
-	const major = routes.major.map(route => getSitemapRoute(url, route, '0.5')).join('\n');
-	const minor = routes.minor.map(route => getSitemapRoute(url, route, '0.2')).join('\n');
-	const all = [critical, major, minor].join('\n');
+	const major = routes.major.map(route => getSitemapRoute(url, route, '0.8')).join('\n');
+	const minor = routes.minor.map(route => getSitemapRoute(url, route, '0.5')).join('\n');
+	const trivial = routes.trivial.map(route => getSitemapRoute(url, route, '0.2')).join('\n');
+	const all = [critical, major, minor, trivial].join('\n');
 	const container = getSitemapContainer(all);
 	return container;
 };
