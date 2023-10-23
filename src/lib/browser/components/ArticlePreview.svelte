@@ -48,8 +48,11 @@
 			</SubTitle>
 		</div>
 		<p class="action">
-			<Button hint="Read full article" href="{getUrl(article)}" disabled="{readonly}" external="{!internal}"
-				>{btnText}</Button
+			<Button
+				hint="Read full article"
+				href="{getUrl(article)}"
+				disabled="{readonly}"
+				external="{!internal}">{btnText}</Button
 			>
 		</p>
 	</div>

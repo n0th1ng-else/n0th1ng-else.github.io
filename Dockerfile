@@ -33,9 +33,6 @@ ENV GH_AUTHOR_TWITTER ${GH_AUTHOR_TWITTER}
 ARG GH_AUTHOR_DEVTO
 ENV GH_AUTHOR_DEVTO ${GH_AUTHOR_DEVTO}
 
-ARG SELF_URL
-ENV SELF_URL ${SELF_URL}
-
 COPY package.json package-lock.json svelte.config.js $APP_DIR
 RUN npm ci --include=dev && npm cache clean --force
 
