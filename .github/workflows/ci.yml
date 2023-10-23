@@ -95,7 +95,6 @@ jobs:
           build-args: |
             APP_VERSION=${{ needs.version.outputs.version }}
             COMMIT_HASH=${{ github.sha }}
-            SELF_URL=${{ secrets.SELF_URL }}
             GH_AUTHOR_LOGIN=${{ secrets.GH_AUTHOR_LOGIN }}
             GH_AUTHOR_LINKED_IN=${{ secrets.GH_AUTHOR_LINKED_IN }}
             GH_AUTHOR_TELEGRAM=${{ secrets.GH_AUTHOR_TELEGRAM }}
@@ -117,7 +116,6 @@ jobs:
           build-args: |
             APP_VERSION=${{ needs.version.outputs.version }}
             COMMIT_HASH=${{ github.sha }}
-            SELF_URL=${{ secrets.SELF_URL }}
             GH_AUTHOR_LOGIN=${{ secrets.GH_AUTHOR_LOGIN }}
             GH_AUTHOR_LINKED_IN=${{ secrets.GH_AUTHOR_LINKED_IN }}
             GH_AUTHOR_TELEGRAM=${{ secrets.GH_AUTHOR_TELEGRAM }}
