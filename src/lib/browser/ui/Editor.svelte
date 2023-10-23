@@ -1,7 +1,7 @@
 <script lang="ts">
 	import 'highlight.js/scss/github-dark.scss';
 	import { beforeUpdate } from 'svelte';
-	import { convertMarkdown } from '$lib/common/api';
+	// import { convertMarkdown } from '$lib/common/api';
 	import { keywordsFromString } from '$lib/browser/utils/keywords';
 
 	import TextArea from './TextArea.svelte';
@@ -12,6 +12,11 @@
 	export let logo = '';
 
 	export let preview = false;
+
+	const convertMarkdown = async (text: string): Promise<string> => {
+		// TODO implement
+		return Promise.resolve(text);
+	};
 
 	let tags: string[] = [];
 	beforeUpdate(async () => {

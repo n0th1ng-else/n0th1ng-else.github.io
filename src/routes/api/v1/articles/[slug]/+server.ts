@@ -1,6 +1,5 @@
 import { error, json } from '@sveltejs/kit';
-import { fetchExternalArticles } from '$lib/server/selectors';
-import { getInternalArticle } from '$lib/server/articles';
+import { getArticleInfo } from '$lib/server/articles';
 import { Logger } from '$lib/common/log';
 import type { RequestHandler } from './$types';
 
@@ -10,23 +9,12 @@ export const GET: RequestHandler = async ({ url, params }) => {
 	const slug = params.slug;
 
 	try {
-		const internal = await getInternalArticle(slug, showDraft);
-		if (internal) {
-			return json(internal);
+		const article = getArticleInfo(slug, showDraft);
+		if (article) {
+			return json(article);
 		}
 	} catch (err) {
-		logger.error('Failed to read internal articles', err);
-		throw error(500, 'Something went wrong');
-	}
-
-	try {
-		const externalArticles = await fetchExternalArticles();
-		const external = externalArticles.find(({ id }) => id === slug);
-		if (external) {
-			return json(external);
-		}
-	} catch (err) {
-		logger.error('Failed to read external articles', err);
+		logger.error('Failed to read article', err);
 		throw error(500, 'Something went wrong');
 	}
 

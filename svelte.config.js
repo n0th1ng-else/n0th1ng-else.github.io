@@ -14,7 +14,6 @@ const config = {
 		// hydrate the <div id="svelte"> element in src/app.html
 		// target: '#svelte',
 		appDir: 'generated',
-		// host: env.procEnv.selfUrl,
 		adapter: isStatic
 			? staticAdapter({
 					pages: 'dist',

@@ -11,7 +11,7 @@
 
 	export let data: PageData;
 
-	const { url, article } = data;
+	const { url, host, article } = data;
 
 	const title = getPageTitle(article.meta.title ?? '');
 	const metaTitle = article.meta.title ?? '';
@@ -44,7 +44,7 @@
 {#if internal}
 	<FullArticle {article} />
 {:else}
-	<ArticlePreview {article} showDate readonly="{!browser}" />
+	<ArticlePreview {article} showDate readonly="{!browser}" selfUrl="{host}" />
 {/if}
 
 <svelte:head>

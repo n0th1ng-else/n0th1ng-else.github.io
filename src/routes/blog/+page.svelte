@@ -10,7 +10,7 @@
 	import Paragraph from '$lib/browser/ui/Paragraph.svelte';
 	import { sortAsNumber } from '$lib/common/sort';
 	import { blogTitle as title } from '$lib/common/labels';
-	import type { LinkInfo } from '$lib/common/@types/common';
+	import type { PublicationInfo } from '$lib/common/@types/common';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -19,20 +19,19 @@
 
 	const groups = groupByYear(articles);
 	const years = sortAsNumber(Object.keys(groups));
-	const getGroup = (year: string): LinkInfo[] => {
-		// @ts-expect-error the year is actually a property of groups (Object.keys(groups))
+	const getGroup = (year: string): PublicationInfo[] => {
 		return sortByDate(groups[year]);
 	};
 
-	const getUrl = (item: LinkInfo): string => {
+	const getUrl = (item: PublicationInfo): string => {
 		const url = toArticle(item.id);
-		const addQuery = showDraft && item.meta.draft;
+		const addQuery = showDraft && item.draft;
 		return addQuery ? `${url}?draft=true` : url;
 	};
 
-	const getTitle = (item: LinkInfo): string => {
+	const getTitle = (item: PublicationInfo): string => {
 		const title = item.meta.title ?? '';
-		return item.meta.draft ? `[⭐⭐DRAFT⭐⭐] ${title}` : title;
+		return item.draft ? `[⭐⭐DRAFT⭐⭐] ${title}` : title;
 	};
 </script>
 

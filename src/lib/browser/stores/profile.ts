@@ -1,4 +1,4 @@
 import { writable } from 'svelte/store';
-import type { MetaInfo } from '$lib/common/@types/common';
+import type { ProfileInfo } from '$lib/common/@types/common';
 
-export const profileStore = writable<MetaInfo | null>();
+export const profileStore = writable<ProfileInfo | null>();

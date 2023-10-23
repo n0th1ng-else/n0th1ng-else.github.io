@@ -11,7 +11,7 @@
 
 	export let data: PageData;
 
-	const { url, article, showDraft } = data;
+	const { url, host, article, showDraft } = data;
 </script>
 
 <Meta
@@ -21,7 +21,7 @@
 />
 
 {#if article}
-	<ArticlePreview {article} readonly="{!browser}" addDraft="{showDraft}" />
+	<ArticlePreview {article} readonly="{!browser}" addDraft="{showDraft}" selfUrl="{host}" />
 {/if}
 
 <section class="blog-link">

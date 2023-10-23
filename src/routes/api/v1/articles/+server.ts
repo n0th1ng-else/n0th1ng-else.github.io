@@ -3,7 +3,7 @@ import { DEFAULT_PAGE_SIZE } from '$lib/server/const';
 import { getAllArticles } from '$lib/server/articles';
 import { Logger } from '$lib/common/log';
 import type { WithPagination } from '$lib/common/types';
-import type { LinkInfo } from '$lib/common/@types/common';
+import type { PublicationInfo } from '$lib/common/@types/common';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ url }) => {
@@ -11,9 +11,9 @@ export const GET: RequestHandler = async ({ url }) => {
 	const showDraft = url.searchParams.get('draft') === 'true';
 
 	try {
-		const items = await getAllArticles(showDraft);
+		const items = getAllArticles(showDraft);
 
-		const body: WithPagination<LinkInfo> = {
+		const body: WithPagination<PublicationInfo> = {
 			page: 1,
 			pageSize: DEFAULT_PAGE_SIZE,
 			items,

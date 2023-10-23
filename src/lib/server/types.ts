@@ -1,4 +1,9 @@
-import type { LinkInfo, MetaInfo, ProfileAccounts } from '$lib/common/@types/common';
+import type {
+	ProfileInfo,
+	PackageInfo,
+	ProfileAccounts,
+	PublicationInfo
+} from '$lib/common/@types/common';
 
 export interface MetaEnvironment {
 	accounts: ProfileAccounts;
@@ -6,12 +11,11 @@ export interface MetaEnvironment {
 	mode: string;
 	version: string;
 	versionBuild: string;
-	selfUrl: string;
 }
 
 export interface MetaFile {
-	profile: MetaInfo;
+	profile: ProfileInfo;
 	env: MetaEnvironment;
-	packages: LinkInfo[];
-	publications: LinkInfo[];
+	packages: PackageInfo[];
+	publications: PublicationInfo[];
 }

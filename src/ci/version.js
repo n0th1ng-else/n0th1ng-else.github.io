@@ -1,4 +1,4 @@
-import { writeFileSync } from 'node:fs';
+import { writeFileSync } from 'fs';
 import { sync as spawnSync } from 'cross-spawn';
 import { Logger } from './log.js';
 
@@ -9,7 +9,7 @@ const branchOpts = ['--branches', branch];
 
 logger.writeWarning('Fetching the expected version.');
 
-const versionFile = new URL(`./.VERSION`, import.meta.url);
+const versionFile = new URL(`../../.VERSION`, import.meta.url);
 const result = spawnSync('semantic-release', [...branchOpts, '--no-ci', '--dry-run'], {
 	stdio: 'pipe',
 	env: { ...process.env, GITHUB_REF: branch }
