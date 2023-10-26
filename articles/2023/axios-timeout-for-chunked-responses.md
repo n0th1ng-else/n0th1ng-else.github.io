@@ -22,10 +22,11 @@ draft: true
     <a class="mkdn-link" href="https://stability.ai/stable-diffusion" target="_blank">Created by Stable Diffusion</a>
 </p>
 
-ALRIGHT, this was an interesting one. I use [Axios](https://axios-http.com) in one of my pet projects.
-Basically, the project is a Telegram bot, that transforms voice messages into text. I know, Telegram now has this
-feature for premium subscribers, but this is not something we are about to cover in this article. Here I want to talk
-about the tricky way the Axios timeout works.  
+ALRIGHT, this was an interesting one. I use [Axios](https://axios-http.com) in one of
+[my pet projects](https://github.com/n0th1ng-else/voice-to-text-bot). Basically, the project is a Telegram bot, that
+transforms voice messages into text. I know, Telegram now has this feature for premium subscribers, but this is not
+something we are about to cover in this article. Here I want to talk about the tricky way the Axios timeout works.
+
 Let's start off with the simple HTTP server (I use Express as an example) and a single API endpoint, which takes 10
 seconds to resolve:
 
@@ -83,13 +84,15 @@ console.log(`Request took ${requestTime}s,`, 'should be 5s!');
 ## The problem
 
 If it works fine, what is the problem then, you ask me. Here is the thing: as I said, I have a Telegram bot, that
-converts voice messages into text. It basically decompresses the voice file into wav buffer and sends the result to one
-of the cloud providers. As a result, I receive text recognition for that specific voice message. In fact, one of the
-providers I use implements the streaming API. The intention is to show the text recognition by the ways it gets
-processed. You receive chunks of text data and you have a choice to wait until you can combine the whole message, or
-send it out to the user, so they see the early results. On a code level it actually resolves the request promise, so
-you can handle the chunk of data. With the following chunks, it is being resolved again and again, until the final
-chunk is received and the request is finished.
+converts voice messages into text. It basically decompresses the voice file into wav buffer and sends the data to one
+of the cloud providers. As a result, I receive text recognition for that specific voice message.
+
+In fact, one of the providers I use implements the streaming API. The intention is to show the text recognition for the
+user in real time while it gets processed (Which is quite cool, huh). You receive chunks of text data and you have a
+choice to wait until you can combine the whole message, or send it out to the user, so they see the early results. On a
+code level it actually resolves the request promise, so you can handle the chunk of data. With the following chunks, it
+is being resolved again and again, until the final chunk is received and the request is finished.
+
 If you read this, you can already see the unexpected side effect of this approach. The Axios resolves the request
 promise with the first chunk received. Essentially this means that Axios resets the timeout and the request time is not
 controlled in any way. For example, I have a timeout of 10 seconds for my bot recognition engine. And I could see in
@@ -165,8 +168,8 @@ console.log(`Request took ${requestTime}s,`, 'should be 5s!');
 ```
 
 The request was supposed to take 5 seconds maximum, but it actually took 10 seconds and was successful in the end.
-Imagine if it hangs for several minutes! Obviously, users are not in favor of waiting for that long for voice
-recognition and they stop using the bot. But how can we fix it?
+Imagine if it hangs for several minutes! Obviously, users are not in favor of waiting that long for voice recognition
+and they stop using the bot. But how can we fix it?
 
 ## AbortSignal to the rescue
 
@@ -244,6 +247,7 @@ For more information and engine support, you can read the MDN articles about
 Now as we got familiar with the interfaces we are going to use, I want to draw your attention to one more thing. If we
 go back to Axios, we will quickly realize that [Axios supports](https://axios-http.com/docs/cancellation) AbortSignal
 as well. This was amazing news for me as I did not need to write my own custom logic around the request cancellation.
+
 In my implementation timeout is the only thing that matters, so I can even use AbortSignal directly without having to
 invoke the AbortController instance — it supports the timeout as I showed above. The fix for my issue is pretty simple:
 
@@ -313,11 +317,11 @@ try {
 ```
 
 As you can see, this approach requires creating an instance of AbortController and creating the timeout manually, so I
-would recommend using the `AbortSignal.timeout()` method directly in this simple case.
+would recommend using the `AbortSignal.timeout()` method directly in such a simple case.
 
 The last observation to keep in mind is that, since we introduced the AbortSignal, it makes the usage of the Axios
 `timeout` property redundant. The race condition appears to be in favor of AbortSignal all the time. And since it
-covers the same capability, I believe we can safely remove the `timeout` property for goods.
+covers the same capability, I believe we can safely remove the `timeout` property for good.
 
 ```typescript
 await axios.request({
@@ -329,15 +333,17 @@ await axios.request({
 
 ## The outcome
 
-Users hate to see errors in their applications. But even more, they hate to feel the application is not responding, is
+Users hate to see errors in their applications. But even more, they hate to feel the application is not responding,
 stuck in some in-between state, and does not give feedback if something goes wrong. I can not control the time the
 cloud provider will take in order to transform the audio buffer into the text, so I show the error message when it
-takes longer than some reasonable time. Axios timeout property works just well with regular API. But if you face the
-streaming API endpoint and want to limit the request execution time, keep in mind that the timeout property won't work
-as you would expect. Use the native JS AbortSignal implementation to ensure the timeout is applied for any kind of
-request. In the meantime, I have filed the issue report in the Axios repository, asking to clarify the timeout behavior
-in the documentation.
+takes longer than some reasonable time.
 
-You can check the source code of this article in
+Axios timeout property works just well with regular API. But if you face the streaming API endpoint and want to limit
+the request execution time, keep in mind that the timeout property won't work as you would expect. One of the options
+to solve this is to try using the native JS AbortSignal implementation to ensure the timeout is applied for any kind of
+request. In the meantime, I have filed the [issue report](https://github.com/axios/axios/issues/5886) in the Axios
+repository, asking to clarify the timeout behavior in the documentation.
+
+You can check the source code for this article in
 [my repository](https://github.com/n0th1ng-else/axios-streaming-timeout) on GitHub. The code is tested on the Axios
 v1.5.0.
