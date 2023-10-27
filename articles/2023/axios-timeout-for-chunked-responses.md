@@ -3,7 +3,7 @@ title: Axios timeout for chunked responses
 image: https://res.cloudinary.com/n0th1ngelse/image/upload/v1697661181/blog/mdvvajkly3hxqo4ywrki.jpg
 description: Axios timeout shows unexpected behavior in some specific cases. One can say it does not work. In this article, I show how to guarantee the timeout will stop executing the api request.
 language: en
-date: 2023-10-22
+date: 2023-10-27
 keywords:
   - JavaScript
   - Axios
@@ -13,7 +13,7 @@ keywords:
 reposts:
   - medium
   - dev.to
-draft: true
+draft: false
 ---
 
 ![Article preview image](https://res.cloudinary.com/n0th1ngelse/image/upload/v1697661181/blog/mdvvajkly3hxqo4ywrki.jpg)
