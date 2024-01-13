@@ -16,7 +16,7 @@ export const GET: RequestHandler = async () => {
 		environment = readEnvironment();
 	} catch (err) {
 		logger.error('Unable to read healthcheck', err);
-		throw error(500, 'Something went wrong');
+		error(500, 'Something went wrong');
 	}
 	const { version, versionBuild } = environment;
 

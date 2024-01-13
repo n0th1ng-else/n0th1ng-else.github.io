@@ -1,4 +1,4 @@
-import { vitePreprocess } from '@sveltejs/kit/vite';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import nodeAdapter from '@sveltejs/adapter-node';
 import staticAdapter from '@sveltejs/adapter-static';
 
@@ -18,10 +18,10 @@ const config = {
 			? staticAdapter({
 					pages: 'dist',
 					assets: 'dist'
-			  })
+				})
 			: nodeAdapter({
 					out: 'dist'
-			  })
+				})
 	}
 };
 

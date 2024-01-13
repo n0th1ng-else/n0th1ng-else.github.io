@@ -1,5 +1,4 @@
-// @ts-expect-error We have it actually, probably install the types
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 import slug from 'slug';
 
 /**

@@ -14,7 +14,7 @@ export const GET: RequestHandler = async ({ url: urlData }) => {
 	try {
 		profile = await getProfile(url);
 	} catch (e) {
-		throw error(500, 'Something went wrong');
+		error(500, 'Something went wrong');
 	}
 
 	const articles = sortByDate(getAllArticles());

@@ -1,5 +1,5 @@
-import { readdirSync, readFileSync } from 'fs';
-import { resolve as resolvePath } from 'path';
+import { readdirSync, readFileSync } from 'node:fs';
+import { resolve as resolvePath } from 'node:path';
 import parseMD from 'parse-md';
 import { Marked, Renderer } from 'marked';
 import { markedHighlight } from 'marked-highlight';

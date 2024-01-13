@@ -23,6 +23,6 @@ export const load: PageServerLoad<Output> = async ({ url, params }) => {
 	} catch (err) {
 		const logger = new Logger('article:ssr');
 		logger.error('Failed to load article', err);
-		throw redirect(307, notFoundRoute);
+		redirect(307, notFoundRoute);
 	}
 };
