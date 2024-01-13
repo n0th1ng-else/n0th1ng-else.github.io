@@ -137,7 +137,7 @@ const findArticles = rootDir => {
  * @param file {string}
  */
 export const readMarkdownFile = file => {
-	const fileContents = readFileSync(file, { encoding: 'utf8' });
+	const fileContents = readFileSync(file, { encoding: 'utf-8' });
 	return parseMD(fileContents);
 };
 

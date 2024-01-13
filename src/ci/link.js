@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import scrapper from 'metascraper';
 import sauthor from 'metascraper-author';
 import sdate from 'metascraper-date';
@@ -40,6 +40,20 @@ export const saveMetaToFile = (rootDir, meta) => {
 	const content = JSON.stringify(meta, null, 2);
 	writeFileSync(filePath, `${content}\n`);
 	return filePath;
+};
+
+/**
+ *
+ * @param rootDir {URL}
+ * @return {object}
+ */
+export const readMetaFile = rootDir => {
+	if (!existsSync(getPath(rootDir, folder))) {
+		throw new Error('meta file does not exist!');
+	}
+
+	const filePath = getPath(rootDir, folder, file);
+	return JSON.parse(readFileSync(filePath, { encoding: 'utf-8' }));
 };
 
 /**

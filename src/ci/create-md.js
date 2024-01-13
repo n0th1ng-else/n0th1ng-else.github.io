@@ -1,23 +1,60 @@
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { createInterface } from 'node:readline';
 import slug from 'slug';
+import { format, getYear } from 'date-fns';
+import { rootDirURL } from './dirs.js';
 
-const parts = process.argv.slice(2);
+const TEXT_STYLE = {
+	grey: '\x1b[90m',
+	bold: '\x1b[1m',
+	reset: '\x1b[0m'
+};
 
-if (!parts.length) {
-	throw new Error('No file name provided! Aborting...');
-}
+/**
+ *
+ * @returns {string}
+ */
+const getArticleTitleFromArgs = () => {
+	const parts = process.argv.slice(2);
+	if (!parts.length) {
+		return '';
+	}
+	const title = parts.join(' ');
+	return title;
+};
 
-const rawName = parts.join(' ');
+/**
+ *
+ * @returns {Promise<string>}
+ */
+const getArticleTitleFromInout = () => {
+	return new Promise(resolve => {
+		const readline = createInterface({
+			input: process.stdin,
+			output: process.stdout
+		});
+		readline.question(
+			`${TEXT_STYLE.bold}${TEXT_STYLE.grey}What will the the article title? ${TEXT_STYLE.reset}`,
+			title => {
+				resolve(title);
+				readline.close();
+			}
+		);
+	});
+};
 
-const filename = slug(rawName);
-const year = new Date().getFullYear();
+const title = getArticleTitleFromArgs() || (await getArticleTitleFromInout());
+
+const filename = slug(title);
+const year = getYear(new Date());
+const date = format(new Date(), 'yyyy-MM-dd');
 
 const sample = `
 ---
-title: This is a test
+title: ${title}
 description: Once upon a time...
 language: en
-date: 2022-03-19
+date: ${date}
 keywords:
   - test
   - test2
@@ -27,10 +64,10 @@ reposts:
 draft: true
 ---
 
-# In a far far galaxy...
+# Once upon a time...
 `.trim();
 
-const yearFolder = new URL(`../../articles/${year}/`, import.meta.url);
+const yearFolder = new URL(`./articles/${year}/`, rootDirURL);
 const file = new URL(`${filename}.md`, yearFolder);
 
 if (existsSync(file)) {
