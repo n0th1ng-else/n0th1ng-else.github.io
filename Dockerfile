@@ -62,6 +62,7 @@ COPY --from=builder $APP_DIR/package.json $APP_DIR
 COPY --from=builder $APP_DIR/node_modules $APP_DIR/node_modules
 COPY --from=builder $APP_DIR/dist $APP_DIR/dist
 COPY --from=builder $APP_DIR/meta $APP_DIR/meta
+COPY --from=builder $APP_DIR/src/ci/welcome.js $APP_DIR/src/ci
 
 EXPOSE 8080
 
