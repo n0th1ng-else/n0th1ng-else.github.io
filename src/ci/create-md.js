@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { createInterface } from 'node:readline';
 import slug from 'slug';
+import { format, getYear } from 'date-fns';
 
 const TEXT_STYLE = {
 	grey: '\x1b[90m',
@@ -12,7 +13,7 @@ const TEXT_STYLE = {
  *
  * @returns {string}
  */
-const getArticleNameFromArgs = () => {
+const getArticleTitleFromArgs = () => {
 	const parts = process.argv.slice(2);
 	if (!parts.length) {
 		return '';
@@ -25,7 +26,7 @@ const getArticleNameFromArgs = () => {
  *
  * @returns {Promise<string>}
  */
-const getArticleNameFromInout = () => {
+const getArticleTitleFromInout = () => {
 	return new Promise(resolve => {
 		const readline = createInterface({
 			input: process.stdin,
@@ -41,17 +42,18 @@ const getArticleNameFromInout = () => {
 	});
 };
 
-const rawName = getArticleNameFromArgs() || (await getArticleNameFromInout());
+const title = getArticleTitleFromArgs() || (await getArticleTitleFromInout());
 
-const filename = slug(rawName);
-const year = new Date().getFullYear();
+const filename = slug(title);
+const year = getYear(new Date());
+const date = format(new Date(), 'yyyy-MM-dd');
 
 const sample = `
 ---
-title: This is a test
+title: ${title}
 description: Once upon a time...
 language: en
-date: 2022-03-19
+date: ${date}
 keywords:
   - test
   - test2
@@ -61,7 +63,7 @@ reposts:
 draft: true
 ---
 
-# In a far far galaxy...
+# Once upon a time...
 `.trim();
 
 const yearFolder = new URL(`../../articles/${year}/`, import.meta.url);
