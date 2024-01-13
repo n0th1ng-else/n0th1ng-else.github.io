@@ -64,9 +64,11 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"dev": "dotenv vite dev",
 		"preview": "vite preview",
-		"start": "node dist",
+		"server": "node dist",
 		"prepare": "svelte-kit sync",
-		"draft": "node src/ci/create-md.js"
+		"draft": "node src/ci/create-md.js",
+		"welcome": "node src/ci/welcome.js",
+		"start": "npm run welcome && npm run server"
 	},
 	"type": "module",
 	"keywords": [

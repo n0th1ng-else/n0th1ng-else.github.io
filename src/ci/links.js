@@ -1,15 +1,11 @@
 import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { getFullLink, getLinkInfo, saveMetaToFile } from './link.js';
 import { env } from './env.js';
 import { Logger } from './log.js';
 import { getExternalPublications } from './external.js';
 import { getInternalPublications } from './internal.js';
 import { getExternalPackagesInfo } from './packages.js';
-
-const rootDirURL = new URL('../..', import.meta.url);
-const rootDir = fileURLToPath(rootDirURL);
-const externalResourcesFile = new URL('./resources.json', rootDirURL);
+import { externalResourcesFile, rootDir, rootDirURL } from './dirs.js';
 
 const logger = new Logger('links');
 
@@ -24,7 +20,7 @@ const getPublicationsInfo = async (resources, rootFolder) => {
 	return [...external, ...internal];
 };
 
-const externalResources = JSON.parse(readFileSync(externalResourcesFile, { encoding: 'utf8' }));
+const externalResources = JSON.parse(readFileSync(externalResourcesFile, { encoding: 'utf-8' }));
 logger.writeOutput(`Detected version=${env.version} version build=${env.versionBuild}`);
 
 /**

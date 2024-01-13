@@ -2,6 +2,7 @@ import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { createInterface } from 'node:readline';
 import slug from 'slug';
 import { format, getYear } from 'date-fns';
+import { rootDirURL } from './dirs.js';
 
 const TEXT_STYLE = {
 	grey: '\x1b[90m',
@@ -66,7 +67,7 @@ draft: true
 # Once upon a time...
 `.trim();
 
-const yearFolder = new URL(`../../articles/${year}/`, import.meta.url);
+const yearFolder = new URL(`./articles/${year}/`, rootDirURL);
 const file = new URL(`${filename}.md`, yearFolder);
 
 if (existsSync(file)) {
