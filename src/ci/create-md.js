@@ -1,13 +1,47 @@
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { createInterface } from 'node:readline';
 import slug from 'slug';
 
-const parts = process.argv.slice(2);
+const TEXT_STYLE = {
+	grey: '\x1b[90m',
+	bold: '\x1b[1m',
+	reset: '\x1b[0m'
+};
 
-if (!parts.length) {
-	throw new Error('No file name provided! Aborting...');
-}
+/**
+ *
+ * @returns {string}
+ */
+const getArticleNameFromArgs = () => {
+	const parts = process.argv.slice(2);
+	if (!parts.length) {
+		return '';
+	}
+	const title = parts.join(' ');
+	return title;
+};
 
-const rawName = parts.join(' ');
+/**
+ *
+ * @returns {Promise<string>}
+ */
+const getArticleNameFromInout = () => {
+	return new Promise(resolve => {
+		const readline = createInterface({
+			input: process.stdin,
+			output: process.stdout
+		});
+		readline.question(
+			`${TEXT_STYLE.bold}${TEXT_STYLE.grey}What will the the article title? ${TEXT_STYLE.reset}`,
+			title => {
+				resolve(title);
+				readline.close();
+			}
+		);
+	});
+};
+
+const rawName = getArticleNameFromArgs() || (await getArticleNameFromInout());
 
 const filename = slug(rawName);
 const year = new Date().getFullYear();
