@@ -14,7 +14,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	const hasAccess = Object.values(api).filter(Boolean).length === Object.values(api).length;
 
 	if (!hasAccess) {
-		throw error(401, 'Command not available');
+		error(401, 'Command not available');
 	}
 
 	const payload: BaseCloudinaryPayload = {

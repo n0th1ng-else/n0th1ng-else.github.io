@@ -15,8 +15,8 @@ export const GET: RequestHandler = async ({ url, params }) => {
 		}
 	} catch (err) {
 		logger.error('Failed to read article', err);
-		throw error(500, 'Something went wrong');
+		error(500, 'Something went wrong');
 	}
 
-	throw error(404, 'Article not found');
+	error(404, 'Article not found');
 };

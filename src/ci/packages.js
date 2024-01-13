@@ -1,5 +1,4 @@
-// @ts-expect-error We have it actually, probably install the types
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 import { getFullLink, getLinkInfo, sleepFor } from './link.js';
 import { Logger } from './log.js';
 

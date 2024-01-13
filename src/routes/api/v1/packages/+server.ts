@@ -10,6 +10,6 @@ export const GET: RequestHandler = () => {
 		return json(packages);
 	} catch (err) {
 		logger.error('Unable to read packages', err);
-		throw error(500, 'Something went wrong');
+		error(500, 'Something went wrong');
 	}
 };

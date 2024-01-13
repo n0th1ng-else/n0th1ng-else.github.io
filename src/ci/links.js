@@ -1,5 +1,5 @@
-import { readFileSync } from 'fs';
-import { fileURLToPath } from 'url';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { getFullLink, getLinkInfo, saveMetaToFile } from './link.js';
 import { env } from './env.js';
 import { Logger } from './log.js';

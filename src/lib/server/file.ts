@@ -1,6 +1,6 @@
-import path from 'path';
-import fs from 'fs';
-import url from 'url';
+import path from 'node:path';
+import fs from 'node:fs';
+import url from 'node:url';
 
 export const rootDir = url.fileURLToPath(new URL('../../..', import.meta.url));
 

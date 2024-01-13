@@ -1,17 +1,16 @@
-import Cookies from 'js-cookie';
+import type { Cookies } from '@sveltejs/kit';
+
+type CookieSetter = { set: (name: string, value: string, opts: { path: string }) => void };
 
 const COOKIE_PREFIX = 'nothing-else-blog';
 
-export interface CookiesWrapper {
-	get: (id: string) => string | undefined;
-	set: (id: string, value: string) => void;
-}
+const getId = (id: string) => `${COOKIE_PREFIX}--${id}`;
 
-export const getCookie = (id: string, instance: CookiesWrapper = Cookies): string => {
-	const value = instance.get(`${COOKIE_PREFIX}--${id}`);
+export const getCookie = (id: string, instance: Pick<Cookies, 'get'>): string => {
+	const value = instance.get(getId(id));
 	return value || '';
 };
 
-export const setCookie = (id: string, value: string, instance: CookiesWrapper = Cookies): void => {
-	instance.set(`${COOKIE_PREFIX}--${id}`, value);
+export const setCookie = (id: string, value: string, instance: CookieSetter): void => {
+	instance.set(getId(id), value, { path: '/' });
 };

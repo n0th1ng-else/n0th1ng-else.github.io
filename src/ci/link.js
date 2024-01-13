@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import scrapper from 'metascraper';
 import sauthor from 'metascraper-author';
 import sdate from 'metascraper-date';

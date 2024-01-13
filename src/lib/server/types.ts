@@ -7,7 +7,6 @@ import type {
 
 export interface MetaEnvironment {
 	accounts: ProfileAccounts;
-	distInRoot: boolean;
 	mode: string;
 	version: string;
 	versionBuild: string;

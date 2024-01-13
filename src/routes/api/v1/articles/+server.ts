@@ -23,6 +23,6 @@ export const GET: RequestHandler = async ({ url }) => {
 		return json(body);
 	} catch (err) {
 		logger.error('Unable to read articles', err);
-		throw error(500, 'Something went wrong');
+		error(500, 'Something went wrong');
 	}
 };

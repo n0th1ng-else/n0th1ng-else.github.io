@@ -1,5 +1,3 @@
-const distInRoot = Boolean(process.env.DIST_ROOT) || false;
-
 const mode = process.env.NODE_ENV || 'development';
 
 const versionBuild = process.env.COMMIT_HASH || process.env.VERCEL_GIT_COMMIT_SHA || '';
@@ -33,7 +31,6 @@ export const env = {
 		telegram,
 		twitter
 	},
-	distInRoot,
 	mode,
 	version,
 	versionBuild
