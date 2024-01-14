@@ -1,5 +1,19 @@
-import { readMetaFile } from './link.js';
-import { rootDirURL } from './dirs.js';
+import { existsSync, readFileSync } from 'node:fs';
+import { getPathUrl, metaFileName, metaFolderName, rootDirURL } from './dirs.js';
+
+/**
+ *
+ * @param rootDir {URL}
+ * @returns {object}
+ */
+export const readMetaFile = rootDir => {
+	if (!existsSync(getPathUrl(rootDir, metaFolderName))) {
+		throw new Error('meta file does not exist!');
+	}
+
+	const filePath = getPathUrl(rootDir, metaFolderName, metaFileName);
+	return JSON.parse(readFileSync(filePath, { encoding: 'utf-8' }));
+};
 
 const meta = readMetaFile(rootDirURL);
 const { version, versionBuild } = meta.env;
