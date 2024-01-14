@@ -67,7 +67,7 @@
 	.ui-link {
 		@include set-font();
 		margin: $unit-half;
-		text-decoration: none;
+		text-decoration: underline;
 
 		&.inline {
 			margin: 0;
