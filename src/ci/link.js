@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import scrapper from 'metascraper';
 import sauthor from 'metascraper-author';
 import sdate from 'metascraper-date';
@@ -9,22 +9,7 @@ import spublisher from 'metascraper-publisher';
 import stitle from 'metascraper-title';
 import surl from 'metascraper-url';
 import { env } from './env.js';
-
-const folder = 'meta';
-const file = 'index.json';
-
-/**
- *
- * @param rootDir {URL}
- * @param fol {string}
- * @param [fil] {string}
- */
-const getPath = (rootDir, fol, fil) => {
-	if (fil) {
-		return new URL(`./${fol}/${fil}`, rootDir);
-	}
-	return new URL(`./${fol}`, rootDir);
-};
+import { getPathUrl, metaFileName, metaFolderName } from './dirs.js';
 
 /**
  *
@@ -32,28 +17,14 @@ const getPath = (rootDir, fol, fil) => {
  * @param meta {object}
  */
 export const saveMetaToFile = (rootDir, meta) => {
-	if (!existsSync(getPath(rootDir, folder))) {
-		mkdirSync(getPath(rootDir, folder));
+	if (!existsSync(getPathUrl(rootDir, metaFolderName))) {
+		mkdirSync(getPathUrl(rootDir, metaFolderName));
 	}
 
-	const filePath = getPath(rootDir, folder, file);
+	const filePath = getPathUrl(rootDir, metaFolderName, metaFileName);
 	const content = JSON.stringify(meta, null, 2);
 	writeFileSync(filePath, `${content}\n`);
 	return filePath;
-};
-
-/**
- *
- * @param rootDir {URL}
- * @return {object}
- */
-export const readMetaFile = rootDir => {
-	if (!existsSync(getPath(rootDir, folder))) {
-		throw new Error('meta file does not exist!');
-	}
-
-	const filePath = getPath(rootDir, folder, file);
-	return JSON.parse(readFileSync(filePath, { encoding: 'utf-8' }));
 };
 
 /**

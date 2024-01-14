@@ -60,9 +60,14 @@ WORKDIR $APP_DIR
 COPY --from=builder $APP_DIR/package.json $APP_DIR
 # TODO: copy only production dependencies
 COPY --from=builder $APP_DIR/node_modules $APP_DIR/node_modules
+
+# copy the app build
 COPY --from=builder $APP_DIR/dist $APP_DIR/dist
+# copy the context file
 COPY --from=builder $APP_DIR/meta $APP_DIR/meta
-COPY --from=builder $APP_DIR/src/ci/welcome.js $APP_DIR/src/ci
+# copy welcome script
+COPY --from=builder $APP_DIR/src/ci/dirs.js $APP_DIR/src/ci/dirs.js
+COPY --from=builder $APP_DIR/src/ci/welcome.js $APP_DIR/src/ci/welcome.js
 
 EXPOSE 8080
 
