@@ -17,7 +17,7 @@
 		font-weight: $font-weight-bold;
 	}
 
-	.mkdn-code {
+	.mkdn-inline-code {
 		padding-block: 1px;
 		padding-inline: $unit-eighth;
 		border-radius: $unit-eighth;
@@ -55,7 +55,7 @@
 			@include link-style($d-tertiary, $d-accent);
 		}
 
-		.mkdn-code {
+		.mkdn-inline-code {
 			@include background-color-style($cl-grey-darker);
 			@include text-color-style($cl-grey-light);
 		}
@@ -70,7 +70,7 @@
 			@include link-style($l-tertiary, $l-accent);
 		}
 
-		.mkdn-code {
+		.mkdn-inline-code {
 			@include background-color-style($cl-yellow-darkest);
 			@include text-color-style($cl-black-lightest);
 		}

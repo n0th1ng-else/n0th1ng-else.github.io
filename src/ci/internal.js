@@ -66,7 +66,7 @@ export const parseMarkdown = async raw => {
 
 	renderer.strong = text => `<strong class="mkdn-bold">${text}</strong>`;
 
-	renderer.codespan = text => `<code class="mkdn-code">${text}</code>`;
+	renderer.codespan = text => `<code class="mkdn-inline-code">${text}</code>`;
 
 	renderer.list = (body, ordered, start) => {
 		const type = ordered ? 'ol' : 'ul';
