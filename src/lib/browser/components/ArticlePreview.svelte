@@ -3,7 +3,7 @@
 	import Title from '$lib/browser/ui/Title.svelte';
 	import AdditionalText from '$lib/browser/ui/AdditionalText.svelte';
 	import SubTitle from '$lib/browser/ui/SubTitle.svelte';
-	import { getRelativeDate } from '$lib/common/date';
+	import { getLongMonthDate } from '$lib/common/date';
 	import { getServiceTitle } from '$lib/common/labels';
 	import { isInternalArticle } from '$lib/common/articles';
 	import type { PublicationInfo } from '$lib/common/@types/common';
@@ -14,7 +14,7 @@
 	export let addDraft = false;
 	export let selfUrl = '';
 
-	const date = getRelativeDate(article.meta.date);
+	const date = getLongMonthDate(article.meta.date);
 	const text = article.meta.description;
 	const externalService = getServiceTitle(article);
 	const internal = isInternalArticle(article);

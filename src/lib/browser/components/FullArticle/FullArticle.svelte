@@ -3,7 +3,7 @@
 	import './markdown.scss';
 	import { onDestroy } from 'svelte';
 	import { onThemeChange, isDarkTheme } from '$lib/browser/stores/theme';
-	import { getRelativeDate, secondsToMinutes } from '$lib/common/date';
+	import { getLongMonthDate, secondsToMinutes } from '$lib/common/date';
 	import Title from '$lib/browser/ui/Title.svelte';
 	import AdditionalText from '$lib/browser/ui/AdditionalText.svelte';
 	import SubTitle from '$lib/browser/ui/SubTitle.svelte';
@@ -13,7 +13,7 @@
 
 	export let article: PublicationInfo;
 
-	const date = getRelativeDate(article.meta.date);
+	const date = getLongMonthDate(article.meta.date);
 	const content = isInternalArticle(article) ? article.content : article.meta.description;
 	const keywords = isInternalArticle(article) ? article.meta.keywords : [];
 	const readingTime = isInternalArticle(article) ? article.meta.readingTime : 0;

@@ -12,15 +12,28 @@ export enum Timeout {
 	Fast = 100
 }
 
+enum DateFormat {
+	ShortMonth = 'd MMM, yyyy',
+	LongMonth = 'd MMMM, yyyy'
+}
+
 export const getDateTime = (date: Date): string => format(date, 'HH:mm:ss');
 
-export const getRelativeDate = (dateInPast?: string | null): string => {
+const getDateByPattern = (pattern: DateFormat, dateInPast?: string | null) => {
 	if (!dateInPast) {
 		return '';
 	}
 
 	const dateToConvert = new Date(dateInPast);
-	return format(dateToConvert, 'd MMMM, yyyy');
+	return format(dateToConvert, pattern);
+};
+
+export const getShortMonthDate = (dateInPast?: string | null): string => {
+	return getDateByPattern(DateFormat.ShortMonth, dateInPast);
+};
+
+export const getLongMonthDate = (dateInPast?: string | null): string => {
+	return getDateByPattern(DateFormat.LongMonth, dateInPast);
 };
 
 export const getArticleDate = (item: PublicationInfo): Date =>

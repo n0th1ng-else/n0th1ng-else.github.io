@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { profileStore } from '$lib/browser/stores';
 	import { toArticle } from '$lib/common/routes';
-	import { groupByYear, getRelativeDate, sortByDate } from '$lib/common/date';
+	import { groupByYear, getShortMonthDate, sortByDate } from '$lib/common/date';
 	import Title from '$lib/browser/ui/Title.svelte';
 	import SubTitle from '$lib/browser/ui/SubTitle.svelte';
 	import Link from '$lib/browser/ui/Link.svelte';
 	import List from '$lib/browser/ui/List.svelte';
 	import Meta from '$lib/browser/ui/Meta.svelte';
 	import Paragraph from '$lib/browser/ui/Paragraph.svelte';
+	import AdditionalText from '$lib/browser/ui/AdditionalText.svelte';
 	import { sortAsNumber } from '$lib/common/sort';
 	import { blogTitle as title } from '$lib/common/labels';
 	import type { PublicationInfo } from '$lib/common/@types/common';
@@ -59,7 +60,7 @@
 									</Paragraph>
 								</div>
 								<aside class="article__date">
-									{getRelativeDate(item.meta.date)}
+									<AdditionalText>{getShortMonthDate(item.meta.date)}</AdditionalText>
 								</aside>
 							</div>
 						</li>
@@ -89,7 +90,6 @@
 
 		&__date {
 			display: none;
-			font-weight: $font-weight-light;
 
 			@media (min-width: $md) {
 				display: block;
