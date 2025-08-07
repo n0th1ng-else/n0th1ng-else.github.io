@@ -1,5 +1,5 @@
 import { fetchArticles } from '$lib/server/selectors';
-import type { PublicationInfo } from '$lib/common/@types/common';
+import type { PublicationInfo } from '$lib/types';
 
 export const getArticleInfo = (slug: string, showDraft: boolean): PublicationInfo | null => {
 	const articles = fetchArticles();

@@ -1,17 +1,16 @@
 <script lang="ts">
 	import 'highlight.js/scss/github-dark.scss';
 	import './markdown.scss';
-	import { onDestroy } from 'svelte';
-	import { onThemeChange, isDarkTheme } from '$lib/browser/stores/theme';
+	import { isDarkTheme } from '$lib/browser/stores/theme.svelte';
 	import { getRelativeDate, secondsToMinutes } from '$lib/common/date';
 	import Title from '$lib/browser/ui/Title.svelte';
 	import AdditionalText from '$lib/browser/ui/AdditionalText.svelte';
 	import SubTitle from '$lib/browser/ui/SubTitle.svelte';
 	import Tag from '$lib/browser/ui/Tag.svelte';
 	import { isInternalArticle } from '$lib/common/articles';
-	import type { PublicationInfo } from '$lib/common/@types/common';
+	import type { PublicationInfo } from '$lib/types';
 
-	export let article: PublicationInfo;
+	let { article }: { article: PublicationInfo } = $props();
 
 	const date = getRelativeDate(article.meta.date);
 	const content = isInternalArticle(article) ? article.content : article.meta.description;
@@ -19,21 +18,17 @@
 	const readingTime = isInternalArticle(article) ? article.meta.readingTime : 0;
 	const readingMin = secondsToMinutes(readingTime);
 
-	let isDark = true;
-
-	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
-
-	onDestroy(() => unsubscribeTheme());
+	let isDark = $derived.by(() => isDarkTheme());
 </script>
 
 <section>
-	<Title centered="{false}">{article.meta.title}</Title>
+	<Title centered={false}>{article.meta.title}</Title>
 	<aside class="meta">
 		<AdditionalText>{readingMin} min read</AdditionalText>
 		<AdditionalText>{date}</AdditionalText>
 	</aside>
 
-	<div class="container mkdn" class:l="{!isDark}" class:d="{isDark}">
+	<div class="container mkdn" class:l={!isDark} class:d={isDark}>
 		<SubTitle inline>
 			<!-- eslint-disable svelte/no-at-html-tags -->
 			{@html content}
@@ -42,15 +37,15 @@
 
 	{#if keywords}
 		<div class="tags">
-			{#each keywords as keyword}
-				<Tag title="{keyword}" />
+			{#each keywords as keyword (keyword)}
+				<Tag title={keyword} />
 			{/each}
 		</div>
 	{/if}
 </section>
 
 <style lang="scss">
-	@import '../../../../global';
+	@use '../../../../global' as g;
 
 	.meta {
 		display: flex;
@@ -65,6 +60,6 @@
 	.tags {
 		display: flex;
 		flex-wrap: wrap;
-		margin-block-start: $unit;
+		margin-block-start: g.$unit;
 	}
 </style>

@@ -1,18 +1,21 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
-	import { onThemeChange, isDarkTheme } from '$lib/browser/stores/theme';
+	import { type Snippet } from 'svelte';
+	import { isDarkTheme } from '$lib/browser/stores/theme.svelte';
 	import Anchor from './Anchor.svelte';
 
-	let isDark = true;
+	let {
+		inline = false,
+		centered = false,
+		id = '',
+		children
+	}: {
+		inline?: boolean;
+		centered?: boolean;
+		id?: string;
+		children: Snippet;
+	} = $props();
 
-	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
-
-	export let inline = false;
-	export let centered = false;
-
-	export let id = '';
-
-	let show = false;
+	let show = $state(false);
 
 	const showAnchor = () => {
 		if (!id) {
@@ -24,7 +27,7 @@
 
 	const hideAnchor = () => (show = false);
 
-	onDestroy(() => unsubscribeTheme());
+	let isDark = $derived.by(() => isDarkTheme());
 </script>
 
 <div class="ui-sub__container">
@@ -32,49 +35,43 @@
 		<h2
 			{id}
 			class="ui-sub"
-			class:l="{!isDark}"
-			class:d="{isDark}"
-			class:header="{!inline}"
+			class:l={!isDark}
+			class:d={isDark}
+			class:header={!inline}
 			class:centered
-			on:focus="{showAnchor}"
-			on:mouseover="{showAnchor}"
-			on:mouseleave="{hideAnchor}"
+			onfocus={showAnchor}
+			onmouseover={showAnchor}
+			onmouseleave={hideAnchor}
 		>
-			<slot />
+			{@render children()}
 			<Anchor {id} {show} />
 		</h2>
 	{:else}
-		<h2
-			class="ui-sub"
-			class:l="{!isDark}"
-			class:d="{isDark}"
-			class:header="{!inline}"
-			class:centered
-		>
-			<slot />
+		<h2 class="ui-sub" class:l={!isDark} class:d={isDark} class:header={!inline} class:centered>
+			{@render children()}
 		</h2>
 	{/if}
 </div>
 
 <style lang="scss">
-	@import './theme';
-	@import '../../../global';
+	@use './theme' as t;
+	@use '../../../global' as g;
 
 	@mixin subtitle-style($color) {
-		@include smooth-change(color);
+		@include t.smooth-change(color);
 
 		color: $color;
 	}
 
 	.ui-sub {
-		@include set-font();
-		font-size: $font-size;
-		font-weight: $font-weight;
+		@include t.set-font();
+		font-size: g.$font-size;
+		font-weight: g.$font-weight;
 		margin: 0;
 
 		&.header {
-			font-size: $font-size-plus;
-			margin-block: $unit-plus $unit;
+			font-size: g.$font-size-plus;
+			margin-block: g.$unit-plus g.$unit;
 			position: relative;
 		}
 
@@ -83,11 +80,11 @@
 		}
 
 		&.l {
-			@include subtitle-style($l-primary);
+			@include subtitle-style(t.$l-primary);
 		}
 
 		&.d {
-			@include subtitle-style($d-primary);
+			@include subtitle-style(t.$d-primary);
 		}
 	}
 </style>

@@ -1,4 +1,4 @@
-import type { ProfileAccounts } from '$lib/common/@types/common';
+import type { ProfileAccounts } from '$lib/types';
 import {
 	getGithubLink,
 	getHabrLink,

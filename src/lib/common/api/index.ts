@@ -1,4 +1,4 @@
-import type { ProfileAccounts, PublicationInfo, PackageInfo, ProfileInfo } from '../@types/common';
+import type { PackageInfo, ProfileAccounts, ProfileInfo, PublicationInfo } from '$lib/types';
 import type { UrlResponse, Version } from './types';
 import type { WithPagination } from '../types';
 
@@ -32,7 +32,7 @@ export const runRawApi = async <Res = unknown, Req extends string | FormData = s
 		throw new Error(response.statusText, { cause });
 	}
 
-	const json = await response.json();
+	const json: Res = await response.json();
 	return json;
 };
 
@@ -52,7 +52,7 @@ export const runApi = async <Res = unknown, Req = unknown>(
 	}
 
 	const data = isText ? body.toString() : JSON.stringify(body);
-	return runRawApi<Res, string>(url, method, headers, data);
+	return runRawApi<Res>(url, method, headers, data);
 };
 
 const getApiPath = (path: string, pageUrl?: string): string => {

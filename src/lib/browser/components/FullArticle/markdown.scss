@@ -1,8 +1,10 @@
 // Markdown styling framework
-@import '../../../../global';
-@import '../../ui/theme';
+@use '../../ui/theme' as t;
+@use '../../../../global' as g;
 
 .mkdn {
+	tab-size: 4;
+
 	.mkdn-img {
 		height: auto;
 		width: 100%;
@@ -10,24 +12,24 @@
 
 	.mkdn-bold {
 		font-style: italic;
-		font-weight: $font-weight-bold;
+		font-weight: g.$font-weight-bold;
 	}
 
 	.mkdn-code {
 		padding-block: 1px;
-		padding-inline: $unit-eighth;
-		border-radius: $unit-eighth;
+		padding-inline: g.$unit-eighth;
+		border-radius: g.$unit-eighth;
 	}
 
 	.mkdn-ul {
-		margin-block-start: $unit-double;
-		margin-block-end: $unit;
+		margin-block-start: g.$unit-double;
+		margin-block-end: g.$unit;
 		padding-inline-start: 0;
 	}
 
 	.mkdn-li {
-		margin-inline-start: $unit;
-		margin-block-end: $unit;
+		margin-inline-start: g.$unit;
+		margin-block-end: g.$unit;
 	}
 
 	.mkdn-alt {
@@ -36,9 +38,9 @@
 	}
 
 	.mkdn-h2 {
-		font-weight: $font-weight-bold;
-		margin-block-start: $unit-triple;
-		margin-block-end: $unit-half;
+		font-weight: g.$font-weight-bold;
+		margin-block-start: g.$unit-triple;
+		margin-block-end: g.$unit-half;
 	}
 
 	.mkdn-p {
@@ -48,31 +50,31 @@
 	// theme-specifics
 	&.d {
 		.mkdn-link {
-			@include link-style($d-tertiary, $d-accent);
+			@include t.link-style(t.$d-tertiary, t.$d-accent);
 		}
 
 		.mkdn-code {
-			@include background-color-style($cl-grey-darker);
-			@include text-color-style($cl-grey-light);
+			@include t.background-color-style(t.$cl-grey-darker);
+			@include t.text-color-style(t.$cl-grey-light);
 		}
 
 		.mkdn-alt {
-			@include text-style($d-secondary);
+			@include t.text-style(t.$d-secondary);
 		}
 	}
 
 	&.l {
 		.mkdn-link {
-			@include link-style($l-tertiary, $l-accent);
+			@include t.link-style(t.$l-tertiary, t.$l-accent);
 		}
 
 		.mkdn-code {
-			@include background-color-style($cl-yellow-darkest);
-			@include text-color-style($cl-black-lightest);
+			@include t.background-color-style(t.$cl-yellow-darkest);
+			@include t.text-color-style(t.$cl-black-lightest);
 		}
 
 		.mkdn-alt {
-			@include text-style($l-secondary);
+			@include t.text-style(t.$l-secondary);
 		}
 	}
 }

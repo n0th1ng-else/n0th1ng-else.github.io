@@ -1,30 +1,38 @@
 <script lang="ts">
-	export let mono = false;
+	import type { Snippet } from 'svelte';
 
-	export let centered = false;
-
-	export let flat = false;
-
-	export let printVisible = true;
+	let {
+		mono = false,
+		centered = false,
+		flat = false,
+		printVisible = true,
+		children
+	}: {
+		mono?: boolean;
+		centered?: boolean;
+		flat?: boolean;
+		printVisible?: boolean;
+		children: Snippet;
+	} = $props();
 </script>
 
-<p class="ui-paragraph" class:mono class:centered class:flat class:no-print="{!printVisible}">
-	<slot />
+<p class="ui-paragraph" class:mono class:centered class:flat class:no-print={!printVisible}>
+	{@render children()}
 </p>
 
 <style lang="scss">
-	@import './theme';
-	@import '../../../global';
+	@use './theme' as t;
+	@use '../../../global' as g;
 
 	.ui-paragraph {
-		margin: $unit-half;
+		margin: g.$unit-half;
 
 		&.flat {
 			margin: 0;
 		}
 
 		&.mono {
-			@include set-font-mono();
+			@include t.set-font-mono();
 		}
 
 		&.centered {

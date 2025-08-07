@@ -1,41 +1,54 @@
 <script lang="ts">
-	import { onMount, afterUpdate } from 'svelte';
+	import { onMount } from 'svelte';
 	import type { TextAreaSize } from '$lib/browser/ui/types';
 
-	export let text = '';
-	export let placeholder = '';
-	export let size: TextAreaSize = 'md';
+	let {
+		text = $bindable(),
+		placeholder,
+		size = 'md'
+	}: {
+		text: string;
+		placeholder: string;
+		size?: TextAreaSize;
+	} = $props();
 
 	let ref: HTMLTextAreaElement;
 
 	const detectElementHeight = () => {
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (!ref) {
 			return;
 		}
 		ref.style.height = 'auto';
 		ref.style.height = `${ref.scrollHeight}px`;
 	};
-	const onChange = () => detectElementHeight();
+	const onChange = () => {
+		detectElementHeight();
+	};
 
-	onMount(() => detectElementHeight());
-	afterUpdate(() => detectElementHeight());
+	onMount(() => {
+		detectElementHeight();
+	});
+	$effect(() => {
+		detectElementHeight();
+	});
 </script>
 
 <textarea
 	{placeholder}
 	class="ui-textarea ui-textarea--{size}"
-	bind:value="{text}"
-	bind:this="{ref}"
-	on:input="{onChange}"
+	bind:value={text}
+	bind:this={ref}
+	oninput={onChange}
 ></textarea>
 
 <style lang="scss">
-	@import './theme';
-	@import '../../../global';
+	@use './theme' as t;
+	@use '../../../global' as g;
 
 	.ui-textarea {
-		@include set-font();
-		background-color: $cl-grey-lightest;
+		@include t.set-font();
+		background-color: t.$cl-grey-lightest;
 		border: 0;
 		padding: 0;
 		resize: none;
@@ -46,20 +59,20 @@
 		}
 
 		&--xl {
-			font-size: $font-size-huge;
-			font-weight: $font-weight-bold;
+			font-size: g.$font-size-huge;
+			font-weight: g.$font-weight-bold;
 		}
 
 		&--lg {
-			font-size: $font-size-bigger;
+			font-size: g.$font-size-bigger;
 		}
 
 		&--md {
-			font-size: $font-size-big;
+			font-size: g.$font-size-big;
 		}
 
 		&--sm {
-			font-size: $font-size-plus;
+			font-size: g.$font-size-plus;
 		}
 	}
 </style>

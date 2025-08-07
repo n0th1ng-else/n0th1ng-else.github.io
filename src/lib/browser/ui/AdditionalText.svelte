@@ -1,35 +1,37 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
-	import { onThemeChange, isDarkTheme } from '$lib/browser/stores/theme';
+	import { type Snippet } from 'svelte';
+	import { isDarkTheme } from '$lib/browser/stores/theme.svelte';
 
-	let isDark = true;
+	let {
+		small = false,
+		children
+	}: {
+		small?: boolean;
+		children: Snippet;
+	} = $props();
 
-	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
-
-	onDestroy(() => unsubscribeTheme());
-
-	export let small = false;
+	let isDark = $derived.by(() => isDarkTheme());
 </script>
 
-<span class="ui-additional-text" class:l="{!isDark}" class:d="{isDark}" class:small>
-	<slot />
+<span class="ui-additional-text" class:l={!isDark} class:d={isDark} class:small>
+	{@render children()}
 </span>
 
 <style lang="scss">
-	@import './theme';
-	@import '../../../global';
+	@use './theme' as t;
+	@use '../../../global' as g;
 
 	.ui-additional-text {
-		@include set-font();
+		@include t.set-font();
 		&.small {
-			font-size: $font-size-smaller;
+			font-size: g.$font-size-smaller;
 		}
 		&.l {
-			@include text-style($l-secondary);
+			@include t.text-style(t.$l-secondary);
 		}
 
 		&.d {
-			@include text-style($d-secondary);
+			@include t.text-style(t.$d-secondary);
 		}
 	}
 </style>

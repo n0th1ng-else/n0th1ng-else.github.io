@@ -9,7 +9,7 @@ const UserSchema = z
 	})
 	.describe('GitHub user schema');
 
-export const fetchAccessToken = async (origin: string, code: string): Promise<string> => {
+export const fetchAccessToken = async (origin: string, code?: string): Promise<string> => {
 	const env = getRuntimeEnvironment();
 	const url = new URL('https://github.com/login/oauth/access_token');
 	url.searchParams.set('redirect_uri', `${origin}/api/v1/oauth`);
@@ -31,7 +31,7 @@ export const fetchUserName = async (accessToken: string): Promise<string> => {
 	try {
 		const parsed = UserSchema.parse(data);
 		return parsed.login;
-	} catch (err) {
+	} catch {
 		return '';
 	}
 };

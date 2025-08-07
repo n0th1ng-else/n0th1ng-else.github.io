@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { profileStore } from '$lib/browser/stores';
 	import Title from '$lib/browser/ui/Title.svelte';
 	import List from '$lib/browser/ui/List.svelte';
 	import Meta from '$lib/browser/ui/Meta.svelte';
@@ -7,22 +6,27 @@
 	import { projectsTitle as title } from '$lib/common/labels';
 	import { sortByDate } from '$lib/common/date';
 	import type { PageData } from './$types';
+	import { getProfile } from '$lib/browser/stores/profile.svelte';
 
-	export let data: PageData;
+	const { data }: { data: PageData } = $props();
 
 	const { url, items } = data;
+
+	const profile = $derived.by(() => getProfile());
+	const profileImage = $derived(profile?.image ?? '');
+
 	const sorted = sortByDate(items, item => new Date(item.date));
 </script>
 
-<Meta image="{$profileStore?.image ?? ''}" description="My reading list" {url} />
+<Meta image={profileImage} description="My reading list" {url} />
 <article>
 	<Title>Reading list</Title>
 	<List>
-		{#each sorted as item}
+		{#each sorted as item (item.url)}
 			<li class="reading-list-item">
 				<div class="info">
 					<div>
-						<Link inline external url="{item.url}">
+						<Link inline external url={item.url}>
 							{item.title}
 						</Link>
 					</div>
@@ -34,7 +38,7 @@
 				</div>
 				{#if item.image}
 					<div>
-						<img class="image" src="{item.image}" alt="" />
+						<img class="image" src={item.image} alt="" />
 					</div>
 				{/if}
 			</li>
@@ -47,17 +51,17 @@
 </svelte:head>
 
 <style lang="scss">
-	@import '../../global';
+	@use '../../global' as g;
 
 	.reading-list-item {
-		margin-block-end: $unit-plus;
+		margin-block-end: g.$unit-plus;
 		display: flex;
-		gap: $unit;
+		gap: g.$unit;
 	}
 
 	.image {
-		height: $unit-triple;
-		width: $unit-triple;
+		height: g.$unit-triple;
+		width: g.$unit-triple;
 		object-fit: contain;
 	}
 

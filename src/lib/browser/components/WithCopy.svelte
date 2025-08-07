@@ -1,9 +1,21 @@
 <script lang="ts">
+	import { type Snippet } from 'svelte';
 	import { copyToClipboard } from '$lib/browser/utils/clipboard';
 
-	export let text = '';
+	let {
+		text = '',
+		children
+	}: {
+		text: string;
+		children: Snippet;
+	} = $props();
 
-	const onClick = () => copyToClipboard(text);
+	const onClick = (): void => {
+		copyToClipboard(text).catch((err: unknown) => {
+			// eslint-disable-next-line no-console
+			console.error('Unable to copy', err);
+		});
+	};
 
 	const onKeyboard = (evt: KeyboardEvent) => {
 		if (evt.key === 'Enter') {
@@ -13,14 +25,14 @@
 </script>
 
 <span
-	on:click="{onClick}"
-	on:keydown="{onKeyboard}"
+	onclick={onClick}
+	onkeydown={onKeyboard}
 	class="copy-container"
 	title="click to copy to clipboard"
 	tabindex="0"
 	role="button"
 >
-	<slot />
+	{@render children()}
 </span>
 
 <style lang="scss">

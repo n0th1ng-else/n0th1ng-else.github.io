@@ -1,70 +1,68 @@
 <script lang="ts">
-	import { createEventDispatcher, onDestroy } from 'svelte';
-	import { onThemeChange, isDarkTheme } from '$lib/browser/stores/theme';
+	import { type Snippet } from 'svelte';
+	import { isDarkTheme } from '$lib/browser/stores/theme.svelte';
 
-	export let external = false;
+	let {
+		url,
+		onClick,
+		external = false,
+		inline = false,
+		hint,
+		raw = false,
+		printVisible = true,
+		children
+	}: {
+		url: string;
+		onClick?: VoidFunction;
+		external?: boolean;
+		inline?: boolean;
+		hint?: string;
+		raw?: boolean;
+		printVisible?: boolean;
+		children: Snippet;
+	} = $props();
 
-	export let inline = false;
-
-	export let url = 'javascript:void(0);';
-
-	export let hint: string | undefined = undefined;
-
-	export let raw = false;
-
-	export let printVisible = true;
-
-	const dispatch = createEventDispatcher();
-
-	const onClick = (): void => {
-		dispatch('click');
-	};
-
-	let isDark = true;
-
-	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
-
-	onDestroy(() => unsubscribeTheme());
+	let isDark = $derived.by(() => isDarkTheme());
 </script>
 
 {#if external}
 	<a
 		class="ui-link"
-		class:filled="{!raw}"
+		class:filled={!raw}
 		class:inline
-		class:l="{!isDark}"
-		class:d="{isDark}"
-		on:click="{onClick}"
-		href="{url}"
-		title="{hint}"
+		class:l={!isDark}
+		class:d={isDark}
+		onclick={onClick}
+		href={url}
+		title={hint}
 		target="_blank"
 		rel="noreferrer noopener"
 	>
-		<slot />
+		{@render children()}
 	</a>
 {:else}
 	<a
 		class="ui-link"
-		class:filled="{!raw}"
-		class:l="{!isDark}"
-		class:d="{isDark}"
+		class:filled={!raw}
+		class:l={!isDark}
+		class:d={isDark}
 		class:inline
-		class:no-print="{!printVisible}"
-		on:click="{onClick}"
-		href="{url}"
-		title="{hint}"
+		class:no-print={!printVisible}
+		onclick={onClick}
+		href={url}
+		title={hint}
 	>
-		<slot />
+		{@render children()}
 	</a>
 {/if}
 
 <style lang="scss">
-	@import './theme';
-	@import '../../../global';
+	@use './theme' as t;
+	@use '../../../global' as g;
 
 	.ui-link {
-		@include set-font();
-		margin: $unit-half;
+		@include t.set-font();
+		margin: g.$unit-half;
 		text-decoration: none;
 
 		&.inline {
@@ -79,11 +77,11 @@
 
 	.filled {
 		&.l {
-			@include link-style($l-tertiary, $l-accent);
+			@include t.link-style(t.$l-tertiary, t.$l-accent);
 		}
 
 		&.d {
-			@include link-style($d-tertiary, $d-accent);
+			@include t.link-style(t.$d-tertiary, t.$d-accent);
 		}
 	}
 </style>

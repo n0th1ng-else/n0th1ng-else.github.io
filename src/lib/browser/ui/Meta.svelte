@@ -18,26 +18,26 @@
 </script>
 
 <svelte:head>
-	<meta property="og:type" content="{type}" />
-	<meta property="og:title" content="{title}" />
+	<meta property="og:type" content={type} />
+	<meta property="og:title" content={title} />
 
-	<meta property="og:image" content="{image}" />
-	<meta property="og:url" content="{fullUrl}" />
-	<meta property="og:site_name" content="{siteName}" />
+	<meta property="og:image" content={image} />
+	<meta property="og:url" content={fullUrl} />
+	<meta property="og:site_name" content={siteName} />
 
 	{#if description}
-		<meta property="og:description" content="{description}" />
-		<meta name="twitter:description" content="{description}" />
-		<meta name="description" content="{description}" />
+		<meta property="og:description" content={description} />
+		<meta name="twitter:description" content={description} />
+		<meta name="description" content={description} />
 	{/if}
 
-	<meta name="twitter:card" content="{twitterType}" />
-	<meta name="twitter:title" content="{title}" />
-	<meta name="twitter:text:title" content="{title}" />
-	<meta name="twitter:image" content="{image}" />
-	<meta name="twitter:url" content="{fullUrl}" />
+	<meta name="twitter:card" content={twitterType} />
+	<meta name="twitter:title" content={title} />
+	<meta name="twitter:text:title" content={title} />
+	<meta name="twitter:image" content={image} />
+	<meta name="twitter:url" content={fullUrl} />
 
 	{#if imageAlt}
-		<meta name="twitter:image:alt" content="{imageAlt}" />
+		<meta name="twitter:image:alt" content={imageAlt} />
 	{/if}
 </svelte:head>

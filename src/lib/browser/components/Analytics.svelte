@@ -1,14 +1,16 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { sendPageView } from '$lib/browser/utils/analytics';
 
-	const unsubscribeActivePath = page.subscribe(({ url }) => {
-		sendPageView(`${url.host}${url.pathname}`);
+	const destroy = $effect.root(() => {
+		$effect(() => {
+			sendPageView(`${page.url.host}${page.url.pathname}`);
+		});
 	});
 
 	onDestroy(() => {
-		unsubscribeActivePath();
+		destroy();
 	});
 </script>
 

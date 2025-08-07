@@ -6,7 +6,7 @@ import { getXMLHeaders } from '$lib/server/xml';
 import { generateSitemap } from '$lib/server/sitemap';
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = async ({ url: urlData }) => {
+export const GET: RequestHandler = ({ url: urlData }) => {
 	const url = urlData.origin;
 
 	const articles = sortArticlesByDate(getAllArticles());

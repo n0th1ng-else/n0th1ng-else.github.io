@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { profileStore } from '$lib/browser/stores';
 	import Title from '$lib/browser/ui/Title.svelte';
 	import SubTitle from '$lib/browser/ui/SubTitle.svelte';
 	import Link from '$lib/browser/ui/Link.svelte';
@@ -7,16 +6,19 @@
 	import Meta from '$lib/browser/ui/Meta.svelte';
 	import Paragraph from '$lib/browser/ui/Paragraph.svelte';
 	import { toArticle } from '$lib/common/routes';
-	import { groupByYear, getRelativeDate } from '$lib/common/date';
+	import { groupByYear, getRelativeDate, sortArticlesByDate } from '$lib/common/date';
 	import { sortAsNumber } from '$lib/common/sort';
 	import { blogTitle as title } from '$lib/common/labels';
-	import type { PublicationInfo } from '$lib/common/@types/common';
-	import { sortArticlesByDate } from '$lib/common/date.js';
+	import { getProfile } from '$lib/browser/stores/profile.svelte';
+	import type { PublicationInfo } from '$lib/types';
 	import type { PageData } from './$types';
 
-	export let data: PageData;
+	const { data }: { data: PageData } = $props();
 
 	const { url, articles, showDraft } = data;
+
+	const profile = $derived.by(() => getProfile());
+	const profileImage = $derived(profile?.image ?? '');
 
 	const groups = groupByYear(articles);
 	const years = sortAsNumber(Object.keys(groups));
@@ -37,7 +39,7 @@
 </script>
 
 <Meta
-	image="{$profileStore?.image ?? ''}"
+	image={profileImage}
 	title="Published in the blog"
 	description="List of my publications through the years. Most of them are written in English."
 	{url}
@@ -45,16 +47,16 @@
 <article>
 	<Title>Tracking the posts written by me</Title>
 	<div>
-		{#each years as year}
+		{#each years as year (year)}
 			<section>
 				<SubTitle id="in-{year}">{year}</SubTitle>
 				<List>
-					{#each getGroup(year) as item}
+					{#each getGroup(year) as item (item.id)}
 						<li>
 							<div class="article">
 								<div class="article__title">
 									<Paragraph flat>
-										<Link inline url="{getUrl(item)}">
+										<Link inline url={getUrl(item)}>
 											{getTitle(item)}
 										</Link>
 									</Paragraph>
@@ -76,13 +78,13 @@
 </svelte:head>
 
 <style lang="scss">
-	@import '../../lib/browser/ui/theme';
-	@import '../../global';
+	@use '../../lib/browser/ui/theme' as t;
+	@use '../../global' as g;
 
 	.article {
 		display: flex;
 		align-items: center;
-		padding-block-end: $unit;
+		padding-block-end: g.$unit;
 
 		&__title {
 			flex: 1;
@@ -90,9 +92,9 @@
 
 		&__date {
 			display: none;
-			font-weight: $font-weight-light;
+			font-weight: g.$font-weight-light;
 
-			@media (min-width: $md) {
+			@media (min-width: t.$md) {
 				display: block;
 			}
 		}

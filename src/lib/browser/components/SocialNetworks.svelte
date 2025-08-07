@@ -1,52 +1,42 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
-	import { onThemeChange, isDarkTheme } from '$lib/browser/stores/theme';
+	import { isDarkTheme } from '$lib/browser/stores/theme.svelte';
 	import Link from '$lib/browser/ui/Link.svelte';
 	import { getSocialNetworks } from '$lib/browser/utils/contacts';
-	import type { ProfileAccounts } from '$lib/common/@types/common';
 	import { rssRoute } from '$lib/common/routes';
+	import type { ProfileAccounts } from '$lib/types';
 	import icoRss from '../../../assets/icons/rss.svg';
 
-	export let accounts: ProfileAccounts | null = null;
+	let { accounts }: { accounts: ProfileAccounts | null } = $props();
+
 	const networks = accounts ? getSocialNetworks(accounts) : [];
 
-	let isDark = true;
-
-	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
-
-	onDestroy(() => unsubscribeTheme());
+	let isDark = $derived.by(() => isDarkTheme());
 </script>
 
 <div class="social-networks-wrapper">
 	{#each networks as network (network.title)}
 		<p class="social-networks-item">
-			<Link external url="{network.link}">
+			<Link external url={network.link}>
 				<img
-					src="{network.image}"
+					src={network.image}
 					alt="{network.title} profile link"
 					class="logo no-print"
-					class:l="{!isDark}"
-					class:d="{isDark}"
+					class:l={!isDark}
+					class:d={isDark}
 				/>
 			</Link>
 		</p>
 	{/each}
 	<p class="social-networks-item">
-		<Link url="{rssRoute}">
-			<img
-				src="{icoRss}"
-				alt="RSS feed"
-				class="logo no-print"
-				class:l="{!isDark}"
-				class:d="{isDark}"
-			/>
+		<Link url={rssRoute}>
+			<img src={icoRss} alt="RSS feed" class="logo no-print" class:l={!isDark} class:d={isDark} />
 		</Link>
 	</p>
 </div>
 
 <style lang="scss">
-	@import '../ui/theme';
-	@import '../../../global';
+	@use '../ui/theme' as t;
+	@use '../../../global' as g;
 
 	.social-networks-wrapper {
 		display: flex;
@@ -55,31 +45,31 @@
 	}
 
 	.social-networks-item {
-		padding: $unit-half;
+		padding: g.$unit-half;
 	}
 
 	.logo {
-		@include smooth-change(filter, transform);
-		@include image-container($unit-plus);
+		@include t.smooth-change(filter, transform);
+		@include t.image-container(g.$unit-plus);
 
 		&.l {
-			@include draw-image-black();
+			@include t.draw-image-black();
 		}
 
 		&.d {
-			@include draw-image-white();
+			@include t.draw-image-white();
 		}
 	}
 
-	@media (min-width: $sm) {
+	@media (min-width: t.$sm) {
 		.logo {
-			@include image-container($unit-double);
+			@include t.image-container(g.$unit-double);
 		}
 	}
 
-	@media (min-width: $md) {
+	@media (min-width: t.$md) {
 		.logo {
-			@include image-container($unit-triple);
+			@include t.image-container(g.$unit-triple);
 		}
 	}
 

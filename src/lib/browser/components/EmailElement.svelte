@@ -6,15 +6,15 @@
 	const [email] = getEmail(true);
 </script>
 
-<WithCopy text="{email}">
+<WithCopy text={email}>
 	<span class="email-part">{name}</span> at <span class="email-part">{host}</span> dot
 	<span class="email-part">{domain}</span>
 </WithCopy>
 
 <style lang="scss">
-	@import '../../../global';
+	@use '../../../global' as g;
 
 	.email-part {
-		font-weight: $font-weight-semi;
+		font-weight: g.$font-weight-semi;
 	}
 </style>

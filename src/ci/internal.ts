@@ -4,8 +4,9 @@ import parseMD from 'parse-md';
 import { Marked } from 'marked';
 import { markedHighlight } from 'marked-highlight';
 import hljs from 'highlight.js';
-import { Logger } from './log.js';
-import { getBasePublication, getPublication } from './publication.js';
+import { Logger } from './log.ts';
+import { getBaseInternalPublication, getInternalPublication } from './publication.ts';
+import type { InternalPublicationInfo } from '../lib/types.ts';
 
 const logger = new Logger('internal-links');
 
@@ -16,12 +17,22 @@ const IMAGES = {
 	MINIMAL_PAUSE_SEC: 5
 };
 
-/**
- *
- * @param raw {string}
- * @param parsed {string}
- */
-export const getReadingTime = (raw, parsed) => {
+type FileLocation = {
+	slug: string;
+	location: string;
+};
+
+type MarkdownMetadata = {
+	language: 'en' | 'ru';
+	draft: boolean;
+	keywords?: string[];
+	date: string;
+	description: string;
+	image: string;
+	title: string;
+};
+
+export const getReadingTime = (raw: string, parsed: string): number => {
 	const handler = new Intl.Segmenter([], { granularity: 'word' });
 	const segmentedText = handler.segment(raw);
 	const wordsCount = [...segmentedText].filter(s => s.isWordLike).length;
@@ -39,11 +50,7 @@ export const getReadingTime = (raw, parsed) => {
 	return Math.ceil(wordsCount / wordsPerSec) + imagesTime;
 };
 
-/**
- *
- * @param raw {string}
- */
-export const parseMarkdown = async raw => {
+export const parseMarkdown = async (raw: string): Promise<string> => {
 	const parser = new Marked();
 	parser.use({
 		renderer: {
@@ -73,7 +80,7 @@ export const parseMarkdown = async raw => {
 				const type = ordered ? 'ol' : 'ul';
 				return [
 					`<${type} class="mkdn-${type}"`,
-					ordered && start !== 1 ? ' start="' + start + '"' : '',
+					ordered && start !== 1 ? ` start="${start}"` : '',
 					`>\n${body}</${type}>\n`
 				]
 					.filter(Boolean)
@@ -115,12 +122,7 @@ export const parseMarkdown = async raw => {
 	return parser.parse(raw);
 };
 
-/**
- *
- * @param folder {string}
- * @param returnFiles {boolean}
- */
-const readFolder = (folder, returnFiles) =>
+const readFolder = (folder: string, returnFiles: boolean): FileLocation[] =>
 	readdirSync(folder, { withFileTypes: true })
 		.filter(obj => (returnFiles ? obj.isFile() : !obj.isFile()))
 		.map(obj => ({
@@ -128,11 +130,7 @@ const readFolder = (folder, returnFiles) =>
 			location: resolvePath(folder, obj.name)
 		}));
 
-/**
- *
- * @param rootDir {string}
- */
-const findArticles = rootDir => {
+const findArticles = (rootDir: string): FileLocation[] => {
 	try {
 		const articlesFolder = resolvePath(rootDir, './articles');
 		const res = readFolder(articlesFolder, false)
@@ -145,20 +143,12 @@ const findArticles = rootDir => {
 	}
 };
 
-/**
- *
- * @param file {string}
- */
-export const readMarkdownFile = file => {
+export const readMarkdownFile = (file: string) => {
 	const fileContents = readFileSync(file, { encoding: 'utf-8' });
 	return parseMD(fileContents);
 };
 
-/**
- *
- * @param value {unknown}
- */
-const isMetadata = value => {
+const isMetadata = (value: unknown): value is MarkdownMetadata => {
 	try {
 		if (typeof value !== 'object' || !value) {
 			return false;
@@ -175,12 +165,10 @@ const isMetadata = value => {
 	}
 };
 
-/**
- *
- * @param slug {string}
- * @param location {string}
- */
-const getPublicationInfo = async (slug, location) => {
+const getPublicationInfo = async (
+	slug: string,
+	location: string
+): Promise<InternalPublicationInfo | null> => {
 	try {
 		const { content, metadata } = readMarkdownFile(location);
 		const parsed = await parseMarkdown(content);
@@ -189,23 +177,13 @@ const getPublicationInfo = async (slug, location) => {
 			return null;
 		}
 
-		// @ts-expect-error We checked the type above
 		const { language, draft, keywords, date, description, image, title } = metadata;
 
 		const fullUrl = `/blog/${slug}`;
 
-		const base = getBasePublication(
-			{
-				url: slug,
-				lang: language,
-				content: parsed
-			},
-			fullUrl,
-			true,
-			draft
-		);
+		const base = getBaseInternalPublication(slug, fullUrl, language, parsed, draft);
 
-		const publication = getPublication(
+		const publication = getInternalPublication(
 			base,
 			{
 				description,
@@ -226,32 +204,25 @@ const getPublicationInfo = async (slug, location) => {
 	}
 };
 
-/**
- *
- * @param files {object[]}
- * @param files.slug {string}
- * @param files.location {string}
- */
-const getPublicationsInfo = async files => {
-	if (!files.length) {
-		return [];
-	}
-	const publications = [];
+const getPublicationsInfo = async (files: FileLocation[]): Promise<InternalPublicationInfo[]> => {
+	let file: FileLocation | undefined = undefined;
+	const publications: InternalPublicationInfo[] = [];
+
 	do {
-		const file = files.shift();
-		const publication = file ? await getPublicationInfo(file.slug, file.location) : null;
-		if (publication) {
-			publications.push(publication);
+		file = files.shift();
+		if (file) {
+			const publication = await getPublicationInfo(file.slug, file.location);
+			if (publication) {
+				publications.push(publication);
+			}
 		}
 	} while (files.length);
 	return publications;
 };
 
-/**
- *
- * @param rootDir {string}
- */
-export const getInternalPublications = async rootDir => {
+export const getInternalPublications = async (
+	rootDir: string
+): Promise<InternalPublicationInfo[]> => {
 	const files = findArticles(rootDir);
 	const publications = await getPublicationsInfo(files);
 	return publications;

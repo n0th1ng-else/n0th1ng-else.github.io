@@ -1,10 +1,11 @@
 import { writeFileSync } from 'node:fs';
 import { sync as spawnSync } from 'cross-spawn';
-import { Logger } from './log.js';
-import { rootDirURL } from './dirs.js';
+import { Logger } from './log.ts';
+import { rootDirURL } from './dirs.ts';
 
 const logger = new Logger('script:release');
 
+// if (import.meta.main) {
 const branch = 'dev';
 const branchOpts = ['--branches', branch];
 
@@ -28,8 +29,9 @@ const versionStart = versionLine.slice(
 );
 const versionBuffer = versionStart.slice(0, versionStart.indexOf(':'));
 
-writeFileSync(versionFile, `${versionBuffer}`);
+writeFileSync(versionFile, versionBuffer);
 logger.writeWarning(`Version ${versionBuffer} successfully saved`);
 logger.writeWarning('Publishing it into github releases');
 spawnSync('semantic-release', [...branchOpts], { stdio: 'inherit' });
 logger.writeWarning('Published the new version successfully');
+// }

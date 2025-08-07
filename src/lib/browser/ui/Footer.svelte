@@ -1,26 +1,28 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
-	import { onThemeChange, isDarkTheme } from '$lib/browser/stores/theme';
+	import { type Snippet } from 'svelte';
+	import { isDarkTheme } from '$lib/browser/stores/theme.svelte';
 
-	let isDark = true;
+	let {
+		children
+	}: {
+		children: Snippet;
+	} = $props();
 
-	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
-
-	onDestroy(() => unsubscribeTheme());
+	let isDark = $derived.by(() => isDarkTheme());
 </script>
 
 <footer class="ui-footer-wrapper">
-	<div class="ui-footer" class:l="{!isDark}" class:d="{isDark}">
-		<slot />
+	<div class="ui-footer" class:l={!isDark} class:d={isDark}>
+		{@render children()}
 	</div>
 </footer>
 
 <style lang="scss">
-	@import './theme';
-	@import '../../../global';
+	@use './theme' as t;
+	@use '../../../global' as g;
 
 	@mixin border-style($color) {
-		@include smooth-change(border-color);
+		@include t.smooth-change(border-color);
 
 		border-color: $color;
 	}
@@ -31,21 +33,21 @@
 	}
 
 	.ui-footer {
-		@include set-font();
+		@include t.set-font();
 		border-top: 1px solid;
 		display: flex;
-		flex: 0 1 $max-content-width;
+		flex: 0 1 g.$max-content-width;
 		flex-direction: column;
-		margin-block-start: $unit-triple;
-		padding-block: $unit-double;
+		margin-block-start: g.$unit-triple;
+		padding-block: g.$unit-double;
 		padding-inline: 0;
 
 		&.l {
-			@include border-style($l-secondary);
+			@include border-style(t.$l-secondary);
 		}
 
 		&.d {
-			@include border-style($d-secondary);
+			@include border-style(t.$d-secondary);
 		}
 	}
 </style>

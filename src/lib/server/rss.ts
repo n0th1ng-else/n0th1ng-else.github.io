@@ -1,7 +1,7 @@
 import { getAbsoluteArticleUrl, getAbsoluteRssUrl } from '$lib/common/routes';
 import { getArticleDate } from '$lib/common/date';
 import { getPageTitle } from '$lib/common/labels';
-import type { PublicationInfo } from '$lib/common/@types/common';
+import type { PublicationInfo } from '$lib/types';
 
 const getProfilePhoto = (url: string, photo?: string): string =>
 	photo

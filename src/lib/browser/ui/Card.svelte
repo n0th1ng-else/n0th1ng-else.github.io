@@ -1,28 +1,29 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
-	import { onThemeChange, isDarkTheme } from '$lib/browser/stores/theme';
+	import { isDarkTheme } from '$lib/browser/stores/theme.svelte';
 	import { getPositionTitle } from '$lib/common/labels';
-	import Button from './Button.svelte';
-	import Tag from './Tag.svelte';
-	import AdditionalText from './AdditionalText.svelte';
-	import LowerTitle from './LowerTitle.svelte';
+	import Button from '$lib/browser/ui/Button.svelte';
+	import Tag from '$lib/browser/ui/Tag.svelte';
+	import AdditionalText from '$lib/browser/ui/AdditionalText.svelte';
+	import LowerTitle from '$lib/browser/ui/LowerTitle.svelte';
 	import type { ProjectItem } from '../utils/projects';
 
-	export let item: ProjectItem;
-	export let readonly = false;
-	export let extended = false;
+	let {
+		item,
+		readonly = false,
+		extended = false
+	}: {
+		item: ProjectItem;
+		readonly?: boolean;
+		extended?: boolean;
+	} = $props();
 
-	let isDark = true;
-
-	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
-
-	onDestroy(() => unsubscribeTheme());
+	let isDark = $derived.by(() => isDarkTheme());
 </script>
 
-<section class="ui-card" class:l="{!isDark}" class:d="{isDark}">
+<section class="ui-card" class:l={!isDark} class:d={isDark}>
 	{#if item.logo}
 		<p class="ui-card__logo-container">
-			<img class="ui-card__logo" src="{item.logo}" alt="" />
+			<img class="ui-card__logo" src={item.logo} alt="" />
 		</p>
 	{/if}
 	{#if !item.logo || extended}
@@ -38,17 +39,17 @@
 	<div class="ui-card__actions ui-card__section">
 		{#if item.url}
 			<p class="ui-card__action">
-				<Button href="{item.url}" disabled="{readonly}" external>Website</Button>
+				<Button href={item.url} disabled={readonly} external>Website</Button>
 			</p>
 		{/if}
 		{#if item.source}
 			<p class="ui-card__action">
-				<Button href="{item.source}" disabled="{readonly}" external>Source</Button>
+				<Button href={item.source} disabled={readonly} external>Source</Button>
 			</p>
 		{/if}
 		{#if item.registry}
 			<p class="ui-card__action">
-				<Button href="{item.registry}" disabled="{readonly}" external>Package</Button>
+				<Button href={item.registry} disabled={readonly} external>Package</Button>
 			</p>
 		{/if}
 	</div>
@@ -56,7 +57,7 @@
 		<div class="ui-card__actions ui-card__section">
 			{#each item.tags as tag (tag)}
 				<div class="ui-card__action">
-					<Tag title="{tag}" />
+					<Tag title={tag} />
 				</div>
 			{/each}
 		</div>
@@ -69,39 +70,39 @@
 </section>
 
 <style lang="scss">
-	@import './theme';
-	@import '../../../global';
+	@use './theme' as t;
+	@use '../../../global' as g;
 
 	@mixin card-style($border, $background) {
-		@include smooth-change(background-color, border-color);
+		@include t.smooth-change(background-color, border-color);
 
 		background-color: $background;
 		border-color: $border;
 	}
 
 	.ui-card {
-		border: $unit-eighth solid black;
+		border: g.$unit-eighth solid black;
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		height: 100%;
-		padding-block: $unit;
-		padding-inline: $unit-half;
+		padding-block: g.$unit;
+		padding-inline: g.$unit-half;
 
 		&.l {
-			@include card-style($cl-black-light, $cl-grey-lighter);
+			@include card-style(t.$cl-black-light, t.$cl-grey-lighter);
 		}
 
 		&.d {
-			@include card-style($cl-black-light, $cl-blue-dark);
+			@include card-style(t.$cl-black-light, t.$cl-blue-dark);
 		}
 
 		&__logo-container {
-			height: 10 * $unit-quarter;
-			margin-block: 0 $unit;
+			height: 10 * g.$unit-quarter;
+			margin-block: 0 g.$unit;
 			margin-inline: auto;
-			width: 10 * $unit-half;
+			width: 10 * g.$unit-half;
 		}
 
 		&__logo {
@@ -113,16 +114,16 @@
 		&__actions {
 			display: flex;
 			justify-content: center;
-			gap: $unit-plus;
+			gap: g.$unit-plus;
 
-			@media (min-width: $md) {
+			@media (min-width: t.$md) {
 				gap: 0;
 			}
 		}
 
 		&__action {
 			margin-block: 0;
-			margin-inline: $unit-quarter;
+			margin-inline: g.$unit-quarter;
 		}
 
 		&__text {
@@ -130,11 +131,11 @@
 		}
 
 		&__section {
-			margin-block-end: $unit;
+			margin-block-end: g.$unit;
 		}
 
 		&__title {
-			margin-block-end: $unit-plus;
+			margin-block-end: g.$unit-plus;
 		}
 	}
 </style>

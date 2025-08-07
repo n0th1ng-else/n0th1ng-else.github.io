@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
-	import { profileStore } from '$lib/browser/stores';
 	import { uploadImage } from '$lib/common/api';
 	import { Logger } from '$lib/common/log';
 	import { getDateTime } from '$lib/common/date';
@@ -12,24 +11,28 @@
 	import { openJsonFile, openImageFile, saveJsonFile } from '$lib/browser/utils/files';
 	import { keywordsFromString } from '$lib/browser/utils/keywords';
 	import { newArticleTitle } from '$lib/common/labels';
+	import { getProfile } from '$lib/browser/stores/profile.svelte';
 	import icoOk from '../../../assets/icons/ok.svg';
 	import type { FileHandle } from '../../../types';
 	import type { MarkdownFormat } from '../../../types';
 	import type { PageData } from './$types';
 
-	export let data: PageData;
+	const { data }: { data: PageData } = $props();
 
 	const { url } = data;
 
+	const profile = $derived.by(() => getProfile());
+	const profileImage = $derived(profile?.image ?? '');
+
 	const logger = new Logger('file access');
 
-	let preview = false;
-	let title = '';
-	let keywords = '';
-	let content = '';
-	let file: FileHandle | undefined = undefined;
-	let noticeDate: Date | null = null;
-	let logo = '';
+	let preview = $state(false);
+	let title = $state('');
+	let keywords = $state('');
+	let content = $state('');
+	let file: FileHandle | undefined = $state();
+	let noticeDate: Date | null = $state(null);
+	let logo = $state('');
 
 	const togglePreview = () => (preview = !preview);
 
@@ -40,7 +43,9 @@
 				keywords = (data.keywords || []).join(', ');
 				content = data.content || '';
 			})
-			.catch(err => logger.error('Unable to load file', err));
+			.catch((err: unknown) => {
+				logger.error('Unable to load file', err);
+			});
 	};
 
 	const save = (useExistingFile = false) => {
@@ -55,10 +60,14 @@
 				file = fileHandle;
 				noticeDate = new Date();
 			})
-			.catch(err => logger.error('Unable to save the file', err));
+			.catch((err: unknown) => {
+				logger.error('Unable to save the file', err);
+			});
 	};
 
-	const saveNewFile = () => save();
+	const saveNewFile = () => {
+		save();
+	};
 
 	const uploadLogo = () =>
 		openImageFile()
@@ -68,7 +77,9 @@
 				return uploadImage(form);
 			})
 			.then(response => (logo = response.url))
-			.catch(err => logger.error('Unable to upload the image', err));
+			.catch((err: unknown) => {
+				logger.error('Unable to upload the image', err);
+			});
 
 	const saveOnKey = (evt: KeyboardEvent) => {
 		const isMetaPressed = evt.ctrlKey || evt.metaKey;
@@ -90,32 +101,32 @@
 	});
 </script>
 
-<Meta image="{$profileStore?.image ?? ''}" description="Article editor" {url} />
+<Meta image={profileImage} description="Article editor" {url} />
 <article>
 	<SubTitle centered>New article</SubTitle>
 	<div class="controls-container">
 		<div class="main-controls-container">
 			<p>
-				<Button on:click="{open}">Load file</Button>
+				<Button onClick={open}>Load file</Button>
 			</p>
 			<div class="save-block">
 				<p class="save-control">
-					<Button on:click="{saveNewFile}">Save the article</Button>
+					<Button onClick={saveNewFile}>Save the article</Button>
 				</p>
 			</div>
 			{#if noticeDate}
 				<p class="save-note">
-					<img src="{icoOk}" alt="" class="save-note__logo" />
+					<img src={icoOk} alt="" class="save-note__logo" />
 				</p>
 				<p class="save-note__text">changes saved at {getDateTime(noticeDate)}</p>
 			{/if}
 		</div>
 		<p>
-			<Button on:click="{togglePreview}">{preview ? 'Edit' : 'Preview'}</Button>
+			<Button onClick={togglePreview}>{preview ? 'Edit' : 'Preview'}</Button>
 		</p>
 	</div>
 	<p class="logo-btn">
-		<Button secondary inline on:click="{uploadLogo}">Upload logo</Button>
+		<Button secondary inline onClick={uploadLogo}>Upload logo</Button>
 	</p>
 	<div class="editor-container">
 		<Editor bind:title bind:keywords bind:content {preview} {logo} />
@@ -127,10 +138,10 @@
 </svelte:head>
 
 <style lang="scss">
-	@import '../../../global';
+	@use '../../../global' as g;
 
 	.editor-container {
-		padding-block-start: $unit;
+		padding-block-start: g.$unit;
 	}
 
 	.controls-container {
@@ -149,23 +160,23 @@
 
 	.save-block,
 	.save-note {
-		margin-inline-start: $unit;
+		margin-inline-start: g.$unit;
 	}
 
 	.save-note {
 		&__logo {
 			// https://codepen.io/sosuke/pen/Pjoqqp
 			filter: invert(51%) sepia(81%) saturate(1269%) hue-rotate(83deg) brightness(99%) contrast(94%);
-			height: $unit + $unit-quarter;
+			height: g.$unit + g.$unit-quarter;
 			vertical-align: text-bottom;
 		}
 
 		&__text {
-			margin-inline-start: $unit-eighth;
+			margin-inline-start: g.$unit-eighth;
 		}
 	}
 
 	.logo-btn {
-		margin-block-start: $unit-half;
+		margin-block-start: g.$unit-half;
 	}
 </style>

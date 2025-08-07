@@ -10,11 +10,15 @@ const interval = 60_000;
 let timerHandler: NodeJS.Timeout | undefined;
 let startDate: Date | undefined;
 
-const checkStatus = (url: string): Promise<void> =>
-	runApi<StatusDto>(url).then(
-		data => logger.warn('Health status response', data),
-		err => logger.error('Unable to access the health status api!', err)
-	);
+const checkStatus = (url: string): void => {
+	runApi<StatusDto>(url)
+		.then(data => {
+			logger.warn('Health status response', data);
+		})
+		.catch((err: unknown) => {
+			logger.error('Unable to access the health status api!', err);
+		});
+};
 
 export const initUptime = (host?: string): void => {
 	if (timerHandler) {

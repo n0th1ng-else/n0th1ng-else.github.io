@@ -1,6 +1,6 @@
 import { Position } from '$lib/browser/utils/projects';
 import { isInternalArticle } from '$lib/common/articles';
-import type { PublicationInfo } from '$lib/common/@types/common';
+import type { PublicationInfo } from '$lib/types';
 
 export const getPageTitle = (title: string): string => {
 	const brand = 'Nothing Else';

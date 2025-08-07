@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	import { showBack, hideBack } from '$lib/browser/stores/navigation';
+	import { showBackButton, hideBackButton } from '$lib/browser/stores/navigation.svelte';
 	import Meta from '$lib/browser/ui/Meta.svelte';
 	import ArticlePreview from '$lib/browser/components/ArticlePreview.svelte';
 	import FullArticle from '$lib/browser/components/FullArticle/FullArticle.svelte';
@@ -23,30 +23,30 @@
 		if (!browser) {
 			return;
 		}
-		showBack();
+		showBackButton();
 	});
 
 	onDestroy(() => {
 		if (!browser) {
 			return;
 		}
-		hideBack();
+		hideBackButton();
 	});
 </script>
 
 <Meta
-	title="{seoTitle}"
+	title={seoTitle}
 	type="article"
 	twitterType="summary_large_image"
-	image="{seoImage}"
-	description="{seoDescription}"
+	image={seoImage}
+	description={seoDescription}
 	{url}
 />
 
 {#if internal}
 	<FullArticle {article} />
 {:else}
-	<ArticlePreview {article} showDate readonly="{!browser}" selfUrl="{host}" />
+	<ArticlePreview {article} showDate readonly={!browser} selfUrl={host} />
 {/if}
 
 <svelte:head>
