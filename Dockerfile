@@ -70,6 +70,8 @@ COPY --from=builder $APP_DIR/meta $APP_DIR/meta
 # copy welcome script
 COPY --from=builder $APP_DIR/src/ci/dirs.ts $APP_DIR/src/ci/dirs.ts
 COPY --from=builder $APP_DIR/src/ci/welcome.ts $APP_DIR/src/ci/welcome.ts
+COPY --from=builder $APP_DIR/src/ci/log.ts $APP_DIR/src/ci/log.ts
+COPY --from=builder $APP_DIR/src/lib/types.ts $APP_DIR/src/lib/types.ts
 
 RUN npm install -g pnpm@9
 
