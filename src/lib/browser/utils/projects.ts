@@ -1,4 +1,4 @@
-import type { PackageInfo, ProfileAccounts } from '$lib/common/@types/common';
+import type { PackageInfo, ProfileAccounts } from '$lib/types';
 import { getGithubLink } from './links';
 import nssLogo from '../../../assets/images/nss-logo.svg';
 import setronicaLogo from '../../../assets/images/setronica-logo.png';
@@ -71,7 +71,7 @@ const getMiro = (): ProjectItem => ({
 	logo: miroLogo,
 	url: 'https://www.miro.com',
 	tags: ['React', 'NextJS'],
-	position: Position.SeniorL1,
+	position: Position.Senior,
 	startDate: '01-11-2022'
 });
 
@@ -91,7 +91,7 @@ const transformPackage = (pkg: PackageInfo, accounts: ProfileAccounts): ProjectI
 			return {
 				name: pkg.url,
 				source: pkg.meta.url || pkg.fullUrl,
-				description: pkg.meta.title?.substr(pkg.meta.title.indexOf(': ') + 2) || '',
+				description: pkg.meta.title?.substring(pkg.meta.title.indexOf(': ') + 2) || '',
 				url: pkg.link,
 				logo: pkg.logo
 			};

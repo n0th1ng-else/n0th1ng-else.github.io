@@ -1,18 +1,17 @@
 import { existsSync, readFileSync } from 'node:fs';
-import { getPathUrl, metaFileName, metaFolderName, rootDirURL } from './dirs.js';
+import { getPathUrl, metaFileName, metaFolderName, rootDirURL } from './dirs.ts';
+import { Logger } from './log.ts';
+import type { MetaFile } from '../lib/types.ts';
 
-/**
- *
- * @param rootDir {URL}
- * @returns {object}
- */
-export const readMetaFile = rootDir => {
+const logger = new Logger('launcher');
+
+export const readMetaFile = (rootDir: URL): MetaFile => {
 	if (!existsSync(getPathUrl(rootDir, metaFolderName))) {
 		throw new Error('meta file does not exist!');
 	}
 
 	const filePath = getPathUrl(rootDir, metaFolderName, metaFileName);
-	return JSON.parse(readFileSync(filePath, { encoding: 'utf-8' }));
+	return JSON.parse(readFileSync(filePath, { encoding: 'utf-8' })) as MetaFile;
 };
 
 const meta = readMetaFile(rootDirURL);
@@ -21,7 +20,7 @@ const { version, versionBuild } = meta.env;
 const rowLength = 80;
 const borderLine = new Array(rowLength).fill('=').join('');
 
-const wrapMessage = message => {
+const wrapMessage = (message: string): string => {
 	const emptyLength = rowLength - message.length - 2;
 	if (emptyLength < 2) {
 		throw new Error('The message is too long!');
@@ -33,9 +32,11 @@ const wrapMessage = message => {
 	return `=${left}${message}${right}=`;
 };
 
-console.log(`
+// if (import.meta.main) {
+logger.writeOutput(`
 ${borderLine}
 ${wrapMessage('starting the blog')}
 ${wrapMessage(`version: ${version}, build: ${versionBuild}`)}
 ${borderLine}
 `);
+// }

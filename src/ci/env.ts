@@ -1,3 +1,5 @@
+import type { MetaEnvironment } from '../lib/types.ts';
+
 const mode = process.env.NODE_ENV || 'development';
 
 const versionBuild = process.env.COMMIT_HASH || process.env.VERCEL_GIT_COMMIT_SHA || '';
@@ -20,18 +22,20 @@ const twitter = process.env.GH_AUTHOR_TWITTER || '';
 
 const devto = process.env.GH_AUTHOR_DEVTO || '';
 
-export const env = {
-	accounts: {
-		devto,
-		github,
-		habr,
-		linkedIn,
-		medium,
-		npm,
-		telegram,
-		twitter
-	},
-	mode,
-	version,
-	versionBuild
+export const getEnv = (): MetaEnvironment => {
+	return {
+		accounts: {
+			devto,
+			github,
+			habr,
+			linkedIn,
+			medium,
+			npm,
+			telegram,
+			twitter
+		},
+		mode,
+		version,
+		versionBuild
+	};
 };

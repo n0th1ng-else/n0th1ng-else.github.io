@@ -1,7 +1,7 @@
 import { getArticles } from '$lib/common/api';
 import { Logger } from '$lib/common/log';
 import { shouldShowDraft } from '$lib/server/url';
-import type { PublicationInfo } from '$lib/common/@types/common';
+import type { PublicationInfo } from '$lib/types';
 import type { PageServerLoad } from './$types';
 
 interface Output {

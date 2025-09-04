@@ -6,7 +6,7 @@
 	import { getRelativeDate } from '$lib/common/date';
 	import { getServiceTitle } from '$lib/common/labels';
 	import { isInternalArticle } from '$lib/common/articles';
-	import type { PublicationInfo } from '$lib/common/@types/common';
+	import type { PublicationInfo } from '$lib/types';
 
 	export let article: PublicationInfo;
 	export let showDate = false;
@@ -29,7 +29,7 @@
 </script>
 
 <section>
-	<Title centered="{false}">{article.meta.title}</Title>
+	<Title centered={false}>{article.meta.title}</Title>
 	{#if showDate}
 		<aside class="date">
 			<AdditionalText>{date}</AdditionalText>
@@ -39,7 +39,7 @@
 	<div class="container">
 		{#if image}
 			<p class="logo-container">
-				<img class="logo" src="{image}" alt="" />
+				<img class="logo" src={image} alt="" />
 			</p>
 		{/if}
 		<div class="description">
@@ -50,16 +50,16 @@
 		<p class="action">
 			<Button
 				hint="Read full article"
-				href="{getUrl(article)}"
-				disabled="{readonly}"
-				external="{!internal}">{btnText}</Button
+				href={getUrl(article)}
+				disabled={readonly}
+				external={!internal}>{btnText}</Button
 			>
 		</p>
 	</div>
 </section>
 
 <style lang="scss">
-	@import '../../../global';
+	@use '../../../global' as g;
 
 	.date {
 		display: flex;
@@ -72,17 +72,17 @@
 	}
 
 	.description {
-		margin-block: $unit;
+		margin-block: g.$unit;
 		margin-inline: 0;
 	}
 
 	.action {
-		margin-block: $unit-double;
+		margin-block: g.$unit-double;
 		margin-inline: auto;
 	}
 
 	.logo-container {
-		margin-block: $unit;
+		margin-block: g.$unit;
 		margin-inline: auto;
 		width: 100%;
 	}

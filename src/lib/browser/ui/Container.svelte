@@ -1,44 +1,45 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
-	import { onThemeChange, isDarkTheme } from '$lib/browser/stores/theme';
+	import { type Snippet } from 'svelte';
+	import { isDarkTheme } from '$lib/browser/stores/theme.svelte';
 
-	export let full = false;
+	let {
+		full = false,
+		children
+	}: {
+		full?: boolean;
+		children: Snippet;
+	} = $props();
 
-	let isDark = true;
-
-	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
-
-	onDestroy(() => unsubscribeTheme());
+	let isDark = $derived.by(() => isDarkTheme());
 </script>
 
-<div class:l="{!isDark}" class:d="{isDark}" class="ui-container" class:full-screen="{full}">
-	<slot />
+<div class:l={!isDark} class:d={isDark} class="ui-container" class:full-screen={full}>
+	{@render children()}
 </div>
 
 <style lang="scss">
-	@import './theme';
-	@import '../../../global';
+	@use './theme' as t;
 
 	@mixin container-style($color, $background-color) {
-		@include smooth-change(background-color, color);
+		@include t.smooth-change(background-color, color);
 
 		background-color: $background-color;
 		color: $color;
 	}
 
 	.ui-container {
-		@include set-font();
+		@include t.set-font();
 		line-height: 1.5;
 		&.full-screen {
 			min-height: 100vh;
 		}
 
 		&.l {
-			@include container-style($l-primary, $l-background);
+			@include container-style(t.$l-primary, t.$l-background);
 		}
 
 		&.d {
-			@include container-style($d-primary, $d-background);
+			@include container-style(t.$d-primary, t.$d-background);
 		}
 	}
 </style>

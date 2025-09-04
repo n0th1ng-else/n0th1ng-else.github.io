@@ -10,15 +10,7 @@ export const metaFolderName = 'meta';
 
 export const metaFileName = 'index.json';
 
-/**
- *
- * @param rootDir {URL}
- * @param folder {string}
- * @param [file] {string|undefined}
- *
- * @returns {URL}
- */
-export const getPathUrl = (rootDir, folder, file) => {
+export const getPathUrl = (rootDir: URL, folder: string, file?: string): URL => {
 	if (file) {
 		return new URL(`./${folder}/${file}`, rootDir);
 	}

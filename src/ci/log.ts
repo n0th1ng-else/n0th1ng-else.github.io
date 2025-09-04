@@ -1,35 +1,21 @@
 export class Logger {
-	/**
-	 *
-	 * @param prefix {string}
-	 */
-	constructor(prefix) {
+	private readonly prefix: string;
+
+	constructor(prefix: string) {
 		this.prefix = prefix;
 	}
 
-	/**
-	 *
-	 * @param messages {unknown[]}
-	 */
-	writeOutput(...messages) {
+	writeOutput(...messages: unknown[]) {
 		// eslint-disable-next-line no-console
 		console.log(`[${this.prefix}]`, ...messages);
 	}
 
-	/**
-	 *
-	 * @param messages {unknown[]}
-	 */
-	writeWarning(...messages) {
+	writeWarning(...messages: unknown[]) {
 		// eslint-disable-next-line no-console
 		console.log(`[${this.prefix}]`, ...messages);
 	}
 
-	/**
-	 *
-	 * @param messages {unknown[]}
-	 */
-	writeError(...messages) {
+	writeError(...messages: unknown[]) {
 		// eslint-disable-next-line no-console
 		console.error(`[${this.prefix}]`, ...messages);
 	}

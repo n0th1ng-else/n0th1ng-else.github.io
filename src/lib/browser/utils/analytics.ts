@@ -1,5 +1,5 @@
 import { Logger } from '$lib/common/log';
-import { One } from '$lib/common/date';
+import { ONE_SECOND } from '$lib/common/date';
 
 export const sendPageView = (pageUrl: string, attempt = 3): void => {
 	try {
@@ -11,6 +11,8 @@ export const sendPageView = (pageUrl: string, attempt = 3): void => {
 			new Logger('analytics').error('Unable to send page view data', err);
 			return;
 		}
-		setTimeout(() => sendPageView(pageUrl, attempt - 1), One.Second);
+		setTimeout(() => {
+			sendPageView(pageUrl, attempt - 1);
+		}, ONE_SECOND);
 	}
 };

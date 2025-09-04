@@ -18,7 +18,7 @@ export const GET: RequestHandler = async ({ url: urlData }) => {
 		const accessToken = await fetchAccessToken(urlData.origin, code ?? '');
 		const userName = await fetchUserName(accessToken);
 
-		const isAuthorized = Boolean(userName) && String(userName) === env.GH_AUTHOR_LOGIN;
+		const isAuthorized = Boolean(userName) && userName === env.GH_AUTHOR_LOGIN;
 
 		if (!isAuthorized) {
 			logger.warn('Not authorized', {
@@ -37,6 +37,7 @@ export const GET: RequestHandler = async ({ url: urlData }) => {
 		const parsedState = decodeURIComponent(state ?? '');
 		const data = SupportedFollowersSchema.parse(JSON.parse(parsedState));
 
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (data.action === 'READS') {
 			res = await saveReadingList(data.url, data.note);
 		}

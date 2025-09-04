@@ -1,35 +1,39 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
-	import { onThemeChange, isDarkTheme } from '$lib/browser/stores/theme';
+	import { type Snippet } from 'svelte';
+	import { isDarkTheme } from '$lib/browser/stores/theme.svelte';
 
-	export let url = 'javascript:void(0);';
-	export let active = false;
-	export let label = '';
+	let {
+		url = 'javascript:void(0);',
+		active = false,
+		label = '',
+		children
+	}: {
+		url?: string;
+		active?: boolean;
+		label?: string;
+		children: Snippet;
+	} = $props();
 
-	let isDark = true;
-
-	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
-
-	onDestroy(() => unsubscribeTheme());
+	let isDark = $derived.by(() => isDarkTheme());
 </script>
 
 <a
 	class="ui-header-link"
 	class:active
-	class:l="{!isDark}"
-	class:d="{isDark}"
-	href="{url}"
-	aria-label="{label}"
+	class:l={!isDark}
+	class:d={isDark}
+	href={url}
+	aria-label={label}
 >
-	<slot />
+	{@render children()}
 </a>
 
 <style lang="scss">
-	@import './theme';
-	@import '../../../global';
+	@use './theme' as t;
+	@use '../../../global' as g;
 
 	@mixin link-style($primary, $secondary) {
-		@include smooth-change(color);
+		@include t.smooth-change(color);
 
 		color: $primary;
 
@@ -43,14 +47,14 @@
 	}
 
 	.ui-header-link {
-		@include set-font();
-		margin: $unit-half;
+		@include t.set-font();
+		margin: g.$unit-half;
 		text-decoration: none;
 		&.l {
-			@include link-style($l-primary, $l-accent);
+			@include link-style(t.$l-primary, t.$l-accent);
 		}
 		&.d {
-			@include link-style($d-primary, $d-accent);
+			@include link-style(t.$d-primary, t.$d-accent);
 		}
 	}
 </style>

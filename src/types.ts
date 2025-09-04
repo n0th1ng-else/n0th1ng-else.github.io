@@ -1,6 +1,6 @@
 export type EmptyToVoid = () => void;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
+// eslint-disable-next-line no-empty-function
 export const noop: EmptyToVoid = () => {};
 
 export interface FilePickerOptions {
@@ -24,5 +24,5 @@ export interface FileHandle {
 export interface MarkdownFormat {
 	content: string;
 	title: string;
-	keywords: string[];
+	keywords?: string[];
 }

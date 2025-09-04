@@ -1,12 +1,13 @@
 import { format, getYear } from 'date-fns';
-import type { PublicationInfo } from '$lib/common/@types/common';
+import type { PublicationInfo } from '$lib/types';
 
-export const enum One {
-	Second = 1_000,
-	Minute = 60 * 1_000,
-	Hour = 60 * 60 * 1_000,
-	Day = 24 * 60 * 60 * 1_000
-}
+export const ONE_SECOND = 1_000;
+
+const ONE_MINUTE = 60 * ONE_SECOND;
+
+const ONE_HOUR = 60 * ONE_MINUTE;
+
+const ONE_DAY = 24 * ONE_HOUR;
 
 export const enum Timeout {
 	Fast = 100
@@ -37,6 +38,7 @@ export const sortArticlesByDate = (list: PublicationInfo[]): PublicationInfo[] =
 export const groupByYear = (list: PublicationInfo[]): Record<number, PublicationInfo[]> =>
 	sortArticlesByDate(list).reduce<Record<number, PublicationInfo[]>>((chunks, info) => {
 		const year = getYear(getArticleDate(info));
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (chunks[year]) {
 			chunks[year] = [...chunks[year], info];
 			return chunks;
@@ -55,7 +57,7 @@ export const dateDifference = (start?: Date): string => {
 	const end = new Date();
 	const ms = end.getTime() - start.getTime();
 
-	const [d, h, m] = [One.Day, One.Hour, One.Minute].reduce<{ ms: number; parts: number[] }>(
+	const [d, h, m] = [ONE_DAY, ONE_HOUR, ONE_MINUTE].reduce<{ ms: number; parts: number[] }>(
 		(acc, frame) => {
 			const newPart = Math.floor(acc.ms / frame);
 			const newMs = acc.ms - newPart * frame;
@@ -76,10 +78,10 @@ export const dateDifferenceHours = (start?: Date): number => {
 	}
 	const end = new Date();
 	const ms = end.getTime() - start.getTime();
-	return Math.floor(ms / One.Hour);
+	return Math.floor(ms / ONE_HOUR);
 };
 
 export const secondsToMinutes = (timeSec: number): number => {
-	const secondsInMinute = Math.floor(One.Minute / One.Second);
+	const secondsInMinute = Math.floor(ONE_MINUTE / ONE_SECOND);
 	return Math.ceil(timeSec / secondsInMinute);
 };

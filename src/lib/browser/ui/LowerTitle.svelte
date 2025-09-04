@@ -1,41 +1,43 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
-	import { onThemeChange, isDarkTheme } from '$lib/browser/stores/theme';
+	import { type Snippet } from 'svelte';
+	import { isDarkTheme } from '$lib/browser/stores/theme.svelte';
 
-	let isDark = true;
+	let {
+		children
+	}: {
+		children: Snippet;
+	} = $props();
 
-	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
-
-	onDestroy(() => unsubscribeTheme());
+	let isDark = $derived.by(() => isDarkTheme());
 </script>
 
-<h3 class="ui-lower-sub" class:l="{!isDark}" class:d="{isDark}">
-	<slot />
+<h3 class="ui-lower-sub" class:l={!isDark} class:d={isDark}>
+	{@render children()}
 </h3>
 
 <style lang="scss">
-	@import './theme';
-	@import '../../../global';
+	@use './theme' as t;
+	@use '../../../global' as g;
 
 	@mixin subtitle-style($color) {
-		@include smooth-change(color);
+		@include t.smooth-change(color);
 
 		color: $color;
 	}
 
 	.ui-lower-sub {
-		@include set-font();
+		@include t.set-font();
 
 		margin: 0;
-		font-size: $font-size-big;
-		font-weight: $font-weight;
+		font-size: g.$font-size-big;
+		font-weight: g.$font-weight;
 
 		&.l {
-			@include subtitle-style($l-primary);
+			@include subtitle-style(t.$l-primary);
 		}
 
 		&.d {
-			@include subtitle-style($d-primary);
+			@include subtitle-style(t.$d-primary);
 		}
 	}
 </style>

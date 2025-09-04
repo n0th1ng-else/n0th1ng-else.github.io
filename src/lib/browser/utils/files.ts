@@ -24,37 +24,24 @@ const saveContent = async <D>(data: D, fileHandle: FileHandle) => {
 	return fileHandle;
 };
 
-export const openJsonFile = <D>(): Promise<D> => {
-	if (!window.showOpenFilePicker) {
-		return Promise.reject(new Error('Not supported'));
-	}
-
-	return window
-		.showOpenFilePicker(jsonOptions)
-		.then(([fileHandle]) => fileHandle.getFile())
-		.then(file => file.text())
-		.then(text => {
-			const data = JSON.parse(text);
-			return data;
-		});
+export const openJsonFile = async <D>(): Promise<D> => {
+	const [fileHandle] = await window.showOpenFilePicker(jsonOptions);
+	const file = await fileHandle.getFile();
+	const text = await file.text();
+	const data = JSON.parse(text);
+	return data as D;
 };
 
-export const saveJsonFile = <D>(text: D, fileHandle?: FileHandle): Promise<FileHandle> => {
-	if (!window.showSaveFilePicker) {
-		return Promise.reject(new Error('Not supported'));
-	}
-
+export const saveJsonFile = async <D>(text: D, fileHandle?: FileHandle): Promise<FileHandle> => {
 	if (fileHandle) {
 		return saveContent(text, fileHandle);
 	}
 
-	return window.showSaveFilePicker(jsonOptions).then(fileHandle => saveContent(text, fileHandle));
+	const file = await window.showSaveFilePicker(jsonOptions);
+	return await saveContent(text, file);
 };
 
-export const openImageFile = (): Promise<File> => {
-	if (!window.showSaveFilePicker) {
-		return Promise.reject(new Error('Not supported'));
-	}
-
-	return window.showOpenFilePicker(imageOptions).then(([fileHandle]) => fileHandle.getFile());
+export const openImageFile = async (): Promise<File> => {
+	const [fileHandle] = await window.showOpenFilePicker(imageOptions);
+	return await fileHandle.getFile();
 };

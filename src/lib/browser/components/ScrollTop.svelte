@@ -7,25 +7,25 @@
 	let y = 0;
 </script>
 
-<p class="to-top-container" class:show="{y > yBorder}">
-	<Arrow on:click="{scrollToTop}" hint="Scroll to the top of the page" />
+<p class="to-top-container" class:show={y > yBorder}>
+	<Arrow onClick={scrollToTop} hint="Scroll to the top of the page" />
 </p>
 
-<svelte:window bind:scrollY="{y}" />
+<svelte:window bind:scrollY={y} />
 
 <style lang="scss">
-	@import '../ui/theme';
-	@import '../../../global';
+	@use '../ui/theme' as t;
+	@use '../../../global' as g;
 
 	.to-top-container {
-		@include smooth-change(bottom);
+		@include t.smooth-change(bottom);
 
-		bottom: 0 - ($unit * 5);
+		bottom: 0 - (g.$unit * 5);
 		position: fixed;
-		right: $unit-double;
+		right: g.$unit-double;
 
 		&.show {
-			@media (min-width: $md) {
+			@media (min-width: t.$md) {
 				bottom: 0;
 			}
 		}

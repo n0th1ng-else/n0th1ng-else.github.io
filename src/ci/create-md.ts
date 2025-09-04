@@ -2,7 +2,10 @@ import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { createInterface } from 'node:readline';
 import slug from 'slug';
 import { format, getYear } from 'date-fns';
-import { rootDirURL } from './dirs.js';
+import { rootDirURL } from './dirs.ts';
+import { Logger } from './log.ts';
+
+const logger = new Logger('md-template');
 
 const TEXT_STYLE = {
 	grey: '\x1b[90m',
@@ -10,11 +13,7 @@ const TEXT_STYLE = {
 	reset: '\x1b[0m'
 };
 
-/**
- *
- * @returns {string}
- */
-const getArticleTitleFromArgs = () => {
+const getArticleTitleFromArgs = (): string => {
 	const parts = process.argv.slice(2);
 	if (!parts.length) {
 		return '';
@@ -23,11 +22,7 @@ const getArticleTitleFromArgs = () => {
 	return title;
 };
 
-/**
- *
- * @returns {Promise<string>}
- */
-const getArticleTitleFromInout = () => {
+const getArticleTitleFromInput = (): Promise<string> => {
 	return new Promise(resolve => {
 		const readline = createInterface({
 			input: process.stdin,
@@ -43,7 +38,8 @@ const getArticleTitleFromInout = () => {
 	});
 };
 
-const title = getArticleTitleFromArgs() || (await getArticleTitleFromInout());
+// if (import.meta.main) {
+const title = getArticleTitleFromArgs() || (await getArticleTitleFromInput());
 
 const filename = slug(title);
 const year = getYear(new Date());
@@ -80,4 +76,5 @@ if (!existsSync(yearFolder)) {
 
 writeFileSync(file, `${sample}\n`);
 
-console.log(`The file ${year}/${filename}.md has been created 👍🏿`);
+logger.writeOutput(`The file ${year}/${filename}.md has been created 👍🏿`);
+// }

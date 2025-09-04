@@ -1,7 +1,7 @@
 export const copyToClipboard = (text: string): Promise<void> => {
-	const clip = navigator.clipboard;
-	if (clip) {
-		return clip.writeText(text);
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+	if (navigator.clipboard) {
+		return navigator.clipboard.writeText(text);
 	}
 
 	// TODO implement copy fallback

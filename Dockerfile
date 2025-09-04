@@ -1,4 +1,4 @@
-FROM node:20.14-slim as builder
+FROM node:22.19.0-slim as builder
 
 ENV NODE_ENV production
 
@@ -52,7 +52,7 @@ RUN pnpm build
 
 # Run stage layer
 
-FROM node:20.14-slim
+FROM node:22.19.0-slim
 
 ARG APP_DIR=/usr/src/app/
 
@@ -68,8 +68,8 @@ COPY --from=builder $APP_DIR/dist $APP_DIR/dist
 # copy the context file
 COPY --from=builder $APP_DIR/meta $APP_DIR/meta
 # copy welcome script
-COPY --from=builder $APP_DIR/src/ci/dirs.js $APP_DIR/src/ci/dirs.js
-COPY --from=builder $APP_DIR/src/ci/welcome.js $APP_DIR/src/ci/welcome.js
+COPY --from=builder $APP_DIR/src/ci/dirs.ts $APP_DIR/src/ci/dirs.ts
+COPY --from=builder $APP_DIR/src/ci/welcome.ts $APP_DIR/src/ci/welcome.ts
 
 RUN npm install -g pnpm@9
 

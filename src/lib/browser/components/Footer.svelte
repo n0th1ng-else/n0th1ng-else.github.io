@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { accountsStore } from '$lib/browser/stores/accounts';
-	import { versionStore } from '$lib/browser/stores/version';
+	import { getAccounts } from '$lib/browser/stores/accounts.svelte';
+	import { getVersion as getVersionStore } from '$lib/browser/stores/version.svelte';
 	import { getFirstContentfulPaint } from '$lib/browser/utils/vitals';
 	import AdditionalText from '$lib/browser/ui/AdditionalText.svelte';
 	import Footer from '$lib/browser/ui/Footer.svelte';
@@ -13,21 +13,28 @@
 
 	import SocialNetworks from './SocialNetworks.svelte';
 
-	export let showFCP: boolean;
-	const version = getVersion($versionStore);
-	const year = getCurrentYear();
-	const profileLink = $accountsStore ? getLinkedInContact($accountsStore).link : '';
+	let { showFCP }: { showFCP: boolean } = $props();
 
-	let fcp = '';
+	const version = $derived.by(() => getVersion(getVersionStore()));
+	const year = getCurrentYear();
+
+	const accounts = $derived.by(() => getAccounts());
+	const profileLink = $derived.by(() => {
+		return accounts ? getLinkedInContact(accounts).link : '';
+	});
+
+	let fcp = $state('');
 	if (showFCP) {
 		getFirstContentfulPaint(time => (fcp = time));
 	}
 </script>
 
 <Footer>
-	<div class="network small-screen centered w-space">
-		<SocialNetworks accounts="{$accountsStore}" />
-	</div>
+	{#if accounts}
+		<div class="network small-screen centered w-space">
+			<SocialNetworks {accounts} />
+		</div>
+	{/if}
 	<div class="legal w-space">
 		<Paragraph centered>
 			<AdditionalText>
@@ -37,7 +44,7 @@
 		<Paragraph centered>
 			<AdditionalText>
 				Unless otherwise noted, all code is free to use under the
-				<Link inline url="{legalRoute}">MIT License</Link>
+				<Link inline url={legalRoute}>MIT License</Link>
 			</AdditionalText>
 		</Paragraph>
 	</div>
@@ -45,7 +52,7 @@
 		<Paragraph>
 			{#if profileLink}
 				<AdditionalText
-					>© {year} <Link inline external url="{profileLink}">Sergey Nikitin</Link></AdditionalText
+					>© {year} <Link inline external url={profileLink}>Sergey Nikitin</Link></AdditionalText
 				>
 			{:else}
 				<AdditionalText>© {year} Sergey Nikitin</AdditionalText>
@@ -53,15 +60,16 @@
 		</Paragraph>
 		<Paragraph>
 			<AdditionalText>
-				Made with <Link inline external url="https://svelte.dev">Svelte</Link>
-				<Link inline external url="https://kit.svelte.dev">Kit</Link> with 🧡
+				Made with <Link inline external url="https://svelte.dev">Svelte v5</Link> with 🧡
 			</AdditionalText>
 		</Paragraph>
 	</div>
-	<div class="network big-screen centered w-space">
-		<SocialNetworks accounts="{$accountsStore}" />
-	</div>
-	<Paragraph centered printVisible="{false}">
+	{#if accounts}
+		<div class="network big-screen centered w-space">
+			<SocialNetworks {accounts} />
+		</div>
+	{/if}
+	<Paragraph centered printVisible={false}>
 		{#if fcp}
 			<AdditionalText small>{version} // first contentful paint took {fcp}s.</AdditionalText>
 		{:else}
@@ -71,8 +79,8 @@
 </Footer>
 
 <style lang="scss">
-	@import '../ui/theme';
-	@import '../../../global';
+	@use '../ui/theme' as t;
+	@use '../../../global' as g;
 
 	.centered {
 		align-self: center;
@@ -83,8 +91,8 @@
 	}
 
 	.w-space {
-		margin-block: $unit;
-		margin-inline: $unit-half;
+		margin-block: g.$unit;
+		margin-inline: g.$unit-half;
 	}
 
 	.legal {
@@ -95,7 +103,7 @@
 		display: none;
 	}
 
-	@media (min-width: $sm) {
+	@media (min-width: t.$sm) {
 		.network.small-screen {
 			display: none;
 		}

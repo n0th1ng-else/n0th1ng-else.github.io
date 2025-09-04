@@ -9,13 +9,13 @@
 </p>
 
 <style lang="scss">
-	@import './theme';
-	@import '../../../global';
+	@use './theme' as t;
+	@use '../../../global' as g;
 
 	.ui-tag {
-		@include set-font();
+		@include t.set-font();
 		font-style: italic;
 		margin-block: 0;
-		margin-inline: $unit-quarter;
+		margin-inline: g.$unit-quarter;
 	}
 </style>

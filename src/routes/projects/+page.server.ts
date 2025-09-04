@@ -1,6 +1,6 @@
 import { getPackages } from '$lib/common/api';
 import { Logger } from '$lib/common/log';
-import type { PackageInfo } from '$lib/common/@types/common';
+import type { PackageInfo } from '$lib/types';
 import type { PageServerLoad } from './$types';
 
 interface Output {

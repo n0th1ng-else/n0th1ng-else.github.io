@@ -10,19 +10,19 @@
 	<SubTitle centered>Ops, bumped into empty space?</SubTitle>
 
 	<aside class="container">
-		<img class="image" src="{imageNotFound}" alt="" title="Page not found" />
+		<img class="image" src={imageNotFound} alt="" title="Page not found" />
 	</aside>
 
 	<Paragraph centered flat>
 		One day something funny would appear on this page... But for now, I was not able to find
-		anything for you, really. My bad. Check out <Link inline url="{blogRoute}">my blog</Link>, if
-		you have not already
+		anything for you, really. My bad. Check out <Link inline url={blogRoute}>my blog</Link>, if you
+		have not already
 	</Paragraph>
 </article>
 
 <style lang="scss">
-	@import '../../../lib/browser/ui/theme';
-	@import '../../../global';
+	@use '../../../lib/browser/ui/theme' as t;
+	@use '../../../global' as g;
 
 	.image {
 		height: 100%;
@@ -33,20 +33,20 @@
 	.container {
 		margin: auto;
 		height: auto;
-		padding-block: $unit;
+		padding-block: g.$unit;
 		padding-inline: 0;
-		width: 4 * $unit-plus;
+		width: 4 * g.$unit-plus;
 	}
 
-	@media (min-width: $sm) {
+	@media (min-width: t.$sm) {
 		.container {
-			width: 6 * $unit-plus;
+			width: 6 * g.$unit-plus;
 		}
 	}
 
-	@media (min-width: $md) {
+	@media (min-width: t.$md) {
 		.container {
-			width: 10 * $unit-plus;
+			width: 10 * g.$unit-plus;
 		}
 	}
 </style>

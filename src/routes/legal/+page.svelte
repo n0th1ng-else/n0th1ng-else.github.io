@@ -1,19 +1,22 @@
 <script lang="ts">
-	import { profileStore } from '$lib/browser/stores';
 	import Title from '$lib/browser/ui/Title.svelte';
 	import SubTitle from '$lib/browser/ui/SubTitle.svelte';
 	import Meta from '$lib/browser/ui/Meta.svelte';
 	import Paragraph from '$lib/browser/ui/Paragraph.svelte';
 	import { legalTitle as title } from '$lib/common/labels';
 	import type { PageData } from './$types';
+	import { getProfile } from '$lib/browser/stores/profile.svelte';
 
-	export let data: PageData;
+	const { data }: { data: PageData } = $props();
 
 	const { url } = data;
+
+	const profile = $derived.by(() => getProfile());
+	const profileImage = $derived(profile?.image ?? '');
 </script>
 
 <Meta
-	image="{$profileStore?.image ?? ''}"
+	image={profileImage}
 	description="The legal information regarding the content in my blog. Contribution guide."
 	{url}
 />
@@ -65,10 +68,10 @@
 </svelte:head>
 
 <style lang="scss">
-	@import '../../global';
+	@use '../../global' as g;
 
 	.legal-text {
-		margin-block: $unit;
+		margin-block: g.$unit;
 		margin-inline: 0;
 	}
 </style>

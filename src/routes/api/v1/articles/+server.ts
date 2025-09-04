@@ -3,10 +3,10 @@ import { DEFAULT_PAGE_SIZE } from '$lib/server/const';
 import { getAllArticles } from '$lib/server/articles';
 import { Logger } from '$lib/common/log';
 import type { WithPagination } from '$lib/common/types';
-import type { PublicationInfo } from '$lib/common/@types/common';
+import type { PublicationInfo } from '$lib/types';
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = async ({ url }) => {
+export const GET: RequestHandler = ({ url }) => {
 	const logger = new Logger('api:articles');
 	const showDraft = url.searchParams.get('draft') === 'true';
 

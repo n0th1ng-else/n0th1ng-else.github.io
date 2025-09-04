@@ -2,7 +2,7 @@ import { getArticles } from '$lib/common/api';
 import { Logger } from '$lib/common/log';
 import { sortArticlesByDate } from '$lib/common/date';
 import { getEnglishArticles } from '$lib/common/language';
-import type { PublicationInfo } from '$lib/common/@types/common';
+import type { PublicationInfo } from '$lib/types';
 import { shouldShowDraft } from '$lib/server/url';
 import type { PageServerLoad } from './$types';
 

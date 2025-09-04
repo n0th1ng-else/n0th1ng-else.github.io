@@ -8,12 +8,12 @@
 
 <List type="header">
 	<li>
-		<HeaderLink url="{blogRoute}" active="{blogRoute === activePath}">
+		<HeaderLink url={blogRoute} active={blogRoute === activePath}>
 			<span class="nav__item">Blog.</span>
 		</HeaderLink>
 	</li>
 	<li>
-		<HeaderLink url="{projectsRoute}" active="{projectsRoute === activePath}">
+		<HeaderLink url={projectsRoute} active={projectsRoute === activePath}>
 			<span class="nav__item">Projects.</span>
 		</HeaderLink>
 	</li>
@@ -23,19 +23,19 @@
 	<!--			</HeaderLink>-->
 	<!--		</li>-->
 	<li>
-		<HeaderLink url="{aboutRoute}" active="{aboutRoute === activePath}" label="About me">
+		<HeaderLink url={aboutRoute} active={aboutRoute === activePath} label="About me">
 			<span class="nav__item">It's me.</span>
 		</HeaderLink>
 	</li>
 </List>
 
 <style lang="scss">
-	@import '../ui/theme';
-	@import '../../../global';
+	@use '../ui/theme' as t;
+	@use '../../../global' as g;
 
-	@media (min-width: $md) {
+	@media (min-width: t.$md) {
 		.nav__item {
-			font-size: $font-size-plus;
+			font-size: g.$font-size-plus;
 		}
 	}
 </style>

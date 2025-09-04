@@ -1,20 +1,22 @@
 import { readJsonFile, rootDir } from '$lib/server/file';
-import type { MetaEnvironment, MetaFile } from '$lib/server/types';
 import type {
-	PublicationInfo,
-	ProfileAccounts,
+	MetaEnvironment,
+	MetaFile,
 	PackageInfo,
-	ProfileInfo
-} from '$lib/common/@types/common';
+	ProfileAccounts,
+	ProfileInfo,
+	PublicationInfo
+} from '$lib/types';
 
-const metaCache: MetaFile | null = null;
+let metaCache: MetaFile | null = null;
 
 const readMetaFile = (): MetaFile => {
-	if (metaCache) {
-		return metaCache;
+	if (!metaCache) {
+		const profile = `${rootDir}meta/index.json`;
+		metaCache = readJsonFile<MetaFile>(profile);
 	}
-	const profile = `${rootDir}meta/index.json`;
-	return readJsonFile<MetaFile>(profile);
+
+	return metaCache;
 };
 
 export const readProfile = (): ProfileInfo => readMetaFile().profile;

@@ -1,32 +1,25 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
-	import { onThemeChange, isDarkTheme } from '$lib/browser/stores/theme';
+	import { isDarkTheme } from '$lib/browser/stores/theme.svelte';
 	import icoAnchor from '../../../assets/icons/anchor.svg';
 
-	export let id: string;
+	let { id, show = false }: { id: string; show?: boolean } = $props();
 
-	export let show = false;
-
-	let isDark = true;
-
-	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
-
-	onDestroy(() => unsubscribeTheme());
+	let isDark = $derived.by(() => isDarkTheme());
 </script>
 
-<a class="ui-anchor" class:ui-anchor--shown="{show}" href="#{id}">
+<a class="ui-anchor" class:ui-anchor--shown={show} href="#{id}">
 	<img
-		src="{icoAnchor}"
+		src={icoAnchor}
 		alt="Link to this section"
 		class="ui-anchor__logo"
-		class:l="{!isDark}"
-		class:d="{isDark}"
+		class:l={!isDark}
+		class:d={isDark}
 	/>
 </a>
 
 <style lang="scss">
-	@import './theme';
-	@import '../../../global';
+	@use './theme' as t;
+	@use '../../../global' as g;
 
 	.ui-anchor {
 		opacity: 0;
@@ -40,17 +33,17 @@
 		}
 
 		&__logo {
-			@include smooth-change(filter);
-			height: $unit - $unit-eighth;
+			@include t.smooth-change(filter);
+			height: g.$unit - g.$unit-eighth;
 			object-fit: contain;
-			width: $unit - $unit-eighth;
+			width: g.$unit - g.$unit-eighth;
 
 			&.l {
-				@include draw-image-black();
+				@include t.draw-image-black();
 			}
 
 			&.d {
-				@include draw-image-white();
+				@include t.draw-image-white();
 			}
 		}
 	}

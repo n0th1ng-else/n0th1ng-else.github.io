@@ -1,56 +1,66 @@
 <script lang="ts">
-	import { onDestroy, createEventDispatcher } from 'svelte';
-	import { onThemeChange, isDarkTheme } from '$lib/browser/stores/theme';
+	import { type Snippet } from 'svelte';
+	import { isDarkTheme } from '$lib/browser/stores/theme.svelte';
 	import type { IconSize } from '$lib/browser/ui/types';
 	import Link from './Link.svelte';
 
-	let isDark = true;
+	let isDark = $derived.by(() => isDarkTheme());
 
-	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
+	type Props =
+		| {
+				onClick: VoidFunction;
+				disabled?: boolean;
+		  }
+		| {
+				href: string;
+				external?: boolean;
+				onClick?: VoidFunction;
+		  };
 
-	onDestroy(() => unsubscribeTheme());
+	let props: Props & {
+		secondary?: boolean;
+		inline?: boolean;
+		icon?: string;
+		iconOutline?: boolean;
+		iconSize?: IconSize;
+		hint?: string;
+		printVisible?: boolean;
+		children?: Snippet;
+	} = $props();
 
-	const dispatch = createEventDispatcher();
+	const secondary = $derived(props.secondary ?? false);
 
-	const onClick = (): void => {
-		dispatch('click');
-	};
+	const inline = $derived(props.inline ?? false);
 
-	export let secondary = false;
+	const icon = $derived(props.icon ?? '');
 
-	export let inline = false;
+	const iconOutline = $derived(props.iconOutline ?? false);
 
-	export let icon = '';
+	const iconSize = $derived(props.iconSize ?? 'sm');
 
-	export let iconOutline = false;
+	const disabled = $derived('disabled' in props ? props.disabled : false);
 
-	export let iconSize: IconSize = 'sm';
+	const href = $derived('href' in props ? props.href : '');
 
-	export let hint: string | undefined = undefined;
+	const external = $derived('external' in props ? props.external : false);
 
-	export let disabled = false;
-
-	export let href = '';
-
-	export let external = false;
-
-	export let printVisible = true;
+	const printVisible = $derived(props.printVisible ?? true);
 </script>
 
 {#if href}
-	<Link on:click="{onClick}" {external} url="{href}" {hint} raw inline {printVisible}>
-		<span class:l="{!isDark}" class:d="{isDark}" class:secondary class:inline class="ui-button">
-			{#if $$slots.default}
+	<Link onClick={props.onClick} {external} url={href} hint={props.hint} raw inline {printVisible}>
+		<span class:l={!isDark} class:d={isDark} class:secondary class:inline class="ui-button">
+			{#if props.children}
 				<span class="ui-button__text">
-					<slot />
+					{@render props.children()}
 				</span>
 			{/if}
-			{#if icon}
+			{#if props.icon}
 				<img
-					src="{icon}"
-					class:outline="{iconOutline}"
+					src={props.icon}
+					class:outline={iconOutline}
 					class="ui-button__icon {iconSize}"
-					alt="{hint}"
+					alt={props.hint}
 				/>
 			{/if}
 		</span>
@@ -58,37 +68,37 @@
 {:else}
 	<button
 		class="ui-button"
-		class:l="{!isDark}"
-		class:d="{isDark}"
+		class:l={!isDark}
+		class:d={isDark}
 		class:secondary
 		class:inline
-		class:no-print="{!printVisible}"
-		on:click="{onClick}"
-		title="{hint}"
+		class:no-print={!printVisible}
+		onclick={props.onClick}
+		title={props.hint}
 		{disabled}
 	>
-		{#if $$slots.default}
+		{#if props.children}
 			<span class="ui-button__text">
-				<slot />
+				{@render props.children()}
 			</span>
 		{/if}
 		{#if icon}
 			<img
-				src="{icon}"
-				class:outline="{iconOutline}"
+				src={icon}
+				class:outline={iconOutline}
 				class="ui-button__icon {iconSize}"
-				alt="{hint}"
+				alt={props.hint}
 			/>
 		{/if}
 	</button>
 {/if}
 
 <style lang="scss">
-	@import './theme';
-	@import '../../../global';
+	@use './theme' as t;
+	@use '../../../global' as g;
 
 	@mixin button-style($primary, $secondary, $active) {
-		@include smooth-change(border-color, color);
+		@include t.smooth-change(border-color, color);
 
 		border-color: $primary;
 		color: $primary;
@@ -108,13 +118,13 @@
 		border: 1px solid;
 		cursor: pointer;
 		display: flex;
-		padding: $unit-half;
+		padding: g.$unit-half;
 		text-decoration: none;
 
 		&.secondary {
 			border: 0;
-			border-radius: $unit-half;
-			padding: $unit-quarter $unit-quarter;
+			border-radius: g.$unit-half;
+			padding: g.$unit-quarter g.$unit-quarter;
 		}
 
 		&.inline {
@@ -130,46 +140,46 @@
 		}
 
 		&.l {
-			@include button-style($l-button-primary, $l-button-accent, $l-button-active);
+			@include button-style(t.$l-button-primary, t.$l-button-accent, t.$l-button-active);
 
 			.outline {
-				@include draw-image-black();
+				@include t.draw-image-black();
 			}
 		}
 
 		&.d {
-			@include button-style($d-button-primary, $d-button-accent, $d-button-active);
+			@include button-style(t.$d-button-primary, t.$d-button-accent, t.$d-button-active);
 
 			.outline {
-				@include draw-image-white();
+				@include t.draw-image-white();
 			}
 		}
 
 		&__text {
-			@include set-font();
-			font-size: $font-size-small;
+			@include t.set-font();
+			font-size: g.$font-size-small;
 		}
 
 		&__icon {
 			object-fit: contain;
 			vertical-align: middle;
-			@include smooth-change(filter, transform);
+			@include t.smooth-change(filter, transform);
 
 			&.xl {
-				height: $unit-triple;
-				width: $unit-triple;
+				height: g.$unit-triple;
+				width: g.$unit-triple;
 			}
 			&.lg {
-				height: $unit-double;
-				width: $unit-double;
+				height: g.$unit-double;
+				width: g.$unit-double;
 			}
 			&.md {
-				height: $unit-plus;
-				width: $unit-plus;
+				height: g.$unit-plus;
+				width: g.$unit-plus;
 			}
 			&.sm {
-				height: $unit;
-				width: $unit;
+				height: g.$unit;
+				width: g.$unit;
 			}
 		}
 	}

@@ -4,10 +4,10 @@ import { getVersion } from '$lib/common/version';
 import { readEnvironment } from '$lib/server/selectors';
 import { getUpTime } from '$lib/server/uptime';
 import { Logger } from '$lib/common/log';
-import type { MetaEnvironment } from '$lib/server/types';
+import type { MetaEnvironment } from '$lib/types';
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = async () => {
+export const GET: RequestHandler = () => {
 	const logger = new Logger('api:health');
 	const fullVersion = true;
 

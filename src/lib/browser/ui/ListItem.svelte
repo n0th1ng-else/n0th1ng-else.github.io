@@ -1,25 +1,27 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
-	import { onThemeChange, isDarkTheme } from '$lib/browser/stores/theme';
+	import { type Snippet } from 'svelte';
+	import { isDarkTheme } from '$lib/browser/stores/theme.svelte';
 
-	let isDark = true;
+	let {
+		children
+	}: {
+		children: Snippet;
+	} = $props();
 
-	const unsubscribeTheme = onThemeChange(th => (isDark = isDarkTheme(th)));
-
-	onDestroy(() => unsubscribeTheme());
+	let isDark = $derived.by(() => isDarkTheme());
 </script>
 
-<li class="ui-list-item" class:l="{!isDark}" class:d="{isDark}">
-	<slot />
+<li class="ui-list-item" class:l={!isDark} class:d={isDark}>
+	{@render children()}
 </li>
 
 <style lang="scss">
-	@import './theme';
-	@import '../../../global';
+	@use './theme' as t;
+	@use '../../../global' as g;
 
 	@mixin list-item($primary, $secondary) {
 		&:before {
-			@include smooth-change(color);
+			@include t.smooth-change(color);
 			color: $primary;
 		}
 
@@ -31,25 +33,25 @@
 	}
 
 	.ui-list-item {
-		@include set-font();
+		@include t.set-font();
 
-		padding-block: $unit-quarter;
+		padding-block: g.$unit-quarter;
 		padding-inline: 0;
 
 		&:before {
 			content: '\2022';
-			font-size: $font-size-bigger;
+			font-size: g.$font-size-bigger;
 			line-height: 0.5;
-			padding-inline-end: $unit-half;
+			padding-inline-end: g.$unit-half;
 			vertical-align: middle;
 		}
 
 		&.l {
-			@include list-item($l-tertiary, $l-accent);
+			@include list-item(t.$l-tertiary, t.$l-accent);
 		}
 
 		&.d {
-			@include list-item($d-tertiary, $d-accent);
+			@include list-item(t.$d-tertiary, t.$d-accent);
 		}
 	}
 </style>

@@ -1,25 +1,32 @@
 <script lang="ts">
 	import 'highlight.js/scss/github-dark.scss';
-	import { beforeUpdate } from 'svelte';
 	// import { convertMarkdown } from '$lib/common/api';
 	import { keywordsFromString } from '$lib/browser/utils/keywords';
 
 	import TextArea from './TextArea.svelte';
 
-	export let title = '';
-	export let keywords = '';
-	export let content = '';
-	export let logo = '';
-
-	export let preview = false;
+	let {
+		title = $bindable(''),
+		keywords = $bindable(''),
+		content = $bindable(''),
+		logo = '',
+		preview = false
+	}: {
+		title?: string;
+		keywords?: string;
+		content?: string;
+		logo?: string;
+		preview?: boolean;
+	} = $props();
 
 	const convertMarkdown = async (text: string): Promise<string> => {
 		// TODO implement
 		return Promise.resolve(text);
 	};
 
-	let tags: string[] = [];
-	beforeUpdate(async () => {
+	let tags = $state<string[]>([]);
+
+	$effect.pre(() => {
 		if (preview) {
 			tags = keywordsFromString(keywords);
 		}
@@ -33,13 +40,13 @@
 				<h1>{title}</h1>
 			</div>
 			<p>
-				{#each tags as tag}
+				{#each tags as tag (tag)}
 					<span class="editor__tag">#{tag}</span>
 				{/each}
 			</p>
 			{#if logo}
 				<p>
-					<img class="editor__logo" src="{logo}" alt="" />
+					<img class="editor__logo" src={logo} alt="" />
 				</p>
 			{/if}
 			<div>
@@ -56,47 +63,47 @@
 	{:else}
 		<div class="editor__content">
 			<p>
-				<TextArea bind:text="{title}" size="xl" placeholder="Create a title..." />
+				<TextArea bind:text={title} size="xl" placeholder="Create a title..." />
 			</p>
 			<p>
-				<TextArea bind:text="{keywords}" size="md" placeholder="Add a few keywords..." />
+				<TextArea bind:text={keywords} size="md" placeholder="Add a few keywords..." />
 			</p>
 		</div>
 		<p class="editor__content">
-			<TextArea bind:text="{content}" size="sm" placeholder="Start the article..." />
+			<TextArea bind:text={content} size="sm" placeholder="Start the article..." />
 		</p>
 	{/if}
 </div>
 
 <style lang="scss">
-	@import './theme';
-	@import '../../../global';
+	@use './theme' as t;
+	@use '../../../global' as g;
 
 	.editor {
 		&__container {
-			background-color: $cl-grey-lightest;
-			border: 1px solid $cl-grey-dark;
-			border-radius: $unit-half;
-			padding-block: $unit-double;
-			padding-inline: $unit-triple;
+			background-color: t.$cl-grey-lightest;
+			border: 1px solid t.$cl-grey-dark;
+			border-radius: g.$unit-half;
+			padding-block: g.$unit-double;
+			padding-inline: g.$unit-triple;
 		}
 
 		&__content {
-			padding-block: $unit-double;
-			padding-inline: $unit-triple;
+			padding-block: g.$unit-double;
+			padding-inline: g.$unit-triple;
 		}
 
 		&__preview {
-			color: $cl-black;
+			color: t.$cl-black;
 		}
 
 		&__tag {
-			color: $l-secondary;
-			margin: $unit-quarter;
+			color: t.$l-secondary;
+			margin: g.$unit-quarter;
 		}
 
 		&__logo {
-			margin-block-start: $unit-half;
+			margin-block-start: g.$unit-half;
 			width: 100%;
 			object-fit: fill;
 		}

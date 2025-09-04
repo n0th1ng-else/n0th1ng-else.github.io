@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { profileStore } from '$lib/browser/stores';
 	import Title from '$lib/browser/ui/Title.svelte';
 	import SubTitle from '$lib/browser/ui/SubTitle.svelte';
 	import TextArea from '$lib/browser/ui/TextArea.svelte';
@@ -9,13 +8,17 @@
 	import { getAuthUrl } from '$lib/common/api';
 	import type { ReadingListItemState } from '$lib/common/readingList';
 	import type { PageData } from './$types';
+	import { getProfile } from '$lib/browser/stores/profile.svelte';
 
-	export let data: PageData;
+	const { data }: { data: PageData } = $props();
 
 	const { url } = data;
 
-	let articleLink = '';
-	let articleNote = '';
+	const profile = $derived.by(() => getProfile());
+	const profileImage = $derived(profile?.image ?? '');
+
+	let articleLink = $state('');
+	let articleNote = $state('');
 
 	const authoriseAndPublish = async () => {
 		const trimmedLink = articleLink.trim();
@@ -31,18 +34,18 @@
 	};
 </script>
 
-<Meta image="{$profileStore?.image ?? ''}" description="My reading list. Add an article" {url} />
+<Meta image={profileImage} description="My reading list. Add an article" {url} />
 <article>
 	<Title>Add an article</Title>
 	<SubTitle>Add an article in my reading list</SubTitle>
 	<div>
-		<TextArea bind:text="{articleLink}" placeholder="Enter the link"></TextArea>
+		<TextArea bind:text={articleLink} placeholder="Enter the link"></TextArea>
 	</div>
 	<div>
-		<TextArea bind:text="{articleNote}" placeholder="Enter the comment"></TextArea>
+		<TextArea bind:text={articleNote} placeholder="Enter the comment"></TextArea>
 	</div>
 	<div>
-		<Button on:click="{authoriseAndPublish}">Save</Button>
+		<Button onClick={authoriseAndPublish}>Save</Button>
 	</div>
 </article>
 
