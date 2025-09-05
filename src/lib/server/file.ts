@@ -4,6 +4,7 @@ import url from 'node:url';
 
 export const rootDir = url.fileURLToPath(new URL('../../..', import.meta.url));
 
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
 export const readJsonFile = <Res>(fileName: string): Res => {
 	return JSON.parse(readFileContent(fileName)) as Res;
 };

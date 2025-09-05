@@ -1,9 +1,10 @@
+import { defineConfig } from 'eslint/config';
 import js from '@eslint/js';
 import svelte from 'eslint-plugin-svelte';
 import ts from 'typescript-eslint';
 import svelteConfig from './svelte.config.js';
 
-export default ts.config(
+export default defineConfig(
 	js.configs.recommended,
 	ts.configs.strictTypeChecked,
 	svelte.configs.recommended,
@@ -54,15 +55,15 @@ export default ts.config(
 	},
 	{
 		rules: {
-			// Override or add rule settings here, such as:
-			// 'svelte/rule-name': 'error'
 			'no-console': 'error',
 			'no-empty-function': 'error',
 
 			'@typescript-eslint/restrict-template-expressions': 'off',
-			'@typescript-eslint/no-unnecessary-type-parameters': 'off',
 			'@typescript-eslint/no-unsafe-assignment': 'off',
-			'@typescript-eslint/no-unsafe-argument': 'off'
+			'@typescript-eslint/no-unsafe-argument': 'off',
+
+			// think how to enable
+			'svelte/no-navigation-without-resolve': 'off'
 		}
 	},
 	{

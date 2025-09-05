@@ -20,7 +20,7 @@ const checkStatus = (url: string): void => {
 		});
 };
 
-export const initUptime = (host?: string): void => {
+export const initUptime = (host = ''): void => {
 	if (timerHandler) {
 		return;
 	}
