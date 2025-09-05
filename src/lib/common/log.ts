@@ -1,7 +1,7 @@
 export class Logger {
 	constructor(private readonly context: string) {}
 
-	public warn<Data>(msg: string, data?: Data): void {
+	public warn(msg: string, data?: unknown): void {
 		const ctx = this.getContext();
 		// eslint-disable-next-line no-console
 		console.warn(ctx, msg, data || '');

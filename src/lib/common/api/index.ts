@@ -8,6 +8,7 @@ type RequestConfig = {
 
 type HttpMethod = 'POST' | 'GET';
 
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
 export const runRawApi = async <Res = unknown, Req extends string | FormData = string>(
 	url: string,
 	method: HttpMethod,
@@ -36,6 +37,7 @@ export const runRawApi = async <Res = unknown, Req extends string | FormData = s
 	return json;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
 export const runApi = async <Res = unknown, Req = unknown>(
 	url: string,
 	method: HttpMethod = 'GET',

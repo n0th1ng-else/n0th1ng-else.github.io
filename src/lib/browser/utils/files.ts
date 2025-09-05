@@ -17,7 +17,7 @@ const imageOptions: FilePickerOptions = {
 	types: []
 };
 
-const saveContent = async <D>(data: D, fileHandle: FileHandle) => {
+const saveContent = async (data: unknown, fileHandle: FileHandle) => {
 	const writable = await fileHandle.createWritable();
 	await writable.write(JSON.stringify(data));
 	await writable.close();
@@ -32,7 +32,7 @@ export const openJsonFile = async <D>(): Promise<D> => {
 	return data as D;
 };
 
-export const saveJsonFile = async <D>(text: D, fileHandle?: FileHandle): Promise<FileHandle> => {
+export const saveJsonFile = async (text: unknown, fileHandle?: FileHandle): Promise<FileHandle> => {
 	if (fileHandle) {
 		return saveContent(text, fileHandle);
 	}
