@@ -1,4 +1,4 @@
-FROM node:22.19.0-slim as builder
+FROM node:24.14.1-slim as builder
 
 ENV NODE_ENV production
 
@@ -52,7 +52,7 @@ RUN pnpm build
 
 # Run stage layer
 
-FROM node:22.19.0-slim
+FROM node:24.14.1-slim
 
 ARG APP_DIR=/usr/src/app/
 
