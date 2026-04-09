@@ -31,7 +31,7 @@ ENV GH_AUTHOR_TWITTER ${GH_AUTHOR_TWITTER}
 ARG GH_AUTHOR_DEVTO
 ENV GH_AUTHOR_DEVTO ${GH_AUTHOR_DEVTO}
 
-RUN npm install -g pnpm@9
+RUN npm install -g pnpm@10
 COPY package.json pnpm-lock.yaml svelte.config.js $APP_DIR
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prod false
 
@@ -73,7 +73,7 @@ COPY --from=builder $APP_DIR/src/ci/welcome.ts $APP_DIR/src/ci/welcome.ts
 COPY --from=builder $APP_DIR/src/ci/log.ts $APP_DIR/src/ci/log.ts
 COPY --from=builder $APP_DIR/src/lib/types.ts $APP_DIR/src/lib/types.ts
 
-RUN npm install -g pnpm@9
+RUN npm install -g pnpm@10
 
 EXPOSE 8080
 

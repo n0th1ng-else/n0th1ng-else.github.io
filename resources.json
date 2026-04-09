@@ -14,7 +14,8 @@
 		},
 		"npm": {
 			"host": "www.npmjs.com",
-			"pattern": "%h/package/%p"
+			"pattern": "%h/package/%p",
+			"patternn": "registry.npmjs.org/%p"
 		},
 		"devto": {
 			"host": "dev.to",

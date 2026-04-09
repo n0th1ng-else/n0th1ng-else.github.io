@@ -47,7 +47,7 @@ const getPackageInfo = async (base: BasePackageInfo, retry = 0): Promise<Package
 };
 
 const getPackagesInfo = async (packages: BasePackageInfo[]): Promise<PackageInfo[]> => {
-	let pckg: BasePackageInfo | undefined = undefined;
+	let pckg: BasePackageInfo | undefined;
 	const fullPackages: PackageInfo[] = [];
 
 	do {
