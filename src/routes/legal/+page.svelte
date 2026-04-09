@@ -9,7 +9,7 @@
 
 	const { data }: { data: PageData } = $props();
 
-	const { url } = data;
+	let { url } = $derived(data);
 
 	const profile = $derived.by(() => getProfile());
 	const profileImage = $derived(profile?.image ?? '');

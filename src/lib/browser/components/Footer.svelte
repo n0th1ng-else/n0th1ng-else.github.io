@@ -24,9 +24,11 @@
 	});
 
 	let fcp = $state('');
-	if (showFCP) {
-		getFirstContentfulPaint(time => (fcp = time));
-	}
+	$effect(() => {
+		if (showFCP) {
+			getFirstContentfulPaint(time => (fcp = time));
+		}
+	});
 </script>
 
 <Footer>

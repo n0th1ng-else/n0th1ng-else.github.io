@@ -11,7 +11,7 @@
 		type = 'up',
 		size = 'xl'
 	}: { onClick: VoidFunction; hint?: string; type?: ArrowDirection; size?: ArrowSize } = $props();
-	const icon = type === 'up' ? iconUp : iconLeft;
+	const icon = $derived(type === 'up' ? iconUp : iconLeft);
 </script>
 
 <Button secondary {onClick} printVisible={false} {hint} {icon} iconOutline iconSize={size} />

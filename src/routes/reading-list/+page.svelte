@@ -10,12 +10,12 @@
 
 	const { data }: { data: PageData } = $props();
 
-	const { url, items } = data;
+	let { url, items } = $derived(data);
 
 	const profile = $derived.by(() => getProfile());
 	const profileImage = $derived(profile?.image ?? '');
 
-	const sorted = sortByDate(items, item => new Date(item.date));
+	const sorted = $derived(sortByDate(items, item => new Date(item.date)));
 </script>
 
 <Meta image={profileImage} description="My reading list" {url} />

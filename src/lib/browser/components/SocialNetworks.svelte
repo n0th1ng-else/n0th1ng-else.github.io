@@ -8,7 +8,7 @@
 
 	let { accounts }: { accounts: ProfileAccounts | null } = $props();
 
-	const networks = accounts ? getSocialNetworks(accounts) : [];
+	const networks = $derived(accounts ? getSocialNetworks(accounts) : []);
 
 	let isDark = $derived.by(() => isDarkTheme());
 </script>

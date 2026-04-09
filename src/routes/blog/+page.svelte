@@ -15,13 +15,13 @@
 
 	const { data }: { data: PageData } = $props();
 
-	const { url, articles, showDraft } = data;
+	let { url, articles, showDraft } = $derived(data);
 
 	const profile = $derived.by(() => getProfile());
 	const profileImage = $derived(profile?.image ?? '');
 
-	const groups = groupByYear(articles);
-	const years = sortAsNumber(Object.keys(groups));
+	const groups = $derived(groupByYear(articles));
+	const years = $derived(sortAsNumber(Object.keys(groups)));
 	const getGroup = (year: string): PublicationInfo[] => {
 		return sortArticlesByDate(groups[year]);
 	};

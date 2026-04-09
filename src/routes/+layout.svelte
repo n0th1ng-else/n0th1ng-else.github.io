@@ -18,12 +18,14 @@
 	import type { PageData } from './$types';
 
 	const { data, children }: { data: PageData; children: Snippet } = $props();
-	const { accounts, profile, version, theme } = data;
+	let { accounts, profile, version, theme } = $derived(data);
 
-	setTheme(theme);
-	setVersion(version);
-	setAccounts(accounts);
-	setProfile(profile);
+	$effect(() => {
+		setTheme(theme);
+		setVersion(version);
+		setAccounts(accounts);
+		setProfile(profile);
+	});
 
 	let activePath = $derived(page.url.pathname);
 

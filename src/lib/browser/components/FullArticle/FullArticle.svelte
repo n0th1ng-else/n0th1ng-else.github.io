@@ -12,11 +12,11 @@
 
 	let { article }: { article: PublicationInfo } = $props();
 
-	const date = getRelativeDate(article.meta.date);
-	const content = isInternalArticle(article) ? article.content : article.meta.description;
-	const keywords = isInternalArticle(article) ? article.meta.keywords : [];
-	const readingTime = isInternalArticle(article) ? article.meta.readingTime : 0;
-	const readingMin = secondsToMinutes(readingTime);
+	const date = $derived(getRelativeDate(article.meta.date));
+	const content = $derived(isInternalArticle(article) ? article.content : article.meta.description);
+	const keywords = $derived(isInternalArticle(article) ? article.meta.keywords : []);
+	const readingTime = $derived(isInternalArticle(article) ? article.meta.readingTime : 0);
+	const readingMin = $derived(secondsToMinutes(readingTime));
 
 	let isDark = $derived.by(() => isDarkTheme());
 </script>
