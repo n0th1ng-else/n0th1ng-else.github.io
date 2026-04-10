@@ -17,9 +17,11 @@
 	const profileImage = $derived(profile?.image ?? '');
 
 	const seoTitle = $derived(article ? `Latest in the blog: ${article.meta.title}` : undefined);
-	const seoDescription = $derived(article
-		? article.meta.description
-		: 'Latest articles, contacts and interesting observations. All in one place.');
+	const seoDescription = $derived(
+		article
+			? article.meta.description
+			: 'Latest articles, contacts and interesting observations. All in one place.'
+	);
 </script>
 
 <Meta image={profileImage} title={seoTitle} description={seoDescription} {url} />

@@ -78,10 +78,10 @@ const getMiro = (): ProjectItem => ({
 const getPackageDescription = (description = ''): string => {
 	const pos = description.indexOf('Latest version:');
 	if (pos === -1) {
-		return description
+		return description;
 	}
-	return  description.slice(0, pos);
-}
+	return description.slice(0, pos);
+};
 
 export const getWorkProjects = (): ProjectItem[] => [
 	getMiro(),
@@ -122,4 +122,3 @@ const transformPackage = (pkg: PackageInfo, accounts: ProfileAccounts): ProjectI
 
 export const getPetProjects = (packages: PackageInfo[], accounts: ProfileAccounts): ProjectItem[] =>
 	packages.map(pkg => transformPackage(pkg, accounts));
-
