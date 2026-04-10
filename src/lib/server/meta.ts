@@ -24,25 +24,29 @@ const metaScraper = scrapper([
 	surl()
 ]);
 
+const FALLBACK_SCRAP_URL = 'https://api.allorigins.win/raw';
+
 const getLinkHtml = async (url: string): Promise<string> => {
-	const headers = {
-		'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
-		Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-		'Accept-Language': 'en-US,en;q=0.5'
-	};
+	const headers = new Headers();
+	headers.set(
+		'User-Agent',
+		'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'
+	);
+	headers.set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8');
+	headers.set('Accept-Language', 'en-US,en;q=0.5');
+
 	let result = await fetch(url, { headers });
 
-	// If Cloudflare blocks us (403), fallback to a free open-source CORS proxy (allorigins) for HTML scraping
-	if (!result.ok && result.status === 403 && url.includes('medium.com')) {
-		console.log(`Fallback proxy used for ${url}`);
-		result = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`, {
-			headers
-		});
+	if (!result.ok) {
+		const fallbackUrl = new URL(FALLBACK_SCRAP_URL);
+		fallbackUrl.searchParams.set('url', url);
+		result = await fetch(fallbackUrl, { headers });
 	}
 
 	if (!result.ok) {
 		throw new Error(`Failed to fetch html for ${url} ${result.status}`);
 	}
+
 	return await result.text();
 };
 
