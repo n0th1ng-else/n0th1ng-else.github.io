@@ -75,6 +75,14 @@ const getMiro = (): ProjectItem => ({
 	startDate: '01-11-2022'
 });
 
+const getPackageDescription = (description = ''): string => {
+	const pos = description.indexOf('Latest version:');
+	if (pos === -1) {
+		return description
+	}
+	return  description.slice(0, pos);
+}
+
 export const getWorkProjects = (): ProjectItem[] => [
 	getMiro(),
 	getCatawiki(),
@@ -100,8 +108,7 @@ const transformPackage = (pkg: PackageInfo, accounts: ProfileAccounts): ProjectI
 				name: pkg.meta.title || pkg.url,
 				source: pkg.meta.title ? getGithubLink(github, pkg.meta.title) : undefined,
 				registry: pkg.fullUrl,
-				description:
-					pkg.meta.description?.slice(0, pkg.meta.description.indexOf('Latest version:')) || ''
+				description: getPackageDescription(pkg.meta.description)
 			};
 		default:
 			return {
@@ -115,3 +122,4 @@ const transformPackage = (pkg: PackageInfo, accounts: ProfileAccounts): ProjectI
 
 export const getPetProjects = (packages: PackageInfo[], accounts: ProfileAccounts): ProjectItem[] =>
 	packages.map(pkg => transformPackage(pkg, accounts));
+
