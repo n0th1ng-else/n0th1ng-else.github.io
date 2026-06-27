@@ -1,25 +1,13 @@
-import { Logger } from '$lib/common/log';
-import { getReadingList } from '$lib/server/readingList';
+import { getReadingList } from '$lib/server/content';
+import type { ReadingListItem } from '$lib/common/readingList';
 import type { PageServerLoad } from './$types';
 
 interface Output {
 	url: string;
-	items: Awaited<ReturnType<typeof getReadingList>>;
+	items: ReadingListItem[];
 }
-export const load: PageServerLoad<Output> = async ({ url }) => {
-	const logger = new Logger('layout:ssr');
 
-	try {
-		const items = await getReadingList();
-		return {
-			url: url.toString(),
-			items
-		};
-	} catch (err) {
-		logger.error('Unable to get the reading list', err);
-		return {
-			url: url.toString(),
-			items: []
-		};
-	}
-};
+export const load: PageServerLoad<Output> = ({ url }) => ({
+	url: url.toString(),
+	items: getReadingList()
+});

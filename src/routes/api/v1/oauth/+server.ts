@@ -1,14 +1,18 @@
-import { error, json } from '@sveltejs/kit';
+import { error, json, redirect } from '@sveltejs/kit';
+import { z } from 'zod';
 import { Logger } from '$lib/common/log';
 import { ReadingListItemStateSchema } from '$lib/common/readingList';
+import { AdminLoginStateSchema } from '$lib/common/admin';
 import { getRuntimeEnvironment } from '$lib/server/env';
+import { isProduction } from '$lib/server/selectors';
 import { saveReadingList } from '$lib/server/readingList';
 import { fetchAccessToken, fetchUserName } from '$lib/server/auth';
+import { SESSION_COOKIE, SESSION_MAX_AGE, createSessionToken } from '$lib/server/session';
 import type { RequestHandler } from './$types';
 
-const SupportedFollowersSchema = ReadingListItemStateSchema;
+const SupportedFollowersSchema = z.union([ReadingListItemStateSchema, AdminLoginStateSchema]);
 
-export const GET: RequestHandler = async ({ url: urlData }) => {
+export const GET: RequestHandler = async ({ url: urlData, cookies }) => {
 	const logger = new Logger('api:oauth');
 	const env = getRuntimeEnvironment();
 	const code = urlData.searchParams.get('code');
@@ -32,22 +36,27 @@ export const GET: RequestHandler = async ({ url: urlData }) => {
 		error(401, 'Not authorized');
 	}
 
-	let res: Record<string, unknown> = {};
+	let data: z.infer<typeof SupportedFollowersSchema>;
 	try {
 		const parsedState = decodeURIComponent(state ?? '');
-		const data = SupportedFollowersSchema.parse(JSON.parse(parsedState));
-
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-		if (data.action === 'READS') {
-			res = await saveReadingList(data.url, data.note);
-		}
+		data = SupportedFollowersSchema.parse(JSON.parse(parsedState));
 	} catch (err) {
 		logger.error('Could not parse the redirect state after auth', err);
 		error(400, 'Could not parse the redirect state');
 	}
 
-	return json({
-		message: 'Success',
-		res
-	});
+	// Owner verified above — start an admin session and land on the dashboard.
+	if (data.action === 'ADMIN_LOGIN') {
+		cookies.set(SESSION_COOKIE, createSessionToken(env.GH_AUTHOR_LOGIN), {
+			path: '/',
+			httpOnly: true,
+			sameSite: 'lax',
+			secure: isProduction(),
+			maxAge: SESSION_MAX_AGE
+		});
+		redirect(303, '/admin');
+	}
+
+	const res = await saveReadingList(data.url, data.note);
+	return json({ message: 'Success', res });
 };

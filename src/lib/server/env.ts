@@ -17,7 +17,12 @@ const RuntimeEnvSchema = z
 		CLOUDINARY_KEY: z.string(),
 		CLOUDINARY_SECRET: z.string(),
 		GITHUB_SECRET: z.string(),
-		GITHUB_CLIENT_ID: z.string()
+		GITHUB_CLIENT_ID: z.string(),
+		DATABASE_URL: z.string(),
+		// Optional: only required to publish articles as PRs from the admin editor.
+		GITHUB_REPO_TOKEN: z.string().optional(),
+		GITHUB_REPO_OWNER: z.string().optional(),
+		GITHUB_REPO_NAME: z.string().optional()
 	})
 	.describe('App env schema');
 

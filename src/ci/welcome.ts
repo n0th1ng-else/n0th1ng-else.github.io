@@ -1,21 +1,10 @@
-import { existsSync, readFileSync } from 'node:fs';
-import { getPathUrl, metaFileName, metaFolderName, rootDirURL } from './dirs.ts';
 import { Logger } from './log.ts';
-import type { MetaFile } from '../lib/types.ts';
 
 const logger = new Logger('launcher');
 
-export const readMetaFile = (rootDir: URL): MetaFile => {
-	if (!existsSync(getPathUrl(rootDir, metaFolderName))) {
-		throw new Error('meta file does not exist!');
-	}
-
-	const filePath = getPathUrl(rootDir, metaFolderName, metaFileName);
-	return JSON.parse(readFileSync(filePath, { encoding: 'utf-8' })) as MetaFile;
-};
-
-const meta = readMetaFile(rootDirURL);
-const { version, versionBuild } = meta.env;
+// Version metadata now comes from runtime env (set on the container), not the baked meta file.
+const version = process.env.APP_VERSION || '0.0.0';
+const versionBuild = process.env.COMMIT_HASH || process.env.VERCEL_GIT_COMMIT_SHA || 'development';
 
 const rowLength = 80;
 const borderLine = new Array(rowLength).fill('=').join('');
@@ -32,11 +21,9 @@ const wrapMessage = (message: string): string => {
 	return `=${left}${message}${right}=`;
 };
 
-// if (import.meta.main) {
 logger.writeOutput(`
 ${borderLine}
 ${wrapMessage('starting the blog')}
 ${wrapMessage(`version: ${version}, build: ${versionBuild}`)}
 ${borderLine}
 `);
-// }

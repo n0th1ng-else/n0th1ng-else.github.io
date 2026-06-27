@@ -1,34 +1,28 @@
-import { error, json } from '@sveltejs/kit';
+import { json } from '@sveltejs/kit';
 import { ApplicationStatus } from '$lib/common/api/types';
 import { getVersion } from '$lib/common/version';
 import { readEnvironment } from '$lib/server/selectors';
+import { getCounts } from '$lib/server/content';
 import { getUpTime } from '$lib/server/uptime';
-import { Logger } from '$lib/common/log';
-import type { MetaEnvironment } from '$lib/types';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = () => {
-	const logger = new Logger('api:health');
 	const fullVersion = true;
+	const { version, versionBuild } = readEnvironment();
+	const counts = getCounts();
 
-	let environment: MetaEnvironment | null = null;
-	try {
-		environment = readEnvironment();
-	} catch (err) {
-		logger.error('Unable to read healthcheck', err);
-		error(500, 'Something went wrong');
-	}
-	const { version, versionBuild } = environment;
+	// "loaded" => the app booted and warmed its cache with real data.
+	// Non-zero counts is the readiness signal used by the Dockerfile HEALTHCHECK.
+	const loaded = counts.articles + counts.packages + counts.links > 0;
 
-	return json({
-		status: ApplicationStatus.OK,
-		uptime: getUpTime(),
-		version: getVersion(
-			{
-				version,
-				versionBuild
-			},
-			fullVersion
-		)
-	});
+	return json(
+		{
+			status: ApplicationStatus.OK,
+			loaded,
+			counts,
+			uptime: getUpTime(),
+			version: getVersion({ version, versionBuild }, fullVersion)
+		},
+		{ status: loaded ? 200 : 503 }
+	);
 };

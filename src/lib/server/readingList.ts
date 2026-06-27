@@ -1,69 +1,52 @@
-import { z } from 'zod';
-import { runRawApi } from '$lib/common/api';
-import { CloudinaryResource, uploadFile } from '$lib/server/cloudinary';
-import { getRuntimeEnvironment } from '$lib/server/env';
+import { query } from '$lib/server/db';
+import { createLink } from '$lib/server/links-repo';
+import { revalidate, type LinkRow } from '$lib/server/content';
 import { getLinkInfo } from '$lib/server/meta';
+import type { ReadingListItem } from '$lib/common/readingList';
 
-const ReadingListItemSchema = z
-	.object({
-		title: z.string(),
-		description: z.string().optional(),
-		image: z.string().optional(),
-		url: z.string(),
-		note: z.string().optional(),
-		date: z.number()
-	})
-	.describe('Reading list item descriptor');
+// Reading-list items live in content.links (kind = 'reading_list'); the public page reads them
+// from the in-memory cache. Adding still scrapes metadata via getLinkInfo (scrape-on-add).
 
-type ReadingListItem = z.infer<typeof ReadingListItemSchema>;
-
-const ReadingListItemsSchema = z.array(ReadingListItemSchema);
-
-const FILE_NAME = 'readingList.txt';
-
-const getReadingListUrl = (): string => {
-	const env = getRuntimeEnvironment();
-	return `https://res.cloudinary.com/${env.CLOUDINARY_ACCOUNT}/raw/upload/blog/${FILE_NAME}`;
-};
-
-export const getReadingList = async (): Promise<ReadingListItem[]> => {
-	const response = await runRawApi(getReadingListUrl(), 'GET');
-	const list = ReadingListItemsSchema.parse(response);
-
-	return list;
-};
+const toItem = (row: LinkRow): ReadingListItem => ({
+	title: row.title ?? row.url,
+	description: row.description ?? undefined,
+	image: row.image ?? undefined,
+	url: row.url,
+	note: row.note ?? undefined,
+	date: row.date ? Number(row.date) : row.created_at.getTime()
+});
 
 export const saveReadingList = async (url: string, note?: string): Promise<ReadingListItem> => {
-	const form = new FormData();
+	const existing = await query<LinkRow>(
+		'SELECT * FROM content.links WHERE kind = $1 AND url = $2',
+		['reading_list', url]
+	);
+	if (existing[0]) {
+		return toItem(existing[0]);
+	}
 
 	const meta = await getLinkInfo(url);
-	const newItem: ReadingListItem = {
+	const date = Date.now();
+	await createLink({
+		kind: 'reading_list',
+		service: null,
+		lang: 'en',
+		url,
+		title: meta.title || url,
+		description: meta.description || null,
+		image: meta.image || null,
+		note: note ?? null,
+		date,
+		sortOrder: 0
+	});
+	await revalidate();
+
+	return {
 		title: meta.title || url,
 		description: meta.description || '',
 		image: meta.image || '',
 		url,
 		note,
-		date: new Date().getTime()
+		date
 	};
-
-	const oldItems = await getReadingList();
-	const isIncludedItem = oldItems.find(item => item.url.includes(newItem.url));
-
-	if (isIncludedItem) {
-		return isIncludedItem;
-	}
-
-	const allItems = [newItem, ...oldItems];
-	const textBlob = new Blob([JSON.stringify(allItems)], {
-		type: 'text/plain'
-	});
-	form.append('file', textBlob);
-
-	await uploadFile(CloudinaryResource.Raw, form, {
-		tags: 'reading-list-page-data',
-		public_id: FILE_NAME,
-		invalidate: 'true'
-	});
-
-	return newItem;
 };
