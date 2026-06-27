@@ -46,13 +46,15 @@ export const parseLinkForm = (form: FormData): LinkInput => {
 };
 
 export const getLinkById = async (id: string): Promise<LinkRow | undefined> => {
-	const rows = await query<LinkRow>('SELECT * FROM content.links WHERE id = $1', [id]);
+	const rows = await query<LinkRow>('SELECT * FROM nothing_else_blog_content.links WHERE id = $1', [
+		id
+	]);
 	return rows[0];
 };
 
 export const createLink = async (input: LinkInput): Promise<void> => {
 	await query(
-		`INSERT INTO content.links
+		`INSERT INTO nothing_else_blog_content.links
 			(kind, service, lang, url, title, description, image, note, date, sort_order)
 		 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
 		[
@@ -72,7 +74,7 @@ export const createLink = async (input: LinkInput): Promise<void> => {
 
 export const updateLink = async (id: string, input: LinkInput): Promise<void> => {
 	await query(
-		`UPDATE content.links SET
+		`UPDATE nothing_else_blog_content.links SET
 			kind = $2, service = $3, lang = $4, url = $5, title = $6,
 			description = $7, image = $8, note = $9, date = $10, sort_order = $11, updated_at = now()
 		 WHERE id = $1`,
@@ -93,5 +95,5 @@ export const updateLink = async (id: string, input: LinkInput): Promise<void> =>
 };
 
 export const deleteLink = async (id: string): Promise<void> => {
-	await query('DELETE FROM content.links WHERE id = $1', [id]);
+	await query('DELETE FROM nothing_else_blog_content.links WHERE id = $1', [id]);
 };

@@ -6,7 +6,7 @@ const logger = new Logger('articles-sync');
 
 // Markdown articles are the canonical source for published posts. They are bundled at build
 // time via Vite's import.meta.glob (so no filesystem access / Docker COPY is needed at runtime),
-// then reconciled into content.articles at boot: git always wins for published content.
+// then reconciled into nothing_else_blog_content.articles at boot: git always wins for published content.
 const files: Record<string, string> = import.meta.glob('/articles/**/*.md', {
 	query: '?raw',
 	import: 'default',
@@ -40,7 +40,7 @@ const toText = (value: unknown): string | null => {
 };
 
 const toStringArray = (value: unknown): string[] =>
-	Array.isArray(value) ? value.flatMap((item) => toText(item) ?? []) : [];
+	Array.isArray(value) ? value.flatMap(item => toText(item) ?? []) : [];
 
 const toDateString = (value: unknown): string | null => {
 	if (value instanceof Date) {
@@ -71,7 +71,7 @@ export const reconcileArticles = async (): Promise<void> => {
 		slugs.push(slug);
 
 		await query(
-			`INSERT INTO content.articles
+			`INSERT INTO nothing_else_blog_content.articles
 				(slug, language, title, description, image, date, keywords, reposts, body_md, status, source, share_token)
 			 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 'markdown', NULL)
 			 ON CONFLICT (slug) DO UPDATE SET
@@ -104,7 +104,7 @@ export const reconcileArticles = async (): Promise<void> => {
 
 	// Remove markdown-sourced rows whose file disappeared (keep DB-authored drafts).
 	await query(
-		`DELETE FROM content.articles WHERE source = 'markdown' AND NOT (slug = ANY($1::text[]))`,
+		`DELETE FROM nothing_else_blog_content.articles WHERE source = 'markdown' AND NOT (slug = ANY($1::text[]))`,
 		[slugs]
 	);
 

@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import pg from 'pg';
 
 // One-time migration: import existing content (the baked meta/index.json external publications
-// and packages, plus the Cloudinary reading list) into content.links so nothing is lost on
+// and packages, plus the Cloudinary reading list) into nothing_else_blog_content.links so nothing is lost on
 // cutover. Internal articles are NOT seeded here — launch reconciliation imports them from
 // ./articles markdown. Safe to re-run: rows are skipped when (url, kind) already exists.
 //
@@ -163,9 +163,9 @@ const main = async (): Promise<void> => {
 	let inserted = 0;
 	for (const row of rows) {
 		const result = await pool.query(
-			`INSERT INTO content.links (kind, service, lang, url, title, description, image, note, date)
+			`INSERT INTO nothing_else_blog_content.links (kind, service, lang, url, title, description, image, note, date)
 			 SELECT $1, $2, $3, $4, $5, $6, $7, $8, $9
-			 WHERE NOT EXISTS (SELECT 1 FROM content.links WHERE url = $4 AND kind = $1)`,
+			 WHERE NOT EXISTS (SELECT 1 FROM nothing_else_blog_content.links WHERE url = $4 AND kind = $1)`,
 			[
 				row.kind,
 				row.service,

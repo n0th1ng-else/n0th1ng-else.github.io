@@ -8,7 +8,7 @@ import type {
 	PublicationInfo
 } from '$lib/types';
 
-// Row shapes mirror the `content` schema (snake_case as returned by pg).
+// Row shapes mirror the `nothing_else_blog_content` schema (snake_case as returned by pg).
 
 export type LinkKind = 'reading_list' | 'publication' | 'package';
 
@@ -144,9 +144,9 @@ const toReadingListItem = (row: LinkRow): ReadingListItem => ({
 export const load = async (): Promise<void> => {
 	const [links, articles] = await Promise.all([
 		query<LinkRow>(
-			'SELECT * FROM content.links ORDER BY sort_order ASC, date DESC NULLS LAST, created_at DESC'
+			'SELECT * FROM nothing_else_blog_content.links ORDER BY sort_order ASC, date DESC NULLS LAST, created_at DESC'
 		),
-		query<ArticleRow>('SELECT * FROM content.articles')
+		query<ArticleRow>('SELECT * FROM nothing_else_blog_content.articles')
 	]);
 
 	const internalPublications = await Promise.all(articles.map(toInternalPublication));

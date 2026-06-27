@@ -1,11 +1,11 @@
--- content schema: runtime-managed dynamic content for the site.
+-- nothing_else_blog_content schema: runtime-managed dynamic content for the site.
 -- Idempotent: safe to run on every boot. See docs/0001-content-runtime-postgres.md.
 
-CREATE SCHEMA IF NOT EXISTS content;
+CREATE SCHEMA IF NOT EXISTS nothing_else_blog_content;
 
 -- Links: reading-list items, external publications, and packages.
 -- Manual metadata entry in iteration 1; getLinkInfo() auto-fill is a future enhancement.
-CREATE TABLE IF NOT EXISTS content.links (
+CREATE TABLE IF NOT EXISTS nothing_else_blog_content.links (
 	id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	kind        text NOT NULL CHECK (kind IN ('reading_list', 'publication', 'package')),
 	service     text,
@@ -21,11 +21,11 @@ CREATE TABLE IF NOT EXISTS content.links (
 	updated_at  timestamptz NOT NULL DEFAULT now()
 );
 
-CREATE INDEX IF NOT EXISTS links_kind_idx ON content.links (kind);
+CREATE INDEX IF NOT EXISTS links_kind_idx ON nothing_else_blog_content.links (kind);
 
 -- Articles: draft workspace + serving copy. Git (./articles/*.md) stays canonical;
 -- launch reconciliation overrides published rows from markdown (source='markdown').
-CREATE TABLE IF NOT EXISTS content.articles (
+CREATE TABLE IF NOT EXISTS nothing_else_blog_content.articles (
 	id          uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	slug        text NOT NULL UNIQUE,
 	language    text NOT NULL DEFAULT 'en' CHECK (language IN ('en', 'ru')),
@@ -43,6 +43,6 @@ CREATE TABLE IF NOT EXISTS content.articles (
 	updated_at  timestamptz NOT NULL DEFAULT now()
 );
 
-CREATE INDEX IF NOT EXISTS articles_status_idx ON content.articles (status);
+CREATE INDEX IF NOT EXISTS articles_status_idx ON nothing_else_blog_content.articles (status);
 CREATE UNIQUE INDEX IF NOT EXISTS articles_share_token_idx
-	ON content.articles (share_token) WHERE share_token IS NOT NULL;
+	ON nothing_else_blog_content.articles (share_token) WHERE share_token IS NOT NULL;

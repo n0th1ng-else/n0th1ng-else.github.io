@@ -15,13 +15,13 @@ Two problems:
 
 ### Intended outcome
 
-- All _dynamic_ content lives in the **Postgres** (new `content` schema, reused connection), loaded once into memory at boot and served from there; refreshed on demand via an admin **Revalidate** button.
+- All _dynamic_ content lives in the **Postgres** (new `nothing_else_blog_content` schema, reused connection), loaded once into memory at boot and served from there; refreshed on demand via an admin **Revalidate** button.
 - The Docker build does **zero** external scraping — deploys stop depending on third-party sites.
 - **Published articles stay canonical as `./articles/<year>/<slug>.md` in git.** The DB is a serving cache + draft workspace; at every launch the app reconciles the DB _from_ the markdown (git wins). Git doubles as a durable backup if the free-tier DB is ever wiped.
 
 ## Diagram
 
-### ER — `content` schema
+### ER — `nothing_else_blog_content` schema
 
 ```mermaid
 erDiagram
@@ -67,7 +67,7 @@ erDiagram
 sequenceDiagram
   actor Owner
   participant Admin as /admin editor
-  participant DB as Postgres (content.articles)
+  participant DB as Postgres (nothing_else_blog_content.articles)
   participant Reviewer
   participant GH as GitHub repo (articles/*.md)
   participant Boot as App boot (init hook)
@@ -92,7 +92,7 @@ sequenceDiagram
 Implemented in phases; see the saved plan for the canonical step list. Summary:
 
 - **Phase 0 — Docs scaffolding (this doc).** `AGENTS.md`, `docs/README.md`, `docs/_template.md`, and this RFC.
-- **Phase 1 — Data layer.** `src/lib/server/db.ts` (single `pg.Pool`, `max: 2`, `idleTimeoutMillis: 10_000`, `ssl: { rejectUnauthorized: false }`, `DATABASE_URL` from `getRuntimeEnvironment()`); `src/lib/server/db/schema.sql` (idempotent `content.links` + `content.articles`); `src/lib/server/content.ts` (in-memory store: `load()`, sync getters, `revalidate()`).
+- **Phase 1 — Data layer.** `src/lib/server/db.ts` (single `pg.Pool`, `max: 2`, `idleTimeoutMillis: 10_000`, `ssl: { rejectUnauthorized: false }`, `DATABASE_URL` from `getRuntimeEnvironment()`); `src/lib/server/db/schema.sql` (idempotent `nothing_else_blog_content.links` + `nothing_else_blog_content.articles`); `src/lib/server/content.ts` (in-memory store: `load()`, sync getters, `revalidate()`).
 - **Phase 2 — Serve from cache.** Rewire `src/lib/server/selectors.ts` to read from `content.ts`; move `env` (version/commit/accounts) to `process.env`; warm the cache in `src/hooks.server.ts` `init`; extend `/api/v1/health` with `counts: { articles, packages, links }` and return `503` when empty.
 - **Phase 3 — Remove build scrape.** Delete `RUN pnpm meta`; retire `meta/index.json` and the `src/ci/*` scrape pipeline (relocate `parseMarkdown`/`getReadingTime`/`readMarkdownFile` to `src/lib/server`); add a Node-based `Dockerfile HEALTHCHECK`; `scripts/seed.ts` to import existing data on cutover.
 - **Phase 4 — Auth + admin shell.** `@auth/sveltekit` GitHub provider, allowlist `GH_AUTHOR_LOGIN`; protect `/admin/*`; shell lists links/articles with edit/delete + Revalidate.
@@ -110,7 +110,7 @@ Path `articles/<YYYY>/<slug>.md` (year from `date`). Frontmatter order: `title`,
 
 ## Decisions & alternatives
 
-- **Reuse existing Aiven Postgres, new `content` schema** — free tier allows one service per type and caps at 20 connections with no pooler; a second free PG isn't possible and isn't needed. Rejected: a separate DB/service, NoSQL/KV (data is small and relational; KV repeats the JSON-blob hack we're removing).
+- **Reuse existing Aiven Postgres, new `nothing_else_blog_content` schema** — free tier allows one service per type and caps at 20 connections with no pooler; a second free PG isn't possible and isn't needed. Rejected: a separate DB/service, NoSQL/KV (data is small and relational; KV repeats the JSON-blob hack we're removing).
 - **Raw `pg`, tiny pool** — matches the owner's other service; the in-memory cache means ~1 connection in use. Rejected: an ORM (unnecessary for a tiny schema, adds inconsistency with the other service).
 - **In-memory cache, single replica** — site runs 1 replica, so a module-level cache + admin Revalidate button is correct and simple. A multi-replica TTL/version-poll fallback is explicitly out of scope until the site scales.
 - **Git canonical for published articles** — durable, versioned, free backup; DB rehydrates from markdown at boot. Rejected: DB as sole source (loses git history and durability on a free tier that can be wiped/powered off).
@@ -128,5 +128,5 @@ Path `articles/<YYYY>/<slug>.md` (year from `date`). Frontmatter order: `title`,
 
 ## Follow-ups
 
-- ~~The public `/reading-list` page still reads the Cloudinary file.~~ Done: the page reads `kind = 'reading_list'` links from the content cache; `saveReadingList()` now scrapes via `getLinkInfo()` and writes to `content.links` (Cloudinary is no longer the reading-list store; it still serves image uploads).
+- ~~The public `/reading-list` page still reads the Cloudinary file.~~ Done: the page reads `kind = 'reading_list'` links from the content cache; `saveReadingList()` now scrapes via `getLinkInfo()` and writes to `nothing_else_blog_content.links` (Cloudinary is no longer the reading-list store; it still serves image uploads).
 - Required env (runtime): `DATABASE_HOST`, `DATABASE_USER`, `DATABASE_PASSWORD`, `DATABASE_NAME`, `DATABASE_PORT`; version via `APP_VERSION` / `COMMIT_HASH`. Optional (publishing): `GITHUB_REPO_TOKEN`, `GITHUB_REPO_OWNER`, `GITHUB_REPO_NAME`. Admin login reuses `GITHUB_CLIENT_ID` / `GITHUB_SECRET`; the session cookie is signed with `GITHUB_SECRET`.

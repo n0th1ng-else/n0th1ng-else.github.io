@@ -4,7 +4,7 @@ import { revalidate, type LinkRow } from '$lib/server/content';
 import { getLinkInfo } from '$lib/server/meta';
 import type { ReadingListItem } from '$lib/common/readingList';
 
-// Reading-list items live in content.links (kind = 'reading_list'); the public page reads them
+// Reading-list items live in nothing_else_blog_content.links (kind = 'reading_list'); the public page reads them
 // from the in-memory cache. Adding still scrapes metadata via getLinkInfo (scrape-on-add).
 
 const toItem = (row: LinkRow): ReadingListItem => ({
@@ -18,7 +18,7 @@ const toItem = (row: LinkRow): ReadingListItem => ({
 
 export const saveReadingList = async (url: string, note?: string): Promise<ReadingListItem> => {
 	const existing = await query<LinkRow>(
-		'SELECT * FROM content.links WHERE kind = $1 AND url = $2',
+		'SELECT * FROM nothing_else_blog_content.links WHERE kind = $1 AND url = $2',
 		['reading_list', url]
 	);
 	if (existing[0]) {

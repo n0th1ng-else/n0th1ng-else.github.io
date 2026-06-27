@@ -38,7 +38,10 @@ export const parseArticleForm = (form: FormData): ArticleInput => ({
 });
 
 export const getArticleById = async (id: string): Promise<ArticleRow | undefined> => {
-	const rows = await query<ArticleRow>('SELECT * FROM content.articles WHERE id = $1', [id]);
+	const rows = await query<ArticleRow>(
+		'SELECT * FROM nothing_else_blog_content.articles WHERE id = $1',
+		[id]
+	);
 	return rows[0];
 };
 
@@ -48,7 +51,7 @@ export const createDraft = async (
 ): Promise<{ id: string; shareToken: string }> => {
 	const shareToken = randomUUID();
 	const rows = await query<{ id: string }>(
-		`INSERT INTO content.articles
+		`INSERT INTO nothing_else_blog_content.articles
 			(slug, language, title, description, image, date, keywords, reposts, body_md, status, source, share_token)
 		 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'draft', 'db', $10)
 		 RETURNING id`,
@@ -70,7 +73,7 @@ export const createDraft = async (
 
 export const updateArticle = async (id: string, input: ArticleInput): Promise<void> => {
 	await query(
-		`UPDATE content.articles SET
+		`UPDATE nothing_else_blog_content.articles SET
 			slug = $2, language = $3, title = $4, description = $5, image = $6, date = $7,
 			keywords = $8, reposts = $9, body_md = $10, updated_at = now()
 		 WHERE id = $1`,
@@ -90,7 +93,7 @@ export const updateArticle = async (id: string, input: ArticleInput): Promise<vo
 };
 
 export const deleteArticle = async (id: string): Promise<void> => {
-	await query('DELETE FROM content.articles WHERE id = $1', [id]);
+	await query('DELETE FROM nothing_else_blog_content.articles WHERE id = $1', [id]);
 };
 
 const formatDate = (date: Date | null): string => {
