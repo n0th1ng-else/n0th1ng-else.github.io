@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { env as runtimeEnv } from '$env/dynamic/private';
 
 const RuntimeEnvSchema = z
 	.object({
@@ -26,7 +27,9 @@ const RuntimeEnvSchema = z
 	})
 	.describe('App env schema');
 
-export const getRuntimeEnvironment = (env = process.env): z.infer<typeof RuntimeEnvSchema> => {
+// Reads from SvelteKit's dynamic private env, which includes .env values in dev and
+// process.env in production — plain process.env is NOT populated from .env during `pnpm dev`.
+export const getRuntimeEnvironment = (env = runtimeEnv): z.infer<typeof RuntimeEnvSchema> => {
 	const parsed = RuntimeEnvSchema.parse(env);
 	return parsed;
 };
