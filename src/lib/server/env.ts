@@ -19,7 +19,11 @@ const RuntimeEnvSchema = z
 		CLOUDINARY_SECRET: z.string(),
 		GITHUB_SECRET: z.string(),
 		GITHUB_CLIENT_ID: z.string(),
-		DATABASE_URL: z.string(),
+		DATABASE_HOST: z.string(),
+		DATABASE_USER: z.string(),
+		DATABASE_PASSWORD: z.string(),
+		DATABASE_NAME: z.string(),
+		DATABASE_PORT: z.coerce.number(),
 		// Optional: only required to publish articles as PRs from the admin editor.
 		GITHUB_REPO_TOKEN: z.string().optional(),
 		GITHUB_REPO_OWNER: z.string().optional(),

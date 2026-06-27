@@ -129,4 +129,4 @@ Path `articles/<YYYY>/<slug>.md` (year from `date`). Frontmatter order: `title`,
 ## Follow-ups
 
 - ~~The public `/reading-list` page still reads the Cloudinary file.~~ Done: the page reads `kind = 'reading_list'` links from the content cache; `saveReadingList()` now scrapes via `getLinkInfo()` and writes to `content.links` (Cloudinary is no longer the reading-list store; it still serves image uploads).
-- Required env (runtime): `DATABASE_URL`; version via `APP_VERSION` / `COMMIT_HASH`. Optional (publishing): `GITHUB_REPO_TOKEN`, `GITHUB_REPO_OWNER`, `GITHUB_REPO_NAME`. Admin login reuses `GITHUB_CLIENT_ID` / `GITHUB_SECRET`; the session cookie is signed with `GITHUB_SECRET`.
+- Required env (runtime): `DATABASE_HOST`, `DATABASE_USER`, `DATABASE_PASSWORD`, `DATABASE_NAME`, `DATABASE_PORT`; version via `APP_VERSION` / `COMMIT_HASH`. Optional (publishing): `GITHUB_REPO_TOKEN`, `GITHUB_REPO_OWNER`, `GITHUB_REPO_NAME`. Admin login reuses `GITHUB_CLIENT_ID` / `GITHUB_SECRET`; the session cookie is signed with `GITHUB_SECRET`.

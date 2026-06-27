@@ -13,8 +13,12 @@ export const getPool = (): pg.Pool => {
 	if (!pool) {
 		const env = getRuntimeEnvironment();
 		pool = new Pool({
-			connectionString: env.DATABASE_URL,
-			max: 2,
+			host: env.DATABASE_HOST,
+			user: env.DATABASE_USER,
+			password: env.DATABASE_PASSWORD,
+			database: env.DATABASE_NAME,
+			port: env.DATABASE_PORT,
+			max: 1,
 			idleTimeoutMillis: 10_000,
 			ssl: { rejectUnauthorized: false } // Aiven requires SSL
 		});

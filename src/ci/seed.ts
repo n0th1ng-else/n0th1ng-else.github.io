@@ -7,7 +7,7 @@ import pg from 'pg';
 // cutover. Internal articles are NOT seeded here — launch reconciliation imports them from
 // ./articles markdown. Safe to re-run: rows are skipped when (url, kind) already exists.
 //
-// Usage: pnpm seed   (requires DATABASE_URL; CLOUDINARY_ACCOUNT optional for reading list)
+// Usage: pnpm seed   (requires DATABASE_HOST/USER/PASSWORD/NAME[/PORT]; CLOUDINARY_ACCOUNT optional)
 
 const { Pool } = pg;
 
@@ -89,12 +89,21 @@ const fetchReadingList = async (): Promise<ReadingItem[]> => {
 };
 
 const main = async (): Promise<void> => {
-	const connectionString = process.env.DATABASE_URL;
-	if (!connectionString) {
-		throw new Error('DATABASE_URL is required');
+	const { DATABASE_HOST, DATABASE_USER, DATABASE_PASSWORD, DATABASE_NAME, DATABASE_PORT } =
+		process.env;
+	if (!DATABASE_HOST || !DATABASE_USER || !DATABASE_PASSWORD || !DATABASE_NAME) {
+		throw new Error('DATABASE_HOST/USER/PASSWORD/NAME are required');
 	}
 
-	const pool = new Pool({ connectionString, ssl: { rejectUnauthorized: false } });
+	const pool = new Pool({
+		host: DATABASE_HOST,
+		user: DATABASE_USER,
+		password: DATABASE_PASSWORD,
+		database: DATABASE_NAME,
+		port: DATABASE_PORT ? Number(DATABASE_PORT) : undefined,
+		max: 1,
+		ssl: { rejectUnauthorized: false }
+	});
 
 	// Ensure the schema exists so the seed is self-sufficient.
 	const schemaSql = readFileSync(`${rootDir}src/lib/server/db/schema.sql`, { encoding: 'utf-8' });
