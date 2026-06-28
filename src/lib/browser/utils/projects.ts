@@ -89,9 +89,9 @@ const transformPackage = (pkg: PackageInfo, accounts: ProfileAccounts): ProjectI
 	switch (pkg.service) {
 		case 'github':
 			return {
-				name: pkg.url,
+				name: pkg.meta.title || pkg.url,
 				source: pkg.meta.url || pkg.fullUrl,
-				description: pkg.meta.title?.substring(pkg.meta.title.indexOf(': ') + 2) || '',
+				description: pkg.meta.description || '',
 				url: pkg.link,
 				logo: pkg.logo
 			};
