@@ -58,19 +58,24 @@ const isValid = (fm: Frontmatter): boolean => {
 // markdown-sourced rows whose file no longer exists. DB-authored drafts are left untouched.
 export const reconcileArticles = async (): Promise<void> => {
 	const slugs: string[] = [];
+	const created: string[] = [];
+	const updated: string[] = [];
+	const skipped: string[] = [];
 
 	for (const [path, raw] of Object.entries(files)) {
 		const slug = slugFromPath(path);
 		const { metadata, content } = parseMD(raw) as { metadata: Frontmatter; content: string };
 
 		if (!isValid(metadata)) {
-			logger.warn(`Skipping ${path}: missing required frontmatter`);
+			skipped.push(slug);
+			logger.warn(`reconcile skip "${slug}" (${path}): missing required frontmatter`);
 			continue;
 		}
 
 		slugs.push(slug);
 
-		await query(
+		// `xmax = 0` is true only for freshly inserted rows, so we can tell create vs update.
+		const result = await query<{ inserted: boolean }>(
 			`INSERT INTO nothing_else_blog_content.articles
 				(slug, language, title, description, image, date, keywords, reposts, body_md, status, source, share_token)
 			 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 'markdown', NULL)
@@ -86,7 +91,8 @@ export const reconcileArticles = async (): Promise<void> => {
 				status = EXCLUDED.status,
 				source = 'markdown',
 				share_token = NULL,
-				updated_at = now()`,
+				updated_at = now()
+			 RETURNING (xmax = 0) AS inserted`,
 			[
 				slug,
 				toText(metadata.language) ?? 'en',
@@ -100,13 +106,24 @@ export const reconcileArticles = async (): Promise<void> => {
 				metadata.draft ? 'draft' : 'published'
 			]
 		);
+
+		const wasInserted = result[0]?.inserted ?? false;
+		(wasInserted ? created : updated).push(slug);
+		logger.warn(`reconcile "${slug}": ${wasInserted ? 'created' : 'rewritten'}`);
 	}
 
 	// Remove markdown-sourced rows whose file disappeared (keep DB-authored drafts).
-	await query(
-		`DELETE FROM nothing_else_blog_content.articles WHERE source = 'markdown' AND NOT (slug = ANY($1::text[]))`,
+	const removed = await query<{ slug: string }>(
+		`DELETE FROM nothing_else_blog_content.articles
+		 WHERE source = 'markdown' AND NOT (slug = ANY($1::text[]))
+		 RETURNING slug`,
 		[slugs]
 	);
 
-	logger.warn(`Reconciled ${slugs.length} markdown articles`);
+	logger.warn('reconcile summary', {
+		created,
+		rewritten: updated,
+		skipped,
+		pruned: removed.map(row => row.slug)
+	});
 };

@@ -60,6 +60,7 @@ type LinkSeed = {
 	image: string | null;
 	note: string | null;
 	date: number | null;
+	sortOrder: number;
 };
 
 const toMs = (date?: string): number | null => {
@@ -128,11 +129,13 @@ const main = async (): Promise<void> => {
 			description: pub.meta.description ?? null,
 			image: pub.meta.image ?? null,
 			note: null,
-			date: toMs(pub.meta.date)
+			date: toMs(pub.meta.date),
+			sortOrder: 0
 		});
 	}
 
-	for (const pkg of meta.packages ?? []) {
+	// Packages have no date; preserve their resources.json order via an explicit sort_order.
+	(meta.packages ?? []).forEach((pkg, index) => {
 		rows.push({
 			kind: 'package',
 			service: pkg.service ?? null,
@@ -142,9 +145,10 @@ const main = async (): Promise<void> => {
 			description: pkg.meta.description ?? null,
 			image: pkg.logo ?? null,
 			note: null,
-			date: null
+			date: null,
+			sortOrder: index
 		});
-	}
+	});
 
 	for (const item of await fetchReadingList()) {
 		rows.push({
@@ -156,15 +160,16 @@ const main = async (): Promise<void> => {
 			description: item.description ?? null,
 			image: item.image ?? null,
 			note: item.note ?? null,
-			date: item.date ?? null
+			date: item.date ?? null,
+			sortOrder: 0
 		});
 	}
 
 	let inserted = 0;
 	for (const row of rows) {
 		const result = await pool.query(
-			`INSERT INTO nothing_else_blog_content.links (kind, service, lang, url, title, description, image, note, date)
-			 SELECT $1, $2, $3, $4, $5, $6, $7, $8, $9
+			`INSERT INTO nothing_else_blog_content.links (kind, service, lang, url, title, description, image, note, date, sort_order)
+			 SELECT $1, $2, $3, $4, $5, $6, $7, $8, $9, $10
 			 WHERE NOT EXISTS (SELECT 1 FROM nothing_else_blog_content.links WHERE url = $4 AND kind = $1)`,
 			[
 				row.kind,
@@ -175,7 +180,8 @@ const main = async (): Promise<void> => {
 				row.description,
 				row.image,
 				row.note,
-				row.date
+				row.date,
+				row.sortOrder
 			]
 		);
 		inserted += result.rowCount ?? 0;

@@ -1,7 +1,7 @@
 import { type Handle, redirect, type ServerInit } from '@sveltejs/kit';
 import { ensureSchema } from '$lib/server/db';
 import { reconcileArticles } from '$lib/server/articles-sync';
-import { getCounts, load } from '$lib/server/content';
+import { getArticleRows, getCounts, getLinkRows, load } from '$lib/server/content';
 import { SESSION_COOKIE, verifySessionToken } from '$lib/server/session';
 import { Logger } from '$lib/common/log';
 
@@ -29,7 +29,13 @@ export const init: ServerInit = async () => {
 		await ensureSchema();
 		await reconcileArticles();
 		await load();
-		logger.warn('Content cache warmed', getCounts());
+		logger.warn('Content cache warmed', {
+			counts: getCounts(),
+			articles: getArticleRows().map(article => `${article.slug} (${article.status})`),
+			publications: getLinkRows('publication').map(link => link.url),
+			packages: getLinkRows('package').map(link => link.title ?? link.url),
+			readingList: getLinkRows('reading_list').map(link => link.url)
+		});
 	} catch (err) {
 		logger.error('Failed to warm content cache at boot', err);
 	}

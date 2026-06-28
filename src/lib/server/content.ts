@@ -144,7 +144,7 @@ const toReadingListItem = (row: LinkRow): ReadingListItem => ({
 export const load = async (): Promise<void> => {
 	const [links, articles] = await Promise.all([
 		query<LinkRow>(
-			'SELECT * FROM nothing_else_blog_content.links ORDER BY sort_order ASC, date DESC NULLS LAST, created_at DESC'
+			'SELECT * FROM nothing_else_blog_content.links ORDER BY sort_order ASC, date DESC NULLS LAST, created_at ASC'
 		),
 		query<ArticleRow>('SELECT * FROM nothing_else_blog_content.articles')
 	]);
