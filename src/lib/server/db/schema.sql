@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS nothing_else_blog_content.links (
 	service     text,
 	lang        text NOT NULL DEFAULT 'en' CHECK (lang IN ('en', 'ru')),
 	url         text NOT NULL,
+	link        text,
 	title       text,
 	description text,
 	image       text,
@@ -20,6 +21,9 @@ CREATE TABLE IF NOT EXISTS nothing_else_blog_content.links (
 	created_at  timestamptz NOT NULL DEFAULT now(),
 	updated_at  timestamptz NOT NULL DEFAULT now()
 );
+
+-- Backfill the column on databases created before `link` existed.
+ALTER TABLE nothing_else_blog_content.links ADD COLUMN IF NOT EXISTS link text;
 
 CREATE INDEX IF NOT EXISTS links_kind_idx ON nothing_else_blog_content.links (kind);
 

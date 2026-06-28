@@ -32,6 +32,7 @@ type Publication = {
 type Package = {
 	service?: string;
 	fullUrl: string;
+	link?: string;
 	logo?: string;
 	meta: Meta;
 };
@@ -55,12 +56,40 @@ type LinkSeed = {
 	service: string | null;
 	lang: 'en' | 'ru';
 	url: string;
+	link: string | null;
 	title: string | null;
 	description: string | null;
 	image: string | null;
 	note: string | null;
 	date: number | null;
 	sortOrder: number;
+};
+
+// GitHub scrapes a page title like "GitHub - owner/repo: description"; turn that into a clean
+// package name (repo) and description. Non-matching titles pass through.
+const normalizeGithubPackage = (
+	title: string | null,
+	description: string | null
+): { name: string | null; description: string | null } => {
+	const stripped = (title ?? '').replace(/^GitHub\s*-\s*/i, '');
+	const colon = stripped.indexOf(': ');
+	if (colon < 0) {
+		return { name: stripped || null, description };
+	}
+	const repoPath = stripped.slice(0, colon);
+	return {
+		name: repoPath.split('/').pop() || repoPath,
+		description: stripped.slice(colon + 2) || description
+	};
+};
+
+// npm scrapes "<description>. Latest version: x, last published…"; keep only the description.
+const normalizeNpmDescription = (description: string | null): string | null => {
+	if (!description) {
+		return null;
+	}
+	const idx = description.indexOf('Latest version:');
+	return (idx >= 0 ? description.slice(0, idx) : description).trim() || null;
 };
 
 const toMs = (date?: string): number | null => {
@@ -125,6 +154,7 @@ const main = async (): Promise<void> => {
 			service: pub.service ?? null,
 			lang: pub.lang ?? 'en',
 			url: pub.fullUrl,
+			link: null,
 			title: pub.meta.title ?? null,
 			description: pub.meta.description ?? null,
 			image: pub.meta.image ?? null,
@@ -135,14 +165,26 @@ const main = async (): Promise<void> => {
 	}
 
 	// Packages have no date; preserve their resources.json order via an explicit sort_order.
+	// Scraped GitHub/npm titles+descriptions are normalized to clean name/description here.
 	(meta.packages ?? []).forEach((pkg, index) => {
+		const rawTitle = pkg.meta.title ?? null;
+		const rawDescription = pkg.meta.description ?? null;
+		const { title, description } =
+			pkg.service === 'github'
+				? (() => {
+						const normalized = normalizeGithubPackage(rawTitle, rawDescription);
+						return { title: normalized.name, description: normalized.description };
+					})()
+				: { title: rawTitle, description: normalizeNpmDescription(rawDescription) };
+
 		rows.push({
 			kind: 'package',
 			service: pkg.service ?? null,
 			lang: 'en',
 			url: pkg.fullUrl,
-			title: pkg.meta.title ?? null,
-			description: pkg.meta.description ?? null,
+			link: pkg.link ?? null,
+			title,
+			description,
 			image: pkg.logo ?? null,
 			note: null,
 			date: null,
@@ -156,6 +198,7 @@ const main = async (): Promise<void> => {
 			service: null,
 			lang: 'en',
 			url: item.url,
+			link: null,
 			title: item.title ?? null,
 			description: item.description ?? null,
 			image: item.image ?? null,
@@ -168,14 +211,15 @@ const main = async (): Promise<void> => {
 	let inserted = 0;
 	for (const row of rows) {
 		const result = await pool.query(
-			`INSERT INTO nothing_else_blog_content.links (kind, service, lang, url, title, description, image, note, date, sort_order)
-			 SELECT $1, $2, $3, $4, $5, $6, $7, $8, $9, $10
+			`INSERT INTO nothing_else_blog_content.links (kind, service, lang, url, link, title, description, image, note, date, sort_order)
+			 SELECT $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
 			 WHERE NOT EXISTS (SELECT 1 FROM nothing_else_blog_content.links WHERE url = $4 AND kind = $1)`,
 			[
 				row.kind,
 				row.service,
 				row.lang,
 				row.url,
+				row.link,
 				row.title,
 				row.description,
 				row.image,

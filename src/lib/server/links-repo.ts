@@ -6,6 +6,7 @@ export type LinkInput = {
 	service: string | null;
 	lang: 'en' | 'ru';
 	url: string;
+	link: string | null;
 	title: string | null;
 	description: string | null;
 	image: string | null;
@@ -36,6 +37,7 @@ export const parseLinkForm = (form: FormData): LinkInput => {
 		service: text(form, 'service'),
 		lang: text(form, 'lang') === 'ru' ? 'ru' : 'en',
 		url: text(form, 'url') ?? '',
+		link: text(form, 'link'),
 		title: text(form, 'title'),
 		description: text(form, 'description'),
 		image: text(form, 'image'),
@@ -55,13 +57,14 @@ export const getLinkById = async (id: string): Promise<LinkRow | undefined> => {
 export const createLink = async (input: LinkInput): Promise<void> => {
 	await query(
 		`INSERT INTO nothing_else_blog_content.links
-			(kind, service, lang, url, title, description, image, note, date, sort_order)
-		 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+			(kind, service, lang, url, link, title, description, image, note, date, sort_order)
+		 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
 		[
 			input.kind,
 			input.service,
 			input.lang,
 			input.url,
+			input.link,
 			input.title,
 			input.description,
 			input.image,
@@ -75,8 +78,8 @@ export const createLink = async (input: LinkInput): Promise<void> => {
 export const updateLink = async (id: string, input: LinkInput): Promise<void> => {
 	await query(
 		`UPDATE nothing_else_blog_content.links SET
-			kind = $2, service = $3, lang = $4, url = $5, title = $6,
-			description = $7, image = $8, note = $9, date = $10, sort_order = $11, updated_at = now()
+			kind = $2, service = $3, lang = $4, url = $5, link = $6, title = $7,
+			description = $8, image = $9, note = $10, date = $11, sort_order = $12, updated_at = now()
 		 WHERE id = $1`,
 		[
 			id,
@@ -84,6 +87,7 @@ export const updateLink = async (id: string, input: LinkInput): Promise<void> =>
 			input.service,
 			input.lang,
 			input.url,
+			input.link,
 			input.title,
 			input.description,
 			input.image,

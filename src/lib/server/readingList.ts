@@ -32,6 +32,7 @@ export const saveReadingList = async (url: string, note?: string): Promise<Readi
 		service: null,
 		lang: 'en',
 		url,
+		link: null,
 		title: meta.title || url,
 		description: meta.description || null,
 		image: meta.image || null,

@@ -15,6 +15,7 @@ export const load: PageServerLoad = async ({ params }) => {
 			service: link.service,
 			lang: link.lang,
 			url: link.url,
+			link: link.link,
 			title: link.title,
 			description: link.description,
 			image: link.image,

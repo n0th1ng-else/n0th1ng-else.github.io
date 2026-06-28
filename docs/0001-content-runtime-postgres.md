@@ -31,6 +31,7 @@ erDiagram
     text service "nullable"
     text lang "en | ru"
     text url
+    text link "nullable; package website"
     text title
     text description
     text image

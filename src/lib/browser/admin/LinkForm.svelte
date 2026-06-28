@@ -6,6 +6,7 @@
 		service?: string | null;
 		lang?: string;
 		url?: string;
+		link?: string | null;
 		title?: string | null;
 		description?: string | null;
 		image?: string | null;
@@ -40,6 +41,10 @@
 	<label>
 		URL
 		<input name="url" type="url" required value={value.url ?? ''} />
+	</label>
+	<label>
+		Website / extra link (optional; for packages, the "Website" button)
+		<input name="link" type="url" value={value.link ?? ''} />
 	</label>
 	<label>
 		Title

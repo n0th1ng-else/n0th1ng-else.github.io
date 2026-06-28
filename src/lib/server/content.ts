@@ -18,6 +18,7 @@ export type LinkRow = {
 	service: string | null;
 	lang: 'en' | 'ru';
 	url: string;
+	link: string | null;
 	title: string | null;
 	description: string | null;
 	image: string | null;
@@ -122,6 +123,7 @@ const toPackage = (row: LinkRow): PackageInfo => ({
 	service: row.service ?? '',
 	fullUrl: row.url,
 	url: row.url,
+	link: row.link ?? undefined,
 	logo: row.image ?? undefined,
 	meta: {
 		title: row.title ?? '',
