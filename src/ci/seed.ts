@@ -2,10 +2,11 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import pg from 'pg';
 
-// One-time migration: import existing content (the baked meta/index.json external publications
-// and packages, plus the Cloudinary reading list) into nothing_else_blog_content.links so nothing is lost on
-// cutover. Internal articles are NOT seeded here — launch reconciliation imports them from
-// ./articles markdown. Safe to re-run: rows are skipped when (url, kind) already exists.
+// One-time migration / normalizer: import existing content (the baked meta/index.json external
+// publications and packages, plus the Cloudinary reading list) into nothing_else_blog_content.links.
+// Internal articles are NOT seeded here — launch reconciliation imports them from ./articles markdown.
+// Re-runnable: rows are upserted by (kind, url), so re-running re-normalizes existing rows
+// (and inserts new ones). NOTE: this overwrites manual admin edits on any (kind, url) it manages.
 //
 // Usage: pnpm seed   (requires DATABASE_HOST/USER/PASSWORD/NAME[/PORT]; CLOUDINARY_ACCOUNT optional)
 
@@ -209,32 +210,49 @@ const main = async (): Promise<void> => {
 	}
 
 	let inserted = 0;
+	let updated = 0;
 	for (const row of rows) {
-		const result = await pool.query(
-			`INSERT INTO nothing_else_blog_content.links (kind, service, lang, url, link, title, description, image, note, date, sort_order)
-			 SELECT $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
-			 WHERE NOT EXISTS (SELECT 1 FROM nothing_else_blog_content.links WHERE url = $4 AND kind = $1)`,
-			[
-				row.kind,
-				row.service,
-				row.lang,
-				row.url,
-				row.link,
-				row.title,
-				row.description,
-				row.image,
-				row.note,
-				row.date,
-				row.sortOrder
-			]
+		const params = [
+			row.kind,
+			row.service,
+			row.lang,
+			row.url,
+			row.link,
+			row.title,
+			row.description,
+			row.image,
+			row.note,
+			row.date,
+			row.sortOrder
+		];
+
+		// Upsert keyed on (kind, url): re-normalize an existing row, else insert a new one.
+		const update = await pool.query(
+			`UPDATE nothing_else_blog_content.links
+			 SET service = $2, lang = $3, link = $5, title = $6, description = $7,
+			     image = $8, note = $9, date = $10, sort_order = $11, updated_at = now()
+			 WHERE kind = $1 AND url = $4`,
+			params
 		);
-		inserted += result.rowCount ?? 0;
+
+		if ((update.rowCount ?? 0) > 0) {
+			updated += update.rowCount ?? 0;
+			continue;
+		}
+
+		await pool.query(
+			`INSERT INTO nothing_else_blog_content.links
+				(kind, service, lang, url, link, title, description, image, note, date, sort_order)
+			 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+			params
+		);
+		inserted += 1;
 	}
 
 	await pool.end();
 
 	// eslint-disable-next-line no-console
-	console.log(`Seeded ${inserted} new link rows (of ${rows.length} candidates).`);
+	console.log(`Seeded links: ${inserted} inserted, ${updated} re-normalized (of ${rows.length}).`);
 };
 
 main().catch((err: unknown) => {
