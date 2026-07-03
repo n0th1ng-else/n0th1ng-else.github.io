@@ -8,7 +8,7 @@ const logger = new Logger('hooks:init');
 
 // Resolves the admin session on every request and guards the /admin area (owner-only).
 // The login route is exempt so the owner can start the GitHub OAuth flow.
-export const handle: Handle = ({ event, resolve }) => {
+export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.admin = verifySessionToken(event.cookies.get(SESSION_COOKIE));
 
 	const { pathname } = event.url;
@@ -16,7 +16,15 @@ export const handle: Handle = ({ event, resolve }) => {
 		redirect(303, '/admin/login');
 	}
 
-	return resolve(event);
+	const response = await resolve(event);
+
+	// Belt and braces on top of the per-page noindex meta: keep the admin area and the
+	// unlisted draft previews out of search engines at the HTTP layer too.
+	if (pathname.startsWith('/admin') || pathname.startsWith('/draft')) {
+		response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+	}
+
+	return response;
 };
 
 // Runs once when the server boots, before handling any request:

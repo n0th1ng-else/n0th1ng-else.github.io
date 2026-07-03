@@ -12,6 +12,7 @@ Key areas:
 - `src/lib/server` — server-only logic (data access, scraping, Cloudinary, env).
 - `articles/<year>/<slug>.md` — the **canonical** source for published blog articles (git is the source of truth).
 - `docs/` — RFC/ERD design documents (see below).
+- `runbook/` — step-by-step operational recipes (setup, recovery); index in `runbook/README.md`.
 
 ## Docs-first workflow (required)
 
