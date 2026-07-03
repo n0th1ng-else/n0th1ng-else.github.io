@@ -1,7 +1,6 @@
 import { type Handle, redirect, type ServerInit } from '@sveltejs/kit';
-import { ensureSchema } from '$lib/server/db';
-import { reconcileArticles } from '$lib/server/articles-sync';
-import { getArticleRows, getCounts, getLinkRows, load } from '$lib/server/content';
+import { warmup } from '$lib/server/warmup';
+import { getArticleRows, getCounts, getLinkRows } from '$lib/server/content';
 import { SESSION_COOKIE, verifySessionToken } from '$lib/server/session';
 import { Logger } from '$lib/common/log';
 
@@ -26,9 +25,7 @@ export const handle: Handle = ({ event, resolve }) => {
 // 3) warm the in-memory content cache.
 export const init: ServerInit = async () => {
 	try {
-		await ensureSchema();
-		await reconcileArticles();
-		await load();
+		await warmup();
 		logger.warn('Content cache warmed', {
 			counts: getCounts(),
 			articles: getArticleRows().map(article => `${article.slug} (${article.status})`),
@@ -37,6 +34,6 @@ export const init: ServerInit = async () => {
 			readingList: getLinkRows('reading_list').map(link => link.url)
 		});
 	} catch (err) {
-		logger.error('Failed to warm content cache at boot', err);
+		logger.error('Failed to warm content cache at boot; /api/v1/health will keep retrying', err);
 	}
 };

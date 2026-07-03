@@ -11,7 +11,6 @@
 	export let article: PublicationInfo;
 	export let showDate = false;
 	export let readonly = false;
-	export let addDraft = false;
 	export let selfUrl = '';
 
 	const date = getRelativeDate(article.meta.date);
@@ -20,10 +19,8 @@
 	const internal = isInternalArticle(article);
 	const image = article.meta.image;
 
-	const getUrl = (item: PublicationInfo): string => {
-		const url = internal ? `${selfUrl}${item.fullUrl}` : item.fullUrl;
-		return addDraft ? `${url}?draft=true` : url;
-	};
+	const getUrl = (item: PublicationInfo): string =>
+		internal ? `${selfUrl}${item.fullUrl}` : item.fullUrl;
 
 	const btnText = externalService ? `Read more on ${externalService}` : 'Read more';
 </script>

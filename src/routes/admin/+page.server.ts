@@ -13,9 +13,16 @@ export const load: PageServerLoad = () => {
 		slug: article.slug,
 		title: article.title,
 		status: article.status,
-		source: article.source
+		source: article.source,
+		// Unlisted preview URL; only drafts carry a token (cleared on publish).
+		shareToken: article.share_token
 	}));
-	return { counts: getCounts(), links, articles };
+	return {
+		counts: getCounts(),
+		links,
+		drafts: articles.filter(article => article.status === 'draft'),
+		published: articles.filter(article => article.status === 'published')
+	};
 };
 
 export const actions: Actions = {

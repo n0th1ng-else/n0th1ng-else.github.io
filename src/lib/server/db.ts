@@ -20,6 +20,9 @@ export const getPool = (): pg.Pool => {
 			port: env.DATABASE_PORT,
 			max: 1,
 			idleTimeoutMillis: 10_000,
+			// Fail fast when the DB is unreachable (default is to wait forever), so boot
+			// and the health-endpoint warmup retries return errors instead of hanging.
+			connectionTimeoutMillis: 10_000,
 			ssl: { rejectUnauthorized: false } // Aiven requires SSL
 		});
 	}

@@ -151,7 +151,11 @@ export const load = async (): Promise<void> => {
 		query<ArticleRow>('SELECT * FROM nothing_else_blog_content.articles')
 	]);
 
-	const internalPublications = await Promise.all(articles.map(toInternalPublication));
+	// Drafts never enter the public publications view — they are reachable only through
+	// the admin area (raw rows) and the unlisted /draft/<share_token> preview.
+	const internalPublications = await Promise.all(
+		articles.filter(article => article.status === 'published').map(toInternalPublication)
+	);
 	const externalPublications = links
 		.filter(link => link.kind === 'publication')
 		.map(toExternalPublication);

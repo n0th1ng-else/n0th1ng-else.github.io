@@ -6,12 +6,11 @@ import type { WithPagination } from '$lib/common/types';
 import type { PublicationInfo } from '$lib/types';
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = ({ url }) => {
+export const GET: RequestHandler = () => {
 	const logger = new Logger('api:articles');
-	const showDraft = url.searchParams.get('draft') === 'true';
 
 	try {
-		const items = getAllArticles(showDraft);
+		const items = getAllArticles();
 
 		const body: WithPagination<PublicationInfo> = {
 			page: 1,

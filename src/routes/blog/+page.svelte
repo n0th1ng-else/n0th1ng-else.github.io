@@ -15,7 +15,7 @@
 
 	const { data }: { data: PageData } = $props();
 
-	const { url, articles, showDraft } = data;
+	const { url, articles } = data;
 
 	const profile = $derived.by(() => getProfile());
 	const profileImage = $derived(profile?.image ?? '');
@@ -26,16 +26,9 @@
 		return sortArticlesByDate(groups[year]);
 	};
 
-	const getUrl = (item: PublicationInfo): string => {
-		const url = toArticle(item.id);
-		const addQuery = showDraft && item.draft;
-		return addQuery ? `${url}?draft=true` : url;
-	};
+	const getUrl = (item: PublicationInfo): string => toArticle(item.id);
 
-	const getTitle = (item: PublicationInfo): string => {
-		const title = item.meta.title ?? '';
-		return item.draft ? `[⭐⭐DRAFT⭐⭐] ${title}` : title;
-	};
+	const getTitle = (item: PublicationInfo): string => item.meta.title ?? '';
 </script>
 
 <Meta

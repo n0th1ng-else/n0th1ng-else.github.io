@@ -113,6 +113,12 @@ export const reconcileArticles = async (): Promise<void> => {
 	}
 
 	// Remove markdown-sourced rows whose file disappeared (keep DB-authored drafts).
+	// Safety valve: if no markdown parsed at all (broken glob/frontmatter), keep the DB
+	// as-is rather than wiping every published article.
+	if (slugs.length === 0) {
+		logger.warn('reconcile: no valid markdown articles found, skipping prune');
+		return;
+	}
 	const removed = await query<{ slug: string }>(
 		`DELETE FROM nothing_else_blog_content.articles
 		 WHERE source = 'markdown' AND NOT (slug = ANY($1::text[]))

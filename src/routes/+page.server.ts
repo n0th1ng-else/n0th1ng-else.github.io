@@ -3,26 +3,22 @@ import { Logger } from '$lib/common/log';
 import { sortArticlesByDate } from '$lib/common/date';
 import { getEnglishArticles } from '$lib/common/language';
 import type { PublicationInfo } from '$lib/types';
-import { shouldShowDraft } from '$lib/server/url';
 import type { PageServerLoad } from './$types';
 
 interface Output {
-	showDraft: boolean;
 	url: string;
 	host: string;
 	article?: PublicationInfo;
 }
 export const load: PageServerLoad<Output> = async ({ url }) => {
-	const showDraft = shouldShowDraft(url);
 	try {
-		const articles = await getArticles(url.origin, showDraft);
+		const articles = await getArticles(url.origin);
 		const engArticles = getEnglishArticles(articles.items);
 		const sortedArticles = sortArticlesByDate(engArticles);
 		const article = sortedArticles.at(0);
 
 		return {
 			article,
-			showDraft,
 			url: url.toString(),
 			host: url.origin
 		};
@@ -31,7 +27,6 @@ export const load: PageServerLoad<Output> = async ({ url }) => {
 		logger.error('Failed to load home', err);
 
 		return {
-			showDraft,
 			url: url.toString(),
 			host: url.origin
 		};

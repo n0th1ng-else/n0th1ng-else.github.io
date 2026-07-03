@@ -72,14 +72,6 @@ export const getUrlPrefix = (url: string): string => {
 	return url.includes('localhost') ? `http://${url}` : `https://${url}`;
 };
 
-const withQuery = (url: string, params: Record<string, unknown>): string => {
-	const q = Object.keys(params)
-		.filter(key => params[key])
-		.map(key => `${key}=${params[key]}`)
-		.join('&');
-	return q ? `${url}?${q}` : url;
-};
-
 // Browser API ----------------------------------------------------------------
 
 export const uploadImage = (form: FormData): Promise<UrlResponse> =>
@@ -95,14 +87,11 @@ export const getProfile = (host: string): Promise<ProfileInfo> =>
 export const getPackages = (host: string): Promise<PackageInfo[]> =>
 	runApi(getApiPath('packages', host));
 
-export const getArticles = (
-	host: string,
-	draft?: boolean
-): Promise<WithPagination<PublicationInfo>> =>
-	runApi(withQuery(getApiPath('articles', host), { draft }));
+export const getArticles = (host: string): Promise<WithPagination<PublicationInfo>> =>
+	runApi(getApiPath('articles', host));
 
-export const getArticle = (host: string, slug: string, draft?: boolean): Promise<PublicationInfo> =>
-	runApi(withQuery(getApiPath(`articles/${slug}`, host), { draft }));
+export const getArticle = (host: string, slug: string): Promise<PublicationInfo> =>
+	runApi(getApiPath(`articles/${slug}`, host));
 
 export const getAccounts = (host: string): Promise<ProfileAccounts> =>
 	runApi(getApiPath('accounts', host));

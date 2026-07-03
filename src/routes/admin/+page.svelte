@@ -37,16 +37,33 @@
 		<a href="/admin/articles/new">New article</a>
 	</nav>
 
-	<h2>Articles ({data.articles.length})</h2>
+	<h2>Drafts ({data.drafts.length})</h2>
 	<ul class="admin__list">
-		{#each data.articles as article (article.id)}
+		{#each data.drafts as article (article.id)}
 			<li>
 				<a href={`/admin/articles/${article.id}`}>{article.title}</a>
-				<span class="admin__tag">{article.status}</span>
 				<span class="admin__tag">{article.source}</span>
+				{#if article.shareToken}
+					<a class="admin__tag" href={`/draft/${article.shareToken}`} target="_blank">
+						share preview
+					</a>
+				{/if}
 			</li>
 		{:else}
-			<li class="admin__empty">No articles.</li>
+			<li class="admin__empty">No drafts.</li>
+		{/each}
+	</ul>
+
+	<h2>Published ({data.published.length})</h2>
+	<ul class="admin__list">
+		{#each data.published as article (article.id)}
+			<li>
+				<a href={`/admin/articles/${article.id}`}>{article.title}</a>
+				<span class="admin__tag">{article.source}</span>
+				<a class="admin__tag" href={`/blog/${article.slug}`} target="_blank">view</a>
+			</li>
+		{:else}
+			<li class="admin__empty">No published articles.</li>
 		{/each}
 	</ul>
 

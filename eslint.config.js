@@ -67,6 +67,6 @@ export default defineConfig(
 		}
 	},
 	{
-		ignores: ['.svelte-kit/**/*']
+		ignores: ['.svelte-kit/**/*', 'dist/**/*']
 	}
 );

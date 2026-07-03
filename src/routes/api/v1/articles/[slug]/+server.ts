@@ -3,13 +3,12 @@ import { getArticleInfo } from '$lib/server/articles';
 import { Logger } from '$lib/common/log';
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = ({ url, params }) => {
+export const GET: RequestHandler = ({ params }) => {
 	const logger = new Logger('api:article');
-	const showDraft = url.searchParams.get('draft') === 'true';
 	const slug = params.slug;
 
 	try {
-		const article = getArticleInfo(slug, showDraft);
+		const article = getArticleInfo(slug);
 		if (article) {
 			return json(article);
 		}

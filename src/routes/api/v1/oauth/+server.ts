@@ -18,21 +18,20 @@ export const GET: RequestHandler = async ({ url: urlData, cookies }) => {
 	const code = urlData.searchParams.get('code');
 	const state = urlData.searchParams.get('state');
 
+	let userName = '';
 	try {
 		const accessToken = await fetchAccessToken(urlData.origin, code ?? '');
-		const userName = await fetchUserName(accessToken);
-
-		const isAuthorized = Boolean(userName) && userName === env.GH_AUTHOR_LOGIN;
-
-		if (!isAuthorized) {
-			logger.warn('Not authorized', {
-				expectedUserName: env.GH_AUTHOR_LOGIN,
-				receivedUserName: userName
-			});
-			error(401, 'Not authorized');
-		}
+		userName = await fetchUserName(accessToken);
 	} catch (err) {
 		logger.error('Could not fetch access token or user data', err);
+		error(401, 'Not authorized');
+	}
+
+	if (!userName || userName !== env.GH_AUTHOR_LOGIN) {
+		logger.warn('Not authorized', {
+			expectedUserName: env.GH_AUTHOR_LOGIN,
+			receivedUserName: userName
+		});
 		error(401, 'Not authorized');
 	}
 
