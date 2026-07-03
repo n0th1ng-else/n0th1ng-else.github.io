@@ -18,7 +18,7 @@
 	import type { PageData } from './$types';
 
 	const { data, children }: { data: PageData; children: Snippet } = $props();
-	const { accounts, profile, version, theme } = data;
+	const { accounts, profile, version, theme, hasReadingList } = data;
 
 	setTheme(theme);
 	setVersion(version);
@@ -39,7 +39,7 @@
 
 <MetaColor />
 <Container full>
-	<Header {activePath} />
+	<Header {activePath} {hasReadingList} />
 	<main>
 		<Container>
 			<div class="content__wrapper">
