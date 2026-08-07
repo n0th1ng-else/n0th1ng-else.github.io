@@ -24,7 +24,10 @@
 
 	const onBack = () => goto(blogRoute);
 
-	let { activePath = '' }: { activePath?: string } = $props();
+	let {
+		activePath = '',
+		hasReadingList = false
+	}: { activePath?: string; hasReadingList?: boolean } = $props();
 </script>
 
 <header class="header-wrapper">
@@ -41,14 +44,14 @@
 				</HeaderLink>
 			</p>
 			<div class="navigation-inline">
-				<HeaderNavigation {activePath} />
+				<HeaderNavigation {activePath} {hasReadingList} />
 			</div>
 			<p class="theme">
 				<Button secondary onClick={switchTheme} printVisible={false} {icon} hint="change theme" />
 			</p>
 		</div>
 		<div class="navigation">
-			<HeaderNavigation {activePath} />
+			<HeaderNavigation {activePath} {hasReadingList} />
 		</div>
 	</nav>
 </header>

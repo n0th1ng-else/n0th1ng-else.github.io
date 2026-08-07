@@ -11,7 +11,7 @@
 
 	const { data }: { data: PageData } = $props();
 
-	const { url, host, article, showDraft } = data;
+	const { url, host, article } = data;
 
 	const profile = $derived.by(() => getProfile());
 	const profileImage = $derived(profile?.image ?? '');
@@ -25,7 +25,7 @@
 <Meta image={profileImage} title={seoTitle} description={seoDescription} {url} />
 
 {#if article}
-	<ArticlePreview {article} readonly={!browser} addDraft={showDraft} selfUrl={host} />
+	<ArticlePreview {article} readonly={!browser} selfUrl={host} />
 {/if}
 
 <section class="blog-link">

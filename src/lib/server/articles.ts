@@ -1,25 +1,18 @@
 import { fetchArticles } from '$lib/server/selectors';
 import type { PublicationInfo } from '$lib/types';
 
-export const getArticleInfo = (slug: string, showDraft: boolean): PublicationInfo | null => {
-	const articles = fetchArticles();
-	const result = articles.find(article => article.id === slug);
+// Public reads never expose drafts. Drafts are managed under /admin and shared
+// only via the unlisted /draft/<share_token> preview (see routes/draft/[token]).
 
-	if (!result) {
-		return null;
-	}
+export const getArticleInfo = (slug: string): PublicationInfo | null => {
+	const result = fetchArticles().find(article => article.id === slug);
 
-	if (!showDraft && result.draft) {
+	if (!result || result.draft) {
 		return null;
 	}
 
 	return result;
 };
 
-export const getAllArticles = (showDraft = false): PublicationInfo[] => {
-	const articles = fetchArticles();
-	if (!showDraft) {
-		return articles.filter(article => !article.draft);
-	}
-	return articles;
-};
+export const getAllArticles = (): PublicationInfo[] =>
+	fetchArticles().filter(article => !article.draft);

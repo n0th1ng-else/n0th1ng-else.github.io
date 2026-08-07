@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { blogRoute, projectsRoute, aboutRoute } from '$lib/common/routes';
+	import { blogRoute, projectsRoute, aboutRoute, readingListRoute } from '$lib/common/routes';
 	import HeaderLink from '$lib/browser/ui/HeaderLink.svelte';
 	import List from '$lib/browser/ui/List.svelte';
 
 	export let activePath = '';
+	export let hasReadingList = false;
 </script>
 
 <List type="header">
@@ -17,11 +18,17 @@
 			<span class="nav__item">Projects.</span>
 		</HeaderLink>
 	</li>
-	<!--		<li>-->
-	<!--			<HeaderLink url="{readingListRoute}" active="{readingListRoute === activePath}">-->
-	<!--				<span class="nav__item">Reading list.</span>-->
-	<!--			</HeaderLink>-->
-	<!--		</li>-->
+	{#if hasReadingList}
+		<li>
+			<HeaderLink
+				url={readingListRoute}
+				active={readingListRoute === activePath}
+				label="Reading list"
+			>
+				<span class="nav__item" aria-hidden="true">Reading List.</span>
+			</HeaderLink>
+		</li>
+	{/if}
 	<li>
 		<HeaderLink url={aboutRoute} active={aboutRoute === activePath} label="About me">
 			<span class="nav__item">It's me.</span>

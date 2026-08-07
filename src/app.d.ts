@@ -3,7 +3,10 @@
 declare global {
 	namespace App {
 		// interface Error {}
-		// interface Locals {}
+		interface Locals {
+			// GitHub login of the authenticated owner, or null when not signed in.
+			admin: string | null;
+		}
 		// interface PageData {}
 		// interface Platform {}
 	}

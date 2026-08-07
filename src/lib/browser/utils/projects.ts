@@ -85,30 +85,30 @@ export const getWorkProjects = (): ProjectItem[] => [
 
 const transformPackage = (pkg: PackageInfo, accounts: ProfileAccounts): ProjectItem => {
 	const github = accounts.github;
+	// Title and description are stored clean (the seed normalizes scraped GitHub/npm data),
+	// so the view just renders them — no slicing/substring here.
+	const name = pkg.meta.title || pkg.url;
+	const description = pkg.meta.description || '';
 
 	switch (pkg.service) {
 		case 'github':
+			// Source button -> the repo; Website button -> the optional homepage (link column).
 			return {
-				name: pkg.url,
-				source: pkg.meta.url || pkg.fullUrl,
-				description: pkg.meta.title?.substring(pkg.meta.title.indexOf(': ') + 2) || '',
+				name,
+				source: pkg.fullUrl,
 				url: pkg.link,
+				description,
 				logo: pkg.logo
 			};
-		case 'npm':
-			return {
-				name: pkg.meta.title || pkg.url,
-				source: pkg.meta.title ? getGithubLink(github, pkg.meta.title) : undefined,
-				registry: pkg.fullUrl,
-				description:
-					pkg.meta.description?.slice(0, pkg.meta.description.indexOf('Latest version:')) || ''
-			};
 		default:
+			// npm and others: Package button -> the registry; Source -> the GitHub repo.
 			return {
-				name: pkg.meta.title || pkg.url,
-				source: pkg.meta.title ? getGithubLink(github, pkg.meta.title) : undefined,
+				name,
+				source: pkg.link || getGithubLink(github, name),
 				registry: pkg.fullUrl,
-				description: pkg.meta.description || ''
+				url: undefined,
+				description,
+				logo: pkg.logo
 			};
 	}
 };
