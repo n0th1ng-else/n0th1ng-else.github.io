@@ -1,4 +1,9 @@
 import { query } from '$lib/server/db';
+import linkSelectByIdSql from '$lib/server/db/queries/link-select-by-id.sql?raw';
+import linkInsertSql from '$lib/server/db/queries/link-insert.sql?raw';
+import linkUpdateSql from '$lib/server/db/queries/link-update.sql?raw';
+import linkDeleteSql from '$lib/server/db/queries/link-delete.sql?raw';
+import linkToggleHiddenSql from '$lib/server/db/queries/link-toggle-hidden.sql?raw';
 import type { LinkKind, LinkRow } from '$lib/server/content';
 
 export type LinkInput = {
@@ -48,56 +53,49 @@ export const parseLinkForm = (form: FormData): LinkInput => {
 };
 
 export const getLinkById = async (id: string): Promise<LinkRow | undefined> => {
-	const rows = await query<LinkRow>('SELECT * FROM nothing_else_blog_content.links WHERE id = $1', [
-		id
-	]);
-	return rows[0];
+	const rows = await query<LinkRow>(linkSelectByIdSql, [id]);
+	return rows.at(0);
 };
 
 export const createLink = async (input: LinkInput): Promise<void> => {
-	await query(
-		`INSERT INTO nothing_else_blog_content.links
-			(kind, service, lang, url, link, title, description, image, note, date, sort_order)
-		 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
-		[
-			input.kind,
-			input.service,
-			input.lang,
-			input.url,
-			input.link,
-			input.title,
-			input.description,
-			input.image,
-			input.note,
-			input.date,
-			input.sortOrder
-		]
-	);
+	await query(linkInsertSql, [
+		input.kind,
+		input.service,
+		input.lang,
+		input.url,
+		input.link,
+		input.title,
+		input.description,
+		input.image,
+		input.note,
+		input.date,
+		input.sortOrder
+	]);
 };
 
 export const updateLink = async (id: string, input: LinkInput): Promise<void> => {
-	await query(
-		`UPDATE nothing_else_blog_content.links SET
-			kind = $2, service = $3, lang = $4, url = $5, link = $6, title = $7,
-			description = $8, image = $9, note = $10, date = $11, sort_order = $12, updated_at = now()
-		 WHERE id = $1`,
-		[
-			id,
-			input.kind,
-			input.service,
-			input.lang,
-			input.url,
-			input.link,
-			input.title,
-			input.description,
-			input.image,
-			input.note,
-			input.date,
-			input.sortOrder
-		]
-	);
+	await query(linkUpdateSql, [
+		id,
+		input.kind,
+		input.service,
+		input.lang,
+		input.url,
+		input.link,
+		input.title,
+		input.description,
+		input.image,
+		input.note,
+		input.date,
+		input.sortOrder
+	]);
 };
 
 export const deleteLink = async (id: string): Promise<void> => {
-	await query('DELETE FROM nothing_else_blog_content.links WHERE id = $1', [id]);
+	await query(linkDeleteSql, [id]);
+};
+
+// Flips the "draft" switch: a hidden link stays editable in the admin area but is
+// removed from all public-facing pages until toggled back.
+export const toggleLinkHidden = async (id: string): Promise<void> => {
+	await query(linkToggleHiddenSql, [id]);
 };

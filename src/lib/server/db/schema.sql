@@ -18,12 +18,15 @@ CREATE TABLE IF NOT EXISTS nothing_else_blog_content.links (
 	note        text,
 	date        bigint,
 	sort_order  integer NOT NULL DEFAULT 0,
+	hidden      boolean NOT NULL DEFAULT false,
 	created_at  timestamptz NOT NULL DEFAULT now(),
 	updated_at  timestamptz NOT NULL DEFAULT now()
 );
 
--- Backfill the column on databases created before `link` existed.
+-- Backfill columns on databases created before they existed.
 ALTER TABLE nothing_else_blog_content.links ADD COLUMN IF NOT EXISTS link text;
+ALTER TABLE nothing_else_blog_content.links
+	ADD COLUMN IF NOT EXISTS hidden boolean NOT NULL DEFAULT false;
 
 CREATE INDEX IF NOT EXISTS links_kind_idx ON nothing_else_blog_content.links (kind);
 

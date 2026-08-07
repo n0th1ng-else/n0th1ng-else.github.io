@@ -1,4 +1,5 @@
 import { query } from '$lib/server/db';
+import linkSelectByKindUrlSql from '$lib/server/db/queries/link-select-by-kind-url.sql?raw';
 import { createLink } from '$lib/server/links-repo';
 import { revalidate, type LinkRow } from '$lib/server/content';
 import { getLinkInfo } from '$lib/server/meta';
@@ -17,12 +18,10 @@ const toItem = (row: LinkRow): ReadingListItem => ({
 });
 
 export const saveReadingList = async (url: string, note?: string): Promise<ReadingListItem> => {
-	const existing = await query<LinkRow>(
-		'SELECT * FROM nothing_else_blog_content.links WHERE kind = $1 AND url = $2',
-		['reading_list', url]
-	);
-	if (existing[0]) {
-		return toItem(existing[0]);
+	const existing = await query<LinkRow>(linkSelectByKindUrlSql, ['reading_list', url]);
+	const found = existing.at(0);
+	if (found) {
+		return toItem(found);
 	}
 
 	const meta = await getLinkInfo(url);

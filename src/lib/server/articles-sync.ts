@@ -1,5 +1,7 @@
 import parseMD from 'parse-md';
 import { query } from '$lib/server/db';
+import articleUpsertSql from '$lib/server/db/queries/article-upsert-from-markdown.sql?raw';
+import articlesPruneSql from '$lib/server/db/queries/articles-prune-markdown.sql?raw';
 import { Logger } from '$lib/common/log';
 
 const logger = new Logger('articles-sync');
@@ -74,40 +76,20 @@ export const reconcileArticles = async (): Promise<void> => {
 
 		slugs.push(slug);
 
-		// `xmax = 0` is true only for freshly inserted rows, so we can tell create vs update.
-		const result = await query<{ inserted: boolean }>(
-			`INSERT INTO nothing_else_blog_content.articles
-				(slug, language, title, description, image, date, keywords, reposts, body_md, status, source, share_token)
-			 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 'markdown', NULL)
-			 ON CONFLICT (slug) DO UPDATE SET
-				language = EXCLUDED.language,
-				title = EXCLUDED.title,
-				description = EXCLUDED.description,
-				image = EXCLUDED.image,
-				date = EXCLUDED.date,
-				keywords = EXCLUDED.keywords,
-				reposts = EXCLUDED.reposts,
-				body_md = EXCLUDED.body_md,
-				status = EXCLUDED.status,
-				source = 'markdown',
-				share_token = NULL,
-				updated_at = now()
-			 RETURNING (xmax = 0) AS inserted`,
-			[
-				slug,
-				toText(metadata.language) ?? 'en',
-				toText(metadata.title) ?? slug,
-				toText(metadata.description),
-				toText(metadata.image),
-				toDateString(metadata.date),
-				toStringArray(metadata.keywords),
-				toStringArray(metadata.reposts),
-				content,
-				metadata.draft ? 'draft' : 'published'
-			]
-		);
+		const result = await query<{ inserted: boolean }>(articleUpsertSql, [
+			slug,
+			toText(metadata.language) ?? 'en',
+			toText(metadata.title) ?? slug,
+			toText(metadata.description),
+			toText(metadata.image),
+			toDateString(metadata.date),
+			toStringArray(metadata.keywords),
+			toStringArray(metadata.reposts),
+			content,
+			metadata.draft ? 'draft' : 'published'
+		]);
 
-		const wasInserted = result[0]?.inserted ?? false;
+		const wasInserted = result.at(0)?.inserted ?? false;
 		(wasInserted ? created : updated).push(slug);
 		logger.warn(`reconcile "${slug}": ${wasInserted ? 'created' : 'rewritten'}`);
 	}
@@ -119,12 +101,7 @@ export const reconcileArticles = async (): Promise<void> => {
 		logger.warn('reconcile: no valid markdown articles found, skipping prune');
 		return;
 	}
-	const removed = await query<{ slug: string }>(
-		`DELETE FROM nothing_else_blog_content.articles
-		 WHERE source = 'markdown' AND NOT (slug = ANY($1::text[]))
-		 RETURNING slug`,
-		[slugs]
-	);
+	const removed = await query<{ slug: string }>(articlesPruneSql, [slugs]);
 
 	logger.warn('reconcile summary', {
 		created,

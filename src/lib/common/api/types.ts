@@ -8,7 +8,8 @@ export interface Version {
 }
 
 export const enum ApplicationStatus {
-	OK = 'OK'
+	OK = 'OK',
+	ERROR = 'ERROR'
 }
 
 export interface StatusDto {

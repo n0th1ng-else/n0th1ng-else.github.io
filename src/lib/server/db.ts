@@ -5,8 +5,7 @@ import { getRuntimeEnvironment } from '$lib/server/env';
 const { Pool } = pg;
 
 // Single small pool. The site runs one replica and serves from an in-memory cache
-// (see content.ts), so ~1 connection is in use at a time. Kept tiny to stay well under
-// the shared Aiven free-tier cap (20 connections, no pooler).
+// (see content.ts), so ~1 connection is in use at a time.
 let pool: pg.Pool | undefined;
 
 export const getPool = (): pg.Pool => {
@@ -23,7 +22,7 @@ export const getPool = (): pg.Pool => {
 			// Fail fast when the DB is unreachable (default is to wait forever), so boot
 			// and the health-endpoint warmup retries return errors instead of hanging.
 			connectionTimeoutMillis: 10_000,
-			ssl: { rejectUnauthorized: false } // Aiven requires SSL
+			ssl: { rejectUnauthorized: false } // managed Postgres requires SSL
 		});
 	}
 	return pool;

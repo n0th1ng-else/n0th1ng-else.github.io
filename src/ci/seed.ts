@@ -136,9 +136,13 @@ const main = async (): Promise<void> => {
 		ssl: { rejectUnauthorized: false }
 	});
 
-	// Ensure the schema exists so the seed is self-sufficient.
-	const schemaSql = readFileSync(`${rootDir}src/lib/server/db/schema.sql`, { encoding: 'utf-8' });
-	await pool.query(schemaSql);
+	// Ensure the schema exists so the seed is self-sufficient. SQL lives in the shared
+	// query files (src/lib/server/db); this script runs outside Vite, so read them from disk.
+	const readSql = (name: string): string =>
+		readFileSync(`${rootDir}src/lib/server/db/${name}`, { encoding: 'utf-8' });
+	await pool.query(readSql('schema.sql'));
+	const linkUpdateByKindUrlSql = readSql('queries/link-update-by-kind-url.sql');
+	const linkInsertSql = readSql('queries/link-insert.sql');
 
 	const meta = JSON.parse(
 		readFileSync(`${rootDir}meta/index.json`, { encoding: 'utf-8' })
@@ -227,25 +231,14 @@ const main = async (): Promise<void> => {
 		];
 
 		// Upsert keyed on (kind, url): re-normalize an existing row, else insert a new one.
-		const update = await pool.query(
-			`UPDATE nothing_else_blog_content.links
-			 SET service = $2, lang = $3, link = $5, title = $6, description = $7,
-			     image = $8, note = $9, date = $10, sort_order = $11, updated_at = now()
-			 WHERE kind = $1 AND url = $4`,
-			params
-		);
+		const update = await pool.query(linkUpdateByKindUrlSql, params);
 
 		if ((update.rowCount ?? 0) > 0) {
 			updated += update.rowCount ?? 0;
 			continue;
 		}
 
-		await pool.query(
-			`INSERT INTO nothing_else_blog_content.links
-				(kind, service, lang, url, link, title, description, image, note, date, sort_order)
-			 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
-			params
-		);
+		await pool.query(linkInsertSql, params);
 		inserted += 1;
 	}
 

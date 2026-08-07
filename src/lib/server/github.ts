@@ -95,8 +95,9 @@ export const openArticlePR = async (article: PublishArticle): Promise<string> =>
 	);
 	if (openRes.ok) {
 		const list = (await openRes.json()) as { html_url: string }[];
-		if (list[0]) {
-			return list[0].html_url;
+		const existing = list.at(0);
+		if (existing) {
+			return existing.html_url;
 		}
 	}
 	throw new Error(`Failed to open PR (${prRes.status})`);

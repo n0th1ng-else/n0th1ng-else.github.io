@@ -1,4 +1,6 @@
 import { query } from '$lib/server/db';
+import linksSelectAllSql from '$lib/server/db/queries/links-select-all.sql?raw';
+import articlesSelectAllSql from '$lib/server/db/queries/articles-select-all.sql?raw';
 import { getReadingTime, parseMarkdown } from '$lib/server/markdown';
 import type { ReadingListItem } from '$lib/common/readingList';
 import type {
@@ -25,6 +27,7 @@ export type LinkRow = {
 	note: string | null;
 	date: string | null; // bigint -> string (pg keeps bigint as text to avoid precision loss)
 	sort_order: number;
+	hidden: boolean;
 	created_at: Date;
 	updated_at: Date;
 };
@@ -145,22 +148,25 @@ const toReadingListItem = (row: LinkRow): ReadingListItem => ({
 // (hooks.server.ts) and again by the admin Revalidate button / on write.
 export const load = async (): Promise<void> => {
 	const [links, articles] = await Promise.all([
-		query<LinkRow>(
-			'SELECT * FROM nothing_else_blog_content.links ORDER BY sort_order ASC, date DESC NULLS LAST, created_at ASC'
-		),
-		query<ArticleRow>('SELECT * FROM nothing_else_blog_content.articles')
+		query<LinkRow>(linksSelectAllSql),
+		query<ArticleRow>(articlesSelectAllSql)
 	]);
 
 	// Drafts never enter the public publications view — they are reachable only through
 	// the admin area (raw rows) and the unlisted /draft/<share_token> preview.
+	// Hidden links behave the same way: kept in the cache for the admin area, but
+	// excluded from every public-facing derived view.
+	const visibleLinks = links.filter(link => !link.hidden);
 	const internalPublications = await Promise.all(
 		articles.filter(article => article.status === 'published').map(toInternalPublication)
 	);
-	const externalPublications = links
+	const externalPublications = visibleLinks
 		.filter(link => link.kind === 'publication')
 		.map(toExternalPublication);
-	const packages = links.filter(link => link.kind === 'package').map(toPackage);
-	const readingList = links.filter(link => link.kind === 'reading_list').map(toReadingListItem);
+	const packages = visibleLinks.filter(link => link.kind === 'package').map(toPackage);
+	const readingList = visibleLinks
+		.filter(link => link.kind === 'reading_list')
+		.map(toReadingListItem);
 
 	cache = {
 		links,

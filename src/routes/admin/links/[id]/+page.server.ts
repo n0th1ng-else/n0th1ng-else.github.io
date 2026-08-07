@@ -1,6 +1,12 @@
 import { error, fail, redirect } from '@sveltejs/kit';
 import { revalidate } from '$lib/server/content';
-import { deleteLink, getLinkById, parseLinkForm, updateLink } from '$lib/server/links-repo';
+import {
+	deleteLink,
+	getLinkById,
+	parseLinkForm,
+	toggleLinkHidden,
+	updateLink
+} from '$lib/server/links-repo';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {
@@ -21,7 +27,8 @@ export const load: PageServerLoad = async ({ params }) => {
 			image: link.image,
 			note: link.note,
 			date: link.date ? new Date(Number(link.date)).toISOString().slice(0, 10) : '',
-			sortOrder: link.sort_order
+			sortOrder: link.sort_order,
+			hidden: link.hidden
 		}
 	};
 };
@@ -40,5 +47,12 @@ export const actions: Actions = {
 		await deleteLink(params.id);
 		await revalidate();
 		redirect(303, '/admin/links');
+	},
+	// "Draft mode": hide from the public pages without deleting, so the row can be
+	// adjusted and re-published with one click.
+	toggle: async ({ params }) => {
+		await toggleLinkHidden(params.id);
+		await revalidate();
+		return { toggled: true };
 	}
 };

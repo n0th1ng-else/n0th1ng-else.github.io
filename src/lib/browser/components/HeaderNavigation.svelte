@@ -25,9 +25,7 @@
 				active={readingListRoute === activePath}
 				label="Reading list"
 			>
-				<!-- The link's aria-label carries the full name; the visual label shrinks on small screens. -->
-				<span class="nav__item nav__item--full" aria-hidden="true">Reading.</span>
-				<span class="nav__item nav__item--short" aria-hidden="true">Rng.</span>
+				<span class="nav__item" aria-hidden="true">Reading List.</span>
 			</HeaderLink>
 		</li>
 	{/if}
@@ -45,24 +43,6 @@
 	@media (min-width: t.$md) {
 		.nav__item {
 			font-size: g.$font-size-plus;
-		}
-	}
-
-	.nav__item--full {
-		display: none;
-	}
-
-	.nav__item--short {
-		display: inline;
-	}
-
-	@media (min-width: t.$sm) {
-		.nav__item--full {
-			display: inline;
-		}
-
-		.nav__item--short {
-			display: none;
 		}
 	}
 </style>

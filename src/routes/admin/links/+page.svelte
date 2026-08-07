@@ -21,6 +21,9 @@
 	{#if form?.deleted}
 		<p class="links__notice">Link deleted.</p>
 	{/if}
+	{#if form?.toggled}
+		<p class="links__notice">Link visibility updated.</p>
+	{/if}
 
 	<h2>Add link</h2>
 	<LinkForm action="?/create" submitLabel="Add link" />
@@ -28,10 +31,17 @@
 	<h2>Existing ({data.links.length})</h2>
 	<ul class="links__list">
 		{#each data.links as link (link.id)}
-			<li>
+			<li class:links__item--hidden={link.hidden}>
 				<span class="links__tag">{link.kind}</span>
 				<a href={`/admin/links/${link.id}`}>{link.title || link.url}</a>
-				<form method="POST" action="?/delete" use:enhance class="links__delete">
+				{#if link.hidden}
+					<span class="links__tag">hidden</span>
+				{/if}
+				<form method="POST" action="?/toggle" use:enhance class="links__actions">
+					<input type="hidden" name="id" value={link.id} />
+					<button type="submit">{link.hidden ? 'Show' : 'Hide'}</button>
+				</form>
+				<form method="POST" action="?/delete" use:enhance>
 					<input type="hidden" name="id" value={link.id} />
 					<button type="submit">Delete</button>
 				</form>
@@ -68,8 +78,12 @@
 		opacity: 0.7;
 	}
 
-	.links__delete {
+	.links__actions {
 		margin-inline-start: auto;
+	}
+
+	.links__item--hidden > a {
+		opacity: 0.5;
 	}
 
 	.links__empty {

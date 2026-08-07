@@ -18,16 +18,34 @@
 		value = {},
 		submitLabel = 'Save draft'
 	}: { action: string; value?: ArticleValue; submitLabel?: string } = $props();
+
+	const slugify = (input: string): string =>
+		input
+			.toLowerCase()
+			.replace(/['’]/g, '')
+			.replace(/[^a-z0-9]+/g, '-')
+			.replace(/^-+|-+$/g, '');
+
+	let slug = $state(value.slug ?? '');
+	// New articles get their slug derived from the title until the slug field is edited by hand.
+	let slugEdited = $state(Boolean(value.slug));
+
+	const onTitleInput = (event: Event): void => {
+		if (slugEdited) {
+			return;
+		}
+		slug = slugify((event.currentTarget as HTMLInputElement).value);
+	};
 </script>
 
 <form method="POST" {action} use:enhance class="article-form">
 	<label>
 		Slug
-		<input name="slug" type="text" required value={value.slug ?? ''} />
+		<input name="slug" type="text" required bind:value={slug} oninput={() => (slugEdited = true)} />
 	</label>
 	<label>
 		Title
-		<input name="title" type="text" required value={value.title ?? ''} />
+		<input name="title" type="text" required value={value.title ?? ''} oninput={onTitleInput} />
 	</label>
 	<div class="article-form__row">
 		<label>

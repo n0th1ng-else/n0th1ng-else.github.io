@@ -18,8 +18,17 @@
 	{#if form?.updated}
 		<p class="link__notice">Saved.</p>
 	{/if}
+	{#if data.link.hidden}
+		<p class="link__notice">This link is hidden from the public pages.</p>
+	{/if}
 
 	<LinkForm action="?/update" value={data.link} submitLabel="Save changes" />
+
+	<form method="POST" action="?/toggle" use:enhance class="link__delete">
+		<button type="submit"
+			>{data.link.hidden ? 'Show on public pages' : 'Hide from public pages'}</button
+		>
+	</form>
 
 	<form method="POST" action="?/delete" use:enhance class="link__delete">
 		<button type="submit">Delete this link</button>

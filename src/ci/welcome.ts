@@ -4,7 +4,7 @@ const logger = new Logger('launcher');
 
 // Version metadata now comes from runtime env (set on the container), not the baked meta file.
 const version = process.env.APP_VERSION || '0.0.0';
-const versionBuild = process.env.COMMIT_HASH || process.env.VERCEL_GIT_COMMIT_SHA || 'development';
+const versionBuild = process.env.COMMIT_HASH || 'development';
 
 const rowLength = 80;
 const borderLine = new Array(rowLength).fill('=').join('');

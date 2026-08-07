@@ -1,5 +1,9 @@
 import { randomUUID } from 'node:crypto';
 import { query } from '$lib/server/db';
+import articleSelectByIdSql from '$lib/server/db/queries/article-select-by-id.sql?raw';
+import articleInsertDraftSql from '$lib/server/db/queries/article-insert-draft.sql?raw';
+import articleUpdateSql from '$lib/server/db/queries/article-update.sql?raw';
+import articleDeleteSql from '$lib/server/db/queries/article-delete.sql?raw';
 import type { ArticleRow } from '$lib/server/content';
 
 export type ArticleInput = {
@@ -38,11 +42,8 @@ export const parseArticleForm = (form: FormData): ArticleInput => ({
 });
 
 export const getArticleById = async (id: string): Promise<ArticleRow | undefined> => {
-	const rows = await query<ArticleRow>(
-		'SELECT * FROM nothing_else_blog_content.articles WHERE id = $1',
-		[id]
-	);
-	return rows[0];
+	const rows = await query<ArticleRow>(articleSelectByIdSql, [id]);
+	return rows.at(0);
 };
 
 // Creates a draft and returns its id + share token (for the unlisted preview link).
@@ -50,50 +51,42 @@ export const createDraft = async (
 	input: ArticleInput
 ): Promise<{ id: string; shareToken: string }> => {
 	const shareToken = randomUUID();
-	const rows = await query<{ id: string }>(
-		`INSERT INTO nothing_else_blog_content.articles
-			(slug, language, title, description, image, date, keywords, reposts, body_md, status, source, share_token)
-		 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'draft', 'db', $10)
-		 RETURNING id`,
-		[
-			input.slug,
-			input.language,
-			input.title,
-			input.description,
-			input.image,
-			input.date,
-			input.keywords,
-			input.reposts,
-			input.bodyMd,
-			shareToken
-		]
-	);
-	return { id: rows[0].id, shareToken };
+	const rows = await query<{ id: string }>(articleInsertDraftSql, [
+		input.slug,
+		input.language,
+		input.title,
+		input.description,
+		input.image,
+		input.date,
+		input.keywords,
+		input.reposts,
+		input.bodyMd,
+		shareToken
+	]);
+	const created = rows.at(0);
+	if (!created) {
+		throw new Error('Draft insert returned no row');
+	}
+	return { id: created.id, shareToken };
 };
 
 export const updateArticle = async (id: string, input: ArticleInput): Promise<void> => {
-	await query(
-		`UPDATE nothing_else_blog_content.articles SET
-			slug = $2, language = $3, title = $4, description = $5, image = $6, date = $7,
-			keywords = $8, reposts = $9, body_md = $10, updated_at = now()
-		 WHERE id = $1`,
-		[
-			id,
-			input.slug,
-			input.language,
-			input.title,
-			input.description,
-			input.image,
-			input.date,
-			input.keywords,
-			input.reposts,
-			input.bodyMd
-		]
-	);
+	await query(articleUpdateSql, [
+		id,
+		input.slug,
+		input.language,
+		input.title,
+		input.description,
+		input.image,
+		input.date,
+		input.keywords,
+		input.reposts,
+		input.bodyMd
+	]);
 };
 
 export const deleteArticle = async (id: string): Promise<void> => {
-	await query('DELETE FROM nothing_else_blog_content.articles WHERE id = $1', [id]);
+	await query(articleDeleteSql, [id]);
 };
 
 const formatDate = (date: Date | null): string => {

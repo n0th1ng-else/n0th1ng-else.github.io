@@ -39,4 +39,4 @@ Treat these docs as living records of _why_ decisions were made — update them 
 ## Workflow guardrails
 
 - Work on a feature branch off `dev`; never commit or push on the author's behalf unless explicitly asked — leave changes for review.
-- Published article content is owned by `articles/*.md` in git. Anything that serves articles must treat the markdown as canonical.
+- **Never touch `articles/*.md`** — do not create, edit, or delete these files under any circumstances. They are the canonical, human-owned source for published blog articles; anything that serves articles must treat the markdown as read-only and canonical.

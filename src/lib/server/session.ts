@@ -6,7 +6,7 @@ import { getRuntimeEnvironment } from '$lib/server/env';
 // HMAC-signed cookie so the owner stays authenticated across admin pages.
 
 export const SESSION_COOKIE = 'admin_session';
-export const SESSION_MAX_AGE = 60 * 60 * 24 * 7; // 7 days (seconds)
+export const SESSION_MAX_AGE = 60 * 60 * 24; // 1 day (seconds)
 
 const sign = (payload: string, secret: string): string =>
 	createHmac('sha256', secret).update(payload).digest('base64url');

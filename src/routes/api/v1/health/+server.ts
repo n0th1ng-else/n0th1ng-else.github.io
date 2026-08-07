@@ -29,7 +29,7 @@ export const GET: RequestHandler = () => {
 
 	return json(
 		{
-			status: ApplicationStatus.OK,
+			status: loaded ? ApplicationStatus.OK : ApplicationStatus.ERROR,
 			loaded,
 			counts,
 			uptime: getUpTime(),
