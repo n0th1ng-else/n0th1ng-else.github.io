@@ -20,7 +20,31 @@ const getBasePackage = (resources: ResourceFile, pack: PackageFile): BasePackage
 	};
 };
 
+const getNpmPackageInfo = async (base: BasePackageInfo): Promise<PackageInfo> => {
+	// www.npmjs.com is behind Cloudflare challenge ("Just a moment...") and
+	// returns 403 for any non-browser fetch, so use the public registry API instead.
+	const res = await fetch(`https://registry.npmjs.org/${base.url}/latest`);
+	if (!res.ok) {
+		throw new Error(`Failed to fetch npm metadata for ${base.fullUrl}: ${res.status}`);
+	}
+	const data = (await res.json()) as { name?: string; description?: string };
+	const pack: PackageInfo = {
+		...base,
+		meta: {
+			title: data.name || base.url,
+			description: data.description || '',
+			url: base.fullUrl
+		}
+	};
+	logger.writeOutput(`${pack.id}. ${pack.meta.title}`);
+	return pack;
+};
+
 const getPackageInfo = async (base: BasePackageInfo, retry = 0): Promise<PackageInfo> => {
+	if (base.service === 'npm') {
+		return getNpmPackageInfo(base);
+	}
+
 	if (retry > 10) {
 		return Promise.reject(new Error(`Unable to fetch metadata for ${base.fullUrl}`));
 	}

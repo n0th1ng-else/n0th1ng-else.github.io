@@ -95,14 +95,16 @@ const transformPackage = (pkg: PackageInfo, accounts: ProfileAccounts): ProjectI
 				url: pkg.link,
 				logo: pkg.logo
 			};
-		case 'npm':
+		case 'npm': {
+			const description = pkg.meta.description || '';
+			const marker = description.indexOf('Latest version:');
 			return {
 				name: pkg.meta.title || pkg.url,
 				source: pkg.meta.title ? getGithubLink(github, pkg.meta.title) : undefined,
 				registry: pkg.fullUrl,
-				description:
-					pkg.meta.description?.slice(0, pkg.meta.description.indexOf('Latest version:')) || ''
+				description: marker >= 0 ? description.slice(0, marker) : description
 			};
+		}
 		default:
 			return {
 				name: pkg.meta.title || pkg.url,
