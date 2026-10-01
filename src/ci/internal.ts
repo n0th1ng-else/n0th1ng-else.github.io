@@ -63,6 +63,10 @@ export const parseMarkdown = async (raw: string): Promise<string> => {
 				const text = this.parser.parseInline(tokens);
 				return `<p class="mkdn-p">${text}</p>\n`;
 			},
+			blockquote({ tokens }) {
+				const text = this.parser.parse(tokens);
+				return `<blockquote class="mkdn-quote">\n${text}</blockquote>\n`;
+			},
 			strong({ tokens }) {
 				const text = this.parser.parseInline(tokens);
 				return `<strong class="mkdn-bold">${text}</strong>`;
@@ -105,6 +109,28 @@ export const parseMarkdown = async (raw: string): Promise<string> => {
 				]
 					.filter(Boolean)
 					.join('');
+			},
+			tablecell(token) {
+				const text = this.parser.parseInline(token.tokens);
+				const tag = token.header ? 'th' : 'td';
+				const cls = token.header ? 'mkdn-th' : 'mkdn-td';
+				const align = token.align ? ` align="${token.align}"` : '';
+				return `<${tag} class="${cls}"${align}>${text}</${tag}>\n`;
+			},
+			tablerow({ text }) {
+				return `<tr class="mkdn-tr">\n${text}</tr>\n`;
+			},
+			table({ header, rows }) {
+				const headCells = header.map(cell => this.tablecell(cell)).join('');
+				const head = `<thead class="mkdn-thead">\n${this.tablerow({ text: headCells })}</thead>\n`;
+				const bodyRows = rows
+					.map(row => {
+						const cells = row.map(cell => this.tablecell(cell)).join('');
+						return this.tablerow({ text: cells });
+					})
+					.join('');
+				const body = `<tbody>\n${bodyRows}</tbody>\n`;
+				return `<div class="mkdn-table-wrapper"><table class="mkdn-table">\n${head}${body}</table></div>\n`;
 			}
 		}
 	});
