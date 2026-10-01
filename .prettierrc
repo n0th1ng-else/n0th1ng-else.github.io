@@ -13,6 +13,13 @@
 			}
 		},
 		{
+			"files": "*.md",
+			"options": {
+				"proseWrap": "always",
+				"printWidth": 125
+			}
+		},
+		{
 			"files": "*.svg",
 			"options": {
 				"parser": "html"
