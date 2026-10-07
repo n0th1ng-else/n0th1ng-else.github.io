@@ -25,12 +25,12 @@ draft: false
 </p>
 
 ALRIGHT, this was an interesting one. I use [Axios](https://axios-http.com) in one of
-[my pet projects](https://github.com/n0th1ng-else/voice-to-text-bot). Basically, the project is a Telegram bot, that
-transforms voice messages into text. I know, Telegram now has this feature for premium subscribers, but this is not something
-we are about to cover in this article. Here I want to talk about the tricky way the Axios timeout works.
+[my pet projects](https://github.com/n0th1ng-else/voice-to-text-bot). Basically, the project is a Telegram bot that
+transforms voice messages into text. I know that Telegram now has this feature for premium subscribers, but this is not
+something we are about to cover in this article. Here I want to talk about the tricky way the Axios timeout works.
 
-Let's start off with the simple HTTP server (I use Express as an example) and a single API endpoint, which takes 10 seconds
-to resolve:
+Let's start with the simple HTTP server (I use Express as an example) and a single API endpoint, which takes 10 seconds to
+resolve:
 
 ```typescript
 import { createServer } from 'node:http';
@@ -174,26 +174,26 @@ using the bot. But how can we fix it?
 
 ## AbortSignal to the rescue
 
-From the first glance, one solution would be to wrap the request into my custom cancellation function, so once, say,
-`setTimeout()` triggers the handler, we reject the promise and fall into an unhappy flow. BUT. Fortunately, there is a better
-way! Let me introduce you to **AbortSignal** and **AbortController**.
+At first glance, one solution would be to wrap the request into my custom cancellation function, so once, say, `setTimeout()`
+triggers the handler, we reject the promise and fall into an unhappy flow. BUT. Fortunately, there is a better way! Let me
+introduce you to **AbortSignal** and **AbortController**.
 
-**AbortSignal** is a built-in Javascript signal implementation, which is widely adopted to control the execution and
-cancellation for other APIs of the language. The interface itself is fairly simple, basically, it only contains a couple of
+**AbortSignal** is a built-in JavaScript signal implementation, which is widely adopted to control the execution and
+cancellation for other APIs in the language. The interface itself is fairly simple. Basically, it only contains a couple of
 static methods:
 
 - `AbortSignal.abort()` returns the instance of AbortSignal which is already aborted.
 - `AbortSignal.timeout(timeout: number)` returns the signal that will be aborted in the timeframe you specify in the
   parameters.
 
-As I said, the implementation is pretty simple and does not give us much flexibility. For more complex cases AbortController
+As I said, the implementation is pretty simple and does not give us much flexibility. For more complex cases, AbortController
 comes in handy.
 
-**AbortController** is a wrapper around the AbortSignal and it has one huge benefit — the `abort()` function. This means you
+**AbortController** is a wrapper around the AbortSignal, and it has one huge benefit — the `abort()` function. This means you
 get granular control over the signal execution. You can invoke the function manually at any time when it is needed. Here are
 some examples:
 
-- DOM event listener supports the AbortSignal, so we can unsubscribe from all the events in one go:
+- DOM event listeners support the AbortSignal, so we can unsubscribe from all the events in one go:
 
 ```typescript
 // Create abort controller instance. It contains the signal and abort function
@@ -215,7 +215,7 @@ backBtn.addEventListener('click', () => abort(), { signal });
 In this specific (pretty simplified) example, once we click the **Back button**, we trigger the `abort()` function and hence
 send out the abort signal. As a result, we have unsubscribed from all three event listeners. Easy as that!
 
-- As Javascript developers, we spend most of the time handling API requests. And the good news here, `fetch()` method
+- As JavaScript developers, we spend most of the time handling API requests. And the good news here, `fetch()` method
   supports AbortSignal as well.
 
 ```typescript
@@ -237,7 +237,7 @@ backBtn.addEventListener('click', () => abort());
 ```
 
 If the request is in the pending state, clicking the Back button will lead to an error in the console
-`DOMException [AbortError]: This operation was aborted`. This is one good example of how to implement the timeout for
+`DOMException [AbortError]: This operation was aborted`. This is one good example of how to implement the timeout for the
 `fetch()` interface in your application.
 
 For more information and engine support, you can read the MDN articles about
@@ -246,11 +246,11 @@ For more information and engine support, you can read the MDN articles about
 
 ## Combining with Axios
 
-Now as we got familiar with the interfaces we are going to use, I want to draw your attention to one more thing. If we go
+Now that we are familiar with the interfaces we are going to use, I want to draw your attention to one more thing. If we go
 back to Axios, we will quickly realize that [Axios supports](https://axios-http.com/docs/cancellation) AbortSignal as well.
-This was amazing news for me as I did not need to write my own custom logic around the request cancellation.
+This was amazing news for me, as I did not need to write my own custom logic around the request cancellation.
 
-In my implementation timeout is the only thing that matters, so I can even use AbortSignal directly without having to invoke
+In my implementation, timeout is the only thing that matters, so I can even use AbortSignal directly without having to invoke
 the AbortController instance — it supports the timeout as I showed above. The fix for my issue is pretty simple:
 
 ```typescript
@@ -294,8 +294,8 @@ console.log(`Request took ${requestTime}s,`, 'should be 5s!');
 // Request took 5s, should be 5s!
 ```
 
-I have used the static method `AbortSignal.timeout(5000)` in order to cancel the request if it takes longer than 5 seconds. I
-could do it with AbortController as well, but this requires a couple more lines of code. For instance:
+I have used the static method `AbortSignal.timeout(5000)` to cancel the request if it takes longer than 5 seconds. I could do
+it with AbortController as well, but this requires a couple more lines of code. For instance:
 
 ```typescript
 import axios from 'axios';
@@ -337,14 +337,14 @@ await axios.request({
 
 Users hate to see errors in their applications. But even more, they hate to feel the application is not responding, stuck in
 some in-between state, and does not give feedback if something goes wrong. I can not control the time the cloud provider will
-take in order to transform the audio buffer into the text, so I show the error message when it takes longer than some
-reasonable time.
+take in order to transform the audio buffer into text, so I show the error message when it takes longer than a reasonable
+time.
 
-Axios timeout property works just well with regular API. But if you face the streaming API endpoint and want to limit the
-request execution time, keep in mind that the timeout property won't work as you would expect. One of the options to solve
-this is to try using the native JS AbortSignal implementation to ensure the timeout is applied for any kind of request. In
-the meantime, I have filed the [issue report](https://github.com/axios/axios/issues/5886) in the Axios repository, asking to
-clarify the timeout behavior in the documentation.
+Axios timeout property works just as well with a regular API. But if you face the streaming API endpoint and want to limit
+the request execution time, keep in mind that the timeout property won't work as you would expect. One of the options to
+solve this is to try using the native JS AbortSignal implementation to ensure the timeout is applied for any kind of request.
+In the meantime, I have filed the [issue report](https://github.com/axios/axios/issues/5886) in the Axios repository, asking
+to clarify the timeout behavior in the documentation.
 
 You can check the source code for this article in [my repository](https://github.com/n0th1ng-else/axios-streaming-timeout) on
-GitHub. The code is tested on the Axios v1.5.0.
+GitHub. The code is tested on Axios v1.5.0.
