@@ -85,28 +85,28 @@ console.log(`Request took ${requestTime}s,`, 'should be 5s!');
 
 ## The problem
 
-If it works fine, what is the problem then, you ask me. Here is the thing: as I said, I have a Telegram bot, that converts
-voice messages into text. It basically decompresses the voice file into wav buffer and sends the data to one of the cloud
+If it works fine, what is the problem then, you ask me. Here is the thing: as I said, I have a Telegram bot that converts
+voice messages into text. It basically decompresses the voice file into a WAV buffer and sends the data to one of the cloud
 providers. As a result, I receive text recognition for that specific voice message.
 
 In fact, one of the providers I use implements the streaming API. The intention is to show the text recognition for the user
-in real time while it gets processed (Which is quite cool, huh). You receive chunks of text data and you have a choice to
-wait until you can combine the whole message, or send it out to the user, so they see the early results. On a code level it
+in real time while it gets processed (Which is quite cool, huh). You receive chunks of text data, and you have a choice to
+wait until you can combine the whole message, or send it out to the user so they see the early results. On a code level, it
 actually resolves the request promise, so you can handle the chunk of data. With the following chunks, it is being resolved
-again and again, until the final chunk is received and the request is finished.
+again and again until the final chunk is received and the request is finished.
 
-If you read this, you can already see the unexpected side effect of this approach. The Axios resolves the request promise
-with the first chunk received. Essentially this means that Axios resets the timeout and the request time is not controlled in
-any way. For example, I have a timeout of 10 seconds for my bot recognition engine. And I could see in the logs requests were
-taking 30, 45, 50 seconds, and even more. With the first chunk received, Axios stops counting the timeout frame and considers
-the request resolved. To illustrate this, I created a new endpoint in the Express server:
+If you read this, you can already see the unexpected side effect of this approach. Axios resolves the request promise with
+the first chunk received. Essentially, this means that Axios resets the timeout, and the request time is not controlled in
+any way. For example, I have a timeout of 10 seconds for my bot recognition engine. And I could see in the logs that requests
+were taking 30, 45, 50 seconds, and even more. With the first chunk received, Axios stops counting the timeout frame and
+considers the request resolved. To illustrate this, I created a new endpoint in the Express server:
 
 ```typescript
 import { createServer } from 'node:http';
 import express from 'express';
 
 const api = express();
-// I now have an API endpoint which sends the one chunk of the response each second
+// I now have an API endpoint that sends one chunk of the response each second
 api.post('/chunk', (_, res) => {
 	res.writeHead(200, {
 		'Content-Type': 'text/plain',
@@ -129,7 +129,7 @@ const server = createServer(api);
 server.listen(3000);
 ```
 
-Now if I call the new endpoint, I will experience rather unexpected behavior:
+Now, if I call the new endpoint, I will experience rather unexpected behavior:
 
 ```typescript
 import axios from 'axios';
@@ -169,17 +169,17 @@ console.log(`Request took ${requestTime}s,`, 'should be 5s!');
 ```
 
 The request was supposed to take 5 seconds maximum, but it actually took 10 seconds and was successful in the end. Imagine if
-it hangs for several minutes! Obviously, users are not in favor of waiting that long for voice recognition and they stop
+it hangs for several minutes! Obviously, users are not in favor of waiting that long for voice recognition, and they stop
 using the bot. But how can we fix it?
 
 ## AbortSignal to the rescue
 
-At first glance, one solution would be to wrap the request into my custom cancellation function, so once, say, `setTimeout()`
+At first glance, one solution would be to wrap the request in my custom cancellation function, so once, say, `setTimeout()`
 triggers the handler, we reject the promise and fall into an unhappy flow. BUT. Fortunately, there is a better way! Let me
 introduce you to **AbortSignal** and **AbortController**.
 
 **AbortSignal** is a built-in JavaScript signal implementation, which is widely adopted to control the execution and
-cancellation for other APIs in the language. The interface itself is fairly simple. Basically, it only contains a couple of
+cancellation of other APIs in the language. The interface itself is fairly simple. Basically, it only contains a couple of
 static methods:
 
 - `AbortSignal.abort()` returns the instance of AbortSignal which is already aborted.
@@ -190,20 +190,19 @@ As I said, the implementation is pretty simple and does not give us much flexibi
 comes in handy.
 
 **AbortController** is a wrapper around the AbortSignal, and it has one huge benefit — the `abort()` function. This means you
-get granular control over the signal execution. You can invoke the function manually at any time when it is needed. Here are
-some examples:
+get granular control over the signal execution. You can invoke it manually whenever you need to. Here are some examples:
 
 - DOM event listeners support the AbortSignal, so we can unsubscribe from all the events in one go:
 
 ```typescript
-// Create abort controller instance. It contains the signal and abort function
+// Create an abort controller instance. It contains the signal and abort function
 const { signal, abort } = new AbortController();
 
 const saveBtn = document.getElementById('save-btn');
 const printBtn = document.getElementById('print-btn');
 const backBtn = document.getElementById('back-btn');
 
-// Add the signal to event listener
+// Add the signal to the event listener
 saveBtn.addEventListener('click', saveHandler, { signal });
 // Add the signal to another event listener
 printBtn.addEventListener('click', printHandler, { signal });
@@ -215,11 +214,11 @@ backBtn.addEventListener('click', () => abort(), { signal });
 In this specific (pretty simplified) example, once we click the **Back button**, we trigger the `abort()` function and hence
 send out the abort signal. As a result, we have unsubscribed from all three event listeners. Easy as that!
 
-- As JavaScript developers, we spend most of the time handling API requests. And the good news here, `fetch()` method
+- As JavaScript developers, we spend most of the time handling API requests. And the good news here: the `fetch()` method
   supports AbortSignal as well.
 
 ```typescript
-// Create abort controller instance. It contains the signal and abort function
+// Create an abort controller instance. It contains the signal and abort function
 const { signal, abort } = new AbortController();
 
 try {
@@ -232,7 +231,7 @@ try {
 }
 
 const backBtn = document.getElementById('back-btn');
-// Now we abort the fetch request once we click on back button
+// Now we abort the fetch request once we click on the back button
 backBtn.addEventListener('click', () => abort());
 ```
 
@@ -300,7 +299,7 @@ it with AbortController as well, but this requires a couple more lines of code. 
 ```typescript
 import axios from 'axios';
 
-// Create abort controller instance. It contains the signal and abort function
+// Create an abort controller instance. It contains the signal and abort function
 const { signal, abort } = new AbortController();
 
 // Abort after 5 seconds
@@ -336,9 +335,8 @@ await axios.request({
 ## The outcome
 
 Users hate to see errors in their applications. But even more, they hate to feel the application is not responding, stuck in
-some in-between state, and does not give feedback if something goes wrong. I can not control the time the cloud provider will
-take in order to transform the audio buffer into text, so I show the error message when it takes longer than a reasonable
-time.
+some in-between state, and does not give feedback if something goes wrong. I can not control the time the cloud provider
+takes to transform the audio buffer into text, so I show the error message when it takes longer than a reasonable time.
 
 Axios timeout property works just as well with a regular API. But if you face the streaming API endpoint and want to limit
 the request execution time, keep in mind that the timeout property won't work as you would expect. One of the options to
