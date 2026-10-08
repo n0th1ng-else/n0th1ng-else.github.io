@@ -370,12 +370,12 @@ You can make this script project-agnostic and execute it for each test file. Doi
 Vitest projects in our application into a single test run. No transformation overhead, no cache duplications. To give you an
 idea of how impactful it was, I will give you a sample:
 
-| Metric             | Before        | After       | Delta         | % Change |
-| :----------------- | :------------ | :---------- | :------------ | :------- |
-| **Heap Memory**    | 5,238 MB      | 1,857 MB    | -3,381 MB     | -65%     |
-| **Total Memory**   | 22,460 MB     | 17,450 MB   | -5,010 MB     | -22.3%   |
-| **Total Duration** | 865.64s       | 588.82s     | -276,82s      | -32%     |
-| **Test speed**     | 12.6 test/sec | 19 test/sec | +6.4 test/sec | +50%     |
+| Metric             | Before     | After     | Delta      | % Change |
+| :----------------- | :--------- | :-------- | :--------- | :------- |
+| **Heap Memory**    | 5,238 MB   | 1,857 MB  | -3,381 MB  | -65%     |
+| **Total Memory**   | 22,460 MB  | 17,450 MB | -5,010 MB  | -22.3%   |
+| **Total Duration** | 865.64s    | 588.82s   | -276,82s   | -32%     |
+| **Test speed**     | 12.6 t/sec | 19 t/sec  | +6.4 t/sec | +50%     |
 
 Finally, we found the source of the speed ✨ And this concluded our road to landing Vitest in our main Frontend application.
 
@@ -392,7 +392,7 @@ Notice we have added almost 9,000 net lines of code. The actual net is much lowe
 api (think `jest`, `it`, `describe`, etc.) to locally imported objects (`import {describe} from ‘vitest’`). Plus, code
 formatting gave some diff. Now to the technical details:
 
-- The test runs are 50% faster than they were with Jest (13 test/sec to 19 test/sec)
+- The test runs are 50% faster than they were with Jest (13 t/sec to 19 t/sec)
 - Vitest consumes 30% less memory on the CI runners
 - Vitest mocks are type-safe i.e. they inherit the signature from the mocked object, allowing engineers to write better
   unit-tests.
@@ -433,7 +433,7 @@ future improvements. And lessons learned along the way. Here are some of them:
    understand where to use which runner, and help to adopt the new tooling.
 5. **You can not plan for everything**. There are always issues you could not possibly expect during the preparation. You
    need to accept it and not be afraid to pivot and look up for the solution.
-6. **The scale of change does not matter at this moment**. With Fable 5, or Sol, AI can execute any volume of change. If you
+6. **The scale of change does not matter at this point**. With Fable 5, or Sol, AI can execute any volume of change. If you
    can formalise what needs to be done, if you can create a context for the agent, if you can give a deterministic
    reproduction – the implementation part is extremely democratised.
 7. **Trust the CI**. Some changes during the migration were trivial. Others touched the production logic. I worked with the
@@ -450,12 +450,13 @@ Migration to Vitest gave us space and resources to grow further, modernised our 
 type-safe unit-tests. It also caught the test data leaks into the production bundle and actual production bugs.  
 This project paid off in all areas we were targeting. It also built a story of how useful the AI agents can be if done right.
 
-Special credits go to [Evgeny](https://www.linkedin.com/in/evgeny-evsyukhin), who has heavily contributed to the migration as
-well as the observability infrastructure around Vitest. I want to also mention
-[Ivan](https://www.linkedin.com/in/ivan-voronin), [Ahmed](https://www.linkedin.com/in/ahmedelgabri),
-[Frederico](https://www.linkedin.com/in/fredericoestrela), [Vini](https://www.linkedin.com/in/viniciuskneves/), and my
-beloved Frontend Developer Experience team for making the migration possible. I also want to give a shoutout to
-[Ben](https://www.linkedin.com/in/ben-makuh) for proofreading and helping me refine this article
+Special credits go to [Evgeny Evsyukhin](https://www.linkedin.com/in/evgeny-evsyukhin), who has heavily contributed to the
+migration as well as the observability infrastructure around Vitest. I want to also mention
+[Ivan Voronin](https://www.linkedin.com/in/ivan-voronin), [Ahmed El Gabri](https://www.linkedin.com/in/ahmedelgabri),
+[Frederico Estrela](https://www.linkedin.com/in/fredericoestrela),
+[Vinicius Kiatkoski Neves](https://www.linkedin.com/in/viniciuskneves/), and my beloved Frontend Developer Experience team
+for making the migration possible. I also want to give a shoutout to [Ben Makuh](https://www.linkedin.com/in/ben-makuh) for
+proofreading and helping me refine this article
 
 PS: Since we created this Jest to Vitest migration skill, I thought it would be nice to create an open-source version as
 well. It can be a good foundation for your own contextual migration skill.
