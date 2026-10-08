@@ -456,7 +456,7 @@ migration as well as the observability infrastructure around Vitest. I want to a
 [Frederico Estrela](https://www.linkedin.com/in/fredericoestrela),
 [Vinicius Kiatkoski Neves](https://www.linkedin.com/in/viniciuskneves/), and my beloved Frontend Developer Experience team
 for making the migration possible. I also want to give a shoutout to [Ben Makuh](https://www.linkedin.com/in/ben-makuh) for
-proofreading and helping me refine this article
+proofreading and helping me refine this article.
 
 PS: Since we created this Jest to Vitest migration skill, I thought it would be nice to create an open-source version as
 well. It can be a good foundation for your own contextual migration skill.
